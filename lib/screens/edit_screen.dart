@@ -7,6 +7,8 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
+  TextEditingController _nameController;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -18,7 +20,13 @@ class _EditScreenState extends State<EditScreen> {
             onPressed: () => _finishEditScreen(context),
           ),
         ),
-        body: Container(),
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              _nameInputPart(),
+            ],
+          ),
+        ),
       ),
     );
   }
@@ -31,5 +39,31 @@ class _EditScreenState extends State<EditScreen> {
       ),
     );
     return Future.value(false);
+  }
+
+  // お名前入力欄
+  Widget _nameInputPart() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: const Text(
+              'お名前',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          Expanded(
+            flex: 8,
+            child: TextField(
+              controller: _nameController,
+              keyboardType: TextInputType.text,
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
