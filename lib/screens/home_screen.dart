@@ -18,9 +18,23 @@ class _HomeScreenState extends State<HomeScreen> {
                 height: 200,
                 width: 200,
               ),
+              _titleText(),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _titleText() {
+    return Container(
+      color: Colors.brown,
+      width: double.infinity,
+      padding: EdgeInsets.symmetric(vertical: 8),
+      alignment: Alignment.center,
+      child: Text(
+        '顧客管理アプリ',
+        style: TextStyle(fontSize: 36),
       ),
     );
   }
