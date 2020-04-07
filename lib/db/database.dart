@@ -5,6 +5,8 @@ import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
+part 'database.g.dart';
+
 class Customers extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
