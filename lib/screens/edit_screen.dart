@@ -23,6 +23,7 @@ class _EditScreenState extends State<EditScreen> {
         body: Center(
           child: Column(
             children: <Widget>[
+              const Text('基本情報'),
               _nameInputPart(),
             ],
           ),
