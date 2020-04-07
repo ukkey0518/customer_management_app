@@ -9,3 +9,8 @@ class Customers extends Table {
   @override
   Set<Column> get primaryKey => {id};
 }
+
+@UseMoor(tables: [Customers])
+class MyDatabase extends _$MyDatabase {
+  MyDatabase() : super(_openConnection());
+}
