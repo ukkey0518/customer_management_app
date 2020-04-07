@@ -9,6 +9,8 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   TextEditingController _nameController;
 
+  TextEditingController _nameReadingController;
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -25,6 +27,7 @@ class _EditScreenState extends State<EditScreen> {
             children: <Widget>[
               const Text('基本情報'),
               _nameInputPart(),
+              _nameReadingInputPart(),
             ],
           ),
         ),
@@ -60,6 +63,31 @@ class _EditScreenState extends State<EditScreen> {
             flex: 8,
             child: TextField(
               controller: _nameController,
+              keyboardType: TextInputType.text,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _nameReadingInputPart() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 2,
+            child: const Text(
+              'よみがな',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          Expanded(
+            flex: 8,
+            child: TextField(
+              controller: _nameReadingController,
               keyboardType: TextInputType.text,
             ),
           ),
