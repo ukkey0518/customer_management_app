@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -10,6 +11,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          backgroundColor: Colors.orangeAccent,
+          tooltip: '新規登録',
+          onPressed: _startEditScreen,
+        ),
         body: Center(
           child: Column(
             children: <Widget>[
@@ -35,6 +42,15 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Text(
         '顧客管理アプリ',
         style: TextStyle(fontSize: 36),
+      ),
+    );
+  }
+
+  _startEditScreen() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditScreen(),
       ),
     );
   }
