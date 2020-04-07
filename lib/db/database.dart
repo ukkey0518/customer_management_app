@@ -28,4 +28,7 @@ LazyDatabase _openConnection() {
 @UseMoor(tables: [Customers])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
+
+  @override
+  int get schemaVersion => 1;
 }
