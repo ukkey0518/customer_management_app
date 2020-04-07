@@ -12,7 +12,12 @@ class _EditScreenState extends State<EditScreen> {
     return WillPopScope(
       onWillPop: () => _finishEditScreen(context),
       child: Scaffold(
-        appBar: AppBar(),
+        appBar: AppBar(
+          leading: IconButton(
+            icon: Icon(Icons.arrow_back_ios),
+            onPressed: () => _finishEditScreen(context),
+          ),
+        ),
         body: Container(),
       ),
     );
