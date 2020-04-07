@@ -48,19 +48,18 @@ class _EditScreenState extends State<EditScreen> {
   // お名前入力欄
   Widget _nameInputPart() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 2,
+            flex: 3,
             child: const Text(
               'お名前',
-              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20),
             ),
           ),
           Expanded(
-            flex: 8,
+            flex: 7,
             child: TextField(
               controller: _nameController,
               keyboardType: TextInputType.text,
@@ -73,19 +72,18 @@ class _EditScreenState extends State<EditScreen> {
 
   Widget _nameReadingInputPart() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         children: <Widget>[
           Expanded(
-            flex: 2,
+            flex: 3,
             child: const Text(
               'よみがな',
-              textAlign: TextAlign.center,
               style: TextStyle(fontSize: 20),
             ),
           ),
           Expanded(
-            flex: 8,
+            flex: 7,
             child: TextField(
               controller: _nameReadingController,
               keyboardType: TextInputType.text,
