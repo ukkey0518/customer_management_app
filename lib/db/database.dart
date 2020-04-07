@@ -31,4 +31,29 @@ class MyDatabase extends _$MyDatabase {
 
   @override
   int get schemaVersion => 1;
+
+  // Create[１件分を追加]
+  Future<int> addCustomer(Customer customer) =>
+      into(customers).insert(customer);
+
+  // Read[すべてを抽出]
+  Future<List<Customer>> get allCustomers => select(customers).get();
+
+  // Read[性別毎のデータを抽出]
+  Stream<List<Customer>> maleCustomers(String sex) => (select(customers)
+        ..where(
+          (t) => t.sex.equals(sex),
+        ))
+      .watch();
+
+  // Update[１件分を更新]
+  Future updateCustomer(Customer customer) =>
+      update(customers).replace(customer);
+
+  // Delete[１件分を削除]
+  Future deleteCustomer(Customer customer) => (delete(customers)
+        ..where(
+          (t) => t.id.equals(customer.id),
+        ))
+      .go();
 }
