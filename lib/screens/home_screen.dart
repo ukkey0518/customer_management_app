@@ -8,9 +8,19 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('顧客管理アプリ'),
+    return SafeArea(
+      child: Scaffold(
+        body: Center(
+          child: Column(
+            children: <Widget>[
+              Image.asset(
+                'assets/images/flutter_logo.png',
+                height: 200,
+                width: 200,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
