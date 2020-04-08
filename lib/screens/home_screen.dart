@@ -112,16 +112,20 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           Expanded(
             flex: 8,
-            child: ListView.separated(
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                  title: Text('${_customersList[index].name}'),
-                  subtitle: Text('${_customersList[index].nameReading}'),
-                  onTap: () => _customersListItemSelected(index),
-                );
-              },
-              separatorBuilder: (BuildContext context, int index) => Divider(),
-              itemCount: _customersList.length,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  return ListTile(
+                    title: Text('${_customersList[index].name}'),
+                    subtitle: Text('${_customersList[index].nameReading}'),
+                    onTap: () => _customersListItemSelected(index),
+                  );
+                },
+                separatorBuilder: (BuildContext context, int index) =>
+                    Divider(),
+                itemCount: _customersList.length,
+              ),
             ),
           ),
         ],
