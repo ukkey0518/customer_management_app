@@ -111,8 +111,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: double.infinity,
                       child: Icon(Icons.account_circle),
                     ),
-                    title: Text('${_customersList[index].name}'),
-                    subtitle: Text('${_customersList[index].nameReading}'),
+                    title: Text(
+                      '${_customersList[index].name}',
+                      style: TextStyle(fontSize: 20),
+                    ),
                     onTap: () => _customersListItemSelected(index),
                     onLongPress: () => _onListItemLongPress(
                       _customersList[index],
