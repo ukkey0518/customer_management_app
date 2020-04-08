@@ -4,7 +4,13 @@ import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
+enum EditState { ADD, EDIT }
+
 class EditScreen extends StatefulWidget {
+  final EditState state;
+  final Customer customer;
+  EditScreen({@required this.state, this.customer});
+
   @override
   _EditScreenState createState() => _EditScreenState();
 }
@@ -13,6 +19,20 @@ class _EditScreenState extends State<EditScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _nameReadingController = TextEditingController();
   bool _isGenderFemale = true;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.state == EditState.ADD) {
+      _nameController.text = '';
+      _nameReadingController.text = '';
+      _isGenderFemale = null;
+    } else {
+      _nameController.text = widget.customer.name;
+      _nameReadingController.text = widget.customer.nameReading;
+      _isGenderFemale = widget.customer.gender == '女性' ? true : false;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -166,24 +186,37 @@ class _EditScreenState extends State<EditScreen> {
       return;
     }
 
-    // 新しいCustomerオブジェクト生成
-    var customer = Customer(
-      name: _nameController.text,
-      nameReading: _nameReadingController.text,
-      gender: _isGenderFemale ? '女性' : '男性',
-    );
+    if (widget.state == EditState.ADD) {
+      // 新しいCustomerオブジェクト生成
+      var customer = Customer(
+        name: _nameController.text,
+        nameReading: _nameReadingController.text,
+        gender: _isGenderFemale ? '女性' : '男性',
+      );
 
-    // TODO ”新規(Create)”と”編集(Update)”の処理分岐
+      // DBに新規登録
+      await database.addCustomer(customer);
 
-    // DBに新規登録
-    await database.addCustomer(customer);
+      // 入力欄をクリア
+      setState(() {
+        _nameController.clear();
+        _nameReadingController.clear();
+      });
 
-    // 入力欄をクリア
-    setState(() {
-      _nameController.clear();
-      _nameReadingController.clear();
-    });
+      Toast.show('登録されました', context);
+    } else {
+      // 新しいCustomerオブジェクト生成(idはそのまま)
+      var customer = Customer(
+        id: widget.customer.id,
+        name: _nameController.text,
+        nameReading: _nameReadingController.text,
+        gender: _isGenderFemale ? '女性' : '男性',
+      );
 
-    Toast.show('登録されました', context);
+      //idを基準に更新
+      await database.updateCustomer(customer);
+
+      Toast.show('更新されました', context);
+    }
   }
 }

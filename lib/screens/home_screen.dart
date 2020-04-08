@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/edit_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -17,6 +18,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     _getCustomersList();
+  }
+
+  // 初期化[リスト更新]
+  _getCustomersList() async {
+    _customersList = await database.allCustomers;
+    setState(() {});
   }
 
   @override
@@ -41,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: Icon(Icons.add),
         backgroundColor: Colors.orangeAccent,
         tooltip: '新規登録',
-        onPressed: _startEditScreen,
+        onPressed: () => _startEditScreen(EditState.ADD),
       ),
       body: Column(
         children: <Widget>[
@@ -73,7 +80,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: RaisedButton(
                           child: const Text('編集'),
-                          onPressed: () => _startEditScreen(),
+                          onPressed: () => _startEditScreen(
+                            EditState.EDIT,
+                            customer: _selectedCustomer,
+                          ),
                         ),
                       ),
                     ),
@@ -160,20 +170,23 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  _startEditScreen() {
+  // EditScreenへ遷移する処理(登録or編集で分岐)
+  _startEditScreen(EditState state, {Customer customer}) {
+    var editScreen;
+    if (state == EditState.ADD) {
+      editScreen = EditScreen(state: EditState.ADD);
+    } else {
+      editScreen = EditScreen(state: EditState.EDIT, customer: customer);
+    }
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => EditScreen(),
+        builder: (context) => editScreen,
       ),
     );
   }
 
-  _getCustomersList() async {
-    _customersList = await database.allCustomers;
-    setState(() {});
-  }
-
+  // リストアイテムが選択されたときの処理
   _customersListItemSelected(int index) {
     setState(() {
       _selectedCustomer = _customersList[index];
