@@ -10,6 +10,8 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Customer> _customersList = List();
+  Customer _selectedCustomer =
+      Customer(id: null, name: '', nameReading: '', gender: '');
 
   @override
   void initState() {
@@ -41,7 +43,24 @@ class _HomeScreenState extends State<HomeScreen> {
         tooltip: '新規登録',
         onPressed: _startEditScreen,
       ),
-      body: Container(),
+      body: Column(
+        children: <Widget>[
+          Column(),
+          Expanded(
+            child: ListView.separated(
+              itemBuilder: (BuildContext context, int index) {
+                return ListTile(
+                  title: Text('${_customersList[index].name}'),
+                  subtitle: Text('${_customersList[index].nameReading}'),
+                  onTap: () => _customersListItemSelected(index),
+                );
+              },
+              separatorBuilder: (BuildContext context, int index) => Divider(),
+              itemCount: _customersList.length,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -57,5 +76,12 @@ class _HomeScreenState extends State<HomeScreen> {
   void _getCustomersList() async {
     _customersList = await database.allCustomers;
     setState(() {});
+  }
+
+  _customersListItemSelected(int index) {
+    setState(() {
+      _selectedCustomer = _customersList[index];
+    });
+    print(_selectedCustomer.name); //TODO: 反映処理書いたら削除OK
   }
 }
