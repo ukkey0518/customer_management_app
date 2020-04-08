@@ -191,7 +191,8 @@ class _EditScreenState extends State<EditScreen> {
       return;
     }
 
-    if (await database.getCustomers(_nameController.text) != null) {
+    if (widget.state != EditState.EDIT &&
+        await database.getCustomers(_nameController.text) != null) {
       Toast.show('同名の顧客データが存在しています。', context);
       return;
     }
