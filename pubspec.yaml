@@ -18,6 +18,9 @@ dependencies:
   path_provider:
   path:
 
+  #Toast-package
+  toast: ^0.1.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
