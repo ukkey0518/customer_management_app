@@ -45,8 +45,54 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: <Widget>[
-          Column(),
           Expanded(
+            flex: 2,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                color: Colors.white30,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    children: <Widget>[
+                      Expanded(
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(flex: 3, child: const Text('お名前')),
+                            Expanded(
+                              flex: 7,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: <Widget>[
+                                  Text(_selectedCustomer.name),
+                                  Text(_selectedCustomer.nameReading),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      Expanded(
+                        child: Row(
+                          children: <Widget>[
+                            Expanded(flex: 3, child: const Text('性別')),
+                            Expanded(
+                                flex: 7,
+                                child: Text(
+                                  _selectedCustomer.gender,
+                                  textAlign: TextAlign.center,
+                                )),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Expanded(
+            flex: 8,
             child: ListView.separated(
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
