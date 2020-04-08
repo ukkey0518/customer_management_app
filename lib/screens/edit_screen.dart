@@ -117,17 +117,17 @@ class _EditScreenState extends State<EditScreen> {
                 Expanded(
                   child: RadioListTile(
                     title: const Text('女性'),
-                    value: Gender.FEMALE, //TODO
-                    groupValue: _gender, //TODO
-                    onChanged: (value) => _genderSelected(value), //TODO
+                    value: Gender.FEMALE,
+                    groupValue: _gender,
+                    onChanged: (value) => _genderSelected(value),
                   ),
                 ),
                 Expanded(
                   child: RadioListTile(
                     title: const Text('男性'),
-                    value: Gender.MALE, //TODO
-                    groupValue: _gender, //TODO
-                    onChanged: (value) => _genderSelected(value), //TODO
+                    value: Gender.MALE,
+                    groupValue: _gender,
+                    onChanged: (value) => _genderSelected(value),
                   ),
                 ),
               ],
