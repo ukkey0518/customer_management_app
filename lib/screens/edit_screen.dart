@@ -1,3 +1,5 @@
+import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +33,14 @@ class _EditScreenState extends State<EditScreen> {
               _nameInputPart(),
               _nameReadingInputPart(),
               _genderSelectPart(),
+              RaisedButton(
+                child: const Text(
+                  '登録',
+                  style: TextStyle(color: Colors.black),
+                ),
+                color: Colors.orangeAccent,
+                onPressed: _onRegisterButtonClick,
+              ),
             ],
           ),
         ),
@@ -98,6 +108,7 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
+  // 性別選択ラジオボタン欄
   Widget _genderSelectPart() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -138,9 +149,36 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
+  // 性別を選択したときの処理
   _genderSelected(value) {
     setState(() {
       _gender = value;
+    });
+  }
+
+  // 登録ボタン押下時の処理
+  _onRegisterButtonClick() async {
+    if (_nameController.text == '' || _nameReadingController.text == '') {
+      //TODO エラーメッセージ
+      return;
+    }
+
+    // 新しいCustomerオブジェクト生成
+    var customer = Customer(
+      name: _nameController.text,
+      nameReading: _nameReadingController.text,
+      gender: _gender.toString(),
+    );
+
+    // TODO ”新規(Create)”と”編集(Update)”の処理分岐
+
+    // DBに新規登録
+    await database.addCustomer(customer);
+
+    // 入力欄をクリア
+    setState(() {
+      _nameController.clear();
+      _nameReadingController.clear();
     });
   }
 }
