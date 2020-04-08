@@ -43,8 +43,16 @@ class _HomeScreenState extends State<HomeScreen> {
             onSelected: (entry) => _onPopupMenuSelected(entry),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
-                value: "1",
-                child: Text('選択1'),
+                value: "女性",
+                child: Text('女性のみ'),
+              ),
+              const PopupMenuItem<String>(
+                value: "男性",
+                child: Text('男性のみ'),
+              ),
+              const PopupMenuItem<String>(
+                value: "全員",
+                child: Text('すべて'),
               ),
             ],
           ),
@@ -220,5 +228,18 @@ class _HomeScreenState extends State<HomeScreen> {
     Toast.show('削除しました。', context);
   }
 
-  _onPopupMenuSelected(entry) {}
+  _onPopupMenuSelected(entry) async {
+    switch (entry) {
+      case '女性':
+        _customersList = await database.femaleCustomers;
+        break;
+      case '男性':
+        _customersList = await database.maleCustomers;
+        break;
+      default:
+        _getCustomersList();
+        break;
+    }
+    setState(() {});
+  }
 }
