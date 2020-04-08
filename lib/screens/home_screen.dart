@@ -11,8 +11,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Customer> _customersList = List();
-  Customer _selectedCustomer =
-      Customer(id: null, name: '', nameReading: '', gender: '');
+  Customer _selectedCustomer;
 
   @override
   void initState() {
@@ -24,6 +23,13 @@ class _HomeScreenState extends State<HomeScreen> {
   _getCustomersList() async {
     _customersList = await database.allCustomers;
     setState(() {});
+  }
+
+  // リストアイテムが選択されたときの処理
+  _customersListItemSelected(int index) {
+    setState(() {
+      _selectedCustomer = _customersList[index];
+    });
   }
 
   @override
@@ -80,10 +86,12 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: RaisedButton(
                           child: const Text('編集'),
-                          onPressed: () => _startEditScreen(
-                            EditState.EDIT,
-                            customer: _selectedCustomer,
-                          ),
+                          onPressed: _selectedCustomer != null
+                              ? () => _startEditScreen(
+                                    EditState.EDIT,
+                                    customer: _selectedCustomer,
+                                  )
+                              : null,
                         ),
                       ),
                     ),
@@ -117,6 +125,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 選択中アイテムの名前を表示する部分
   Widget _displaySelectedItemNamePart() {
+    var name;
+    var nameReading;
+    if (_selectedCustomer == null) {
+      name = '';
+      nameReading = '';
+    } else {
+      name = _selectedCustomer.name;
+      nameReading = _selectedCustomer.nameReading;
+    }
     return Expanded(
       child: Row(
         children: <Widget>[
@@ -132,11 +149,11 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  _selectedCustomer.nameReading,
+                  name,
                   style: TextStyle(color: Colors.white70),
                 ),
                 Text(
-                  _selectedCustomer.name,
+                  nameReading,
                   style: TextStyle(fontSize: 24),
                 ),
               ],
@@ -149,6 +166,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // 選択中アイテムの性別を表示する部分
   Widget _displaySelectedItemGenderPart() {
+    var gender = _selectedCustomer == null ? '' : _selectedCustomer.gender;
     return Expanded(
       child: Row(
         children: <Widget>[
@@ -161,7 +179,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
               flex: 7,
               child: Text(
-                _selectedCustomer.gender,
+                gender,
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20),
               )),
@@ -184,12 +202,5 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context) => editScreen,
       ),
     );
-  }
-
-  // リストアイテムが選択されたときの処理
-  _customersListItemSelected(int index) {
-    setState(() {
-      _selectedCustomer = _customersList[index];
-    });
   }
 }
