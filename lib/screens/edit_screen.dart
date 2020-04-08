@@ -19,6 +19,7 @@ class _EditScreenState extends State<EditScreen> {
       onWillPop: () => _finishEditScreen(context),
       child: Scaffold(
         appBar: AppBar(
+          // TODO: 編集or登録でタイトルが変わる
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () => _finishEditScreen(context),
@@ -31,12 +32,13 @@ class _EditScreenState extends State<EditScreen> {
               _nameInputPart(),
               _nameReadingInputPart(),
               _genderSelectPart(),
-              RaisedButton(
-                child: const Text(
+              RaisedButton.icon(
+                icon: Icon(Icons.check),
+                label: const Text(
                   '登録',
-                  style: TextStyle(color: Colors.black),
+                  style: TextStyle(fontSize: 16),
                 ),
-                color: Colors.orangeAccent,
+                color: Colors.deepPurpleAccent,
                 onPressed: _onRegisterButtonClick,
               ),
             ],
