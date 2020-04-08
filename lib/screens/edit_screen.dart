@@ -3,8 +3,6 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
-enum Gender { MALE, FEMALE }
-
 class EditScreen extends StatefulWidget {
   @override
   _EditScreenState createState() => _EditScreenState();
@@ -13,7 +11,7 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _nameReadingController = TextEditingController();
-  Gender _gender = Gender.FEMALE;
+  bool _isGenderFemale = true;
 
   @override
   Widget build(BuildContext context) {
@@ -128,16 +126,16 @@ class _EditScreenState extends State<EditScreen> {
                 Expanded(
                   child: RadioListTile(
                     title: const Text('女性'),
-                    value: Gender.FEMALE,
-                    groupValue: _gender,
+                    value: true,
+                    groupValue: _isGenderFemale,
                     onChanged: (value) => _genderSelected(value),
                   ),
                 ),
                 Expanded(
                   child: RadioListTile(
                     title: const Text('男性'),
-                    value: Gender.MALE,
-                    groupValue: _gender,
+                    value: false,
+                    groupValue: _isGenderFemale,
                     onChanged: (value) => _genderSelected(value),
                   ),
                 ),
@@ -152,7 +150,7 @@ class _EditScreenState extends State<EditScreen> {
   // 性別を選択したときの処理
   _genderSelected(value) {
     setState(() {
-      _gender = value;
+      _isGenderFemale = value;
     });
   }
 
@@ -168,7 +166,7 @@ class _EditScreenState extends State<EditScreen> {
     var customer = Customer(
       name: _nameController.text,
       nameReading: _nameReadingController.text,
-      gender: _gender.toString(),
+      gender: _isGenderFemale ? '女性' : '男性',
     );
 
     // TODO ”新規(Create)”と”編集(Update)”の処理分岐
