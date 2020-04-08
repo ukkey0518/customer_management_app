@@ -211,6 +211,7 @@ class _EditScreenState extends State<EditScreen> {
       setState(() {
         _nameController.clear();
         _nameReadingController.clear();
+        _isGenderFemale = null;
       });
 
       Toast.show('登録されました', context);
