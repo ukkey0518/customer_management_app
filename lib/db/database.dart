@@ -11,7 +11,7 @@ class Customers extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   TextColumn get nameReading => text()();
-  TextColumn get sex => text()();
+  TextColumn get gender => text()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -40,9 +40,9 @@ class MyDatabase extends _$MyDatabase {
   Future<List<Customer>> get allCustomers => select(customers).get();
 
   // Read[性別毎のデータを抽出]
-  Stream<List<Customer>> maleCustomers(String sex) => (select(customers)
+  Stream<List<Customer>> maleCustomers(String gender) => (select(customers)
         ..where(
-          (t) => t.sex.equals(sex),
+          (t) => t.gender.equals(gender),
         ))
       .watch();
 

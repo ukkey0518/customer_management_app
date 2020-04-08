@@ -8,7 +8,6 @@ class EditScreen extends StatefulWidget {
 
 class _EditScreenState extends State<EditScreen> {
   TextEditingController _nameController;
-
   TextEditingController _nameReadingController;
 
   @override

@@ -11,12 +11,12 @@ class Customer extends DataClass implements Insertable<Customer> {
   final int id;
   final String name;
   final String nameReading;
-  final String sex;
+  final String gender;
   Customer(
       {@required this.id,
       @required this.name,
       @required this.nameReading,
-      @required this.sex});
+      @required this.gender});
   factory Customer.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -27,7 +27,8 @@ class Customer extends DataClass implements Insertable<Customer> {
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
       nameReading: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}name_reading']),
-      sex: stringType.mapFromDatabaseResponse(data['${effectivePrefix}sex']),
+      gender:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}gender']),
     );
   }
   factory Customer.fromJson(Map<String, dynamic> json,
@@ -37,7 +38,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       nameReading: serializer.fromJson<String>(json['nameReading']),
-      sex: serializer.fromJson<String>(json['sex']),
+      gender: serializer.fromJson<String>(json['gender']),
     );
   }
   @override
@@ -47,7 +48,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'nameReading': serializer.toJson<String>(nameReading),
-      'sex': serializer.toJson<String>(sex),
+      'gender': serializer.toJson<String>(gender),
     };
   }
 
@@ -59,16 +60,17 @@ class Customer extends DataClass implements Insertable<Customer> {
       nameReading: nameReading == null && nullToAbsent
           ? const Value.absent()
           : Value(nameReading),
-      sex: sex == null && nullToAbsent ? const Value.absent() : Value(sex),
+      gender:
+          gender == null && nullToAbsent ? const Value.absent() : Value(gender),
     );
   }
 
-  Customer copyWith({int id, String name, String nameReading, String sex}) =>
+  Customer copyWith({int id, String name, String nameReading, String gender}) =>
       Customer(
         id: id ?? this.id,
         name: name ?? this.name,
         nameReading: nameReading ?? this.nameReading,
-        sex: sex ?? this.sex,
+        gender: gender ?? this.gender,
       );
   @override
   String toString() {
@@ -76,14 +78,14 @@ class Customer extends DataClass implements Insertable<Customer> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('nameReading: $nameReading, ')
-          ..write('sex: $sex')
+          ..write('gender: $gender')
           ..write(')'))
         .toString();
   }
 
   @override
   int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(name.hashCode, $mrjc(nameReading.hashCode, sex.hashCode))));
+      $mrjc(name.hashCode, $mrjc(nameReading.hashCode, gender.hashCode))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -91,38 +93,38 @@ class Customer extends DataClass implements Insertable<Customer> {
           other.id == this.id &&
           other.name == this.name &&
           other.nameReading == this.nameReading &&
-          other.sex == this.sex);
+          other.gender == this.gender);
 }
 
 class CustomersCompanion extends UpdateCompanion<Customer> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> nameReading;
-  final Value<String> sex;
+  final Value<String> gender;
   const CustomersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.nameReading = const Value.absent(),
-    this.sex = const Value.absent(),
+    this.gender = const Value.absent(),
   });
   CustomersCompanion.insert({
     this.id = const Value.absent(),
     @required String name,
     @required String nameReading,
-    @required String sex,
+    @required String gender,
   })  : name = Value(name),
         nameReading = Value(nameReading),
-        sex = Value(sex);
+        gender = Value(gender);
   CustomersCompanion copyWith(
       {Value<int> id,
       Value<String> name,
       Value<String> nameReading,
-      Value<String> sex}) {
+      Value<String> gender}) {
     return CustomersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       nameReading: nameReading ?? this.nameReading,
-      sex: sex ?? this.sex,
+      gender: gender ?? this.gender,
     );
   }
 }
@@ -167,20 +169,20 @@ class $CustomersTable extends Customers
     );
   }
 
-  final VerificationMeta _sexMeta = const VerificationMeta('sex');
-  GeneratedTextColumn _sex;
+  final VerificationMeta _genderMeta = const VerificationMeta('gender');
+  GeneratedTextColumn _gender;
   @override
-  GeneratedTextColumn get sex => _sex ??= _constructSex();
-  GeneratedTextColumn _constructSex() {
+  GeneratedTextColumn get gender => _gender ??= _constructGender();
+  GeneratedTextColumn _constructGender() {
     return GeneratedTextColumn(
-      'sex',
+      'gender',
       $tableName,
       false,
     );
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, name, nameReading, sex];
+  List<GeneratedColumn> get $columns => [id, name, nameReading, gender];
   @override
   $CustomersTable get asDslTable => this;
   @override
@@ -206,10 +208,11 @@ class $CustomersTable extends Customers
     } else if (isInserting) {
       context.missing(_nameReadingMeta);
     }
-    if (d.sex.present) {
-      context.handle(_sexMeta, sex.isAcceptableValue(d.sex.value, _sexMeta));
+    if (d.gender.present) {
+      context.handle(
+          _genderMeta, gender.isAcceptableValue(d.gender.value, _genderMeta));
     } else if (isInserting) {
-      context.missing(_sexMeta);
+      context.missing(_genderMeta);
     }
     return context;
   }
@@ -234,8 +237,8 @@ class $CustomersTable extends Customers
     if (d.nameReading.present) {
       map['name_reading'] = Variable<String, StringType>(d.nameReading.value);
     }
-    if (d.sex.present) {
-      map['sex'] = Variable<String, StringType>(d.sex.value);
+    if (d.gender.present) {
+      map['gender'] = Variable<String, StringType>(d.gender.value);
     }
     return map;
   }
