@@ -51,61 +51,23 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: Card(
                 color: Colors.white12,
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: <Widget>[
-                      Expanded(
-                        child: Row(
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      flex: 8,
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            top: 16, bottom: 16, left: 16),
+                        child: Column(
                           children: <Widget>[
-                            Expanded(
-                                flex: 3,
-                                child: const Text(
-                                  'お名前',
-                                  style: TextStyle(fontSize: 16),
-                                )),
-                            Expanded(
-                              flex: 7,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: <Widget>[
-                                  Text(
-                                    _selectedCustomer.nameReading,
-                                    style: TextStyle(color: Colors.white70),
-                                  ),
-                                  Text(
-                                    _selectedCustomer.name,
-                                    style: TextStyle(fontSize: 24),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            _displaySelectedItemNamePart(),
+                            Divider(),
+                            _displaySelectedItemGenderPart(),
                           ],
                         ),
                       ),
-                      Divider(),
-                      Expanded(
-                        child: Row(
-                          children: <Widget>[
-                            Expanded(
-                                flex: 3,
-                                child: const Text(
-                                  '性別',
-                                  style: TextStyle(fontSize: 16),
-                                )),
-                            Expanded(
-                                flex: 7,
-                                child: Text(
-                                  _selectedCustomer.gender,
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(fontSize: 20),
-                                )),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ),
@@ -133,6 +95,61 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+  // 選択中アイテムの名前を表示する部分
+  Widget _displaySelectedItemNamePart() {
+    return Expanded(
+      child: Row(
+        children: <Widget>[
+          Expanded(
+              flex: 3,
+              child: const Text(
+                'お名前',
+                style: TextStyle(fontSize: 16),
+              )),
+          Expanded(
+            flex: 7,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  _selectedCustomer.nameReading,
+                  style: TextStyle(color: Colors.white70),
+                ),
+                Text(
+                  _selectedCustomer.name,
+                  style: TextStyle(fontSize: 24),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // 選択中アイテムの性別を表示する部分
+  Widget _displaySelectedItemGenderPart() {
+    return Expanded(
+      child: Row(
+        children: <Widget>[
+          Expanded(
+              flex: 3,
+              child: const Text(
+                '性別',
+                style: TextStyle(fontSize: 16),
+              )),
+          Expanded(
+              flex: 7,
+              child: Text(
+                _selectedCustomer.gender,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: 20),
+              )),
+        ],
+      ),
+    );
+  }
+
   _startEditScreen() {
     Navigator.pushReplacement(
       context,
@@ -142,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void _getCustomersList() async {
+  _getCustomersList() async {
     _customersList = await database.allCustomers;
     setState(() {});
   }
@@ -151,6 +168,5 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() {
       _selectedCustomer = _customersList[index];
     });
-    print(_selectedCustomer.name); //TODO: 反映処理書いたら削除OK
   }
 }
