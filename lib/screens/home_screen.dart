@@ -1,3 +1,5 @@
+import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +9,14 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  List<Customer> _customersList = List();
+
+  @override
+  void initState() {
+    super.initState();
+    _getCustomersList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,5 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context) => EditScreen(),
       ),
     );
+  }
+
+  void _getCustomersList() async {
+    _customersList = await database.allCustomers;
+    setState(() {});
   }
 }
