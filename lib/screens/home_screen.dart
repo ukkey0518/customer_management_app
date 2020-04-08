@@ -149,11 +149,11 @@ class _HomeScreenState extends State<HomeScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Text(
-                  name,
+                  nameReading,
                   style: TextStyle(color: Colors.white70),
                 ),
                 Text(
-                  nameReading,
+                  name,
                   style: TextStyle(fontSize: 24),
                 ),
               ],
