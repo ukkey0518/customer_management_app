@@ -107,6 +107,10 @@ class _HomeScreenState extends State<HomeScreen> {
               child: ListView.separated(
                 itemBuilder: (BuildContext context, int index) {
                   return ListTile(
+                    leading: SizedBox(
+                      height: double.infinity,
+                      child: Icon(Icons.account_circle),
+                    ),
                     title: Text('${_customersList[index].name}'),
                     subtitle: Text('${_customersList[index].nameReading}'),
                     onTap: () => _customersListItemSelected(index),
