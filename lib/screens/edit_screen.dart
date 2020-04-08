@@ -1,6 +1,8 @@
 import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
+enum Gender { MALE, FEMALE }
+
 class EditScreen extends StatefulWidget {
   @override
   _EditScreenState createState() => _EditScreenState();
@@ -9,6 +11,7 @@ class EditScreen extends StatefulWidget {
 class _EditScreenState extends State<EditScreen> {
   TextEditingController _nameController;
   TextEditingController _nameReadingController;
+  Gender _gender = Gender.FEMALE;
 
   @override
   Widget build(BuildContext context) {
@@ -114,17 +117,17 @@ class _EditScreenState extends State<EditScreen> {
                 Expanded(
                   child: RadioListTile(
                     title: const Text('女性'),
-                    value: null,
-                    groupValue: null,
-                    onChanged: null,
+                    value: Gender.FEMALE, //TODO
+                    groupValue: _gender, //TODO
+                    onChanged: (value) => _genderSelected(value), //TODO
                   ),
                 ),
                 Expanded(
                   child: RadioListTile(
                     title: const Text('男性'),
-                    value: null,
-                    groupValue: null,
-                    onChanged: null,
+                    value: Gender.MALE, //TODO
+                    groupValue: _gender, //TODO
+                    onChanged: (value) => _genderSelected(value), //TODO
                   ),
                 ),
               ],
@@ -133,5 +136,11 @@ class _EditScreenState extends State<EditScreen> {
         ],
       ),
     );
+  }
+
+  _genderSelected(value) {
+    setState(() {
+      _gender = value;
+    });
   }
 }
