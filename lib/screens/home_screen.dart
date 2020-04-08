@@ -73,7 +73,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: RaisedButton(
                           child: const Text('編集'),
-                          onPressed: _startEditScreen(),
+                          onPressed: () => _startEditScreen(),
                         ),
                       ),
                     ),
