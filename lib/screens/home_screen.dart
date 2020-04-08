@@ -226,6 +226,9 @@ class _HomeScreenState extends State<HomeScreen> {
     await database.deleteCustomer(customer);
     _getCustomersList();
     Toast.show('削除しました。', context);
+    setState(() {
+      _selectedCustomer = null;
+    });
   }
 
   _onPopupMenuSelected(entry) async {
