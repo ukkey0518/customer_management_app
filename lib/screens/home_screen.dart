@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                color: Colors.white30,
+                color: Colors.white12,
                 child: Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Column(
@@ -58,29 +58,48 @@ class _HomeScreenState extends State<HomeScreen> {
                       Expanded(
                         child: Row(
                           children: <Widget>[
-                            Expanded(flex: 3, child: const Text('お名前')),
+                            Expanded(
+                                flex: 3,
+                                child: const Text(
+                                  'お名前',
+                                  style: TextStyle(fontSize: 16),
+                                )),
                             Expanded(
                               flex: 7,
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
                                 children: <Widget>[
-                                  Text(_selectedCustomer.name),
-                                  Text(_selectedCustomer.nameReading),
+                                  Text(
+                                    _selectedCustomer.nameReading,
+                                    style: TextStyle(color: Colors.white70),
+                                  ),
+                                  Text(
+                                    _selectedCustomer.name,
+                                    style: TextStyle(fontSize: 24),
+                                  ),
                                 ],
                               ),
                             ),
                           ],
                         ),
                       ),
+                      Divider(),
                       Expanded(
                         child: Row(
                           children: <Widget>[
-                            Expanded(flex: 3, child: const Text('性別')),
+                            Expanded(
+                                flex: 3,
+                                child: const Text(
+                                  '性別',
+                                  style: TextStyle(fontSize: 16),
+                                )),
                             Expanded(
                                 flex: 7,
                                 child: Text(
                                   _selectedCustomer.gender,
                                   textAlign: TextAlign.center,
+                                  style: TextStyle(fontSize: 20),
                                 )),
                           ],
                         ),
