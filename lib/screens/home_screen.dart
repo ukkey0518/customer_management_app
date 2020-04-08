@@ -67,6 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
                         ),
                       ),
                     ),
+                    Expanded(
+                      flex: 2,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: RaisedButton(
+                          child: const Text('編集'),
+                          onPressed: _startEditScreen(),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),
