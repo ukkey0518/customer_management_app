@@ -110,6 +110,9 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: Text('${_customersList[index].name}'),
                     subtitle: Text('${_customersList[index].nameReading}'),
                     onTap: () => _customersListItemSelected(index),
+                    onLongPress: () => _onListItemLongPress(
+                      _customersList[index],
+                    ),
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) =>
@@ -202,5 +205,12 @@ class _HomeScreenState extends State<HomeScreen> {
         builder: (context) => editScreen,
       ),
     );
+  }
+
+  // 長押しでデータを削除する処理
+  _onListItemLongPress(Customer customer) async {
+    await database.deleteCustomer(customer);
+    _getCustomersList();
+    Toast.show('削除しました。', context);
   }
 }
