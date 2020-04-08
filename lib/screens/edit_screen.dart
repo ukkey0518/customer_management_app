@@ -27,6 +27,7 @@ class _EditScreenState extends State<EditScreen> {
               const Text('基本情報'),
               _nameInputPart(),
               _nameReadingInputPart(),
+              _genderSelectPart(),
             ],
           ),
         ),
@@ -87,6 +88,46 @@ class _EditScreenState extends State<EditScreen> {
             child: TextField(
               controller: _nameReadingController,
               keyboardType: TextInputType.text,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _genderSelectPart() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 3,
+            child: const Text(
+              '性別',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          Expanded(
+            flex: 7,
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: RadioListTile(
+                    title: const Text('女性'),
+                    value: null,
+                    groupValue: null,
+                    onChanged: null,
+                  ),
+                ),
+                Expanded(
+                  child: RadioListTile(
+                    title: const Text('男性'),
+                    value: null,
+                    groupValue: null,
+                    onChanged: null,
+                  ),
+                ),
+              ],
             ),
           ),
         ],
