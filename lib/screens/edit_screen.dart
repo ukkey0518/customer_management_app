@@ -19,6 +19,7 @@ class _EditScreenState extends State<EditScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _nameReadingController = TextEditingController();
   bool _isGenderFemale = true;
+  String _titleStr = '';
 
   @override
   void initState() {
@@ -27,10 +28,12 @@ class _EditScreenState extends State<EditScreen> {
       _nameController.text = '';
       _nameReadingController.text = '';
       _isGenderFemale = null;
+      _titleStr = '顧客情報の新規登録';
     } else {
       _nameController.text = widget.customer.name;
       _nameReadingController.text = widget.customer.nameReading;
       _isGenderFemale = widget.customer.gender == '女性' ? true : false;
+      _titleStr = '顧客情報の編集';
     }
   }
 
@@ -40,7 +43,7 @@ class _EditScreenState extends State<EditScreen> {
       onWillPop: () => _finishEditScreen(context),
       child: Scaffold(
         appBar: AppBar(
-          // TODO: 編集or登録でタイトルが変わる
+          title: Text(_titleStr),
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () => _finishEditScreen(context),
