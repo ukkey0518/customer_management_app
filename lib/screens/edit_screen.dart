@@ -28,10 +28,15 @@ class _EditScreenState extends State<EditScreen> {
         body: Center(
           child: Column(
             children: <Widget>[
-              const Text('基本情報'),
+              SizedBox(height: 30),
+              const Text('基本情報', style: TextStyle(fontSize: 20)),
+              SizedBox(height: 16),
               _nameInputPart(),
+              SizedBox(height: 16),
               _nameReadingInputPart(),
+              SizedBox(height: 16),
               _genderSelectPart(),
+              SizedBox(height: 16),
               RaisedButton.icon(
                 icon: Icon(Icons.check),
                 label: const Text(
