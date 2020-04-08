@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: <Widget>[
           PopupMenuButton(
             icon: Icon(Icons.sort),
-            onSelected: (entry) => print(entry),
+            onSelected: (entry) => _onPopupMenuSelected(entry),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
                 value: "1",
@@ -219,4 +219,6 @@ class _HomeScreenState extends State<HomeScreen> {
     _getCustomersList();
     Toast.show('削除しました。', context);
   }
+
+  _onPopupMenuSelected(entry) {}
 }

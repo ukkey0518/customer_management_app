@@ -39,12 +39,19 @@ class MyDatabase extends _$MyDatabase {
   // Read[すべてを抽出]
   Future<List<Customer>> get allCustomers => select(customers).get();
 
-  // Read[性別毎のデータを抽出]
-  Stream<List<Customer>> maleCustomers(String gender) => (select(customers)
+  // Read[女性のデータを抽出]
+  Future<List<Customer>> get femaleCustomers => (select(customers)
         ..where(
-          (t) => t.gender.equals(gender),
+          (t) => t.gender.equals('女性'),
         ))
-      .watch();
+      .get();
+
+  // Read[男性のデータを抽出]
+  Future<List<Customer>> get maleCustomers => (select(customers)
+        ..where(
+          (t) => t.gender.equals('男性'),
+        ))
+      .get();
 
   // Read[指定の名前に一致するデータを抽出する]
   Future<Customer> getCustomers(String name) => (select(customers)
