@@ -24,6 +24,12 @@ class _EditScreenState extends State<EditScreen> {
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () => _finishEditScreen(context),
           ),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.save),
+              onPressed: _onSaveButtonClick,
+            ),
+          ],
         ),
         body: Center(
           child: Column(
@@ -37,15 +43,6 @@ class _EditScreenState extends State<EditScreen> {
               SizedBox(height: 16),
               _genderSelectPart(),
               SizedBox(height: 16),
-              RaisedButton.icon(
-                icon: Icon(Icons.check),
-                label: const Text(
-                  '登録',
-                  style: TextStyle(fontSize: 16),
-                ),
-                color: Colors.deepPurpleAccent,
-                onPressed: _onRegisterButtonClick,
-              ),
             ],
           ),
         ),
@@ -161,8 +158,8 @@ class _EditScreenState extends State<EditScreen> {
     });
   }
 
-  // 登録ボタン押下時の処理
-  _onRegisterButtonClick() async {
+  // 保存ボタン押下時の処理
+  _onSaveButtonClick() async {
     if (_nameController.text.isEmpty || _nameReadingController.text.isEmpty) {
       //TODO エラーメッセージ
       print('未入力');
