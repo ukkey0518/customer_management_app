@@ -184,8 +184,15 @@ class _EditScreenState extends State<EditScreen> {
 
   // 保存ボタン押下時の処理
   _onSaveButtonClick() async {
-    if (_nameController.text.isEmpty || _nameReadingController.text.isEmpty) {
+    if (_nameController.text.isEmpty ||
+        _nameReadingController.text.isEmpty ||
+        _isGenderFemale == null) {
       Toast.show('すべての入力欄を埋めてください', context);
+      return;
+    }
+
+    if (await database.getCustomers(_nameController.text) != null) {
+      Toast.show('同名の顧客データが存在しています。', context);
       return;
     }
 

@@ -46,6 +46,13 @@ class MyDatabase extends _$MyDatabase {
         ))
       .watch();
 
+  // Read[指定の名前に一致するデータを抽出する]
+  Future<Customer> getCustomers(String name) => (select(customers)
+        ..where(
+          (t) => t.name.equals(name),
+        ))
+      .getSingle();
+
   // Update[１件分を更新]
   Future updateCustomer(Customer customer) =>
       update(customers).replace(customer);
