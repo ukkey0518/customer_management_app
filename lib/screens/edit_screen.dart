@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class EditScreen extends StatefulWidget {
   @override
@@ -161,8 +162,7 @@ class _EditScreenState extends State<EditScreen> {
   // 保存ボタン押下時の処理
   _onSaveButtonClick() async {
     if (_nameController.text.isEmpty || _nameReadingController.text.isEmpty) {
-      //TODO エラーメッセージ
-      print('未入力');
+      Toast.show('すべての入力欄を埋めてください', context);
       return;
     }
 
@@ -183,5 +183,7 @@ class _EditScreenState extends State<EditScreen> {
       _nameController.clear();
       _nameReadingController.clear();
     });
+
+    Toast.show('登録されました', context);
   }
 }
