@@ -11,8 +11,8 @@ class EditScreen extends StatefulWidget {
 }
 
 class _EditScreenState extends State<EditScreen> {
-  TextEditingController _nameController;
-  TextEditingController _nameReadingController;
+  TextEditingController _nameController = TextEditingController();
+  TextEditingController _nameReadingController = TextEditingController();
   Gender _gender = Gender.FEMALE;
 
   @override
@@ -158,8 +158,9 @@ class _EditScreenState extends State<EditScreen> {
 
   // 登録ボタン押下時の処理
   _onRegisterButtonClick() async {
-    if (_nameController.text == '' || _nameReadingController.text == '') {
+    if (_nameController.text.isEmpty || _nameReadingController.text.isEmpty) {
       //TODO エラーメッセージ
+      print('未入力');
       return;
     }
 
