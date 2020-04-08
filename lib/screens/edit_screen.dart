@@ -70,6 +70,7 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
+  // よみがな入力欄
   Widget _nameReadingInputPart() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),

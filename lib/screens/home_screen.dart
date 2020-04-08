@@ -9,40 +9,29 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          child: Icon(Icons.add),
-          backgroundColor: Colors.orangeAccent,
-          tooltip: '新規登録',
-          onPressed: _startEditScreen,
-        ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              Image.asset(
-                'assets/images/flutter_logo.png',
-                height: 200,
-                width: 200,
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('顧客管理アプリ'),
+        actions: <Widget>[
+          PopupMenuButton(
+            icon: Icon(Icons.sort),
+            onSelected: (entry) => print(entry),
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+              const PopupMenuItem<String>(
+                value: "1",
+                child: Text('選択1'),
               ),
-              _titleText(),
             ],
           ),
-        ),
+        ],
       ),
-    );
-  }
-
-  Widget _titleText() {
-    return Container(
-      color: Colors.brown,
-      width: double.infinity,
-      padding: EdgeInsets.symmetric(vertical: 8),
-      alignment: Alignment.center,
-      child: Text(
-        '顧客管理アプリ',
-        style: TextStyle(fontSize: 36),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        backgroundColor: Colors.orangeAccent,
+        tooltip: '新規登録',
+        onPressed: _startEditScreen,
       ),
+      body: Container(),
     );
   }
 
