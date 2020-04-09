@@ -4,6 +4,8 @@ import 'package:customermanagementapp/screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
+enum NarrowState { ALL, FEMALE, MALE }
+
 class HomeScreen extends StatefulWidget {
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -11,11 +13,18 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Customer> _customersList = List();
+  NarrowState _narrowState = NarrowState.ALL;
 
   @override
   void initState() {
     super.initState();
-    _displayAllCustomers();
+    _reloadCustomersList();
+  }
+
+  // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
+  _setNarrowState(NarrowState narrowState) {
+    _narrowState = narrowState;
+    _reloadCustomersList();
   }
 
   @override
@@ -114,8 +123,8 @@ class _HomeScreenState extends State<HomeScreen> {
   _onListItemLongPress(Customer customer) async {
     // DBから指定のCustomerを削除
     await database.deleteCustomer(customer);
-    // すべてのCustomerを抽出して更新
-    _displayAllCustomers();
+    // 現在の条件でリストを更新
+    _reloadCustomersList();
     // トースト表示
     Toast.show('削除しました。', context);
   }
@@ -126,35 +135,33 @@ class _HomeScreenState extends State<HomeScreen> {
     switch (entry) {
       case '女性':
         // 女性のみデータを抽出
-        _displayFemaleCustomers();
+        _setNarrowState(NarrowState.FEMALE);
         break;
       case '男性':
         // 男性のみデータを抽出
-        _displayMaleCustomers();
+        _setNarrowState(NarrowState.MALE);
         break;
       default:
         // すべてのCustomerを抽出して更新
-        _displayAllCustomers();
+        _setNarrowState(NarrowState.ALL);
         break;
     }
   }
 
-  // [リスト更新：すべてのデータ]
-  _displayAllCustomers() async {
-    _customersList = await database.allCustomers;
+  // [リスト更新処理：指定の条件でリストを更新する]
+  _reloadCustomersList() async {
+    // 絞り込み条件
+    switch (_narrowState) {
+      case NarrowState.ALL:
+        _customersList = await database.allCustomers;
+        break;
+      case NarrowState.FEMALE:
+        _customersList = await database.femaleCustomers;
+        break;
+      case NarrowState.MALE:
+        _customersList = await database.maleCustomers;
+        break;
+    }
     setState(() {});
   }
-
-  // [リスト更新：女性データのみ]
-  _displayFemaleCustomers() async {
-    _customersList = await database.femaleCustomers;
-    setState(() {});
-  }
-
-  // [リスト更新：男性データのみ]
-  _displayMaleCustomers() async {
-    _customersList = await database.maleCustomers;
-    setState(() {});
-  }
-
 }
