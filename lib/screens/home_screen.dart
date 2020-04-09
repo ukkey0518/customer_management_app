@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 enum NarrowState { ALL, FEMALE, MALE }
+enum SortState { REGISTER_NEW, REGISTER_OLD, NAME }
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -159,7 +160,7 @@ class _HomeScreenState extends State<HomeScreen> {
         child: DropdownButton(
           value: _sortDropdownSelectedValue,
           icon: Icon(Icons.arrow_drop_down),
-          onChanged: (newValue) => _sortMenuSelected(newValue), // TODO
+          onChanged: (newValue) => _sortMenuSelected(newValue),
           style: TextStyle(fontSize: 14, color: Colors.black),
           items: _sortDropdownMenuItems.map<DropdownMenuItem<String>>(
             (value) {
@@ -234,7 +235,7 @@ class _HomeScreenState extends State<HomeScreen> {
     Toast.show('削除しました。', context);
   }
 
-  // [コールバック：絞り込みポップアップメニュー選択時]
+  // [コールバック：絞り込みメニューアイテム選択時]
   // →各項目ごとに絞り込み
   _narrowMenuSelected(String value) async {
     _narrowDropdownSelectedValue = value;
@@ -250,6 +251,26 @@ class _HomeScreenState extends State<HomeScreen> {
       default:
         // すべてのCustomerを抽出して更新
         _setNarrowState(NarrowState.ALL);
+        break;
+    }
+  }
+
+  // [コールバック：ソートメニューアイテム選択時]
+  // →各項目ごとにソート
+  _sortMenuSelected(String value) async {
+    _sortDropdownSelectedValue = value;
+    switch (value) {
+      case '登録が古い順':
+        // 新規登録が古い順に並び替え
+        _setSortState(SortState.REGISTER_OLD);
+        break;
+      case '名前順':
+        // 名前順に並び替え
+        _setSortState(SortState.NAME);
+        break;
+      default:
+        // 新規登録が新しい順に並び替え
+        _setSortState(SortState.REGISTER_NEW);
         break;
     }
   }
