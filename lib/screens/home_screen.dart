@@ -11,7 +11,6 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Customer> _customersList = List();
-  Customer _selectedCustomer;
 
   @override
   void initState() {
@@ -23,13 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   _getCustomersList() async {
     _customersList = await database.allCustomers;
     setState(() {});
-  }
-
-  // リストアイテムが選択されたときの処理
-  _customersListItemSelected(int index) {
-    setState(() {
-      _selectedCustomer = _customersList[index];
-    });
   }
 
   @override
@@ -67,49 +59,6 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: <Widget>[
           Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Card(
-                color: Colors.white12,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      flex: 8,
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            top: 16, bottom: 16, left: 16),
-                        child: Column(
-                          children: <Widget>[
-                            _displaySelectedItemNamePart(),
-                            Divider(),
-                            _displaySelectedItemGenderPart(),
-                          ],
-                        ),
-                      ),
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: RaisedButton(
-                          child: const Text('編集'),
-                          onPressed: _selectedCustomer != null
-                              ? () => _startEditScreen(
-                                    EditState.EDIT,
-                                    customer: _selectedCustomer,
-                                  )
-                              : null,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-          Expanded(
-            flex: 8,
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.separated(
@@ -123,7 +72,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       '${_customersList[index].name}',
                       style: TextStyle(fontSize: 20),
                     ),
-                    onTap: () => _customersListItemSelected(index),
+                    onTap: () => _startEditScreen(
+                      EditState.EDIT,
+                      customer: _customersList[index],
+                    ),
                     onLongPress: () => _onListItemLongPress(
                       _customersList[index],
                     ),
@@ -135,71 +87,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  // 選択中アイテムの名前を表示する部分
-  Widget _displaySelectedItemNamePart() {
-    var name;
-    var nameReading;
-    if (_selectedCustomer == null) {
-      name = '';
-      nameReading = '';
-    } else {
-      name = _selectedCustomer.name;
-      nameReading = _selectedCustomer.nameReading;
-    }
-    return Expanded(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-              flex: 3,
-              child: const Text(
-                'お名前',
-                style: TextStyle(fontSize: 16),
-              )),
-          Expanded(
-            flex: 7,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Text(
-                  nameReading,
-                  style: TextStyle(color: Colors.white70),
-                ),
-                Text(
-                  name,
-                  style: TextStyle(fontSize: 24),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // 選択中アイテムの性別を表示する部分
-  Widget _displaySelectedItemGenderPart() {
-    var gender = _selectedCustomer == null ? '' : _selectedCustomer.gender;
-    return Expanded(
-      child: Row(
-        children: <Widget>[
-          Expanded(
-              flex: 3,
-              child: const Text(
-                '性別',
-                style: TextStyle(fontSize: 16),
-              )),
-          Expanded(
-              flex: 7,
-              child: Text(
-                gender,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 20),
-              )),
         ],
       ),
     );
@@ -226,11 +113,9 @@ class _HomeScreenState extends State<HomeScreen> {
     await database.deleteCustomer(customer);
     _getCustomersList();
     Toast.show('削除しました。', context);
-    setState(() {
-      _selectedCustomer = null;
-    });
   }
 
+  // ポップアップメニュー選択時の処理
   _onPopupMenuSelected(entry) async {
     switch (entry) {
       case '女性':
