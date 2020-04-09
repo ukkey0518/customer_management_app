@@ -50,24 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text('顧客管理アプリ'),
         actions: <Widget>[
-          PopupMenuButton(
-            icon: Icon(Icons.sort),
-            onSelected: (entry) => _narrowMenuSelected(entry),
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-              const PopupMenuItem<String>(
-                value: "女性",
-                child: Text('女性のみ'),
-              ),
-              const PopupMenuItem<String>(
-                value: "男性",
-                child: Text('男性のみ'),
-              ),
-              const PopupMenuItem<String>(
-                value: "全員",
-                child: Text('すべて'),
-              ),
-            ],
-          ),
+          _narrowPopupMenuPart(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -82,18 +65,7 @@ class _HomeScreenState extends State<HomeScreen> {
               padding: const EdgeInsets.all(8.0),
               child: ListView.separated(
                 itemBuilder: (BuildContext context, int index) {
-                  return ListTile(
-                    leading: SizedBox(
-                      height: double.infinity,
-                      child: Icon(Icons.account_circle),
-                    ),
-                    title: Text(
-                      '${_customersList[index].name}',
-                      style: TextStyle(fontSize: 20),
-                    ),
-                    onTap: () => _editCustomer(_customersList[index]),
-                    onLongPress: () => _deleteCustomer(_customersList[index]),
-                  );
+                  return _customersListItemPart(index);
                 },
                 separatorBuilder: (BuildContext context, int index) =>
                     Divider(),
@@ -103,6 +75,44 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  // [ウィジェット：絞り込みポップアップメニュー部分]
+  Widget _narrowPopupMenuPart() {
+    return PopupMenuButton(
+      icon: Icon(Icons.sort),
+      onSelected: (entry) => _narrowMenuSelected(entry),
+      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+        const PopupMenuItem<String>(
+          value: "女性",
+          child: Text('女性のみ'),
+        ),
+        const PopupMenuItem<String>(
+          value: "男性",
+          child: Text('男性のみ'),
+        ),
+        const PopupMenuItem<String>(
+          value: "全員",
+          child: Text('すべて'),
+        ),
+      ],
+    );
+  }
+
+  // [ウィジェット：リストアイテム]
+  Widget _customersListItemPart(int index) {
+    return ListTile(
+      leading: SizedBox(
+        height: double.infinity,
+        child: Icon(Icons.account_circle),
+      ),
+      title: Text(
+        '${_customersList[index].name}',
+        style: TextStyle(fontSize: 20),
+      ),
+      onTap: () => _editCustomer(_customersList[index]),
+      onLongPress: () => _deleteCustomer(_customersList[index]),
     );
   }
 
