@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
         actions: <Widget>[
           PopupMenuButton(
             icon: Icon(Icons.sort),
-            onSelected: (entry) => _onPopupMenuSelected(entry),
+            onSelected: (entry) => _narrowMenuSelected(entry),
             itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
               const PopupMenuItem<String>(
                 value: "女性",
@@ -75,9 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       style: TextStyle(fontSize: 20),
                     ),
                     onTap: () => _editCustomer(_customersList[index]),
-                    onLongPress: () => _onListItemLongPress(
-                      _customersList[index],
-                    ),
+                    onLongPress: () => _deleteCustomer(_customersList[index]),
                   );
                 },
                 separatorBuilder: (BuildContext context, int index) =>
@@ -120,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // [コールバック：リストアイテム長押し]
   // →長押ししたアイテムを削除する
-  _onListItemLongPress(Customer customer) async {
+  _deleteCustomer(Customer customer) async {
     // DBから指定のCustomerを削除
     await database.deleteCustomer(customer);
     // 現在の条件でリストを更新
@@ -129,9 +127,9 @@ class _HomeScreenState extends State<HomeScreen> {
     Toast.show('削除しました。', context);
   }
 
-  // [コールバック：ポップアップメニュー選択時]
+  // [コールバック：絞り込みポップアップメニュー選択時]
   // →各項目ごとに絞り込み
-  _onPopupMenuSelected(String entry) async {
+  _narrowMenuSelected(String entry) async {
     switch (entry) {
       case '女性':
         // 女性のみデータを抽出
