@@ -15,13 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _getCustomersList();
-  }
-
-  // リスト初期化
-  _getCustomersList() async {
-    _customersList = await database.allCustomers;
-    setState(() {});
+    _displayAllCustomers();
   }
 
   @override
@@ -88,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // [FABタップコールバック]
+  // [コールバック：FABタップ]
   // →新しい顧客情報を登録する
   _addCustomer() {
     Navigator.pushReplacement(
@@ -101,7 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // [リストタップコールバック]
+  // [コールバック：リストアイテムタップ]
   // →選択した顧客情報を編集する
   _editCustomer(Customer customer) {
     Navigator.pushReplacement(
@@ -115,35 +109,52 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // [リスト長押しコールバック]
+  // [コールバック：リストアイテム長押し]
   // →長押ししたアイテムを削除する
   _onListItemLongPress(Customer customer) async {
     // DBから指定のCustomerを削除
     await database.deleteCustomer(customer);
     // すべてのCustomerを抽出して更新
-    _getCustomersList();
+    _displayAllCustomers();
     // トースト表示
     Toast.show('削除しました。', context);
   }
 
-  // [ポップアップメニュー選択時の処理]
+  // [コールバック：ポップアップメニュー選択時]
   // →各項目ごとに絞り込み
   _onPopupMenuSelected(String entry) async {
     switch (entry) {
       case '女性':
         // 女性のみデータを抽出
-        _customersList = await database.femaleCustomers;
+        _displayFemaleCustomers();
         break;
       case '男性':
         // 男性のみデータを抽出
-        _customersList = await database.maleCustomers;
+        _displayMaleCustomers();
         break;
       default:
         // すべてのCustomerを抽出して更新
-        _getCustomersList();
+        _displayAllCustomers();
         break;
     }
-    // リスト更新
+  }
+
+  // [リスト更新：すべてのデータ]
+  _displayAllCustomers() async {
+    _customersList = await database.allCustomers;
     setState(() {});
   }
+
+  // [リスト更新：女性データのみ]
+  _displayFemaleCustomers() async {
+    _customersList = await database.femaleCustomers;
+    setState(() {});
+  }
+
+  // [リスト更新：男性データのみ]
+  _displayMaleCustomers() async {
+    _customersList = await database.maleCustomers;
+    setState(() {});
+  }
+
 }
