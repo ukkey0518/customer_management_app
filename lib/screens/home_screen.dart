@@ -8,6 +8,10 @@ enum NarrowState { ALL, FEMALE, MALE }
 enum SortState { REGISTER_NEW, REGISTER_OLD, NAME_FORWARD, NAME_REVERSE }
 
 class HomeScreen extends StatefulWidget {
+  final HomeScreenPreferences pref;
+
+  HomeScreen({this.pref});
+
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
@@ -29,6 +33,12 @@ class _HomeScreenState extends State<HomeScreen> {
     _sortDropdownMenuItems = ['登録順(古)', '登録順(新)', '名前順', '名前逆順'];
     _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
     _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+    // 環境設定がある場合はそれを反映
+    if (widget.pref != null) {
+      _narrowState = widget.pref.narrowState;
+      _sortState = widget.pref.sortState;
+      _searchNameFieldController.text = widget.pref.searchWord;
+    }
     _reloadCustomersList();
   }
 
@@ -58,13 +68,13 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     // 並べ替え条件
     switch (_sortState) {
-      case SortState.REGISTER_NEW:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
-        _customersList.sort((a, b) => b.id - a.id);
-        break;
       case SortState.REGISTER_OLD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
         _customersList.sort((a, b) => a.id - b.id);
+        break;
+      case SortState.REGISTER_NEW:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
+        _customersList.sort((a, b) => b.id - a.id);
         break;
       case SortState.NAME_FORWARD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[2];
@@ -320,4 +330,13 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
     }
   }
+}
+
+// 検索条件を保持するオブジェクト
+class HomeScreenPreferences {
+  NarrowState narrowState;
+  SortState sortState;
+  String searchWord;
+
+  HomeScreenPreferences({this.narrowState, this.sortState, this.searchWord});
 }
