@@ -60,18 +60,41 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Column(
         children: <Widget>[
+          _menuBarPart(),
+          Divider(),
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.separated(
-                itemBuilder: (BuildContext context, int index) {
-                  return _customersListItemPart(index);
-                },
-                separatorBuilder: (BuildContext context, int index) =>
-                    Divider(),
+                itemBuilder: (context, index) => _customersListItemPart(index),
+                separatorBuilder: (context, index) => Divider(),
                 itemCount: _customersList.length,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  // [ウィジェット：上部メニュー]
+  Widget _menuBarPart() {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 8),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Text('検索結果：${_customersList.length}件'),
+              _narrowPopupMenuPart(),
+              _sortPopupMenuPart(),
+            ],
+          ),
+          Row(
+            children: <Widget>[
+              Icon(Icons.search),
+              Expanded(child: TextField()),
+            ],
           ),
         ],
       ),
@@ -98,6 +121,11 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ],
     );
+  }
+
+  // [ウィジェット：ソートポップアップメニュー部分]
+  Widget _sortPopupMenuPart() {
+    return Container();
   }
 
   // [ウィジェット：リストアイテム]
