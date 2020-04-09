@@ -18,7 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _getCustomersList();
   }
 
-  // 初期化[リスト更新]
+  // リスト初期化
   _getCustomersList() async {
     _customersList = await database.allCustomers;
     setState(() {});
@@ -53,7 +53,7 @@ class _HomeScreenState extends State<HomeScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         tooltip: '新規登録',
-        onPressed: () => _startEditScreen(EditState.ADD),
+        onPressed: () => _addCustomer(),
       ),
       body: Column(
         children: <Widget>[
@@ -71,10 +71,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       '${_customersList[index].name}',
                       style: TextStyle(fontSize: 20),
                     ),
-                    onTap: () => _startEditScreen(
-                      EditState.EDIT,
-                      customer: _customersList[index],
-                    ),
+                    onTap: () => _editCustomer(_customersList[index]),
                     onLongPress: () => _onListItemLongPress(
                       _customersList[index],
                     ),
@@ -91,42 +88,62 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // EditScreenへ遷移する処理(登録or編集で分岐)
-  _startEditScreen(EditState state, {Customer customer}) {
-    var editScreen;
-    if (state == EditState.ADD) {
-      editScreen = EditScreen(state: EditState.ADD);
-    } else {
-      editScreen = EditScreen(state: EditState.EDIT, customer: customer);
-    }
+  // [FABタップコールバック]
+  // →新しい顧客情報を登録する
+  _addCustomer() {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => editScreen,
+        builder: (context) => EditScreen(
+          state: EditState.ADD,
+        ),
       ),
     );
   }
 
-  // 長押しでデータを削除する処理
+  // [リストタップコールバック]
+  // →選択した顧客情報を編集する
+  _editCustomer(Customer customer) {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => EditScreen(
+          state: EditState.EDIT,
+          customer: customer,
+        ),
+      ),
+    );
+  }
+
+  // [リスト長押しコールバック]
+  // →長押ししたアイテムを削除する
   _onListItemLongPress(Customer customer) async {
+    // DBから指定のCustomerを削除
     await database.deleteCustomer(customer);
+    // すべてのCustomerを抽出して更新
     _getCustomersList();
+    // トースト表示
     Toast.show('削除しました。', context);
   }
 
-  // ポップアップメニュー選択時の処理
-  _onPopupMenuSelected(entry) async {
+  // [ポップアップメニュー選択時の処理]
+  // →各項目ごとに絞り込み
+  _onPopupMenuSelected(String entry) async {
     switch (entry) {
       case '女性':
+        // 女性のみデータを抽出
         _customersList = await database.femaleCustomers;
         break;
       case '男性':
+        // 男性のみデータを抽出
         _customersList = await database.maleCustomers;
         break;
       default:
+        // すべてのCustomerを抽出して更新
         _getCustomersList();
         break;
     }
+    // リスト更新
     setState(() {});
   }
 }
