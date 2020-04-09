@@ -14,22 +14,22 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   List<Customer> _customersList = List();
+  TextEditingController _searchNameFieldController = TextEditingController();
   NarrowState _narrowState = NarrowState.ALL;
   SortState _sortState = SortState.REGISTER_OLD;
-  TextEditingController _searchNameFieldController = TextEditingController();
   List<String> _narrowDropdownMenuItems = List();
-  String _narrowDropdownSelectedValue = '';
   List<String> _sortDropdownMenuItems = List();
+  String _narrowDropdownSelectedValue = '';
   String _sortDropdownSelectedValue = '';
 
   @override
   void initState() {
     super.initState();
-    _reloadCustomersList();
     _narrowDropdownMenuItems = ['すべて', '女性のみ', '男性のみ'];
-    _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
     _sortDropdownMenuItems = ['登録順(古)', '登録順(新)', '名前順', '名前逆順'];
+    _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
     _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+    _reloadCustomersList();
   }
 
   // [リスト更新処理：指定の条件でリストを更新する]
@@ -37,12 +37,15 @@ class _HomeScreenState extends State<HomeScreen> {
     // 絞り込み条件
     switch (_narrowState) {
       case NarrowState.ALL:
+        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
         _customersList = await database.allCustomers;
         break;
       case NarrowState.FEMALE:
+        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
         _customersList = await database.femaleCustomers;
         break;
       case NarrowState.MALE:
+        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[2];
         _customersList = await database.maleCustomers;
         break;
     }
@@ -56,15 +59,19 @@ class _HomeScreenState extends State<HomeScreen> {
     // 並べ替え条件
     switch (_sortState) {
       case SortState.REGISTER_NEW:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
         _customersList.sort((a, b) => b.id - a.id);
         break;
       case SortState.REGISTER_OLD:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
         _customersList.sort((a, b) => a.id - b.id);
         break;
       case SortState.NAME_FORWARD:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[2];
         _customersList.sort((a, b) => a.nameReading.compareTo(b.nameReading));
         break;
       case SortState.NAME_REVERSE:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[3];
         _customersList.sort((a, b) => b.nameReading.compareTo(a.nameReading));
         break;
     }
@@ -121,7 +128,21 @@ class _HomeScreenState extends State<HomeScreen> {
         children: <Widget>[
           Row(
             children: <Widget>[
-              Text('検索結果：${_customersList.length}件'),
+              Text.rich(
+                TextSpan(
+                  children: <TextSpan>[
+                    TextSpan(text: '検索結果：'),
+                    TextSpan(
+                      text: '${_customersList.length}',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.red,
+                      ),
+                    ),
+                    TextSpan(text: '件'),
+                  ],
+                ),
+              ),
               Expanded(child: _narrowMenuPart()),
               Expanded(child: _sortMenuPart()),
             ],
@@ -160,7 +181,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return DropdownMenuItem<String>(
                 value: value,
                 child: SizedBox(
-                  width: 85,
+                  width: 80,
                   child: Text(
                     value,
                     textAlign: TextAlign.center,
@@ -190,7 +211,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return DropdownMenuItem<String>(
                 value: value,
                 child: SizedBox(
-                  width: 90,
+                  width: 80,
                   child: Text(
                     value,
                     textAlign: TextAlign.center,
@@ -261,7 +282,6 @@ class _HomeScreenState extends State<HomeScreen> {
   // [コールバック：絞り込みメニューアイテム選択時]
   // →各項目ごとに絞り込み
   _narrowMenuSelected(String value) async {
-    _narrowDropdownSelectedValue = value;
     switch (value) {
       case '女性のみ':
         // 女性のみデータを抽出
@@ -281,7 +301,6 @@ class _HomeScreenState extends State<HomeScreen> {
   // [コールバック：ソートメニューアイテム選択時]
   // →各項目ごとにソート
   _sortMenuSelected(String value) async {
-    _sortDropdownSelectedValue = value;
     switch (value) {
       case '登録順(新)':
         // 新規登録が新しい順に並び替え
