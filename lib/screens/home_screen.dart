@@ -14,6 +14,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Customer> _customersList = List();
   NarrowState _narrowState = NarrowState.ALL;
+  TextEditingController _searchNameFieldController = TextEditingController();
 
   @override
   void initState() {
@@ -34,6 +35,12 @@ class _HomeScreenState extends State<HomeScreen> {
       case NarrowState.MALE:
         _customersList = await database.maleCustomers;
         break;
+    }
+    if (_searchNameFieldController.text.isNotEmpty) {
+      _customersList.removeWhere((customer) {
+        return !(customer.name.contains(_searchNameFieldController.text) ||
+            customer.nameReading.contains(_searchNameFieldController.text));
+      });
     }
     setState(() {});
   }
@@ -86,15 +93,22 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: <Widget>[
               Text('検索結果：${_customersList.length}件'),
-              _narrowPopupMenuPart(),
-              _sortPopupMenuPart(),
+              Expanded(child: _narrowPopupMenuPart()),
+              Expanded(child: _sortPopupMenuPart()),
             ],
           ),
-          Row(
-            children: <Widget>[
-              Icon(Icons.search),
-              Expanded(child: TextField()),
-            ],
+          TextField(
+            keyboardType: TextInputType.text,
+            controller: _searchNameFieldController,
+            decoration: InputDecoration(
+              hintText: '名前で検索',
+              prefixIcon: Icon(Icons.search),
+              suffixIcon: IconButton(
+                icon: Icon(Icons.clear),
+                onPressed: () => _searchNameFieldController.clear(),
+              ),
+            ),
+            onEditingComplete: () => _reloadCustomersList(),
           ),
         ],
       ),
