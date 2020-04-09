@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
 enum NarrowState { ALL, FEMALE, MALE }
-enum SortState { REGISTER_NEW, REGISTER_OLD, NAME }
+enum SortState { REGISTER_NEW, REGISTER_OLD, NAME_FORWARD, NAME_REVERSE }
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -28,7 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _reloadCustomersList();
     _narrowDropdownMenuItems = ['すべて', '女性のみ', '男性のみ'];
     _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-    _sortDropdownMenuItems = ['登録が古い順', '登録が新しい順', '名前順'];
+    _sortDropdownMenuItems = ['登録順(古)', '登録順(新)', '名前順', '名前逆順'];
     _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
   }
 
@@ -55,14 +55,17 @@ class _HomeScreenState extends State<HomeScreen> {
     }
     // 並べ替え条件
     switch (_sortState) {
-      case SortState.REGISTER_OLD:
-        _customersList.sort((a, b) => a.id - b.id);
-        break;
       case SortState.REGISTER_NEW:
         _customersList.sort((a, b) => b.id - a.id);
         break;
-      case SortState.NAME:
-        _customersList.sort((a, b) => b.nameReading.compareTo(b.nameReading));
+      case SortState.REGISTER_OLD:
+        _customersList.sort((a, b) => a.id - b.id);
+        break;
+      case SortState.NAME_FORWARD:
+        _customersList.sort((a, b) => a.nameReading.compareTo(b.nameReading));
+        break;
+      case SortState.NAME_REVERSE:
+        _customersList.sort((a, b) => b.nameReading.compareTo(a.nameReading));
         break;
     }
     setState(() {});
@@ -187,7 +190,7 @@ class _HomeScreenState extends State<HomeScreen> {
               return DropdownMenuItem<String>(
                 value: value,
                 child: SizedBox(
-                  width: 85,
+                  width: 90,
                   child: Text(
                     value,
                     textAlign: TextAlign.center,
@@ -280,17 +283,21 @@ class _HomeScreenState extends State<HomeScreen> {
   _sortMenuSelected(String value) async {
     _sortDropdownSelectedValue = value;
     switch (value) {
-      case '登録が新しい順':
+      case '登録順(新)':
         // 新規登録が新しい順に並び替え
         _setSortState(SortState.REGISTER_NEW);
         break;
+      case '登録順(古)':
+        // 新規登録が新しい順に並び替え
+        _setSortState(SortState.REGISTER_OLD);
+        break;
       case '名前順':
         // 名前順に並び替え
-        _setSortState(SortState.NAME);
+        _setSortState(SortState.NAME_FORWARD);
         break;
-      default:
-        // 新規登録が古い順に並び替え
-        _setSortState(SortState.REGISTER_OLD);
+      case '名前逆順':
+        // 名前逆順に並び替え
+        _setSortState(SortState.NAME_REVERSE);
         break;
     }
   }
