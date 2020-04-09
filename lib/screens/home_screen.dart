@@ -46,13 +46,25 @@ class _HomeScreenState extends State<HomeScreen> {
         _customersList = await database.maleCustomers;
         break;
     }
+    // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {
       _customersList.removeWhere((customer) {
         return !(customer.name.contains(_searchNameFieldController.text) ||
             customer.nameReading.contains(_searchNameFieldController.text));
       });
     }
-    // TODO 並び替え
+    // 並べ替え条件
+    switch (_sortState) {
+      case SortState.REGISTER_OLD:
+        _customersList.sort((a, b) => a.id - b.id);
+        break;
+      case SortState.REGISTER_NEW:
+        _customersList.sort((a, b) => b.id - a.id);
+        break;
+      case SortState.NAME:
+        _customersList.sort((a, b) => b.nameReading.compareTo(b.nameReading));
+        break;
+    }
     setState(() {});
   }
 
@@ -62,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
     _reloadCustomersList();
   }
 
-
+  // [ソート状態変更：現在のソートステータスを変更して更新する]
   _setSortState(SortState sortState) {
     _sortState = sortState;
     _reloadCustomersList();
@@ -129,7 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // [ウィジェット：絞り込みドロップダウンメニュー部分]
+  // [ウィジェット：絞り込みメニュー部分]
   Widget _narrowMenuPart() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -159,7 +171,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // [ウィジェット：ソートポップアップメニュー部分]
+  // [ウィジェット：ソートメニュー部分]
   Widget _sortMenuPart() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -189,7 +201,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // [ウィジェット：リストアイテム]
+  // [ウィジェット：各リストアイテム]
   Widget _customersListItemPart(int index) {
     return ListTile(
       leading: SizedBox(
