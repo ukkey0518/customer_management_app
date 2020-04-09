@@ -17,6 +17,8 @@ class _HomeScreenState extends State<HomeScreen> {
   TextEditingController _searchNameFieldController = TextEditingController();
   List<String> _narrowDropdownMenuItems = List();
   String _narrowDropdownSelectedValue = '';
+  List<String> _sortDropdownMenuItems = List();
+  String _sortDropdownSelectedValue = '';
 
   @override
   void initState() {
@@ -24,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
     _reloadCustomersList();
     _narrowDropdownMenuItems = ['すべて', '女性のみ', '男性のみ'];
     _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
+    _sortDropdownMenuItems = ['登録が古い順', '登録が新しい順', '名前順'];
+    _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
   }
 
   // [リスト更新処理：指定の条件でリストを更新する]
@@ -95,7 +99,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: <Widget>[
               Text('検索結果：${_customersList.length}件'),
               Expanded(child: _narrowMenuPart()),
-              Expanded(child: _sortPopupMenuPart()),
+              Expanded(child: _sortMenuPart()),
             ],
           ),
           TextField(
@@ -147,8 +151,33 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // [ウィジェット：ソートポップアップメニュー部分]
-  Widget _sortPopupMenuPart() {
-    return Container();
+  Widget _sortMenuPart() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: DropdownButton(
+          value: _sortDropdownSelectedValue,
+          icon: Icon(Icons.arrow_drop_down),
+          onChanged: (newValue) => _sortMenuSelected(newValue), // TODO
+          style: TextStyle(fontSize: 14, color: Colors.black),
+          items: _sortDropdownMenuItems.map<DropdownMenuItem<String>>(
+            (value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: SizedBox(
+                  width: 85,
+                  child: Text(
+                    value,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
+            },
+          ).toList(),
+        ),
+      ),
+    );
   }
 
   // [ウィジェット：リストアイテム]
