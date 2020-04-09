@@ -15,11 +15,15 @@ class _HomeScreenState extends State<HomeScreen> {
   List<Customer> _customersList = List();
   NarrowState _narrowState = NarrowState.ALL;
   TextEditingController _searchNameFieldController = TextEditingController();
+  List<String> _narrowDropdownMenuItems = List();
+  String _narrowDropdownSelectedValue = '';
 
   @override
   void initState() {
     super.initState();
     _reloadCustomersList();
+    _narrowDropdownMenuItems = ['すべて', '女性のみ', '男性のみ'];
+    _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
   }
 
   // [リスト更新処理：指定の条件でリストを更新する]
@@ -56,9 +60,6 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('顧客管理アプリ'),
-        actions: <Widget>[
-          _narrowPopupMenuPart(),
-        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -84,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // [ウィジェット：上部メニュー]
+  // [ウィジェット：上部メニュー部分]
   Widget _menuBarPart() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
@@ -93,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Row(
             children: <Widget>[
               Text('検索結果：${_customersList.length}件'),
-              Expanded(child: _narrowPopupMenuPart()),
+              Expanded(child: _narrowMenuPart()),
               Expanded(child: _sortPopupMenuPart()),
             ],
           ),
@@ -115,25 +116,33 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  // [ウィジェット：絞り込みポップアップメニュー部分]
-  Widget _narrowPopupMenuPart() {
-    return PopupMenuButton(
-      icon: Icon(Icons.sort),
-      onSelected: (entry) => _narrowMenuSelected(entry),
-      itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-        const PopupMenuItem<String>(
-          value: "女性",
-          child: Text('女性のみ'),
+  // [ウィジェット：絞り込みドロップダウンメニュー部分]
+  Widget _narrowMenuPart() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: SizedBox(
+        width: double.infinity,
+        child: DropdownButton(
+          value: _narrowDropdownSelectedValue,
+          icon: Icon(Icons.arrow_drop_down),
+          onChanged: (newValue) => _narrowMenuSelected(newValue),
+          style: TextStyle(fontSize: 14, color: Colors.black),
+          items: _narrowDropdownMenuItems.map<DropdownMenuItem<String>>(
+            (value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: SizedBox(
+                  width: 85,
+                  child: Text(
+                    value,
+                    textAlign: TextAlign.center,
+                  ),
+                ),
+              );
+            },
+          ).toList(),
         ),
-        const PopupMenuItem<String>(
-          value: "男性",
-          child: Text('男性のみ'),
-        ),
-        const PopupMenuItem<String>(
-          value: "全員",
-          child: Text('すべて'),
-        ),
-      ],
+      ),
     );
   }
 
@@ -198,13 +207,14 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // [コールバック：絞り込みポップアップメニュー選択時]
   // →各項目ごとに絞り込み
-  _narrowMenuSelected(String entry) async {
-    switch (entry) {
-      case '女性':
+  _narrowMenuSelected(String value) async {
+    _narrowDropdownSelectedValue = value;
+    switch (value) {
+      case '女性のみ':
         // 女性のみデータを抽出
         _setNarrowState(NarrowState.FEMALE);
         break;
-      case '男性':
+      case '男性のみ':
         // 男性のみデータを抽出
         _setNarrowState(NarrowState.MALE);
         break;
