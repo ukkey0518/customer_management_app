@@ -15,6 +15,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<Customer> _customersList = List();
   NarrowState _narrowState = NarrowState.ALL;
+  SortState _sortState = SortState.REGISTER_OLD;
   TextEditingController _searchNameFieldController = TextEditingController();
   List<String> _narrowDropdownMenuItems = List();
   String _narrowDropdownSelectedValue = '';
@@ -51,12 +52,19 @@ class _HomeScreenState extends State<HomeScreen> {
             customer.nameReading.contains(_searchNameFieldController.text));
       });
     }
+    // TODO 並び替え
     setState(() {});
   }
 
   // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
   _setNarrowState(NarrowState narrowState) {
     _narrowState = narrowState;
+    _reloadCustomersList();
+  }
+
+
+  _setSortState(SortState sortState) {
+    _sortState = sortState;
     _reloadCustomersList();
   }
 
@@ -260,17 +268,17 @@ class _HomeScreenState extends State<HomeScreen> {
   _sortMenuSelected(String value) async {
     _sortDropdownSelectedValue = value;
     switch (value) {
-      case '登録が古い順':
-        // 新規登録が古い順に並び替え
-        _setSortState(SortState.REGISTER_OLD);
+      case '登録が新しい順':
+        // 新規登録が新しい順に並び替え
+        _setSortState(SortState.REGISTER_NEW);
         break;
       case '名前順':
         // 名前順に並び替え
         _setSortState(SortState.NAME);
         break;
       default:
-        // 新規登録が新しい順に並び替え
-        _setSortState(SortState.REGISTER_NEW);
+        // 新規登録が古い順に並び替え
+        _setSortState(SortState.REGISTER_OLD);
         break;
     }
   }
