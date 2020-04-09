@@ -15,10 +15,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'CustomerManagementApp',
-      theme: ThemeData(
-        fontFamily: 'lanobe',
-        brightness: Brightness.dark,
-      ),
       home: HomeScreen(),
     );
   }
