@@ -52,7 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        backgroundColor: Colors.orangeAccent,
         tooltip: '新規登録',
         onPressed: () => _startEditScreen(EditState.ADD),
       ),
