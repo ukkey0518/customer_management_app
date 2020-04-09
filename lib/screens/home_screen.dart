@@ -21,6 +21,23 @@ class _HomeScreenState extends State<HomeScreen> {
     _reloadCustomersList();
   }
 
+  // [リスト更新処理：指定の条件でリストを更新する]
+  _reloadCustomersList() async {
+    // 絞り込み条件
+    switch (_narrowState) {
+      case NarrowState.ALL:
+        _customersList = await database.allCustomers;
+        break;
+      case NarrowState.FEMALE:
+        _customersList = await database.femaleCustomers;
+        break;
+      case NarrowState.MALE:
+        _customersList = await database.maleCustomers;
+        break;
+    }
+    setState(() {});
+  }
+
   // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
   _setNarrowState(NarrowState narrowState) {
     _narrowState = narrowState;
@@ -144,22 +161,5 @@ class _HomeScreenState extends State<HomeScreen> {
         _setNarrowState(NarrowState.ALL);
         break;
     }
-  }
-
-  // [リスト更新処理：指定の条件でリストを更新する]
-  _reloadCustomersList() async {
-    // 絞り込み条件
-    switch (_narrowState) {
-      case NarrowState.ALL:
-        _customersList = await database.allCustomers;
-        break;
-      case NarrowState.FEMALE:
-        _customersList = await database.femaleCustomers;
-        break;
-      case NarrowState.MALE:
-        _customersList = await database.maleCustomers;
-        break;
-    }
-    setState(() {});
   }
 }
