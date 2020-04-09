@@ -200,6 +200,7 @@ class _EditScreenState extends State<EditScreen> {
     if (widget.state == EditState.ADD) {
       // 新しいCustomerオブジェクト生成
       var customer = Customer(
+        id: null,
         name: _nameController.text,
         nameReading: _nameReadingController.text,
         gender: _isGenderFemale ? '女性' : '男性',
