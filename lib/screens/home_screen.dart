@@ -258,6 +258,11 @@ class _HomeScreenState extends State<HomeScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => EditScreen(
+          HomeScreenPreferences(
+            narrowState: _narrowState,
+            sortState: _sortState,
+            searchWord: _searchNameFieldController.text,
+          ),
           state: EditState.ADD,
         ),
       ),
@@ -271,6 +276,11 @@ class _HomeScreenState extends State<HomeScreen> {
       context,
       MaterialPageRoute(
         builder: (context) => EditScreen(
+          HomeScreenPreferences(
+            narrowState: _narrowState,
+            sortState: _sortState,
+            searchWord: _searchNameFieldController.text,
+          ),
           state: EditState.EDIT,
           customer: customer,
         ),
@@ -332,7 +342,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-// 検索条件を保持するオブジェクト
+// HomeScreenの環境設定を保持するクラス
 class HomeScreenPreferences {
   NarrowState narrowState;
   SortState sortState;

@@ -7,9 +7,10 @@ import 'package:toast/toast.dart';
 enum EditState { ADD, EDIT }
 
 class EditScreen extends StatefulWidget {
+  final HomeScreenPreferences pref;
   final EditState state;
   final Customer customer;
-  EditScreen({@required this.state, this.customer});
+  EditScreen(this.pref, {@required this.state, this.customer});
 
   @override
   _EditScreenState createState() => _EditScreenState();
@@ -78,7 +79,7 @@ class _EditScreenState extends State<EditScreen> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => HomeScreen(),
+        builder: (context) => HomeScreen(pref: widget.pref),
       ),
     );
     return Future.value(false);
