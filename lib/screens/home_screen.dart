@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/parts/customer_list_card.dart';
 import 'package:customermanagementapp/screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -237,17 +238,11 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // [ウィジェット：各リストアイテム]
   Widget _customersListItemPart(int index) {
-    return ListTile(
-      leading: SizedBox(
-        height: double.infinity,
-        child: Icon(Icons.account_circle),
-      ),
-      title: Text(
-        '${_customersList[index].name}',
-        style: TextStyle(fontSize: 20),
-      ),
-      onTap: () => _editCustomer(_customersList[index]),
-      onLongPress: () => _deleteCustomer(_customersList[index]),
+    var customer = _customersList[index];
+    return CustomerListCard(
+      customer: customer,
+      onTap: () => _editCustomer(customer),
+      onLongPress: () => _deleteCustomer(customer),
     );
   }
 
