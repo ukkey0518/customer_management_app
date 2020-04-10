@@ -46,7 +46,7 @@ class CustomerListCard extends StatelessWidget {
               ),
               Text(
                 '${customer.name} 様',
-                style: TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
               ),
             ],
           ),

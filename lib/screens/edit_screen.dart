@@ -247,9 +247,11 @@ class _EditScreenState extends State<EditScreen> {
 
       //idを基準に更新
       await database.updateCustomer(customer);
-
       Toast.show('更新されました', context);
     }
+
+    // 画面を終了
+    _finishEditScreen(context);
   }
 
   // [コールバック：画面終了時]
