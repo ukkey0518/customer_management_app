@@ -23,15 +23,19 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
-          _profilePart(),
-          SizedBox(
-            height: 30,
-          ),
-          _recordPart(),
-        ],
+      child: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            _profilePart(),
+            SizedBox(height: 30),
+            _recordPart(),
+            SizedBox(height: 30),
+            _repeatAnalysisPart(),
+            SizedBox(height: 30),
+            _recordPart(),
+          ],
+        ),
       ),
     );
   }
@@ -134,6 +138,62 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                 Row(
                   children: <Widget>[
                     Expanded(child: Text('初回来店理由')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _repeatAnalysisPart() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'リピート分析',
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.left,
+        ),
+        Card(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('１ヶ月以内リピ')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('３ヶ月以内リピ')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('それ以降リピ')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('リピートサイクル')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('次回来店予想')),
                     Expanded(child: Text('(未データ)')),
                   ],
                 ),
