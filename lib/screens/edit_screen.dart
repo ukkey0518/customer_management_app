@@ -171,10 +171,10 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-  // [ウィジェット：誕生日入力部分]
+  // [ウィジェット：生年月日入力部分]
   Widget _birthDayInputPart() {
     return _inputPartBuilder(
-      title: '誕生日',
+      title: '生年月日',
       content: InkWell(
         onTap: _showBirthDaySelectPicker,
         child: Row(

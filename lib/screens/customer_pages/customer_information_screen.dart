@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/customer_pages/basic_information_page.dart';
-import 'package:customermanagementapp/screens/customer_pages/visit_information_page.dart';
+import 'package:customermanagementapp/screens/customer_pages/visit_record_page.dart';
 import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -27,7 +27,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
       icon: Icon(Icons.account_circle),
     ),
     Tab(
-      text: '来店情報',
+      text: '来店記録',
       icon: Icon(Icons.shopping_cart),
     ),
   ];
@@ -62,8 +62,10 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
           ),
           body: TabBarView(
             children: <Widget>[
-              BasicInformationPage(),
-              VisitInformationPage(),
+              BasicInformationPage(
+                customer: _customer,
+              ),
+              VisitRecordPage(),
             ],
           ),
         ),
