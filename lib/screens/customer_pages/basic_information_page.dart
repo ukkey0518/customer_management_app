@@ -31,9 +31,9 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
             SizedBox(height: 30),
             _recordPart(),
             SizedBox(height: 30),
-            _repeatAnalysisPart(),
+            _priceAnalysisPart(),
             SizedBox(height: 30),
-            _recordPart(),
+            _repeatAnalysisPart(),
           ],
         ),
       ),
@@ -194,6 +194,41 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                 Row(
                   children: <Widget>[
                     Expanded(child: Text('次回来店予想')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _priceAnalysisPart() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          '単価分析',
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.left,
+        ),
+        Card(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('お支払い総額')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('平均単価')),
                     Expanded(child: Text('(未データ)')),
                   ],
                 ),
