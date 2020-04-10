@@ -30,6 +30,9 @@ class CustomerListCard extends StatelessWidget {
 
   // [ウィジェット：基本情報表示部分]
   Widget _basicInformationPart() {
+    var diffDays = customer.birth == null
+        ? -1
+        : DateTime.now().difference(customer.birth).inDays;
     return Row(
       children: <Widget>[
         Padding(
@@ -51,6 +54,7 @@ class CustomerListCard extends StatelessWidget {
             ],
           ),
         ),
+        Text('${diffDays < 0 ? '年齢不明' : '${(diffDays / 365).floor()}歳'}'),
       ],
     );
   }

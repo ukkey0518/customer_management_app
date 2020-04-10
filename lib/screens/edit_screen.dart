@@ -229,10 +229,8 @@ class _EditScreenState extends State<EditScreen> {
         isGenderFemale: _isGenderFemale,
         birth: _birthDay,
       );
-
       // DBに新規登録
       await database.addCustomer(customer);
-
       Toast.show('登録されました', context);
     } else {
       // 新しいCustomerオブジェクト生成(idはそのまま)
@@ -243,7 +241,6 @@ class _EditScreenState extends State<EditScreen> {
         isGenderFemale: _isGenderFemale,
         birth: _birthDay,
       );
-
       //idを基準に更新
       await database.updateCustomer(customer);
       Toast.show('更新されました', context);
