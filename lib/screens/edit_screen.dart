@@ -33,11 +33,13 @@ class _EditScreenState extends State<EditScreen> {
       _nameController.text = '';
       _nameReadingController.text = '';
       _isGenderFemale = null;
+      _birthDay = null;
       _titleStr = '顧客情報の新規登録';
     } else {
       _nameController.text = widget.customer.name;
       _nameReadingController.text = widget.customer.nameReading;
       _isGenderFemale = widget.customer.isGenderFemale;
+      _birthDay = widget.customer.birth;
       _titleStr = '顧客情報の編集';
     }
   }
@@ -176,7 +178,9 @@ class _EditScreenState extends State<EditScreen> {
           children: <Widget>[
             Expanded(
               child: Text(
-                '${_birthDayFormatter.format(_birthDay)}',
+                _birthDay == null
+                    ? '未登録'
+                    : '${_birthDayFormatter.format(_birthDay)}',
                 style: TextStyle(fontSize: 16),
               ),
             ),
@@ -195,7 +199,7 @@ class _EditScreenState extends State<EditScreen> {
       minTime: DateTime(1970, 1, 1),
       maxTime: DateTime.now(),
       onConfirm: (birthDay) => _setBirthDay(birthDay),
-      currentTime: _birthDay,
+      currentTime: _birthDay == null ? DateTime(1990, 1, 1) : _birthDay,
       locale: LocaleType.jp,
     );
     setState(() {});
@@ -223,17 +227,11 @@ class _EditScreenState extends State<EditScreen> {
         name: _nameController.text,
         nameReading: _nameReadingController.text,
         isGenderFemale: _isGenderFemale,
+        birth: _birthDay,
       );
 
       // DBに新規登録
       await database.addCustomer(customer);
-
-      // 入力欄をクリア
-      setState(() {
-        _nameController.clear();
-        _nameReadingController.clear();
-        _isGenderFemale = null;
-      });
 
       Toast.show('登録されました', context);
     } else {
@@ -243,6 +241,7 @@ class _EditScreenState extends State<EditScreen> {
         name: _nameController.text,
         nameReading: _nameReadingController.text,
         isGenderFemale: _isGenderFemale,
+        birth: _birthDay,
       );
 
       //idを基準に更新
