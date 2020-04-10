@@ -42,6 +42,20 @@ class _EditScreenState extends State<EditScreen> {
     }
   }
 
+  // [更新：性別選択後に更新する処理]
+  _setGender(value) {
+    setState(() {
+      _isGenderFemale = value;
+    });
+  }
+
+  // [更新：誕生日入力後に更新する処理]
+  _setBirthDay(DateTime birthDay) {
+    setState(() {
+      _birthDay = birthDay;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -49,11 +63,13 @@ class _EditScreenState extends State<EditScreen> {
       child: Scaffold(
         appBar: AppBar(
           title: Text(_titleStr),
+          // 戻るボタン
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
             onPressed: () => _finishEditScreen(context),
           ),
           actions: <Widget>[
+            // 保存ボタン
             IconButton(
               icon: Icon(Icons.save),
               onPressed: _saveCustomer,
@@ -71,6 +87,8 @@ class _EditScreenState extends State<EditScreen> {
               _nameReadingInputPart(),
               SizedBox(height: 16),
               _genderInputPart(),
+              SizedBox(height: 30),
+              const Text('詳細情報', style: TextStyle(fontSize: 20)),
               SizedBox(height: 16),
               _birthDayInputPart(),
             ],
@@ -80,90 +98,68 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-  // [ウィジェット：名前入力部分]
-  Widget _nameInputPart() {
+
+  // [ウィジェットビルダー：各入力欄のフォーマッタ]
+  Widget _inputPartBuilder({String title, Widget content}) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
         children: <Widget>[
           Expanded(
             flex: 3,
-            child: const Text(
-              'お名前',
-              style: TextStyle(fontSize: 20),
-            ),
+            child: Text(title, style: TextStyle(fontSize: 20)),
           ),
           Expanded(
             flex: 7,
-            child: TextField(
-              controller: _nameController,
-              keyboardType: TextInputType.text,
-            ),
+            child: content,
           ),
         ],
+      ),
+    );
+  }
+
+  // [ウィジェット：名前入力部分]
+  Widget _nameInputPart() {
+    return _inputPartBuilder(
+      title: 'お名前',
+      content: TextField(
+        controller: _nameController,
+        keyboardType: TextInputType.text,
       ),
     );
   }
 
   // [ウィジェット：よみがな入力部分]
   Widget _nameReadingInputPart() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: const Text(
-              'よみがな',
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-          Expanded(
-            flex: 7,
-            child: TextField(
-              controller: _nameReadingController,
-              keyboardType: TextInputType.text,
-            ),
-          ),
-        ],
+    return _inputPartBuilder(
+      title: 'よみがな',
+      content: TextField(
+        controller: _nameReadingController,
+        keyboardType: TextInputType.text,
       ),
     );
   }
 
   // [ウィジェット：性別入力部分]
   Widget _genderInputPart() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
+    return _inputPartBuilder(
+      title: '性別',
+      content: Row(
         children: <Widget>[
           Expanded(
-            flex: 3,
-            child: const Text(
-              '性別',
-              style: TextStyle(fontSize: 20),
+            child: RadioListTile(
+              title: const Text('女性'),
+              value: true,
+              groupValue: _isGenderFemale,
+              onChanged: (gender) => _setGender(gender),
             ),
           ),
           Expanded(
-            flex: 7,
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: RadioListTile(
-                    title: const Text('女性'),
-                    value: true,
-                    groupValue: _isGenderFemale,
-                    onChanged: (gender) => _setGender(gender),
-                  ),
-                ),
-                Expanded(
-                  child: RadioListTile(
-                    title: const Text('男性'),
-                    value: false,
-                    groupValue: _isGenderFemale,
-                    onChanged: (gender) => _setGender(gender),
-                  ),
-                ),
-              ],
+            child: RadioListTile(
+              title: const Text('男性'),
+              value: false,
+              groupValue: _isGenderFemale,
+              onChanged: (gender) => _setGender(gender),
             ),
           ),
         ],
@@ -173,32 +169,21 @@ class _EditScreenState extends State<EditScreen> {
 
   // [ウィジェット：誕生日入力部分]
   Widget _birthDayInputPart() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: const Text('誕生日', style: TextStyle(fontSize: 20)),
-          ),
-          Expanded(
-            flex: 7,
-            child: InkWell(
-              onTap: _showBirthDaySelectPicker,
-              child: Row(
-                children: <Widget>[
-                  Expanded(
-                    child: Text(
-                      '${_birthDayFormatter.format(_birthDay)}',
-                      style: TextStyle(fontSize: 16),
-                    ),
-                  ),
-                  Icon(Icons.chevron_right),
-                ],
+    return _inputPartBuilder(
+      title: '誕生日',
+      content: InkWell(
+        onTap: _showBirthDaySelectPicker,
+        child: Row(
+          children: <Widget>[
+            Expanded(
+              child: Text(
+                '${_birthDayFormatter.format(_birthDay)}',
+                style: TextStyle(fontSize: 16),
               ),
             ),
-          ),
-        ],
+            Icon(Icons.chevron_right),
+          ],
+        ),
       ),
     );
   }
@@ -277,19 +262,5 @@ class _EditScreenState extends State<EditScreen> {
       ),
     );
     return Future.value(false);
-  }
-
-  // [更新：性別選択後に更新する処理]
-  _setGender(value) {
-    setState(() {
-      _isGenderFemale = value;
-    });
-  }
-
-  // [更新：誕生日入力後に更新する処理]
-  _setBirthDay(DateTime birthDay) {
-    setState(() {
-      _birthDay = birthDay;
-    });
   }
 }
