@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_list_card.dart';
+import 'package:customermanagementapp/screens/customer_pages/customer_information_screen.dart';
 import 'package:customermanagementapp/screens/edit_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -240,7 +241,7 @@ class _HomeScreenState extends State<HomeScreen> {
     var customer = _customersList[index];
     return CustomerListCard(
       customer: customer,
-      onTap: () => _editCustomer(customer),
+      onTap: () => _showCustomer(customer),
       onLongPress: () => _deleteCustomer(customer),
     );
   }
@@ -264,18 +265,17 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   // [コールバック：リストアイテムタップ]
-  // →選択した顧客情報を編集する
-  _editCustomer(Customer customer) {
+  // →選択した顧客情報の詳細ページへ遷移する
+  _showCustomer(Customer customer) {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => EditScreen(
+        builder: (context) => CustomerInformationScreen(
           HomeScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
             searchWord: _searchNameFieldController.text,
           ),
-          state: EditState.EDIT,
           customer: customer,
         ),
       ),

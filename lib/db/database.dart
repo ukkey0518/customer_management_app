@@ -55,7 +55,7 @@ class MyDatabase extends _$MyDatabase {
       .get();
 
   // Read[指定の名前に一致するデータを抽出する]
-  Future<Customer> getCustomers(String name) => (select(customers)
+  Future<Customer> getCustomersByName(String name) => (select(customers)
         ..where(
           (t) => t.name.equals(name),
         ))

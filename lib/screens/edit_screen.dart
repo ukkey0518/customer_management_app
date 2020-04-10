@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/screens/customer_pages/customer_information_screen.dart';
 import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -25,6 +26,7 @@ class _EditScreenState extends State<EditScreen> {
   String _titleStr = '';
   DateTime _birthDay = DateTime(1980, 1, 1);
   DateFormat _birthDayFormatter = DateFormat('yyyy年 M月 d日');
+  Customer _editedCustomer;
 
   @override
   void initState() {
@@ -41,6 +43,7 @@ class _EditScreenState extends State<EditScreen> {
       _isGenderFemale = widget.customer.isGenderFemale;
       _birthDay = widget.customer.birth;
       _titleStr = '顧客情報の編集';
+      _editedCustomer = widget.customer;
     }
   }
 
@@ -215,7 +218,7 @@ class _EditScreenState extends State<EditScreen> {
     }
 
     if (widget.state != EditState.EDIT &&
-        await database.getCustomers(_nameController.text) != null) {
+        await database.getCustomersByName(_nameController.text) != null) {
       Toast.show('同名の顧客データが存在しています。', context);
       return;
     }
@@ -234,7 +237,7 @@ class _EditScreenState extends State<EditScreen> {
       Toast.show('登録されました', context);
     } else {
       // 新しいCustomerオブジェクト生成(idはそのまま)
-      var customer = Customer(
+      _editedCustomer = Customer(
         id: widget.customer.id,
         name: _nameController.text,
         nameReading: _nameReadingController.text,
@@ -242,7 +245,7 @@ class _EditScreenState extends State<EditScreen> {
         birth: _birthDay,
       );
       //idを基準に更新
-      await database.updateCustomer(customer);
+      await database.updateCustomer(_editedCustomer);
       Toast.show('更新されました', context);
     }
 
@@ -252,10 +255,19 @@ class _EditScreenState extends State<EditScreen> {
 
   // [コールバック：画面終了時]
   Future<bool> _finishEditScreen(BuildContext context) {
+    var widgetBuilder;
+    if (widget.state == EditState.ADD) {
+      widgetBuilder = (context) => HomeScreen(pref: widget.pref);
+    } else {
+      widgetBuilder = (context) => CustomerInformationScreen(
+            widget.pref,
+            customer: _editedCustomer,
+          );
+    }
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => HomeScreen(pref: widget.pref),
+        builder: widgetBuilder,
       ),
     );
     return Future.value(false);
