@@ -56,7 +56,7 @@ class _EditScreenState extends State<EditScreen> {
           actions: <Widget>[
             IconButton(
               icon: Icon(Icons.save),
-              onPressed: _onSaveButtonClick,
+              onPressed: _saveCustomer,
             ),
           ],
         ),
@@ -70,7 +70,7 @@ class _EditScreenState extends State<EditScreen> {
               SizedBox(height: 16),
               _nameReadingInputPart(),
               SizedBox(height: 16),
-              _genderSelectPart(),
+              _genderInputPart(),
               SizedBox(height: 16),
               _birthDayInputPart(),
             ],
@@ -80,17 +80,7 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-  Future<bool> _finishEditScreen(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => HomeScreen(pref: widget.pref),
-      ),
-    );
-    return Future.value(false);
-  }
-
-  // お名前入力欄
+  // [ウィジェット：名前入力部分]
   Widget _nameInputPart() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -115,7 +105,7 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-  // よみがな入力欄
+  // [ウィジェット：よみがな入力部分]
   Widget _nameReadingInputPart() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -140,8 +130,8 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-  // 性別選択ラジオボタン欄
-  Widget _genderSelectPart() {
+  // [ウィジェット：性別入力部分]
+  Widget _genderInputPart() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Row(
@@ -162,7 +152,7 @@ class _EditScreenState extends State<EditScreen> {
                     title: const Text('女性'),
                     value: true,
                     groupValue: _isGenderFemale,
-                    onChanged: (value) => _genderSelected(value),
+                    onChanged: (gender) => _setGender(gender),
                   ),
                 ),
                 Expanded(
@@ -170,7 +160,7 @@ class _EditScreenState extends State<EditScreen> {
                     title: const Text('男性'),
                     value: false,
                     groupValue: _isGenderFemale,
-                    onChanged: (value) => _genderSelected(value),
+                    onChanged: (gender) => _setGender(gender),
                   ),
                 ),
               ],
@@ -181,13 +171,7 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-  // 性別を選択したときの処理
-  _genderSelected(value) {
-    setState(() {
-      _isGenderFemale = value;
-    });
-  }
-
+  // [ウィジェット：誕生日入力部分]
   Widget _birthDayInputPart() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -195,10 +179,7 @@ class _EditScreenState extends State<EditScreen> {
         children: <Widget>[
           Expanded(
             flex: 3,
-            child: const Text(
-              '誕生日',
-              style: TextStyle(fontSize: 20),
-            ),
+            child: const Text('誕生日', style: TextStyle(fontSize: 20)),
           ),
           Expanded(
             flex: 7,
@@ -222,8 +203,22 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-  // 保存ボタン押下時の処理
-  _onSaveButtonClick() async {
+  // [コールバック：誕生日欄タップ時]
+  _showBirthDaySelectPicker() {
+    DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      minTime: DateTime(1970, 1, 1),
+      maxTime: DateTime.now(),
+      onConfirm: (birthDay) => _setBirthDay(birthDay),
+      currentTime: _birthDay,
+      locale: LocaleType.jp,
+    );
+    setState(() {});
+  }
+
+  // [コールバック：保存ボタンタップ時]
+  _saveCustomer() async {
     if (_nameController.text.isEmpty ||
         _nameReadingController.text.isEmpty ||
         _isGenderFemale == null) {
@@ -273,19 +268,25 @@ class _EditScreenState extends State<EditScreen> {
     }
   }
 
-  _showBirthDaySelectPicker() {
-    DatePicker.showDatePicker(
+  // [コールバック：画面終了時]
+  Future<bool> _finishEditScreen(BuildContext context) {
+    Navigator.pushReplacement(
       context,
-      showTitleActions: true,
-      minTime: DateTime(1970, 1, 1),
-      maxTime: DateTime.now(),
-      onConfirm: (birthDay) => _setBirthDay(birthDay),
-      currentTime: _birthDay,
-      locale: LocaleType.jp,
+      MaterialPageRoute(
+        builder: (context) => HomeScreen(pref: widget.pref),
+      ),
     );
-    setState(() {});
+    return Future.value(false);
   }
 
+  // [更新：性別選択後に更新する処理]
+  _setGender(value) {
+    setState(() {
+      _isGenderFemale = value;
+    });
+  }
+
+  // [更新：誕生日入力後に更新する処理]
   _setBirthDay(DateTime birthDay) {
     setState(() {
       _birthDay = birthDay;
