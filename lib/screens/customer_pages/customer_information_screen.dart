@@ -3,6 +3,7 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/customer_pages/basic_information_page.dart';
 import 'package:customermanagementapp/screens/customer_pages/visit_record_page.dart';
 import 'package:customermanagementapp/screens/home_screen.dart';
+import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 
 import '../edit_screen.dart';
@@ -78,7 +79,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   _editCustomer(Customer customer) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
+      MyCustomRoute(
         builder: (context) => EditScreen(
           _pref,
           state: EditState.EDIT,
@@ -92,7 +93,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   Future<bool> _finishInfoScreen(BuildContext context) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
+      MyCustomRoute(
         builder: (context) => HomeScreen(pref: widget.pref),
       ),
     );

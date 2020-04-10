@@ -3,6 +3,7 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_list_card.dart';
 import 'package:customermanagementapp/screens/customer_pages/customer_information_screen.dart';
 import 'package:customermanagementapp/screens/edit_screen.dart';
+import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -251,7 +252,7 @@ class _HomeScreenState extends State<HomeScreen> {
   _addCustomer() {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
+      MyCustomRoute(
         builder: (context) => EditScreen(
           HomeScreenPreferences(
             narrowState: _narrowState,
@@ -269,7 +270,7 @@ class _HomeScreenState extends State<HomeScreen> {
   _showCustomer(Customer customer) {
     Navigator.pushReplacement(
       context,
-      MaterialPageRoute(
+      MyCustomRoute(
         builder: (context) => CustomerInformationScreen(
           HomeScreenPreferences(
             narrowState: _narrowState,
