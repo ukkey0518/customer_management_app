@@ -11,27 +11,28 @@ class Customer extends DataClass implements Insertable<Customer> {
   final int id;
   final String name;
   final String nameReading;
-  final String gender;
+  final bool isGenderFemale;
   final DateTime birth;
   Customer(
       {@required this.id,
       @required this.name,
       @required this.nameReading,
-      @required this.gender,
+      @required this.isGenderFemale,
       this.birth});
   factory Customer.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
+    final boolType = db.typeSystem.forDartType<bool>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Customer(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
       nameReading: stringType
           .mapFromDatabaseResponse(data['${effectivePrefix}name_reading']),
-      gender:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}gender']),
+      isGenderFemale: boolType
+          .mapFromDatabaseResponse(data['${effectivePrefix}is_gender_female']),
       birth:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}birth']),
     );
@@ -43,7 +44,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       nameReading: serializer.fromJson<String>(json['nameReading']),
-      gender: serializer.fromJson<String>(json['gender']),
+      isGenderFemale: serializer.fromJson<bool>(json['isGenderFemale']),
       birth: serializer.fromJson<DateTime>(json['birth']),
     );
   }
@@ -54,7 +55,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'nameReading': serializer.toJson<String>(nameReading),
-      'gender': serializer.toJson<String>(gender),
+      'isGenderFemale': serializer.toJson<bool>(isGenderFemale),
       'birth': serializer.toJson<DateTime>(birth),
     };
   }
@@ -67,8 +68,9 @@ class Customer extends DataClass implements Insertable<Customer> {
       nameReading: nameReading == null && nullToAbsent
           ? const Value.absent()
           : Value(nameReading),
-      gender:
-          gender == null && nullToAbsent ? const Value.absent() : Value(gender),
+      isGenderFemale: isGenderFemale == null && nullToAbsent
+          ? const Value.absent()
+          : Value(isGenderFemale),
       birth:
           birth == null && nullToAbsent ? const Value.absent() : Value(birth),
     );
@@ -78,13 +80,13 @@ class Customer extends DataClass implements Insertable<Customer> {
           {int id,
           String name,
           String nameReading,
-          String gender,
+          bool isGenderFemale,
           DateTime birth}) =>
       Customer(
         id: id ?? this.id,
         name: name ?? this.name,
         nameReading: nameReading ?? this.nameReading,
-        gender: gender ?? this.gender,
+        isGenderFemale: isGenderFemale ?? this.isGenderFemale,
         birth: birth ?? this.birth,
       );
   @override
@@ -93,7 +95,7 @@ class Customer extends DataClass implements Insertable<Customer> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('nameReading: $nameReading, ')
-          ..write('gender: $gender, ')
+          ..write('isGenderFemale: $isGenderFemale, ')
           ..write('birth: $birth')
           ..write(')'))
         .toString();
@@ -104,8 +106,8 @@ class Customer extends DataClass implements Insertable<Customer> {
       id.hashCode,
       $mrjc(
           name.hashCode,
-          $mrjc(
-              nameReading.hashCode, $mrjc(gender.hashCode, birth.hashCode)))));
+          $mrjc(nameReading.hashCode,
+              $mrjc(isGenderFemale.hashCode, birth.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -113,7 +115,7 @@ class Customer extends DataClass implements Insertable<Customer> {
           other.id == this.id &&
           other.name == this.name &&
           other.nameReading == this.nameReading &&
-          other.gender == this.gender &&
+          other.isGenderFemale == this.isGenderFemale &&
           other.birth == this.birth);
 }
 
@@ -121,35 +123,35 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
   final Value<int> id;
   final Value<String> name;
   final Value<String> nameReading;
-  final Value<String> gender;
+  final Value<bool> isGenderFemale;
   final Value<DateTime> birth;
   const CustomersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.nameReading = const Value.absent(),
-    this.gender = const Value.absent(),
+    this.isGenderFemale = const Value.absent(),
     this.birth = const Value.absent(),
   });
   CustomersCompanion.insert({
     this.id = const Value.absent(),
     @required String name,
     @required String nameReading,
-    @required String gender,
+    @required bool isGenderFemale,
     this.birth = const Value.absent(),
   })  : name = Value(name),
         nameReading = Value(nameReading),
-        gender = Value(gender);
+        isGenderFemale = Value(isGenderFemale);
   CustomersCompanion copyWith(
       {Value<int> id,
       Value<String> name,
       Value<String> nameReading,
-      Value<String> gender,
+      Value<bool> isGenderFemale,
       Value<DateTime> birth}) {
     return CustomersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       nameReading: nameReading ?? this.nameReading,
-      gender: gender ?? this.gender,
+      isGenderFemale: isGenderFemale ?? this.isGenderFemale,
       birth: birth ?? this.birth,
     );
   }
@@ -195,13 +197,15 @@ class $CustomersTable extends Customers
     );
   }
 
-  final VerificationMeta _genderMeta = const VerificationMeta('gender');
-  GeneratedTextColumn _gender;
+  final VerificationMeta _isGenderFemaleMeta =
+      const VerificationMeta('isGenderFemale');
+  GeneratedBoolColumn _isGenderFemale;
   @override
-  GeneratedTextColumn get gender => _gender ??= _constructGender();
-  GeneratedTextColumn _constructGender() {
-    return GeneratedTextColumn(
-      'gender',
+  GeneratedBoolColumn get isGenderFemale =>
+      _isGenderFemale ??= _constructIsGenderFemale();
+  GeneratedBoolColumn _constructIsGenderFemale() {
+    return GeneratedBoolColumn(
+      'is_gender_female',
       $tableName,
       false,
     );
@@ -220,7 +224,8 @@ class $CustomersTable extends Customers
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, name, nameReading, gender, birth];
+  List<GeneratedColumn> get $columns =>
+      [id, name, nameReading, isGenderFemale, birth];
   @override
   $CustomersTable get asDslTable => this;
   @override
@@ -246,11 +251,13 @@ class $CustomersTable extends Customers
     } else if (isInserting) {
       context.missing(_nameReadingMeta);
     }
-    if (d.gender.present) {
+    if (d.isGenderFemale.present) {
       context.handle(
-          _genderMeta, gender.isAcceptableValue(d.gender.value, _genderMeta));
+          _isGenderFemaleMeta,
+          isGenderFemale.isAcceptableValue(
+              d.isGenderFemale.value, _isGenderFemaleMeta));
     } else if (isInserting) {
-      context.missing(_genderMeta);
+      context.missing(_isGenderFemaleMeta);
     }
     if (d.birth.present) {
       context.handle(
@@ -279,8 +286,9 @@ class $CustomersTable extends Customers
     if (d.nameReading.present) {
       map['name_reading'] = Variable<String, StringType>(d.nameReading.value);
     }
-    if (d.gender.present) {
-      map['gender'] = Variable<String, StringType>(d.gender.value);
+    if (d.isGenderFemale.present) {
+      map['is_gender_female'] =
+          Variable<bool, BoolType>(d.isGenderFemale.value);
     }
     if (d.birth.present) {
       map['birth'] = Variable<DateTime, DateTimeType>(d.birth.value);

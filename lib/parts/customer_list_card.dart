@@ -59,7 +59,7 @@ class CustomerListCard extends StatelessWidget {
   // →性別でアイコンカラーが変わる
   Widget _getGenderIcon() {
     var iconColor =
-        customer.gender == '女性' ? Colors.pinkAccent : Colors.blueAccent;
+        customer.isGenderFemale ? Colors.pinkAccent : Colors.blueAccent;
     return Icon(
       Icons.account_circle,
       color: iconColor,

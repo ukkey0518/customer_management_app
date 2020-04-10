@@ -11,7 +11,7 @@ class Customers extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   TextColumn get nameReading => text()();
-  TextColumn get gender => text()();
+  BoolColumn get isGenderFemale => boolean()();
   DateTimeColumn get birth => dateTime().nullable()();
 
   @override
@@ -43,14 +43,14 @@ class MyDatabase extends _$MyDatabase {
   // Read[女性のデータを抽出]
   Future<List<Customer>> get femaleCustomers => (select(customers)
         ..where(
-          (t) => t.gender.equals('女性'),
+          (t) => t.isGenderFemale,
         ))
       .get();
 
   // Read[男性のデータを抽出]
   Future<List<Customer>> get maleCustomers => (select(customers)
         ..where(
-          (t) => t.gender.equals('男性'),
+          (t) => t.isGenderFemale.not(),
         ))
       .get();
 

@@ -37,7 +37,7 @@ class _EditScreenState extends State<EditScreen> {
     } else {
       _nameController.text = widget.customer.name;
       _nameReadingController.text = widget.customer.nameReading;
-      _isGenderFemale = widget.customer.gender == '女性' ? true : false;
+      _isGenderFemale = widget.customer.isGenderFemale;
       _titleStr = '顧客情報の編集';
     }
   }
@@ -238,7 +238,7 @@ class _EditScreenState extends State<EditScreen> {
         id: null,
         name: _nameController.text,
         nameReading: _nameReadingController.text,
-        gender: _isGenderFemale ? '女性' : '男性',
+        isGenderFemale: _isGenderFemale,
       );
 
       // DBに新規登録
@@ -258,7 +258,7 @@ class _EditScreenState extends State<EditScreen> {
         id: widget.customer.id,
         name: _nameController.text,
         nameReading: _nameReadingController.text,
-        gender: _isGenderFemale ? '女性' : '男性',
+        isGenderFemale: _isGenderFemale,
       );
 
       //idを基準に更新
