@@ -12,16 +12,19 @@ class Customer extends DataClass implements Insertable<Customer> {
   final String name;
   final String nameReading;
   final String gender;
+  final DateTime birth;
   Customer(
       {@required this.id,
       @required this.name,
       @required this.nameReading,
-      @required this.gender});
+      @required this.gender,
+      this.birth});
   factory Customer.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     return Customer(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
@@ -29,6 +32,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           .mapFromDatabaseResponse(data['${effectivePrefix}name_reading']),
       gender:
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}gender']),
+      birth:
+          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}birth']),
     );
   }
   factory Customer.fromJson(Map<String, dynamic> json,
@@ -39,6 +44,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       name: serializer.fromJson<String>(json['name']),
       nameReading: serializer.fromJson<String>(json['nameReading']),
       gender: serializer.fromJson<String>(json['gender']),
+      birth: serializer.fromJson<DateTime>(json['birth']),
     );
   }
   @override
@@ -49,6 +55,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       'name': serializer.toJson<String>(name),
       'nameReading': serializer.toJson<String>(nameReading),
       'gender': serializer.toJson<String>(gender),
+      'birth': serializer.toJson<DateTime>(birth),
     };
   }
 
@@ -62,15 +69,23 @@ class Customer extends DataClass implements Insertable<Customer> {
           : Value(nameReading),
       gender:
           gender == null && nullToAbsent ? const Value.absent() : Value(gender),
+      birth:
+          birth == null && nullToAbsent ? const Value.absent() : Value(birth),
     );
   }
 
-  Customer copyWith({int id, String name, String nameReading, String gender}) =>
+  Customer copyWith(
+          {int id,
+          String name,
+          String nameReading,
+          String gender,
+          DateTime birth}) =>
       Customer(
         id: id ?? this.id,
         name: name ?? this.name,
         nameReading: nameReading ?? this.nameReading,
         gender: gender ?? this.gender,
+        birth: birth ?? this.birth,
       );
   @override
   String toString() {
@@ -78,14 +93,19 @@ class Customer extends DataClass implements Insertable<Customer> {
           ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('nameReading: $nameReading, ')
-          ..write('gender: $gender')
+          ..write('gender: $gender, ')
+          ..write('birth: $birth')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(name.hashCode, $mrjc(nameReading.hashCode, gender.hashCode))));
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          name.hashCode,
+          $mrjc(
+              nameReading.hashCode, $mrjc(gender.hashCode, birth.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -93,7 +113,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           other.id == this.id &&
           other.name == this.name &&
           other.nameReading == this.nameReading &&
-          other.gender == this.gender);
+          other.gender == this.gender &&
+          other.birth == this.birth);
 }
 
 class CustomersCompanion extends UpdateCompanion<Customer> {
@@ -101,17 +122,20 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
   final Value<String> name;
   final Value<String> nameReading;
   final Value<String> gender;
+  final Value<DateTime> birth;
   const CustomersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.nameReading = const Value.absent(),
     this.gender = const Value.absent(),
+    this.birth = const Value.absent(),
   });
   CustomersCompanion.insert({
     this.id = const Value.absent(),
     @required String name,
     @required String nameReading,
     @required String gender,
+    this.birth = const Value.absent(),
   })  : name = Value(name),
         nameReading = Value(nameReading),
         gender = Value(gender);
@@ -119,12 +143,14 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       {Value<int> id,
       Value<String> name,
       Value<String> nameReading,
-      Value<String> gender}) {
+      Value<String> gender,
+      Value<DateTime> birth}) {
     return CustomersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       nameReading: nameReading ?? this.nameReading,
       gender: gender ?? this.gender,
+      birth: birth ?? this.birth,
     );
   }
 }
@@ -181,8 +207,20 @@ class $CustomersTable extends Customers
     );
   }
 
+  final VerificationMeta _birthMeta = const VerificationMeta('birth');
+  GeneratedDateTimeColumn _birth;
   @override
-  List<GeneratedColumn> get $columns => [id, name, nameReading, gender];
+  GeneratedDateTimeColumn get birth => _birth ??= _constructBirth();
+  GeneratedDateTimeColumn _constructBirth() {
+    return GeneratedDateTimeColumn(
+      'birth',
+      $tableName,
+      true,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, name, nameReading, gender, birth];
   @override
   $CustomersTable get asDslTable => this;
   @override
@@ -214,6 +252,10 @@ class $CustomersTable extends Customers
     } else if (isInserting) {
       context.missing(_genderMeta);
     }
+    if (d.birth.present) {
+      context.handle(
+          _birthMeta, birth.isAcceptableValue(d.birth.value, _birthMeta));
+    }
     return context;
   }
 
@@ -239,6 +281,9 @@ class $CustomersTable extends Customers
     }
     if (d.gender.present) {
       map['gender'] = Variable<String, StringType>(d.gender.value);
+    }
+    if (d.birth.present) {
+      map['birth'] = Variable<DateTime, DateTimeType>(d.birth.value);
     }
     return map;
   }

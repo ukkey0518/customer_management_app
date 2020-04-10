@@ -59,7 +59,7 @@ class CustomerListCard extends StatelessWidget {
   // →性別でアイコンカラーが変わる
   Widget _getGenderIcon() {
     var iconColor =
-    customer.gender == '女性' ? Colors.pinkAccent : Colors.blueAccent;
+        customer.gender == '女性' ? Colors.pinkAccent : Colors.blueAccent;
     return Icon(
       Icons.account_circle,
       color: iconColor,
@@ -68,26 +68,25 @@ class CustomerListCard extends StatelessWidget {
 
   // [ウィジェット：来店情報表示部分]
   Widget _visitInformationPart() {
-    return
-      Table(
-        children: <TableRow>[
-          TableRow(
-            children: <Column>[
-              Column(
-                children: <Widget>[
-                  Text('来店回数'),
-                  Text('aaa'),
-                ],
-              ),
-              Column(
-                children: <Widget>[
-                  Text('最終来店日'),
-                  Text('aaa'),
-                ],
-              ),
-            ],
-          ),
-        ],
-      );
+    return Table(
+      children: <TableRow>[
+        TableRow(
+          children: <Column>[
+            Column(
+              children: <Widget>[
+                Text('来店回数'),
+                Text('aaa'),
+              ],
+            ),
+            Column(
+              children: <Widget>[
+                Text('最終来店日'),
+                Text('aaa'),
+              ],
+            ),
+          ],
+        ),
+      ],
+    );
   }
 }

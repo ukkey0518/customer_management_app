@@ -12,6 +12,7 @@ class Customers extends Table {
   TextColumn get name => text()();
   TextColumn get nameReading => text()();
   TextColumn get gender => text()();
+  DateTimeColumn get birth => dateTime().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
