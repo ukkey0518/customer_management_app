@@ -27,6 +27,9 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           _profilePart(),
+          SizedBox(
+            height: 30,
+          ),
           _recordPart(),
         ],
       ),
@@ -45,7 +48,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          '顧客情報',
+          'プロフィール',
           style: TextStyle(fontSize: 20),
           textAlign: TextAlign.left,
         ),
@@ -94,6 +97,51 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
 
   // [ウィジェット：記録部分]
   Widget _recordPart() {
-    return Container();
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          '来店情報',
+          style: TextStyle(fontSize: 20),
+          textAlign: TextAlign.left,
+        ),
+        Card(
+          child: Container(
+            padding: EdgeInsets.all(16),
+            child: Column(
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('来店回数')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('初回来店日')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('最終来店日')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+                Divider(),
+                Row(
+                  children: <Widget>[
+                    Expanded(child: Text('初回来店理由')),
+                    Expanded(child: Text('(未データ)')),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
+    );
   }
 }
