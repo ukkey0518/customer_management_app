@@ -21,6 +21,9 @@ dependencies:
   #Toast-package
   toast: ^0.1.5
 
+  #Intl-package
+  intl: ^0.16.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
