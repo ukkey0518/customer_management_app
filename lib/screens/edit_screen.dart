@@ -98,7 +98,6 @@ class _EditScreenState extends State<EditScreen> {
     );
   }
 
-
   // [ウィジェットビルダー：各入力欄のフォーマッタ]
   Widget _inputPartBuilder({String title, Widget content}) {
     return Padding(
