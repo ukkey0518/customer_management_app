@@ -18,50 +18,9 @@ class CustomerListCard extends StatelessWidget {
           padding: EdgeInsets.all(16.0),
           child: Column(
             children: <Widget>[
-              Row(
-                children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: _getGenderIcon(),
-                  ),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Text(
-                          '${customer.nameReading}',
-                          style: TextStyle(fontSize: 12),
-                        ),
-                        Text(
-                          '${customer.name} 様',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
+              _basicInformationPart(),
               Divider(),
-              Table(
-                children: <TableRow>[
-                  TableRow(
-                    children: <Column>[
-                      Column(
-                        children: <Widget>[
-                          Text('来店回数'),
-                          Text('aaa'),
-                        ],
-                      ),
-                      Column(
-                        children: <Widget>[
-                          Text('最終来店日'),
-                          Text('aaa'),
-                        ],
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+              _visitInformationPart(),
             ],
           ),
         ),
@@ -69,13 +28,66 @@ class CustomerListCard extends StatelessWidget {
     );
   }
 
+  // [ウィジェット：基本情報表示部分]
+  Widget _basicInformationPart() {
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(right: 16.0),
+          child: _getGenderIcon(),
+        ),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                '${customer.nameReading}',
+                style: TextStyle(fontSize: 12),
+              ),
+              Text(
+                '${customer.name} 様',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+
+  // [ウィジェット：アイコン生成]
+  // →性別でアイコンカラーが変わる
   Widget _getGenderIcon() {
     var iconColor =
-        customer.gender == '女性' ? Colors.pinkAccent : Colors.blueAccent;
-
+    customer.gender == '女性' ? Colors.pinkAccent : Colors.blueAccent;
     return Icon(
       Icons.account_circle,
       color: iconColor,
     );
+  }
+
+  // [ウィジェット：来店情報表示部分]
+  Widget _visitInformationPart() {
+    return
+      Table(
+        children: <TableRow>[
+          TableRow(
+            children: <Column>[
+              Column(
+                children: <Widget>[
+                  Text('来店回数'),
+                  Text('aaa'),
+                ],
+              ),
+              Column(
+                children: <Widget>[
+                  Text('最終来店日'),
+                  Text('aaa'),
+                ],
+              ),
+            ],
+          ),
+        ],
+      );
   }
 }
