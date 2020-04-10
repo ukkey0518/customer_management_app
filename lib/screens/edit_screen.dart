@@ -2,6 +2,8 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 enum EditState { ADD, EDIT }
@@ -21,6 +23,8 @@ class _EditScreenState extends State<EditScreen> {
   TextEditingController _nameReadingController = TextEditingController();
   bool _isGenderFemale = true;
   String _titleStr = '';
+  DateTime _birthDay = DateTime(1980, 1, 1);
+  DateFormat _birthDayFormatter = DateFormat('yyyy年 M月 d日');
 
   @override
   void initState() {
@@ -68,6 +72,7 @@ class _EditScreenState extends State<EditScreen> {
               SizedBox(height: 16),
               _genderSelectPart(),
               SizedBox(height: 16),
+              _birthDayInputPart(),
             ],
           ),
         ),
@@ -183,6 +188,40 @@ class _EditScreenState extends State<EditScreen> {
     });
   }
 
+  Widget _birthDayInputPart() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 3,
+            child: const Text(
+              '誕生日',
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+          Expanded(
+            flex: 7,
+            child: InkWell(
+              onTap: _showBirthDaySelectPicker,
+              child: Row(
+                children: <Widget>[
+                  Expanded(
+                    child: Text(
+                      '${_birthDayFormatter.format(_birthDay)}',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Icon(Icons.chevron_right),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   // 保存ボタン押下時の処理
   _onSaveButtonClick() async {
     if (_nameController.text.isEmpty ||
@@ -232,5 +271,24 @@ class _EditScreenState extends State<EditScreen> {
 
       Toast.show('更新されました', context);
     }
+  }
+
+  _showBirthDaySelectPicker() {
+    DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      minTime: DateTime(1970, 1, 1),
+      maxTime: DateTime.now(),
+      onConfirm: (birthDay) => _setBirthDay(birthDay),
+      currentTime: _birthDay,
+      locale: LocaleType.jp,
+    );
+    setState(() {});
+  }
+
+  _setBirthDay(DateTime birthDay) {
+    setState(() {
+      _birthDay = birthDay;
+    });
   }
 }
