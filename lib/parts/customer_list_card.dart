@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class CustomerListCard extends StatelessWidget {
   CustomerListCard({this.customer, this.onTap, this.onLongPress});
@@ -57,7 +58,7 @@ class CustomerListCard extends StatelessWidget {
             ],
           ),
         ),
-        Text('${diffDays < 0 ? '年齢不明' : '${(diffDays / 365).floor()}歳'}'),
+        Text('${diffDays < 0 ? '(誕生日未登録)' : '${(diffDays / 365).floor()}歳'}'),
       ],
     );
   }
@@ -79,19 +80,35 @@ class CustomerListCard extends StatelessWidget {
       children: <TableRow>[
         TableRow(
           children: <Column>[
-            Column(
-              children: <Widget>[
-                Text('来店回数'),
-                Text('aaa'),
-              ],
+            _tableItem(
+              titleText: '来店回数',
+              contentText: '1',
             ),
-            Column(
-              children: <Widget>[
-                Text('最終来店日'),
-                Text('aaa'),
-              ],
+            _tableItem(
+              titleText: '最終来店日',
+              contentText: '${DateFormat('yyyy/M/d').format(DateTime.now())}',
+            ),
+            _tableItem(
+              titleText: '担当',
+              contentText: 'うーっき',
             ),
           ],
+        ),
+      ],
+    );
+  }
+
+  // [ウィジェット：来店情報テーブルリストアイテムのビルダー]
+  Widget _tableItem({@required String titleText, @required contentText}) {
+    var titleStyle = TextStyle(fontSize: 12);
+    var contentStyle = TextStyle(fontSize: 14);
+    return Column(
+      children: <Widget>[
+        Text(titleText, style: titleStyle),
+        SizedBox(height: 4),
+        Text(
+          contentText,
+          style: contentStyle,
         ),
       ],
     );
