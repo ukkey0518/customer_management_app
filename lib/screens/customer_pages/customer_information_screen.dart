@@ -1,5 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/screens/customer_pages/basic_information_page.dart';
+import 'package:customermanagementapp/screens/customer_pages/visit_information_page.dart';
 import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -19,6 +21,16 @@ class CustomerInformationScreen extends StatefulWidget {
 class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   Customer _customer;
   HomeScreenPreferences _pref;
+  final _tabs = <Tab>[
+    Tab(
+      text: '基本情報',
+      icon: Icon(Icons.account_circle),
+    ),
+    Tab(
+      text: '来店情報',
+      icon: Icon(Icons.shopping_cart),
+    ),
+  ];
 
   @override
   void initState() {
@@ -29,32 +41,38 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    print(_customer);
     return WillPopScope(
       onWillPop: () => _finishInfoScreen(context),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('顧客情報'),
-          leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
-            onPressed: () => _finishInfoScreen(context),
+      child: DefaultTabController(
+        length: _tabs.length,
+        child: Scaffold(
+          appBar: AppBar(
+            title: Text('顧客情報'),
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () => _finishInfoScreen(context),
+            ),
+            bottom: TabBar(tabs: _tabs),
+            actions: <Widget>[
+              IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () => _editCustomer(_customer),
+              )
+            ],
           ),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () => _editCustomer(_customer),
-            )
-          ],
-        ),
-        body: Center(
-          child: Text(_customer.toString()),
+          body: TabBarView(
+            children: <Widget>[
+              BasicInformationPage(),
+              VisitInformationPage(),
+            ],
+          ),
         ),
       ),
     );
   }
 
   // [コールバック：編集ボタンタップ]
-  // →選択した顧客情報を編集する
+  // →表示中の顧客情報を編集する
   _editCustomer(Customer customer) {
     Navigator.pushReplacement(
       context,
