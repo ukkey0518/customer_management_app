@@ -119,9 +119,8 @@ class _HomeScreenState extends State<HomeScreen> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: ListView.separated(
+              child: ListView.builder(
                 itemBuilder: (context, index) => _customersListItemPart(index),
-                separatorBuilder: (context, index) => Divider(),
                 itemCount: _customersList.length,
               ),
             ),

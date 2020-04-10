@@ -10,18 +10,21 @@ class CustomerListCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: InkWell(
-        onTap: onTap,
-        onLongPress: onLongPress,
-        child: Container(
-          padding: EdgeInsets.all(16.0),
-          child: Column(
-            children: <Widget>[
-              _basicInformationPart(),
-              Divider(),
-              _visitInformationPart(),
-            ],
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 8),
+      child: Card(
+        child: InkWell(
+          onTap: onTap,
+          onLongPress: onLongPress,
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              children: <Widget>[
+                _basicInformationPart(),
+                Divider(),
+                _visitInformationPart(),
+              ],
+            ),
           ),
         ),
       ),
