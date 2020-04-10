@@ -41,6 +41,27 @@ class CustomerListCard extends StatelessWidget {
                   ),
                 ],
               ),
+              Divider(),
+              Table(
+                children: <TableRow>[
+                  TableRow(
+                    children: <Column>[
+                      Column(
+                        children: <Widget>[
+                          Text('来店回数'),
+                          Text('aaa'),
+                        ],
+                      ),
+                      Column(
+                        children: <Widget>[
+                          Text('最終来店日'),
+                          Text('aaa'),
+                        ],
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ],
           ),
         ),
