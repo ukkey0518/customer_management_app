@@ -82,15 +82,16 @@ class CustomerListCard extends StatelessWidget {
           children: <Column>[
             _tableItem(
               titleText: '来店回数',
-              contentText: '1',
+              contentText: '1', //TODO リストアイテム：来店回数
             ),
             _tableItem(
               titleText: '最終来店日',
-              contentText: '${DateFormat('yyyy/M/d').format(DateTime.now())}',
+              contentText:
+                  '${DateFormat('yyyy/M/d').format(DateTime.now())}', //TODO リストアイテム：最終来店日
             ),
             _tableItem(
               titleText: '担当',
-              contentText: 'うーっき',
+              contentText: 'うーっき', //TODO リストアイテム：担当
             ),
           ],
         ),
