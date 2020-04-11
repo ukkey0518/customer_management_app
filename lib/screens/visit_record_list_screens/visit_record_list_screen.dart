@@ -5,6 +5,7 @@ import 'package:customermanagementapp/parts/visit_record_list_card.dart';
 import 'package:customermanagementapp/screens/edit_screens/visit_record_edit_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 import 'visit_record_information_screen.dart';
@@ -55,8 +56,8 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
         break;
       case VisitRecordListNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _salesMenuRecordList =
-            await database.getSalesMenuRecordsByDay(DateTime.now());
+        _salesMenuRecordList = await database.getSalesMenuRecordsByDay(
+            DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
         break;
     }
 

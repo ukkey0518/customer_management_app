@@ -36,7 +36,7 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
       _titleStr = '売上データの編集';
     }
     _dateFormatter = DateFormat('yyyy/M/d');
-    _date = DateTime.now();
+    _date = DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now()));
     initCustomer();
   }
 
