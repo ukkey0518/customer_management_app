@@ -211,7 +211,8 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
     var salesMenuRecord = _salesMenuRecordList[index];
     return VisitRecordListCard(
       salesMenuRecord: salesMenuRecord,
-      onTap: () => _showVisitRecord(salesMenuRecord),
+//      onTap: () => _showVisitRecord(salesMenuRecord),
+      onTap: null,
       onLongPress: () => _deleteVisitRecord(salesMenuRecord),
     );
   }
