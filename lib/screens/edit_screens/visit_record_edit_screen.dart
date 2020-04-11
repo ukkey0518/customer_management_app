@@ -168,23 +168,20 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
         onPressed: () => _setCustomer(null),
       );
     }
-    return ClipRRect(
-      borderRadius: BorderRadius.circular(8),
-      child: Container(
-        color: Theme.of(context).primaryColor,
-        padding: EdgeInsets.all(8),
-        child: Column(
-          children: <Widget>[
-            widget,
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                leftButton,
-                rightButton,
-              ],
-            ),
-          ],
-        ),
+    return Container(
+      color: Theme.of(context).primaryColor,
+      padding: EdgeInsets.all(8),
+      child: Column(
+        children: <Widget>[
+          widget,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: <Widget>[
+              leftButton,
+              rightButton,
+            ],
+          ),
+        ],
       ),
     );
   }
