@@ -2,7 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/customer_pages/basic_information_page.dart';
 import 'package:customermanagementapp/screens/customer_pages/visit_record_page.dart';
-import 'package:customermanagementapp/screens/home_screen.dart';
+import 'package:customermanagementapp/screens/customers_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ import '../edit_screen.dart';
 
 class CustomerInformationScreen extends StatefulWidget {
   final customer;
-  final HomeScreenPreferences pref;
+  final CustomersListScreenPreferences pref;
 
   CustomerInformationScreen(this.pref, {this.customer});
 
@@ -21,7 +21,7 @@ class CustomerInformationScreen extends StatefulWidget {
 
 class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   Customer _customer;
-  HomeScreenPreferences _pref;
+  CustomersListScreenPreferences _pref;
   final _tabs = <Tab>[
     Tab(
       text: '基本情報',
@@ -94,7 +94,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
-        builder: (context) => HomeScreen(pref: widget.pref),
+        builder: (context) => CustomersListScreen(pref: widget.pref),
       ),
     );
     return Future.value(false);

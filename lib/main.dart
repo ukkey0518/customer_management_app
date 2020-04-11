@@ -1,6 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
-
 import 'screens/home_screen.dart';
 
 MyDatabase database;

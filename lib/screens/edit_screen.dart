@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/customer_pages/customer_information_screen.dart';
-import 'package:customermanagementapp/screens/home_screen.dart';
+import 'package:customermanagementapp/screens/customers_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -11,7 +11,7 @@ import 'package:toast/toast.dart';
 enum EditState { ADD, EDIT }
 
 class EditScreen extends StatefulWidget {
-  final HomeScreenPreferences pref;
+  final CustomersListScreenPreferences pref;
   final EditState state;
   final Customer customer;
   EditScreen(this.pref, {@required this.state, this.customer});
@@ -258,7 +258,7 @@ class _EditScreenState extends State<EditScreen> {
   Future<bool> _finishEditScreen(BuildContext context) {
     var widgetBuilder;
     if (widget.state == EditState.ADD) {
-      widgetBuilder = (context) => HomeScreen(pref: widget.pref);
+      widgetBuilder = (context) => CustomersListScreen(pref: widget.pref);
     } else {
       widgetBuilder = (context) => CustomerInformationScreen(
             widget.pref,
