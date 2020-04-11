@@ -7,21 +7,21 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
-import 'customers_list_screens/customer_information_pages/customer_information_screen.dart';
+import '../customers_list_screens/customer_information_pages/customer_information_screen.dart';
 
-enum EditState { ADD, EDIT }
+enum CustomerEditState { ADD, EDIT }
 
-class EditScreen extends StatefulWidget {
+class CustomerEditScreen extends StatefulWidget {
   final CustomersListScreenPreferences pref;
-  final EditState state;
+  final CustomerEditState state;
   final Customer customer;
-  EditScreen(this.pref, {@required this.state, this.customer});
+  CustomerEditScreen(this.pref, {@required this.state, this.customer});
 
   @override
-  _EditScreenState createState() => _EditScreenState();
+  _CustomerEditScreenState createState() => _CustomerEditScreenState();
 }
 
-class _EditScreenState extends State<EditScreen> {
+class _CustomerEditScreenState extends State<CustomerEditScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _nameReadingController = TextEditingController();
   bool _isGenderFemale = true;
@@ -33,7 +33,7 @@ class _EditScreenState extends State<EditScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.state == EditState.ADD) {
+    if (widget.state == CustomerEditState.ADD) {
       _nameController.text = '';
       _nameReadingController.text = '';
       _isGenderFemale = null;
@@ -219,13 +219,13 @@ class _EditScreenState extends State<EditScreen> {
       return;
     }
 
-    if (widget.state != EditState.EDIT &&
+    if (widget.state != CustomerEditState.EDIT &&
         await database.getCustomersByName(_nameController.text) != null) {
       Toast.show('同名の顧客データが存在しています。', context);
       return;
     }
 
-    if (widget.state == EditState.ADD) {
+    if (widget.state == CustomerEditState.ADD) {
       // 新しいCustomerオブジェクト生成
       var customer = Customer(
         id: null,
@@ -258,7 +258,7 @@ class _EditScreenState extends State<EditScreen> {
   // [コールバック：画面終了時]
   Future<bool> _finishEditScreen(BuildContext context) {
     var widgetBuilder;
-    if (widget.state == EditState.ADD) {
+    if (widget.state == CustomerEditState.ADD) {
       widgetBuilder = (context) => CustomersListScreen(pref: widget.pref);
     } else {
       widgetBuilder = (context) => CustomerInformationScreen(

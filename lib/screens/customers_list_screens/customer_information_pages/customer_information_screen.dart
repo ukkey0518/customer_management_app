@@ -3,7 +3,7 @@ import 'package:customermanagementapp/screens/customers_list_screens/customers_l
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 
-import '../../edit_screen.dart';
+import '../../edit_screens/customer_edit_screen.dart';
 import 'basic_information_page.dart';
 import 'visit_record_page.dart';
 
@@ -73,9 +73,9 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
-        builder: (context) => EditScreen(
+        builder: (context) => CustomerEditScreen(
           _pref,
-          state: EditState.EDIT,
+          state: CustomerEditState.EDIT,
           customer: customer,
         ),
       ),
