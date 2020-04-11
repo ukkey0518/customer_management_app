@@ -104,25 +104,26 @@ class MyDatabase extends _$MyDatabase {
           .get();
 
   // Read[指定顧客の売上データをすべて抽出する]
-  Future<List<SalesMenuRecord>> getSalesMenuRecordsByCustomer(Customer customer) =>
+  Future<List<SalesMenuRecord>> getSalesMenuRecordsByCustomer(
+          Customer customer) =>
       (select(salesMenuRecords)
-        ..where(
+            ..where(
               (t) => t.customerId.equals(customer.id),
-        ))
+            ))
           .get();
 
   //TODO Read[指定メニューの売上データをつべて抽出する]
   //TODO Read[指定担当者の売上データをすべて抽出する]
-
 
   // Update[１件分の売上データを更新]
   Future updateSalesMenuRecord(SalesMenuRecord salesMenuRecord) =>
       update(salesMenuRecords).replace(salesMenuRecord);
 
   // Delete[１件分の売上データを削除]
-  Future deleteSalesMenuRecord(SalesMenuRecord salesMenuRecord) => (delete(salesMenuRecords)
-        ..where(
-          (t) => t.id.equals(salesMenuRecord.id),
-        ))
-      .go();
+  Future deleteSalesMenuRecord(SalesMenuRecord salesMenuRecord) =>
+      (delete(salesMenuRecords)
+            ..where(
+              (t) => t.id.equals(salesMenuRecord.id),
+            ))
+          .go();
 }
