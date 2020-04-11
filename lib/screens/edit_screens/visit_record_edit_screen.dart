@@ -171,7 +171,7 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Container(
-        color: Colors.grey,
+        color: Theme.of(context).primaryColor,
         padding: EdgeInsets.all(8),
         child: Column(
           children: <Widget>[
