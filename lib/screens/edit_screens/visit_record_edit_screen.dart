@@ -1,5 +1,10 @@
+import 'dart:math';
+
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/parts/customer_list_card.dart';
+import 'package:customermanagementapp/parts/visit_record_list_card.dart';
+import 'package:customermanagementapp/screens/customers_list_screens/customers_list_screen.dart';
 import 'package:customermanagementapp/screens/visit_record_list_screens/visit_record_information_screen.dart';
 import 'package:customermanagementapp/screens/visit_record_list_screens/visit_record_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
@@ -37,20 +42,25 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
     }
     _dateFormatter = DateFormat('yyyy/M/d');
     _date = DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now()));
-    initCustomer();
+    _initCustomer();
   }
 
-  // [初期化：CustomerをDBから取得]
-  initCustomer() async {
-//    _customer = await database.getCustomersById(widget.record.customerId);
-    _customer = await database.getCustomersById(1);
+  // [更新：CustomerをDBから取得]
+  _initCustomer() async {
+    _customer = await database.getCustomersById(widget.record.customerId);
+    setState(() {});
   }
 
-  // [更新：誕生日入力後に更新する処理]
+  // [更新：日付入力後に更新する処理]
   _setDate(DateTime date) {
     setState(() {
       _date = date;
     });
+  }
+
+  // [更新：日付入力後に更新する処理]
+  _setCustomer(Customer customer) {
+    _customer = customer;
   }
 
   @override
@@ -77,11 +87,11 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
           child: Column(
             children: <Widget>[
               SizedBox(height: 30),
-              const Text('売上データ', style: TextStyle(fontSize: 20)),
+              const Text('売上データ作成', style: TextStyle(fontSize: 20)),
+              SizedBox(height: 16),
+              _customerInputPart(),
               SizedBox(height: 16),
               _dateInputPart(),
-              SizedBox(height: 16),
-//              _customerInputPart(),
               SizedBox(height: 16),
 //              _stuffInputPart(),
               SizedBox(height: 16),
@@ -92,6 +102,68 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
 //              _priceInputPart(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  // [ウィジェット：顧客選択欄]
+  Widget _customerInputPart() {
+    var widget;
+    var leftButton;
+    var rightButton;
+    if (_customer == null) {
+      widget = Text('未選択');
+      leftButton = RaisedButton(
+        child: Text('初回来店'),
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => VisitRecordInformationScreen(
+                null,
+              ),
+            ),
+          ).then((value) {
+            _setCustomer(value);
+          });
+        },
+      );
+      rightButton = RaisedButton(
+        child: Text('2回目以降'),
+        onPressed: null,
+      );
+    } else {
+      widget = CustomerListCard(
+        customer: _customer,
+        onTap: null,
+        onLongPress: null,
+      );
+      leftButton = RaisedButton(
+        child: Text('変更'),
+        onPressed: null,
+      );
+      rightButton = RaisedButton(
+        child: Text('2回目以降'),
+        onPressed: null,
+      );
+    }
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(8),
+      child: Container(
+        color: Colors.grey,
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        child: Column(
+          children: <Widget>[
+            widget,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                leftButton,
+                rightButton,
+              ],
+            ),
+          ],
         ),
       ),
     );
