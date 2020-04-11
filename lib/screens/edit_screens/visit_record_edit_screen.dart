@@ -5,6 +5,7 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_list_card.dart';
 import 'package:customermanagementapp/parts/visit_record_list_card.dart';
 import 'package:customermanagementapp/screens/customers_list_screens/customers_list_screen.dart';
+import 'package:customermanagementapp/screens/visit_record_list_screens/customer_select_screen.dart';
 import 'package:customermanagementapp/screens/visit_record_list_screens/visit_record_information_screen.dart';
 import 'package:customermanagementapp/screens/visit_record_list_screens/visit_record_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
@@ -60,7 +61,9 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
 
   // [更新：日付入力後に更新する処理]
   _setCustomer(Customer customer) {
-    _customer = customer;
+    setState(() {
+      _customer = customer;
+    });
   }
 
   @override
@@ -113,46 +116,63 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
     var leftButton;
     var rightButton;
     if (_customer == null) {
-      widget = Text('未選択');
+      widget = Container(
+        height: 153,
+        child: Text('未選択'),
+      );
       leftButton = RaisedButton(
         child: Text('初回来店'),
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => VisitRecordInformationScreen(
-                null,
-              ),
-            ),
-          ).then((value) {
-            _setCustomer(value);
-          });
-        },
+        onPressed: null,
       );
       rightButton = RaisedButton(
         child: Text('2回目以降'),
-        onPressed: null,
+        onPressed: () {
+          Navigator.of(context)
+              .push(
+                MaterialPageRoute(
+                  builder: (context) => CustomerSelectScreen(),
+                  fullscreenDialog: true,
+                ),
+              )
+              .then(
+                (customer) => _setCustomer(customer),
+              );
+        },
       );
     } else {
-      widget = CustomerListCard(
-        customer: _customer,
-        onTap: null,
-        onLongPress: null,
+      widget = Container(
+        padding: EdgeInsets.only(top: 8),
+        child: CustomerListCard(
+          customer: _customer,
+          onTap: null,
+          onLongPress: null,
+        ),
       );
       leftButton = RaisedButton(
         child: Text('変更'),
-        onPressed: null,
+        onPressed: () {
+          Navigator.of(context)
+              .push(
+                MaterialPageRoute(
+                  builder: (context) => CustomerSelectScreen(),
+                  fullscreenDialog: true,
+                ),
+              )
+              .then(
+                (customer) => _setCustomer(customer),
+              );
+        },
       );
       rightButton = RaisedButton(
-        child: Text('2回目以降'),
-        onPressed: null,
+        child: Text('取り除く'),
+        onPressed: () => _setCustomer(null),
       );
     }
     return ClipRRect(
       borderRadius: BorderRadius.circular(8),
       child: Container(
         color: Colors.grey,
-        padding: EdgeInsets.symmetric(horizontal: 8),
+        padding: EdgeInsets.all(8),
         child: Column(
           children: <Widget>[
             widget,
