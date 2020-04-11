@@ -1,6 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/parts/customer_list_card.dart';
 import 'package:customermanagementapp/parts/my_drawer.dart';
 import 'package:customermanagementapp/screens/edit_screens/visit_record_edit_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
@@ -9,8 +8,8 @@ import 'package:toast/toast.dart';
 
 import 'visit_record_information_screen.dart';
 
-enum NarrowState { ALL, FEMALE, MALE }
-enum SortState { REGISTER_NEW, REGISTER_OLD, NAME_FORWARD, NAME_REVERSE }
+enum VisitRecordListNarrowState { ALL, TODAY }
+enum VisitRecordListSortState { REGISTER_NEW, REGISTER_OLD }
 
 class VisitRecordListScreen extends StatefulWidget {
   final VisitRecordListScreenPreferences pref;
@@ -22,10 +21,9 @@ class VisitRecordListScreen extends StatefulWidget {
 }
 
 class _VisitRecordScreenState extends State<VisitRecordListScreen> {
-  List<Customer> _visitRecordList = List();
-  TextEditingController _searchNameFieldController = TextEditingController();
-  NarrowState _narrowState = NarrowState.ALL;
-  SortState _sortState = SortState.REGISTER_OLD;
+  List<SalesMenuRecord> _salesMenuRecordList = List();
+  VisitRecordListNarrowState _narrowState = VisitRecordListNarrowState.ALL;
+  VisitRecordListSortState _sortState = VisitRecordListSortState.REGISTER_OLD;
   List<String> _narrowDropdownMenuItems = List();
   List<String> _sortDropdownMenuItems = List();
   String _narrowDropdownSelectedValue = '';
@@ -34,15 +32,14 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
   @override
   void initState() {
     super.initState();
-    _narrowDropdownMenuItems = ['すべて', '女性のみ', '男性のみ'];
-    _sortDropdownMenuItems = ['登録順(古)', '登録順(新)', '名前順', '名前逆順'];
+    _narrowDropdownMenuItems = ['すべて', '今日'];
+    _sortDropdownMenuItems = ['登録順(古)', '登録順(新)'];
     _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
     _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
     // 環境設定がある場合はそれを反映
     if (widget.pref != null) {
       _narrowState = widget.pref.narrowState;
       _sortState = widget.pref.sortState;
-      _searchNameFieldController.text = widget.pref.searchWord;
     }
     _reloadVisitRecordList();
   }
@@ -51,56 +48,39 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
   _reloadVisitRecordList() async {
     // 絞り込み条件
     switch (_narrowState) {
-      case NarrowState.ALL:
+      case VisitRecordListNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _visitRecordList = await database.allCustomers;
+        _salesMenuRecordList = await database.allSalesMenuRecords;
         break;
-      case NarrowState.FEMALE:
+      case VisitRecordListNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _visitRecordList = await database.femaleCustomers;
-        break;
-      case NarrowState.MALE:
-        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[2];
-        _visitRecordList = await database.maleCustomers;
+        _salesMenuRecordList =
+            await database.getSalesMenuRecordsByDay(DateTime.now());
         break;
     }
-    // 検索条件
-    if (_searchNameFieldController.text.isNotEmpty) {
-      _visitRecordList.removeWhere((customer) {
-        return !(customer.name.contains(_searchNameFieldController.text) ||
-            customer.nameReading.contains(_searchNameFieldController.text));
-      });
-    }
+
     // 並べ替え条件
     switch (_sortState) {
-      case SortState.REGISTER_OLD:
+      case VisitRecordListSortState.REGISTER_OLD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
-        _visitRecordList.sort((a, b) => a.id - b.id);
+        _salesMenuRecordList.sort((a, b) => a.id - b.id);
         break;
-      case SortState.REGISTER_NEW:
+      case VisitRecordListSortState.REGISTER_NEW:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
-        _visitRecordList.sort((a, b) => b.id - a.id);
-        break;
-      case SortState.NAME_FORWARD:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[2];
-        _visitRecordList.sort((a, b) => a.nameReading.compareTo(b.nameReading));
-        break;
-      case SortState.NAME_REVERSE:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[3];
-        _visitRecordList.sort((a, b) => b.nameReading.compareTo(a.nameReading));
+        _salesMenuRecordList.sort((a, b) => b.id - a.id);
         break;
     }
     setState(() {});
   }
 
   // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
-  _setNarrowState(NarrowState narrowState) {
+  _setNarrowState(VisitRecordListNarrowState narrowState) {
     _narrowState = narrowState;
     _reloadVisitRecordList();
   }
 
   // [ソート状態変更：現在のソートステータスを変更して更新する]
-  _setSortState(SortState sortState) {
+  _setSortState(VisitRecordListSortState sortState) {
     _sortState = sortState;
     _reloadVisitRecordList();
   }
@@ -127,7 +107,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
               child: ListView.builder(
                 itemBuilder: (context, index) =>
                     _visitRecordListItemPart(index),
-                itemCount: _visitRecordList.length,
+                itemCount: _salesMenuRecordList.length,
               ),
             ),
           ),
@@ -140,42 +120,25 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
   Widget _menuBarPart() {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
+      child: Row(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text.rich(
+          Text.rich(
+            TextSpan(
+              children: <TextSpan>[
+                TextSpan(text: '検索結果：'),
                 TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(text: '検索結果：'),
-                    TextSpan(
-                      text: '${_visitRecordList.length}',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.red,
-                      ),
-                    ),
-                    TextSpan(text: '件'),
-                  ],
+                  text: '${_salesMenuRecordList.length}',
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.red,
+                  ),
                 ),
-              ),
-              Expanded(child: _narrowMenuPart()),
-              Expanded(child: _sortMenuPart()),
-            ],
-          ),
-          TextField(
-            keyboardType: TextInputType.text,
-            controller: _searchNameFieldController,
-            decoration: InputDecoration(
-              hintText: '名前で検索',
-              prefixIcon: Icon(Icons.search),
-              suffixIcon: IconButton(
-                icon: Icon(Icons.clear),
-                onPressed: () => _searchNameFieldController.clear(),
-              ),
+                TextSpan(text: '件'),
+              ],
             ),
-            onEditingComplete: () => _reloadVisitRecordList(),
           ),
+          Expanded(child: _narrowMenuPart()),
+          Expanded(child: _sortMenuPart()),
         ],
       ),
     );
@@ -243,12 +206,8 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [ウィジェット：各リストアイテム]
   Widget _visitRecordListItemPart(int index) {
-    var customer = _visitRecordList[index];
-    return CustomerListCard(
-      customer: customer,
-      onTap: () => _showCustomer(customer),
-      onLongPress: () => _deleteCustomer(customer),
-    );
+    var salesRecord = _salesMenuRecordList[index];
+    return Container(); //TODO
   }
 
   // [コールバック：FABタップ]
@@ -261,7 +220,6 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
           VisitRecordListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
-            searchWord: _searchNameFieldController.text,
           ),
           state: VisitRecordEditState.ADD,
         ),
@@ -279,7 +237,6 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
           VisitRecordListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
-            searchWord: _searchNameFieldController.text,
           ),
           visitRecord: visitRecord,
         ),
@@ -302,17 +259,13 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
   // →各項目ごとに絞り込み
   _narrowMenuSelected(String value) async {
     switch (value) {
-      case '女性のみ':
-        // 女性のみデータを抽出
-        _setNarrowState(NarrowState.FEMALE);
-        break;
-      case '男性のみ':
-        // 男性のみデータを抽出
-        _setNarrowState(NarrowState.MALE);
+      case '今日':
+        // 今日の売上データを抽出
+        _setNarrowState(VisitRecordListNarrowState.TODAY);
         break;
       default:
-        // すべてのCustomerを抽出して更新
-        _setNarrowState(NarrowState.ALL);
+        // すべての売上データを抽出して更新
+        _setNarrowState(VisitRecordListNarrowState.ALL);
         break;
     }
   }
@@ -323,19 +276,11 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
     switch (value) {
       case '登録順(新)':
         // 新規登録が新しい順に並び替え
-        _setSortState(SortState.REGISTER_NEW);
+        _setSortState(VisitRecordListSortState.REGISTER_NEW);
         break;
       case '登録順(古)':
         // 新規登録が新しい順に並び替え
-        _setSortState(SortState.REGISTER_OLD);
-        break;
-      case '名前順':
-        // 名前順に並び替え
-        _setSortState(SortState.NAME_FORWARD);
-        break;
-      case '名前逆順':
-        // 名前逆順に並び替え
-        _setSortState(SortState.NAME_REVERSE);
+        _setSortState(VisitRecordListSortState.REGISTER_OLD);
         break;
     }
   }
@@ -343,10 +288,8 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
 // HomeScreenの環境設定を保持するクラス
 class VisitRecordListScreenPreferences {
-  NarrowState narrowState;
-  SortState sortState;
-  String searchWord;
+  VisitRecordListNarrowState narrowState;
+  VisitRecordListSortState sortState;
 
-  VisitRecordListScreenPreferences(
-      {this.narrowState, this.sortState, this.searchWord});
+  VisitRecordListScreenPreferences({this.narrowState, this.sortState});
 }
