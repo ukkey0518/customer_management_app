@@ -21,9 +21,7 @@ class VisitRecordListCard extends StatelessWidget {
             padding: EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
-                Text('${salesMenuRecord.date}'),
-                Divider(),
-                Text('${salesMenuRecord.customerId}'),
+                Text('$salesMenuRecord'),
               ],
             ),
           ),

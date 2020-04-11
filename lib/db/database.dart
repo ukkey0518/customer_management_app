@@ -25,7 +25,7 @@ class SalesMenuRecords extends Table {
   IntColumn get menuId => integer()();
   IntColumn get stuffId => integer()();
   IntColumn get discountId => integer()();
-  BoolColumn get price => boolean()();
+  IntColumn get price => integer()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -66,6 +66,13 @@ class MyDatabase extends _$MyDatabase {
           (t) => t.isGenderFemale.not(),
         ))
       .get();
+
+  // Read[指定のIDに一致するデータを抽出する]
+  Future<Customer> getCustomersById(int id) => (select(customers)
+        ..where(
+          (t) => t.id.equals(id),
+        ))
+      .getSingle();
 
   // Read[指定の名前に一致するデータを抽出する]
   Future<Customer> getCustomersByName(String name) => (select(customers)

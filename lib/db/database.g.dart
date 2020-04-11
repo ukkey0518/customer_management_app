@@ -309,7 +309,7 @@ class SalesMenuRecord extends DataClass implements Insertable<SalesMenuRecord> {
   final int menuId;
   final int stuffId;
   final int discountId;
-  final bool price;
+  final int price;
   SalesMenuRecord(
       {@required this.id,
       @required this.date,
@@ -324,7 +324,6 @@ class SalesMenuRecord extends DataClass implements Insertable<SalesMenuRecord> {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    final boolType = db.typeSystem.forDartType<bool>();
     return SalesMenuRecord(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       date:
@@ -337,7 +336,7 @@ class SalesMenuRecord extends DataClass implements Insertable<SalesMenuRecord> {
           intType.mapFromDatabaseResponse(data['${effectivePrefix}stuff_id']),
       discountId: intType
           .mapFromDatabaseResponse(data['${effectivePrefix}discount_id']),
-      price: boolType.mapFromDatabaseResponse(data['${effectivePrefix}price']),
+      price: intType.mapFromDatabaseResponse(data['${effectivePrefix}price']),
     );
   }
   factory SalesMenuRecord.fromJson(Map<String, dynamic> json,
@@ -350,7 +349,7 @@ class SalesMenuRecord extends DataClass implements Insertable<SalesMenuRecord> {
       menuId: serializer.fromJson<int>(json['menuId']),
       stuffId: serializer.fromJson<int>(json['stuffId']),
       discountId: serializer.fromJson<int>(json['discountId']),
-      price: serializer.fromJson<bool>(json['price']),
+      price: serializer.fromJson<int>(json['price']),
     );
   }
   @override
@@ -363,7 +362,7 @@ class SalesMenuRecord extends DataClass implements Insertable<SalesMenuRecord> {
       'menuId': serializer.toJson<int>(menuId),
       'stuffId': serializer.toJson<int>(stuffId),
       'discountId': serializer.toJson<int>(discountId),
-      'price': serializer.toJson<bool>(price),
+      'price': serializer.toJson<int>(price),
     };
   }
 
@@ -395,7 +394,7 @@ class SalesMenuRecord extends DataClass implements Insertable<SalesMenuRecord> {
           int menuId,
           int stuffId,
           int discountId,
-          bool price}) =>
+          int price}) =>
       SalesMenuRecord(
         id: id ?? this.id,
         date: date ?? this.date,
@@ -450,7 +449,7 @@ class SalesMenuRecordsCompanion extends UpdateCompanion<SalesMenuRecord> {
   final Value<int> menuId;
   final Value<int> stuffId;
   final Value<int> discountId;
-  final Value<bool> price;
+  final Value<int> price;
   const SalesMenuRecordsCompanion({
     this.id = const Value.absent(),
     this.date = const Value.absent(),
@@ -467,7 +466,7 @@ class SalesMenuRecordsCompanion extends UpdateCompanion<SalesMenuRecord> {
     @required int menuId,
     @required int stuffId,
     @required int discountId,
-    @required bool price,
+    @required int price,
   })  : date = Value(date),
         customerId = Value(customerId),
         menuId = Value(menuId),
@@ -481,7 +480,7 @@ class SalesMenuRecordsCompanion extends UpdateCompanion<SalesMenuRecord> {
       Value<int> menuId,
       Value<int> stuffId,
       Value<int> discountId,
-      Value<bool> price}) {
+      Value<int> price}) {
     return SalesMenuRecordsCompanion(
       id: id ?? this.id,
       date: date ?? this.date,
@@ -569,11 +568,11 @@ class $SalesMenuRecordsTable extends SalesMenuRecords
   }
 
   final VerificationMeta _priceMeta = const VerificationMeta('price');
-  GeneratedBoolColumn _price;
+  GeneratedIntColumn _price;
   @override
-  GeneratedBoolColumn get price => _price ??= _constructPrice();
-  GeneratedBoolColumn _constructPrice() {
-    return GeneratedBoolColumn(
+  GeneratedIntColumn get price => _price ??= _constructPrice();
+  GeneratedIntColumn _constructPrice() {
+    return GeneratedIntColumn(
       'price',
       $tableName,
       false,
@@ -665,7 +664,7 @@ class $SalesMenuRecordsTable extends SalesMenuRecords
       map['discount_id'] = Variable<int, IntType>(d.discountId.value);
     }
     if (d.price.present) {
-      map['price'] = Variable<bool, BoolType>(d.price.value);
+      map['price'] = Variable<int, IntType>(d.price.value);
     }
     return map;
   }
