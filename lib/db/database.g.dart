@@ -302,12 +302,390 @@ class $CustomersTable extends Customers
   }
 }
 
+class SalesMenuRecord extends DataClass implements Insertable<SalesMenuRecord> {
+  final int id;
+  final DateTime date;
+  final int customerId;
+  final int menuId;
+  final int stuffId;
+  final int discountId;
+  final bool price;
+  SalesMenuRecord(
+      {@required this.id,
+      @required this.date,
+      @required this.customerId,
+      @required this.menuId,
+      @required this.stuffId,
+      @required this.discountId,
+      @required this.price});
+  factory SalesMenuRecord.fromData(
+      Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final boolType = db.typeSystem.forDartType<bool>();
+    return SalesMenuRecord(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      date:
+          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
+      customerId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
+      menuId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}menu_id']),
+      stuffId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}stuff_id']),
+      discountId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}discount_id']),
+      price: boolType.mapFromDatabaseResponse(data['${effectivePrefix}price']),
+    );
+  }
+  factory SalesMenuRecord.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return SalesMenuRecord(
+      id: serializer.fromJson<int>(json['id']),
+      date: serializer.fromJson<DateTime>(json['date']),
+      customerId: serializer.fromJson<int>(json['customerId']),
+      menuId: serializer.fromJson<int>(json['menuId']),
+      stuffId: serializer.fromJson<int>(json['stuffId']),
+      discountId: serializer.fromJson<int>(json['discountId']),
+      price: serializer.fromJson<bool>(json['price']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'date': serializer.toJson<DateTime>(date),
+      'customerId': serializer.toJson<int>(customerId),
+      'menuId': serializer.toJson<int>(menuId),
+      'stuffId': serializer.toJson<int>(stuffId),
+      'discountId': serializer.toJson<int>(discountId),
+      'price': serializer.toJson<bool>(price),
+    };
+  }
+
+  @override
+  SalesMenuRecordsCompanion createCompanion(bool nullToAbsent) {
+    return SalesMenuRecordsCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      menuId:
+          menuId == null && nullToAbsent ? const Value.absent() : Value(menuId),
+      stuffId: stuffId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(stuffId),
+      discountId: discountId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(discountId),
+      price:
+          price == null && nullToAbsent ? const Value.absent() : Value(price),
+    );
+  }
+
+  SalesMenuRecord copyWith(
+          {int id,
+          DateTime date,
+          int customerId,
+          int menuId,
+          int stuffId,
+          int discountId,
+          bool price}) =>
+      SalesMenuRecord(
+        id: id ?? this.id,
+        date: date ?? this.date,
+        customerId: customerId ?? this.customerId,
+        menuId: menuId ?? this.menuId,
+        stuffId: stuffId ?? this.stuffId,
+        discountId: discountId ?? this.discountId,
+        price: price ?? this.price,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('SalesMenuRecord(')
+          ..write('id: $id, ')
+          ..write('date: $date, ')
+          ..write('customerId: $customerId, ')
+          ..write('menuId: $menuId, ')
+          ..write('stuffId: $stuffId, ')
+          ..write('discountId: $discountId, ')
+          ..write('price: $price')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          date.hashCode,
+          $mrjc(
+              customerId.hashCode,
+              $mrjc(
+                  menuId.hashCode,
+                  $mrjc(stuffId.hashCode,
+                      $mrjc(discountId.hashCode, price.hashCode)))))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is SalesMenuRecord &&
+          other.id == this.id &&
+          other.date == this.date &&
+          other.customerId == this.customerId &&
+          other.menuId == this.menuId &&
+          other.stuffId == this.stuffId &&
+          other.discountId == this.discountId &&
+          other.price == this.price);
+}
+
+class SalesMenuRecordsCompanion extends UpdateCompanion<SalesMenuRecord> {
+  final Value<int> id;
+  final Value<DateTime> date;
+  final Value<int> customerId;
+  final Value<int> menuId;
+  final Value<int> stuffId;
+  final Value<int> discountId;
+  final Value<bool> price;
+  const SalesMenuRecordsCompanion({
+    this.id = const Value.absent(),
+    this.date = const Value.absent(),
+    this.customerId = const Value.absent(),
+    this.menuId = const Value.absent(),
+    this.stuffId = const Value.absent(),
+    this.discountId = const Value.absent(),
+    this.price = const Value.absent(),
+  });
+  SalesMenuRecordsCompanion.insert({
+    this.id = const Value.absent(),
+    @required DateTime date,
+    @required int customerId,
+    @required int menuId,
+    @required int stuffId,
+    @required int discountId,
+    @required bool price,
+  })  : date = Value(date),
+        customerId = Value(customerId),
+        menuId = Value(menuId),
+        stuffId = Value(stuffId),
+        discountId = Value(discountId),
+        price = Value(price);
+  SalesMenuRecordsCompanion copyWith(
+      {Value<int> id,
+      Value<DateTime> date,
+      Value<int> customerId,
+      Value<int> menuId,
+      Value<int> stuffId,
+      Value<int> discountId,
+      Value<bool> price}) {
+    return SalesMenuRecordsCompanion(
+      id: id ?? this.id,
+      date: date ?? this.date,
+      customerId: customerId ?? this.customerId,
+      menuId: menuId ?? this.menuId,
+      stuffId: stuffId ?? this.stuffId,
+      discountId: discountId ?? this.discountId,
+      price: price ?? this.price,
+    );
+  }
+}
+
+class $SalesMenuRecordsTable extends SalesMenuRecords
+    with TableInfo<$SalesMenuRecordsTable, SalesMenuRecord> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $SalesMenuRecordsTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _dateMeta = const VerificationMeta('date');
+  GeneratedDateTimeColumn _date;
+  @override
+  GeneratedDateTimeColumn get date => _date ??= _constructDate();
+  GeneratedDateTimeColumn _constructDate() {
+    return GeneratedDateTimeColumn(
+      'date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
+  GeneratedIntColumn _customerId;
+  @override
+  GeneratedIntColumn get customerId => _customerId ??= _constructCustomerId();
+  GeneratedIntColumn _constructCustomerId() {
+    return GeneratedIntColumn(
+      'customer_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _menuIdMeta = const VerificationMeta('menuId');
+  GeneratedIntColumn _menuId;
+  @override
+  GeneratedIntColumn get menuId => _menuId ??= _constructMenuId();
+  GeneratedIntColumn _constructMenuId() {
+    return GeneratedIntColumn(
+      'menu_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _stuffIdMeta = const VerificationMeta('stuffId');
+  GeneratedIntColumn _stuffId;
+  @override
+  GeneratedIntColumn get stuffId => _stuffId ??= _constructStuffId();
+  GeneratedIntColumn _constructStuffId() {
+    return GeneratedIntColumn(
+      'stuff_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _discountIdMeta = const VerificationMeta('discountId');
+  GeneratedIntColumn _discountId;
+  @override
+  GeneratedIntColumn get discountId => _discountId ??= _constructDiscountId();
+  GeneratedIntColumn _constructDiscountId() {
+    return GeneratedIntColumn(
+      'discount_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _priceMeta = const VerificationMeta('price');
+  GeneratedBoolColumn _price;
+  @override
+  GeneratedBoolColumn get price => _price ??= _constructPrice();
+  GeneratedBoolColumn _constructPrice() {
+    return GeneratedBoolColumn(
+      'price',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, date, customerId, menuId, stuffId, discountId, price];
+  @override
+  $SalesMenuRecordsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'sales_menu_records';
+  @override
+  final String actualTableName = 'sales_menu_records';
+  @override
+  VerificationContext validateIntegrity(SalesMenuRecordsCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    }
+    if (d.date.present) {
+      context.handle(
+          _dateMeta, date.isAcceptableValue(d.date.value, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (d.customerId.present) {
+      context.handle(_customerIdMeta,
+          customerId.isAcceptableValue(d.customerId.value, _customerIdMeta));
+    } else if (isInserting) {
+      context.missing(_customerIdMeta);
+    }
+    if (d.menuId.present) {
+      context.handle(
+          _menuIdMeta, menuId.isAcceptableValue(d.menuId.value, _menuIdMeta));
+    } else if (isInserting) {
+      context.missing(_menuIdMeta);
+    }
+    if (d.stuffId.present) {
+      context.handle(_stuffIdMeta,
+          stuffId.isAcceptableValue(d.stuffId.value, _stuffIdMeta));
+    } else if (isInserting) {
+      context.missing(_stuffIdMeta);
+    }
+    if (d.discountId.present) {
+      context.handle(_discountIdMeta,
+          discountId.isAcceptableValue(d.discountId.value, _discountIdMeta));
+    } else if (isInserting) {
+      context.missing(_discountIdMeta);
+    }
+    if (d.price.present) {
+      context.handle(
+          _priceMeta, price.isAcceptableValue(d.price.value, _priceMeta));
+    } else if (isInserting) {
+      context.missing(_priceMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  SalesMenuRecord map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return SalesMenuRecord.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(SalesMenuRecordsCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.date.present) {
+      map['date'] = Variable<DateTime, DateTimeType>(d.date.value);
+    }
+    if (d.customerId.present) {
+      map['customer_id'] = Variable<int, IntType>(d.customerId.value);
+    }
+    if (d.menuId.present) {
+      map['menu_id'] = Variable<int, IntType>(d.menuId.value);
+    }
+    if (d.stuffId.present) {
+      map['stuff_id'] = Variable<int, IntType>(d.stuffId.value);
+    }
+    if (d.discountId.present) {
+      map['discount_id'] = Variable<int, IntType>(d.discountId.value);
+    }
+    if (d.price.present) {
+      map['price'] = Variable<bool, BoolType>(d.price.value);
+    }
+    return map;
+  }
+
+  @override
+  $SalesMenuRecordsTable createAlias(String alias) {
+    return $SalesMenuRecordsTable(_db, alias);
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $CustomersTable _customers;
   $CustomersTable get customers => _customers ??= $CustomersTable(this);
+  $SalesMenuRecordsTable _salesMenuRecords;
+  $SalesMenuRecordsTable get salesMenuRecords =>
+      _salesMenuRecords ??= $SalesMenuRecordsTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [customers];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [customers, salesMenuRecords];
 }
