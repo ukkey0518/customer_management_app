@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/parts/my_drawer.dart';
 import 'package:flutter/material.dart';
 
 class VisitRecordListScreen extends StatefulWidget {
@@ -8,6 +9,11 @@ class VisitRecordListScreen extends StatefulWidget {
 class _VisitRecordListScreenState extends State<VisitRecordListScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('来店記録一覧'),
+      ),
+      drawer: MyDrawer(),
+    );
   }
 }

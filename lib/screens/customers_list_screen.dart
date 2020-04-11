@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_list_card.dart';
+import 'package:customermanagementapp/parts/my_drawer.dart';
 import 'package:customermanagementapp/screens/customer_pages/customer_information_screen.dart';
 import 'package:customermanagementapp/screens/edit_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
@@ -114,6 +115,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
         tooltip: '新規登録',
         onPressed: () => _addCustomer(),
       ),
+      drawer: MyDrawer(),
       body: Column(
         children: <Widget>[
           _menuBarPart(),
