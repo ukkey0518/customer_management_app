@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 class VisitRecordInformationScreen extends StatefulWidget {
   final VisitRecordListScreenPreferences pref;
-  final Customer visitRecord;
+  final SalesMenuRecord visitRecord;
 
   VisitRecordInformationScreen(this.pref, {this.visitRecord});
   @override

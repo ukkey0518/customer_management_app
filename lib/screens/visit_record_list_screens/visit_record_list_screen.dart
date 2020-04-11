@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/my_drawer.dart';
+import 'package:customermanagementapp/parts/visit_record_list_card.dart';
 import 'package:customermanagementapp/screens/edit_screens/visit_record_edit_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
@@ -94,7 +95,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         tooltip: '来店追加',
-        onPressed: () => _addCustomer(),
+        onPressed: () => _addVisitRecord(),
       ),
       drawer: MyDrawer(),
       body: Column(
@@ -206,13 +207,17 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [ウィジェット：各リストアイテム]
   Widget _visitRecordListItemPart(int index) {
-    var salesRecord = _salesMenuRecordList[index];
-    return Container(); //TODO
+    var salesMenuRecord = _salesMenuRecordList[index];
+    return VisitRecordListCard(
+      salesMenuRecord: salesMenuRecord,
+      onTap: () => _showVisitRecord(salesMenuRecord),
+      onLongPress: () => _deleteVisitRecord(salesMenuRecord),
+    );
   }
 
   // [コールバック：FABタップ]
   // →新しい顧客情報を登録する
-  _addCustomer() {
+  _addVisitRecord() {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -229,7 +234,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [コールバック：リストアイテムタップ]
   // →選択した顧客情報の詳細ページへ遷移する
-  _showCustomer(Customer visitRecord) {
+  _showVisitRecord(SalesMenuRecord visitRecord) {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -246,9 +251,9 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [コールバック：リストアイテム長押し]
   // →長押ししたアイテムを削除する
-  _deleteCustomer(Customer customer) async {
+  _deleteVisitRecord(SalesMenuRecord salesMenuRecord) async {
     // DBから指定のCustomerを削除
-    await database.deleteCustomer(customer);
+    await database.deleteSalesMenuRecord(salesMenuRecord);
     // 現在の条件でリストを更新
     _reloadVisitRecordList();
     // トースト表示
