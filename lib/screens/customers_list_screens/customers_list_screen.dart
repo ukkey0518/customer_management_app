@@ -2,11 +2,12 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_list_card.dart';
 import 'package:customermanagementapp/parts/my_drawer.dart';
-import 'package:customermanagementapp/screens/customer_pages/customer_information_screen.dart';
 import 'package:customermanagementapp/screens/edit_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
+
+import 'customer_information_pages/customer_information_screen.dart';
 
 enum NarrowState { ALL, FEMALE, MALE }
 enum SortState { REGISTER_NEW, REGISTER_OLD, NAME_FORWARD, NAME_REVERSE }

@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/screens/customers_list_screen.dart';
+import 'package:customermanagementapp/screens/customers_list_screens/customers_list_screen.dart';
 import 'package:customermanagementapp/screens/home_screen.dart';
 import 'package:customermanagementapp/screens/visit_record_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';

@@ -1,12 +1,11 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/screens/customer_pages/basic_information_page.dart';
-import 'package:customermanagementapp/screens/customer_pages/visit_record_page.dart';
-import 'package:customermanagementapp/screens/customers_list_screen.dart';
+import 'package:customermanagementapp/screens/customers_list_screens/customers_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 
-import '../edit_screen.dart';
+import '../../edit_screen.dart';
+import 'basic_information_page.dart';
+import 'visit_record_page.dart';
 
 class CustomerInformationScreen extends StatefulWidget {
   final customer;
@@ -23,14 +22,8 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   Customer _customer;
   CustomersListScreenPreferences _pref;
   final _tabs = <Tab>[
-    Tab(
-      text: '基本情報',
-      icon: Icon(Icons.account_circle),
-    ),
-    Tab(
-      text: '来店記録',
-      icon: Icon(Icons.shopping_cart),
-    ),
+    Tab(text: '基本情報', icon: Icon(Icons.account_circle)),
+    Tab(text: '来店記録', icon: Icon(Icons.shopping_cart)),
   ];
 
   @override

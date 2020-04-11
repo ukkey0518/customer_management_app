@@ -1,12 +1,13 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/screens/customer_pages/customer_information_screen.dart';
-import 'package:customermanagementapp/screens/customers_list_screen.dart';
+import 'package:customermanagementapp/screens/customers_list_screens/customers_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
+
+import 'customers_list_screens/customer_information_pages/customer_information_screen.dart';
 
 enum EditState { ADD, EDIT }
 
