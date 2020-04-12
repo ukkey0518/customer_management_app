@@ -42,14 +42,31 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
         children: <Widget>[
           // カテゴリーリスト部分
           Expanded(
-            child: ListView(),
+            child: ListView.builder(
+              itemCount: _menuCategoriesList.length,
+              itemBuilder: (context, index) {
+                return Column(
+                  children: <Widget>[
+                    Divider(height: 1),
+                    ListTile(
+                      title: Text('${_menuCategoriesList[index].name}'),
+                      leading: Icon(Icons.category),
+                      onTap: null,
+                      onLongPress: () => _deleteMenuCategory(index),
+                    ),
+                    Divider(height: 1),
+                  ],
+                );
+              },
+            ),
           ),
         ],
       ),
     );
   }
 
-  _menuCategoryAddDialog() {
+  // [ウィジェット：カテゴリ追加ダイアログ]
+  Widget _menuCategoryAddDialog() {
     var newCategoryController = TextEditingController();
     return AlertDialog(
       title: Text('新規カテゴリ追加'),
@@ -81,5 +98,12 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
         ),
       ],
     );
+  }
+
+  // [コールバック：リストアイテム長押し時]
+  _deleteMenuCategory(int index) {
+    var deleteMenuCategory = _menuCategoriesList[index];
+    database.deleteMenuCategory(deleteMenuCategory);
+    Toast.show('削除しました', context);
   }
 }
