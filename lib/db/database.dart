@@ -46,91 +46,76 @@ class MyDatabase extends _$MyDatabase {
   @override
   int get schemaVersion => 1;
 
-  // Create[１件分を追加]
+  //
+  //
+  // -- Customer：顧客データ -----------------------------------------------------
+  //
+  //
+
+  // [追加：１件追加]
   Future<int> addCustomer(Customer customer) =>
       into(customers).insert(customer);
 
-  // Read[すべてを抽出]
+  // [取得：すべての顧客情報を取得]
   Future<List<Customer>> get allCustomers => select(customers).get();
 
-  // Read[女性のデータを抽出]
-  Future<List<Customer>> get femaleCustomers => (select(customers)
-        ..where(
-          (t) => t.isGenderFemale,
-        ))
-      .get();
+  // [取得：女性顧客データを取得]
+  Future<List<Customer>> get femaleCustomers =>
+      (select(customers)..where((t) => t.isGenderFemale)).get();
 
-  // Read[男性のデータを抽出]
-  Future<List<Customer>> get maleCustomers => (select(customers)
-        ..where(
-          (t) => t.isGenderFemale.not(),
-        ))
-      .get();
+  // [取得：男性顧客データを取得]
+  Future<List<Customer>> get maleCustomers =>
+      (select(customers)..where((t) => t.isGenderFemale.not())).get();
 
-  // Read[指定のIDに一致するデータを抽出する]
-  Future<Customer> getCustomersById(int id) => (select(customers)
-        ..where(
-          (t) => t.id.equals(id),
-        ))
-      .getSingle();
+  // [取得：指定した顧客IDに一致する顧客データを取得]
+  Future<Customer> getCustomersById(int id) =>
+      (select(customers)..where((t) => t.id.equals(id))).getSingle();
 
-  // Read[指定の名前に一致するデータを抽出する]
-  Future<Customer> getCustomersByName(String name) => (select(customers)
-        ..where(
-          (t) => t.name.equals(name),
-        ))
-      .getSingle();
+  // [取得：指定した名前に一致する顧客データを取得]
+  Future<Customer> getCustomersByName(String name) =>
+      (select(customers)..where((t) => t.name.equals(name))).getSingle();
 
-  // Update[１件分を更新]
+  // [更新：１件分の顧客データを更新]
   Future updateCustomer(Customer customer) =>
       update(customers).replace(customer);
 
-  // Delete[１件分を削除]
-  Future deleteCustomer(Customer customer) => (delete(customers)
-        ..where(
-          (t) => t.id.equals(customer.id),
-        ))
-      .go();
+  // [削除：１件分の顧客データを削除]
+  Future deleteCustomer(Customer customer) =>
+      (delete(customers)..where((t) => t.id.equals(customer.id))).go();
 
-  //---------------------------------------------------------------------------
+  //
+  //
+  // -- SalesMenuRecord：売上項目１件分のデータ -----------------------------------
+  //
+  //
 
-  // Create[１件分の売上データを追加]
+  // [追加：１件分の売上データを追加]
   Future<int> addSalesMenuRecord(SalesMenuRecord salesMenuRecord) =>
       into(salesMenuRecords).insert(salesMenuRecord);
 
-  // Read[すべての売上データを抽出]
+  // [取得：すべての売上データを取得]
   Future<List<SalesMenuRecord>> get allSalesMenuRecords =>
       select(salesMenuRecords).get();
 
-  // Read[指定日の売上データをすべて抽出する]
+  // [取得：指定した日付の売上データを取得]
   Future<List<SalesMenuRecord>> getSalesMenuRecordsByDay(DateTime date) =>
-      (select(salesMenuRecords)
-            ..where(
-              (t) => t.date.equals(date),
-            ))
-          .get();
+      (select(salesMenuRecords)..where((t) => t.date.equals(date))).get();
 
-  // Read[指定顧客の売上データをすべて抽出する]
+  // [取得：指定した顧客データの売上データを取得]
   Future<List<SalesMenuRecord>> getSalesMenuRecordsByCustomer(
           Customer customer) =>
-      (select(salesMenuRecords)
-            ..where(
-              (t) => t.customerId.equals(customer.id),
-            ))
+      (select(salesMenuRecords)..where((t) => t.customerId.equals(customer.id)))
           .get();
 
   //TODO Read[指定メニューの売上データをつべて抽出する]
   //TODO Read[指定担当者の売上データをすべて抽出する]
 
-  // Update[１件分の売上データを更新]
+  // [更新：１件分の売上データを更新]
   Future updateSalesMenuRecord(SalesMenuRecord salesMenuRecord) =>
       update(salesMenuRecords).replace(salesMenuRecord);
 
-  // Delete[１件分の売上データを削除]
+  // [削除：１件分の売上データを削除]
   Future deleteSalesMenuRecord(SalesMenuRecord salesMenuRecord) =>
-      (delete(salesMenuRecords)
-            ..where(
-              (t) => t.id.equals(salesMenuRecord.id),
-            ))
+      (delete(salesMenuRecords)..where((t) => t.id.equals(salesMenuRecord.id)))
           .go();
 }
