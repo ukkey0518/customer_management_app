@@ -17,6 +17,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   @override
   void initState() {
     super.initState();
+    _menuCategoriesList = List();
     _reloadMenuCategories();
   }
 
