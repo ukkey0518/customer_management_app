@@ -32,6 +32,16 @@ class SalesItems extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+// [テーブル：メニューカテゴリデータ]
+@DataClassName('MenuCategory')
+class MenuCategories extends Table{
+  IntColumn get id => integer()();
+  TextColumn get name => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
 // [テーブル：メニューデータ(割引も含む)]
 
 // [テーブル：スタッフデータ]
