@@ -19,14 +19,13 @@ class Customers extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-// [テーブル：売上データ(１アイテム分)]
-class SalesItems extends Table {
+// [テーブル：売上データ(１アイテム毎)]
+class SoldItems extends Table {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get date => dateTime()();
   IntColumn get customerId => integer()();
   IntColumn get stuffId => integer()();
   IntColumn get menuId => integer()();
-  IntColumn get price => integer()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -67,7 +66,7 @@ LazyDatabase _openConnection() {
 
 @UseMoor(tables: [
   Customers,
-  SalesItems,
+  SoldItems,
   MenuCategories,
   Menus,
 ])
@@ -79,7 +78,7 @@ class MyDatabase extends _$MyDatabase {
 
   //
   //
-  // -- Customer：顧客データ -----------------------------------------------------
+  // -- Customer：顧客データテーブル -----------------------------------------------------
   //
   //
 
@@ -116,39 +115,38 @@ class MyDatabase extends _$MyDatabase {
 
   //
   //
-  // -- SalesMenuRecord：売上項目１件分のデータ -----------------------------------
+  // -- SoldItems：売上項目１件毎のデータテーブル -----------------------------------
   //
   //
 
   // [追加：１件分の売上データを追加]
-  Future<int> addSalesItem(SalesItem salesItem) =>
-      into(salesItems).insert(salesItem);
+  Future<int> addSoldItem(SoldItem soldItem) =>
+      into(soldItems).insert(soldItem);
 
   // [取得：すべての売上データを取得]
-  Future<List<SalesItem>> get allSalesItems => select(salesItems).get();
+  Future<List<SoldItem>> get allSoldItems => select(soldItems).get();
 
   // [取得：指定した日付の売上データを取得]
-  Future<List<SalesItem>> getSalesItemsByDay(DateTime date) =>
-      (select(salesItems)..where((t) => t.date.equals(date))).get();
+  Future<List<SoldItem>> getSoldItemsByDay(DateTime date) =>
+      (select(soldItems)..where((t) => t.date.equals(date))).get();
 
   // [取得：指定した顧客データの売上データを取得]
-  Future<List<SalesItem>> getSalesItemsByCustomer(Customer customer) =>
-      (select(salesItems)..where((t) => t.customerId.equals(customer.id)))
-          .get();
+  Future<List<SoldItem>> getSoldItemsByCustomer(Customer customer) =>
+      (select(soldItems)..where((t) => t.customerId.equals(customer.id))).get();
 
   // [取得：指定したメニューの売上データを取得]
-  Future<List<SalesItem>> getSalesItemsByMenu(Menu menu) =>
-      (select(salesItems)..where((t) => t.menuId.equals(menu.id))).get();
+  Future<List<SoldItem>> getSoldItemsByMenu(Menu menu) =>
+      (select(soldItems)..where((t) => t.menuId.equals(menu.id))).get();
 
   //TODO Read[指定担当者の売上データをすべて抽出する]
 
   // [更新：１件分の売上データを更新]
-  Future updateSalesItem(SalesItem salesItem) =>
-      update(salesItems).replace(salesItem);
+  Future updateSoldItem(SoldItem soldItem) =>
+      update(soldItems).replace(soldItem);
 
   // [削除：１件分の売上データを削除]
-  Future deleteSalesItem(SalesItem salesItem) =>
-      (delete(salesItems)..where((t) => t.id.equals(salesItem.id))).go();
+  Future deleteSoldItem(SoldItem salesItem) =>
+      (delete(soldItems)..where((t) => t.id.equals(salesItem.id))).go();
 
   //
   //

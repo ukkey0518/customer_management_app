@@ -302,26 +302,24 @@ class $CustomersTable extends Customers
   }
 }
 
-class SalesItem extends DataClass implements Insertable<SalesItem> {
+class SoldItem extends DataClass implements Insertable<SoldItem> {
   final int id;
   final DateTime date;
   final int customerId;
   final int stuffId;
   final int menuId;
-  final int price;
-  SalesItem(
+  SoldItem(
       {@required this.id,
       @required this.date,
       @required this.customerId,
       @required this.stuffId,
-      @required this.menuId,
-      @required this.price});
-  factory SalesItem.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      @required this.menuId});
+  factory SoldItem.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
     final dateTimeType = db.typeSystem.forDartType<DateTime>();
-    return SalesItem(
+    return SoldItem(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       date:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
@@ -331,19 +329,17 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
           intType.mapFromDatabaseResponse(data['${effectivePrefix}stuff_id']),
       menuId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}menu_id']),
-      price: intType.mapFromDatabaseResponse(data['${effectivePrefix}price']),
     );
   }
-  factory SalesItem.fromJson(Map<String, dynamic> json,
+  factory SoldItem.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return SalesItem(
+    return SoldItem(
       id: serializer.fromJson<int>(json['id']),
       date: serializer.fromJson<DateTime>(json['date']),
       customerId: serializer.fromJson<int>(json['customerId']),
       stuffId: serializer.fromJson<int>(json['stuffId']),
       menuId: serializer.fromJson<int>(json['menuId']),
-      price: serializer.fromJson<int>(json['price']),
     );
   }
   @override
@@ -355,13 +351,12 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
       'customerId': serializer.toJson<int>(customerId),
       'stuffId': serializer.toJson<int>(stuffId),
       'menuId': serializer.toJson<int>(menuId),
-      'price': serializer.toJson<int>(price),
     };
   }
 
   @override
-  SalesItemsCompanion createCompanion(bool nullToAbsent) {
-    return SalesItemsCompanion(
+  SoldItemsCompanion createCompanion(bool nullToAbsent) {
+    return SoldItemsCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       date: date == null && nullToAbsent ? const Value.absent() : Value(date),
       customerId: customerId == null && nullToAbsent
@@ -372,35 +367,26 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
           : Value(stuffId),
       menuId:
           menuId == null && nullToAbsent ? const Value.absent() : Value(menuId),
-      price:
-          price == null && nullToAbsent ? const Value.absent() : Value(price),
     );
   }
 
-  SalesItem copyWith(
-          {int id,
-          DateTime date,
-          int customerId,
-          int stuffId,
-          int menuId,
-          int price}) =>
-      SalesItem(
+  SoldItem copyWith(
+          {int id, DateTime date, int customerId, int stuffId, int menuId}) =>
+      SoldItem(
         id: id ?? this.id,
         date: date ?? this.date,
         customerId: customerId ?? this.customerId,
         stuffId: stuffId ?? this.stuffId,
         menuId: menuId ?? this.menuId,
-        price: price ?? this.price,
       );
   @override
   String toString() {
-    return (StringBuffer('SalesItem(')
+    return (StringBuffer('SoldItem(')
           ..write('id: $id, ')
           ..write('date: $date, ')
           ..write('customerId: $customerId, ')
           ..write('stuffId: $stuffId, ')
-          ..write('menuId: $menuId, ')
-          ..write('price: $price')
+          ..write('menuId: $menuId')
           ..write(')'))
         .toString();
   }
@@ -411,71 +397,62 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
       $mrjc(
           date.hashCode,
           $mrjc(
-              customerId.hashCode,
-              $mrjc(
-                  stuffId.hashCode, $mrjc(menuId.hashCode, price.hashCode))))));
+              customerId.hashCode, $mrjc(stuffId.hashCode, menuId.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is SalesItem &&
+      (other is SoldItem &&
           other.id == this.id &&
           other.date == this.date &&
           other.customerId == this.customerId &&
           other.stuffId == this.stuffId &&
-          other.menuId == this.menuId &&
-          other.price == this.price);
+          other.menuId == this.menuId);
 }
 
-class SalesItemsCompanion extends UpdateCompanion<SalesItem> {
+class SoldItemsCompanion extends UpdateCompanion<SoldItem> {
   final Value<int> id;
   final Value<DateTime> date;
   final Value<int> customerId;
   final Value<int> stuffId;
   final Value<int> menuId;
-  final Value<int> price;
-  const SalesItemsCompanion({
+  const SoldItemsCompanion({
     this.id = const Value.absent(),
     this.date = const Value.absent(),
     this.customerId = const Value.absent(),
     this.stuffId = const Value.absent(),
     this.menuId = const Value.absent(),
-    this.price = const Value.absent(),
   });
-  SalesItemsCompanion.insert({
+  SoldItemsCompanion.insert({
     this.id = const Value.absent(),
     @required DateTime date,
     @required int customerId,
     @required int stuffId,
     @required int menuId,
-    @required int price,
   })  : date = Value(date),
         customerId = Value(customerId),
         stuffId = Value(stuffId),
-        menuId = Value(menuId),
-        price = Value(price);
-  SalesItemsCompanion copyWith(
+        menuId = Value(menuId);
+  SoldItemsCompanion copyWith(
       {Value<int> id,
       Value<DateTime> date,
       Value<int> customerId,
       Value<int> stuffId,
-      Value<int> menuId,
-      Value<int> price}) {
-    return SalesItemsCompanion(
+      Value<int> menuId}) {
+    return SoldItemsCompanion(
       id: id ?? this.id,
       date: date ?? this.date,
       customerId: customerId ?? this.customerId,
       stuffId: stuffId ?? this.stuffId,
       menuId: menuId ?? this.menuId,
-      price: price ?? this.price,
     );
   }
 }
 
-class $SalesItemsTable extends SalesItems
-    with TableInfo<$SalesItemsTable, SalesItem> {
+class $SoldItemsTable extends SoldItems
+    with TableInfo<$SoldItemsTable, SoldItem> {
   final GeneratedDatabase _db;
   final String _alias;
-  $SalesItemsTable(this._db, [this._alias]);
+  $SoldItemsTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
@@ -533,29 +510,16 @@ class $SalesItemsTable extends SalesItems
     );
   }
 
-  final VerificationMeta _priceMeta = const VerificationMeta('price');
-  GeneratedIntColumn _price;
   @override
-  GeneratedIntColumn get price => _price ??= _constructPrice();
-  GeneratedIntColumn _constructPrice() {
-    return GeneratedIntColumn(
-      'price',
-      $tableName,
-      false,
-    );
-  }
-
+  List<GeneratedColumn> get $columns => [id, date, customerId, stuffId, menuId];
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, date, customerId, stuffId, menuId, price];
+  $SoldItemsTable get asDslTable => this;
   @override
-  $SalesItemsTable get asDslTable => this;
+  String get $tableName => _alias ?? 'sold_items';
   @override
-  String get $tableName => _alias ?? 'sales_items';
+  final String actualTableName = 'sold_items';
   @override
-  final String actualTableName = 'sales_items';
-  @override
-  VerificationContext validateIntegrity(SalesItemsCompanion d,
+  VerificationContext validateIntegrity(SoldItemsCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
@@ -585,25 +549,19 @@ class $SalesItemsTable extends SalesItems
     } else if (isInserting) {
       context.missing(_menuIdMeta);
     }
-    if (d.price.present) {
-      context.handle(
-          _priceMeta, price.isAcceptableValue(d.price.value, _priceMeta));
-    } else if (isInserting) {
-      context.missing(_priceMeta);
-    }
     return context;
   }
 
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  SalesItem map(Map<String, dynamic> data, {String tablePrefix}) {
+  SoldItem map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return SalesItem.fromData(data, _db, prefix: effectivePrefix);
+    return SoldItem.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  Map<String, Variable> entityToSql(SalesItemsCompanion d) {
+  Map<String, Variable> entityToSql(SoldItemsCompanion d) {
     final map = <String, Variable>{};
     if (d.id.present) {
       map['id'] = Variable<int, IntType>(d.id.value);
@@ -620,15 +578,12 @@ class $SalesItemsTable extends SalesItems
     if (d.menuId.present) {
       map['menu_id'] = Variable<int, IntType>(d.menuId.value);
     }
-    if (d.price.present) {
-      map['price'] = Variable<int, IntType>(d.price.value);
-    }
     return map;
   }
 
   @override
-  $SalesItemsTable createAlias(String alias) {
-    return $SalesItemsTable(_db, alias);
+  $SoldItemsTable createAlias(String alias) {
+    return $SoldItemsTable(_db, alias);
   }
 }
 
@@ -1044,8 +999,8 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $CustomersTable _customers;
   $CustomersTable get customers => _customers ??= $CustomersTable(this);
-  $SalesItemsTable _salesItems;
-  $SalesItemsTable get salesItems => _salesItems ??= $SalesItemsTable(this);
+  $SoldItemsTable _soldItems;
+  $SoldItemsTable get soldItems => _soldItems ??= $SoldItemsTable(this);
   $MenuCategoriesTable _menuCategories;
   $MenuCategoriesTable get menuCategories =>
       _menuCategories ??= $MenuCategoriesTable(this);
@@ -1055,5 +1010,5 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [customers, salesItems, menuCategories, menus];
+      [customers, soldItems, menuCategories, menus];
 }

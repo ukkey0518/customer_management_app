@@ -19,9 +19,9 @@ enum VisitRecordEditState { ADD, EDIT }
 class VisitRecordEditScreen extends StatefulWidget {
   final VisitRecordListScreenPreferences pref;
   final VisitRecordEditState state;
-  final SalesItem salesItem;
+  final SoldItem soldItem;
 
-  VisitRecordEditScreen(this.pref, {@required this.state, this.salesItem});
+  VisitRecordEditScreen(this.pref, {@required this.state, this.soldItem});
   @override
   _VisitRecordEditScreenState createState() => _VisitRecordEditScreenState();
 }
@@ -31,7 +31,7 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
   DateFormat _dateFormatter;
   Customer _customer;
   String _titleStr;
-  SalesItem _editedSalesItem;
+  SoldItem _editedSoldItem;
 
   @override
   void initState() {
@@ -48,7 +48,7 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
 
   // [更新：CustomerをDBから取得]
   _initCustomer() async {
-    _customer = await database.getCustomersById(widget.salesItem.customerId);
+    _customer = await database.getCustomersById(widget.soldItem.customerId);
     setState(() {});
   }
 
@@ -243,17 +243,16 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
   // [コールバック：保存ボタンタップ時]
   _saveVisitRecord() async {
     // 新しいCustomerオブジェクト生成
-    var salesItem = SalesItem(
+    var soldItem = SoldItem(
       id: null,
       date: _date,
       customerId: _customer.id,
       menuId: 1,
       stuffId: 1,
-      price: 1000,
     );
-    print(salesItem);
+    print(soldItem);
     // DBに新規登録
-    await database.addSalesItem(salesItem);
+    await database.addSoldItem(soldItem);
     Toast.show('登録されました', context);
 
     // 画面を終了

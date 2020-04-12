@@ -23,7 +23,7 @@ class VisitRecordListScreen extends StatefulWidget {
 }
 
 class _VisitRecordScreenState extends State<VisitRecordListScreen> {
-  List<SalesItem> _salesItemsList = List();
+  List<SoldItem> _soldItemsList = List();
   VisitRecordListNarrowState _narrowState = VisitRecordListNarrowState.ALL;
   VisitRecordListSortState _sortState = VisitRecordListSortState.REGISTER_OLD;
   List<String> _narrowDropdownMenuItems = List();
@@ -52,11 +52,11 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
     switch (_narrowState) {
       case VisitRecordListNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _salesItemsList = await database.allSalesItems;
+        _soldItemsList = await database.allSoldItems;
         break;
       case VisitRecordListNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _salesItemsList = await database.getSalesItemsByDay(
+        _soldItemsList = await database.getSoldItemsByDay(
             DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
         break;
     }
@@ -65,11 +65,11 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
     switch (_sortState) {
       case VisitRecordListSortState.REGISTER_OLD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
-        _salesItemsList.sort((a, b) => a.id - b.id);
+        _soldItemsList.sort((a, b) => a.id - b.id);
         break;
       case VisitRecordListSortState.REGISTER_NEW:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
-        _salesItemsList.sort((a, b) => b.id - a.id);
+        _soldItemsList.sort((a, b) => b.id - a.id);
         break;
     }
     setState(() {});
@@ -109,7 +109,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
               child: ListView.builder(
                 itemBuilder: (context, index) =>
                     _visitRecordListItemPart(index),
-                itemCount: _salesItemsList.length,
+                itemCount: _soldItemsList.length,
               ),
             ),
           ),
@@ -129,7 +129,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
               children: <TextSpan>[
                 TextSpan(text: '検索結果：'),
                 TextSpan(
-                  text: '${_salesItemsList.length}',
+                  text: '${_soldItemsList.length}',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.red,
@@ -208,12 +208,12 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [ウィジェット：各リストアイテム]
   Widget _visitRecordListItemPart(int index) {
-    var salesItem = _salesItemsList[index];
+    var soldItem = _soldItemsList[index];
     return VisitRecordListCard(
-      salesItem: salesItem,
-//      onTap: () => _showVisitRecord(salesItem),
+      soldItem: soldItem,
+//      onTap: () => _showVisitRecord(soldItem),
       onTap: null,
-      onLongPress: () => _deleteVisitRecord(salesItem),
+      onLongPress: () => _deleteVisitRecord(soldItem),
     );
   }
 
@@ -236,7 +236,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [コールバック：リストアイテムタップ]
   // →選択した顧客情報の詳細ページへ遷移する
-  _showVisitRecord(SalesItem salesItem) {
+  _showVisitRecord(SoldItem soldItem) {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -245,7 +245,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
             narrowState: _narrowState,
             sortState: _sortState,
           ),
-          salesItem: salesItem,
+          soldItem: soldItem,
         ),
       ),
     );
@@ -253,9 +253,9 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [コールバック：リストアイテム長押し]
   // →長押ししたアイテムを削除する
-  _deleteVisitRecord(SalesItem salesItem) async {
+  _deleteVisitRecord(SoldItem soldItem) async {
     // DBから指定のCustomerを削除
-    await database.deleteSalesItem(salesItem);
+    await database.deleteSoldItem(soldItem);
     // 現在の条件でリストを更新
     _reloadVisitRecordList();
     // トースト表示

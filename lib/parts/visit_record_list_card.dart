@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class VisitRecordListCard extends StatelessWidget {
-  VisitRecordListCard({this.salesItem, this.onTap, this.onLongPress});
+  VisitRecordListCard({this.soldItem, this.onTap, this.onLongPress});
 
-  final SalesItem salesItem;
+  final SoldItem soldItem;
   final GestureTapCallback onTap;
   final GestureLongPressCallback onLongPress;
 
@@ -21,7 +21,7 @@ class VisitRecordListCard extends StatelessWidget {
             padding: EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
-                Text('$salesItem'),
+                Text('$soldItem'),
               ],
             ),
           ),
