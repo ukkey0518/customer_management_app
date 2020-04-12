@@ -34,7 +34,7 @@ class SalesItems extends Table {
 
 // [テーブル：メニューカテゴリデータ]
 @DataClassName('MenuCategory')
-class MenuCategories extends Table{
+class MenuCategories extends Table {
   IntColumn get id => integer()();
   TextColumn get name => text()();
 
