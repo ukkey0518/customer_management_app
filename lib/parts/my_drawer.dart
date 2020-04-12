@@ -54,6 +54,19 @@ class MyDrawer extends StatelessWidget {
               );
             },
           ),
+          ListTile(
+            leading: Icon(Icons.settings),
+            title: Text('各種設定'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MyCustomRoute(
+                  builder: null,
+                ),
+              );
+            },
+          ),
         ],
       ),
     );
