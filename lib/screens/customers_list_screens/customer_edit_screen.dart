@@ -7,7 +7,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
-import '../customers_list_screens/customer_information_pages/customer_information_screen.dart';
+import 'customer_information_pages/customer_information_screen.dart';
 
 enum CustomerEditState { ADD, EDIT }
 

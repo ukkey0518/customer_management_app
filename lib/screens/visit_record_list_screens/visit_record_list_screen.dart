@@ -2,7 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/my_drawer.dart';
 import 'package:customermanagementapp/parts/visit_record_list_card.dart';
-import 'package:customermanagementapp/screens/edit_screens/visit_record_edit_screen.dart';
+import 'package:customermanagementapp/screens/visit_record_list_screens/visit_record_edit_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
