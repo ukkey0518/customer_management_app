@@ -136,7 +136,11 @@ class MyDatabase extends _$MyDatabase {
       (select(salesItems)..where((t) => t.customerId.equals(customer.id)))
           .get();
 
-  //TODO Read[指定メニューの売上データをつべて抽出する]
+  // [取得：指定したメニューの売上データを取得]
+  Future<List<SalesItem>> getSalesItemsByMenu(Menu menu) =>
+      (select(salesItems)..where((t) => t.menuId.equals(menu.id)))
+          .get();
+
   //TODO Read[指定担当者の売上データをすべて抽出する]
 
   // [更新：１件分の売上データを更新]
