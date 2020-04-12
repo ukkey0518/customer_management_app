@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:js';
 
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
@@ -18,7 +19,7 @@ class Customers extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-class SalesMenuRecords extends Table {
+class SalesItems extends Table {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get date => dateTime()();
   IntColumn get customerId => integer()();
@@ -39,7 +40,7 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [Customers, SalesMenuRecords])
+@UseMoor(tables: [Customers, SalesItems])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
@@ -90,32 +91,32 @@ class MyDatabase extends _$MyDatabase {
   //
 
   // [追加：１件分の売上データを追加]
-  Future<int> addSalesMenuRecord(SalesMenuRecord salesMenuRecord) =>
-      into(salesMenuRecords).insert(salesMenuRecord);
+  Future<int> addSalesItem(SalesItem salesItem) =>
+      into(salesItems).insert(salesItem);
 
   // [取得：すべての売上データを取得]
-  Future<List<SalesMenuRecord>> get allSalesMenuRecords =>
-      select(salesMenuRecords).get();
+  Future<List<SalesItem>> get allSalesItems =>
+      select(salesItems).get();
 
   // [取得：指定した日付の売上データを取得]
-  Future<List<SalesMenuRecord>> getSalesMenuRecordsByDay(DateTime date) =>
-      (select(salesMenuRecords)..where((t) => t.date.equals(date))).get();
+  Future<List<SalesItem>> getSalesItemsByDay(DateTime date) =>
+      (select(salesItems)..where((t) => t.date.equals(date))).get();
 
   // [取得：指定した顧客データの売上データを取得]
-  Future<List<SalesMenuRecord>> getSalesMenuRecordsByCustomer(
+  Future<List<SalesItem>> getSalesItemsByCustomer(
           Customer customer) =>
-      (select(salesMenuRecords)..where((t) => t.customerId.equals(customer.id)))
+      (select(salesItems)..where((t) => t.customerId.equals(customer.id)))
           .get();
 
   //TODO Read[指定メニューの売上データをつべて抽出する]
   //TODO Read[指定担当者の売上データをすべて抽出する]
 
   // [更新：１件分の売上データを更新]
-  Future updateSalesMenuRecord(SalesMenuRecord salesMenuRecord) =>
-      update(salesMenuRecords).replace(salesMenuRecord);
+  Future updateSalesItem(SalesItem salesItem) =>
+      update(salesItems).replace(salesItem);
 
   // [削除：１件分の売上データを削除]
-  Future deleteSalesMenuRecord(SalesMenuRecord salesMenuRecord) =>
-      (delete(salesMenuRecords)..where((t) => t.id.equals(salesMenuRecord.id)))
+  Future deleteSalesItem(SalesItem salesItem) =>
+      (delete(salesItems)..where((t) => t.id.equals(salesItem.id)))
           .go();
 }

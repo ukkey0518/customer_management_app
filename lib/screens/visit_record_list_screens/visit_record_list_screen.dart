@@ -23,7 +23,7 @@ class VisitRecordListScreen extends StatefulWidget {
 }
 
 class _VisitRecordScreenState extends State<VisitRecordListScreen> {
-  List<SalesMenuRecord> _salesMenuRecordList = List();
+  List<SalesItem> _salesItemsList = List();
   VisitRecordListNarrowState _narrowState = VisitRecordListNarrowState.ALL;
   VisitRecordListSortState _sortState = VisitRecordListSortState.REGISTER_OLD;
   List<String> _narrowDropdownMenuItems = List();
@@ -52,11 +52,11 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
     switch (_narrowState) {
       case VisitRecordListNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _salesMenuRecordList = await database.allSalesMenuRecords;
+        _salesItemsList = await database.allSalesItems;
         break;
       case VisitRecordListNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _salesMenuRecordList = await database.getSalesMenuRecordsByDay(
+        _salesItemsList = await database.getSalesItemsByDay(
             DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
         break;
     }
@@ -65,11 +65,11 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
     switch (_sortState) {
       case VisitRecordListSortState.REGISTER_OLD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
-        _salesMenuRecordList.sort((a, b) => a.id - b.id);
+        _salesItemsList.sort((a, b) => a.id - b.id);
         break;
       case VisitRecordListSortState.REGISTER_NEW:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
-        _salesMenuRecordList.sort((a, b) => b.id - a.id);
+        _salesItemsList.sort((a, b) => b.id - a.id);
         break;
     }
     setState(() {});
@@ -109,7 +109,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
               child: ListView.builder(
                 itemBuilder: (context, index) =>
                     _visitRecordListItemPart(index),
-                itemCount: _salesMenuRecordList.length,
+                itemCount: _salesItemsList.length,
               ),
             ),
           ),
@@ -129,7 +129,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
               children: <TextSpan>[
                 TextSpan(text: '検索結果：'),
                 TextSpan(
-                  text: '${_salesMenuRecordList.length}',
+                  text: '${_salesItemsList.length}',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.red,
@@ -208,12 +208,12 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [ウィジェット：各リストアイテム]
   Widget _visitRecordListItemPart(int index) {
-    var salesMenuRecord = _salesMenuRecordList[index];
+    var salesItem = _salesItemsList[index];
     return VisitRecordListCard(
-      salesMenuRecord: salesMenuRecord,
-//      onTap: () => _showVisitRecord(salesMenuRecord),
+      salesItem: salesItem,
+//      onTap: () => _showVisitRecord(salesItem),
       onTap: null,
-      onLongPress: () => _deleteVisitRecord(salesMenuRecord),
+      onLongPress: () => _deleteVisitRecord(salesItem),
     );
   }
 
@@ -236,7 +236,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [コールバック：リストアイテムタップ]
   // →選択した顧客情報の詳細ページへ遷移する
-  _showVisitRecord(SalesMenuRecord visitRecord) {
+  _showVisitRecord(SalesItem salesItem) {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -245,7 +245,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
             narrowState: _narrowState,
             sortState: _sortState,
           ),
-          visitRecord: visitRecord,
+          salesItem: salesItem,
         ),
       ),
     );
@@ -253,9 +253,9 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [コールバック：リストアイテム長押し]
   // →長押ししたアイテムを削除する
-  _deleteVisitRecord(SalesMenuRecord salesMenuRecord) async {
+  _deleteVisitRecord(SalesItem salesItem) async {
     // DBから指定のCustomerを削除
-    await database.deleteSalesMenuRecord(salesMenuRecord);
+    await database.deleteSalesItem(salesItem);
     // 現在の条件でリストを更新
     _reloadVisitRecordList();
     // トースト表示
