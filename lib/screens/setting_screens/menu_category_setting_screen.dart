@@ -16,11 +16,11 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   @override
   void initState() {
     super.initState();
-    _getMenuCategories();
+    _reloadMenuCategories();
   }
 
   // [更新：DBからメニューカテゴリを取得してリストに反映する処理]
-  _getMenuCategories() async {
+  _reloadMenuCategories() async {
     _menuCategoriesList = await database.allMenuCategories;
     setState(() {});
   }
@@ -36,7 +36,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
         child: Icon(Icons.add),
         onPressed: () => showDialog(
                 context: context, builder: (_) => _menuCategoryAddDialog())
-            .then((_) => _getMenuCategories()),
+            .then((_) => _reloadMenuCategories()),
       ),
       body: Column(
         children: <Widget>[
@@ -101,9 +101,10 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   }
 
   // [コールバック：リストアイテム長押し時]
-  _deleteMenuCategory(int index) {
+  _deleteMenuCategory(int index) async {
     var deleteMenuCategory = _menuCategoriesList[index];
-    database.deleteMenuCategory(deleteMenuCategory);
+    await database.deleteMenuCategory(deleteMenuCategory);
+    _reloadMenuCategories();
     Toast.show('削除しました', context);
   }
 }
