@@ -593,16 +593,13 @@ class $SoldItemsTable extends SoldItems
 }
 
 class MenuCategory extends DataClass implements Insertable<MenuCategory> {
-  final int id;
   final String name;
-  MenuCategory({@required this.id, @required this.name});
+  MenuCategory({@required this.name});
   factory MenuCategory.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
     final stringType = db.typeSystem.forDartType<String>();
     return MenuCategory(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
     );
   }
@@ -610,7 +607,6 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return MenuCategory(
-      id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
     );
   }
@@ -618,7 +614,6 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
     };
   }
@@ -626,46 +621,37 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
   @override
   MenuCategoriesCompanion createCompanion(bool nullToAbsent) {
     return MenuCategoriesCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
     );
   }
 
-  MenuCategory copyWith({int id, String name}) => MenuCategory(
-        id: id ?? this.id,
+  MenuCategory copyWith({String name}) => MenuCategory(
         name: name ?? this.name,
       );
   @override
   String toString() {
-    return (StringBuffer('MenuCategory(')
-          ..write('id: $id, ')
-          ..write('name: $name')
-          ..write(')'))
+    return (StringBuffer('MenuCategory(')..write('name: $name')..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode, name.hashCode));
+  int get hashCode => $mrjf(name.hashCode);
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is MenuCategory && other.id == this.id && other.name == this.name);
+      (other is MenuCategory && other.name == this.name);
 }
 
 class MenuCategoriesCompanion extends UpdateCompanion<MenuCategory> {
-  final Value<int> id;
   final Value<String> name;
   const MenuCategoriesCompanion({
-    this.id = const Value.absent(),
     this.name = const Value.absent(),
   });
   MenuCategoriesCompanion.insert({
-    this.id = const Value.absent(),
     @required String name,
   }) : name = Value(name);
-  MenuCategoriesCompanion copyWith({Value<int> id, Value<String> name}) {
+  MenuCategoriesCompanion copyWith({Value<String> name}) {
     return MenuCategoriesCompanion(
-      id: id ?? this.id,
       name: name ?? this.name,
     );
   }
@@ -676,15 +662,6 @@ class $MenuCategoriesTable extends MenuCategories
   final GeneratedDatabase _db;
   final String _alias;
   $MenuCategoriesTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
-  @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
-  }
-
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedTextColumn _name;
   @override
@@ -698,7 +675,7 @@ class $MenuCategoriesTable extends MenuCategories
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  List<GeneratedColumn> get $columns => [name];
   @override
   $MenuCategoriesTable get asDslTable => this;
   @override
@@ -709,9 +686,6 @@ class $MenuCategoriesTable extends MenuCategories
   VerificationContext validateIntegrity(MenuCategoriesCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    }
     if (d.name.present) {
       context.handle(
           _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
@@ -722,7 +696,7 @@ class $MenuCategoriesTable extends MenuCategories
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {id};
+  Set<GeneratedColumn> get $primaryKey => {name};
   @override
   MenuCategory map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -732,9 +706,6 @@ class $MenuCategoriesTable extends MenuCategories
   @override
   Map<String, Variable> entityToSql(MenuCategoriesCompanion d) {
     final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
     if (d.name.present) {
       map['name'] = Variable<String, StringType>(d.name.value);
     }

@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
+import 'package:moor_ffi/database.dart';
 import 'package:toast/toast.dart';
 
 import '../../main.dart';
@@ -83,16 +84,21 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
         ),
         FlatButton(
           child: Text('追加'),
-          onPressed: () {
+          onPressed: () async {
             if (newCategoryController.text.isEmpty) {
               Toast.show('カテゴリ名が未入力です', context);
               return;
             }
             var menuCategory = MenuCategory(
-              id: null,
               name: newCategoryController.text,
             );
-            database.addMenuCategory(menuCategory);
+            try {
+              await database.addMenuCategory(menuCategory);
+            } on SqliteException catch (e) {
+              Toast.show('カテゴリ名が重複しています。', context);
+              print('メニューカテゴリ名の重複：$e');
+              return;
+            }
             Navigator.of(context).pop();
           },
         ),

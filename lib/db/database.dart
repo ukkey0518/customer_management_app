@@ -34,11 +34,10 @@ class SoldItems extends Table {
 // [テーブル：メニューカテゴリデータ]
 @DataClassName('MenuCategory')
 class MenuCategories extends Table {
-  IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
 
   @override
-  Set<Column> get primaryKey => {id};
+  Set<Column> get primaryKey => {name};
 }
 
 // [テーブル：メニューデータ]
@@ -176,7 +175,8 @@ class MyDatabase extends _$MyDatabase {
 
   // [削除：１件分のメニューカテゴリを削除]
   Future deleteMenuCategory(MenuCategory menuCategory) =>
-      (delete(menuCategories)..where((t) => t.id.equals(menuCategory.id))).go();
+      (delete(menuCategories)..where((t) => t.name.equals(menuCategory.name)))
+          .go();
 
   //
   //
