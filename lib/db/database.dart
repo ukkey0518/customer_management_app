@@ -42,7 +42,18 @@ class MenuCategories extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-// [テーブル：メニューデータ(割引も含む)]
+// [テーブル：メニューデータ]
+class Menus extends Table {
+  IntColumn get id => integer()();
+  IntColumn get menuCategoryId => integer()();
+  TextColumn get name => text()();
+  IntColumn get price => integer()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
+
+// ？[テーブル：割引データ]
 
 // [テーブル：スタッフデータ]
 
@@ -54,7 +65,12 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [Customers, SalesItems, MenuCategories])
+@UseMoor(tables: [
+  Customers,
+  SalesItems,
+  MenuCategories,
+  Menus,
+])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
@@ -152,4 +168,23 @@ class MyDatabase extends _$MyDatabase {
   // [削除：１件分のメニューカテゴリを削除]
   Future deleteMenuCategory(MenuCategory menuCategory) =>
       (delete(menuCategories)..where((t) => t.id.equals(menuCategory.id))).go();
+
+  //
+  //
+  // -- Menus：メニューデータ ------------------------------------------
+  //
+  //
+
+  // [追加：１件分のメニューカテゴリを追加]
+  Future<int> addMenu(Menu menu) => into(menus).insert(menu);
+
+  // [取得：すべてのメニューカテゴリを取得]
+  Future<List<Menu>> get allMenus => select(menus).get();
+
+  // [更新：１件分のメニューカテゴリを更新]
+  Future updateMenu(Menu menu) => update(menus).replace(menu);
+
+  // [削除：１件分のメニューカテゴリを削除]
+  Future deleteMenu(Menu menu) =>
+      (delete(menus)..where((t) => t.id.equals(menu.id))).go();
 }

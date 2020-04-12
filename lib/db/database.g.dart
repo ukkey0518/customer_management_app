@@ -793,6 +793,253 @@ class $MenuCategoriesTable extends MenuCategories
   }
 }
 
+class Menu extends DataClass implements Insertable<Menu> {
+  final int id;
+  final int menuCategoryId;
+  final String name;
+  final int price;
+  Menu(
+      {@required this.id,
+      @required this.menuCategoryId,
+      @required this.name,
+      @required this.price});
+  factory Menu.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return Menu(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      menuCategoryId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}menu_category_id']),
+      name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      price: intType.mapFromDatabaseResponse(data['${effectivePrefix}price']),
+    );
+  }
+  factory Menu.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return Menu(
+      id: serializer.fromJson<int>(json['id']),
+      menuCategoryId: serializer.fromJson<int>(json['menuCategoryId']),
+      name: serializer.fromJson<String>(json['name']),
+      price: serializer.fromJson<int>(json['price']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'menuCategoryId': serializer.toJson<int>(menuCategoryId),
+      'name': serializer.toJson<String>(name),
+      'price': serializer.toJson<int>(price),
+    };
+  }
+
+  @override
+  MenusCompanion createCompanion(bool nullToAbsent) {
+    return MenusCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      menuCategoryId: menuCategoryId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(menuCategoryId),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      price:
+          price == null && nullToAbsent ? const Value.absent() : Value(price),
+    );
+  }
+
+  Menu copyWith({int id, int menuCategoryId, String name, int price}) => Menu(
+        id: id ?? this.id,
+        menuCategoryId: menuCategoryId ?? this.menuCategoryId,
+        name: name ?? this.name,
+        price: price ?? this.price,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('Menu(')
+          ..write('id: $id, ')
+          ..write('menuCategoryId: $menuCategoryId, ')
+          ..write('name: $name, ')
+          ..write('price: $price')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(id.hashCode,
+      $mrjc(menuCategoryId.hashCode, $mrjc(name.hashCode, price.hashCode))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is Menu &&
+          other.id == this.id &&
+          other.menuCategoryId == this.menuCategoryId &&
+          other.name == this.name &&
+          other.price == this.price);
+}
+
+class MenusCompanion extends UpdateCompanion<Menu> {
+  final Value<int> id;
+  final Value<int> menuCategoryId;
+  final Value<String> name;
+  final Value<int> price;
+  const MenusCompanion({
+    this.id = const Value.absent(),
+    this.menuCategoryId = const Value.absent(),
+    this.name = const Value.absent(),
+    this.price = const Value.absent(),
+  });
+  MenusCompanion.insert({
+    @required int id,
+    @required int menuCategoryId,
+    @required String name,
+    @required int price,
+  })  : id = Value(id),
+        menuCategoryId = Value(menuCategoryId),
+        name = Value(name),
+        price = Value(price);
+  MenusCompanion copyWith(
+      {Value<int> id,
+      Value<int> menuCategoryId,
+      Value<String> name,
+      Value<int> price}) {
+    return MenusCompanion(
+      id: id ?? this.id,
+      menuCategoryId: menuCategoryId ?? this.menuCategoryId,
+      name: name ?? this.name,
+      price: price ?? this.price,
+    );
+  }
+}
+
+class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $MenusTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn(
+      'id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _menuCategoryIdMeta =
+      const VerificationMeta('menuCategoryId');
+  GeneratedIntColumn _menuCategoryId;
+  @override
+  GeneratedIntColumn get menuCategoryId =>
+      _menuCategoryId ??= _constructMenuCategoryId();
+  GeneratedIntColumn _constructMenuCategoryId() {
+    return GeneratedIntColumn(
+      'menu_category_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  GeneratedTextColumn _name;
+  @override
+  GeneratedTextColumn get name => _name ??= _constructName();
+  GeneratedTextColumn _constructName() {
+    return GeneratedTextColumn(
+      'name',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _priceMeta = const VerificationMeta('price');
+  GeneratedIntColumn _price;
+  @override
+  GeneratedIntColumn get price => _price ??= _constructPrice();
+  GeneratedIntColumn _constructPrice() {
+    return GeneratedIntColumn(
+      'price',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, menuCategoryId, name, price];
+  @override
+  $MenusTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'menus';
+  @override
+  final String actualTableName = 'menus';
+  @override
+  VerificationContext validateIntegrity(MenusCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (d.menuCategoryId.present) {
+      context.handle(
+          _menuCategoryIdMeta,
+          menuCategoryId.isAcceptableValue(
+              d.menuCategoryId.value, _menuCategoryIdMeta));
+    } else if (isInserting) {
+      context.missing(_menuCategoryIdMeta);
+    }
+    if (d.name.present) {
+      context.handle(
+          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (d.price.present) {
+      context.handle(
+          _priceMeta, price.isAcceptableValue(d.price.value, _priceMeta));
+    } else if (isInserting) {
+      context.missing(_priceMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Menu map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return Menu.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(MenusCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.menuCategoryId.present) {
+      map['menu_category_id'] = Variable<int, IntType>(d.menuCategoryId.value);
+    }
+    if (d.name.present) {
+      map['name'] = Variable<String, StringType>(d.name.value);
+    }
+    if (d.price.present) {
+      map['price'] = Variable<int, IntType>(d.price.value);
+    }
+    return map;
+  }
+
+  @override
+  $MenusTable createAlias(String alias) {
+    return $MenusTable(_db, alias);
+  }
+}
+
 abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $CustomersTable _customers;
@@ -802,9 +1049,11 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   $MenuCategoriesTable _menuCategories;
   $MenuCategoriesTable get menuCategories =>
       _menuCategories ??= $MenuCategoriesTable(this);
+  $MenusTable _menus;
+  $MenusTable get menus => _menus ??= $MenusTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [customers, salesItems, menuCategories];
+      [customers, salesItems, menuCategories, menus];
 }
