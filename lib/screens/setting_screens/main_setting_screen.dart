@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/parts/my_drawer.dart';
+import 'package:customermanagementapp/screens/setting_screens/employee_setting_screen.dart';
 import 'package:customermanagementapp/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -31,7 +32,13 @@ class MainSettingScreen extends StatelessWidget {
             ),
           ),
           Divider(height: 1),
-          _settingListItemBuilder(title: 'スタッフ管理', onTap: null),
+          _settingListItemBuilder(
+            title: 'スタッフ管理',
+            onTap: () => _startSettingScreen(
+              context,
+              EmployeeSettingScreen(),
+            ),
+          ),
         ],
       ),
     );
