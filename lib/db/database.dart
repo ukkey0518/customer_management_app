@@ -95,16 +95,14 @@ class MyDatabase extends _$MyDatabase {
       into(salesItems).insert(salesItem);
 
   // [取得：すべての売上データを取得]
-  Future<List<SalesItem>> get allSalesItems =>
-      select(salesItems).get();
+  Future<List<SalesItem>> get allSalesItems => select(salesItems).get();
 
   // [取得：指定した日付の売上データを取得]
   Future<List<SalesItem>> getSalesItemsByDay(DateTime date) =>
       (select(salesItems)..where((t) => t.date.equals(date))).get();
 
   // [取得：指定した顧客データの売上データを取得]
-  Future<List<SalesItem>> getSalesItemsByCustomer(
-          Customer customer) =>
+  Future<List<SalesItem>> getSalesItemsByCustomer(Customer customer) =>
       (select(salesItems)..where((t) => t.customerId.equals(customer.id)))
           .get();
 
@@ -117,6 +115,5 @@ class MyDatabase extends _$MyDatabase {
 
   // [削除：１件分の売上データを削除]
   Future deleteSalesItem(SalesItem salesItem) =>
-      (delete(salesItems)..where((t) => t.id.equals(salesItem.id)))
-          .go();
+      (delete(salesItems)..where((t) => t.id.equals(salesItem.id))).go();
 }
