@@ -24,7 +24,7 @@ class SoldItems extends Table {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get date => dateTime()();
   IntColumn get customerId => integer()();
-  IntColumn get stuffId => integer()();
+  IntColumn get employeeId => integer()();
   IntColumn get menuId => integer()();
 
   @override
@@ -52,9 +52,14 @@ class Menus extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-// ？[テーブル：割引データ]
-
 // [テーブル：スタッフデータ]
+class Employees extends Table {
+  IntColumn get id => integer()();
+  TextColumn get name => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
+}
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
@@ -69,6 +74,7 @@ LazyDatabase _openConnection() {
   SoldItems,
   MenuCategories,
   Menus,
+  Employees,
 ])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
@@ -138,7 +144,9 @@ class MyDatabase extends _$MyDatabase {
   Future<List<SoldItem>> getSoldItemsByMenu(Menu menu) =>
       (select(soldItems)..where((t) => t.menuId.equals(menu.id))).get();
 
-  //TODO Read[指定担当者の売上データをすべて抽出する]
+  // [取得：指定した担当者の売上データを取得]
+  Future<List<SoldItem>> getSoldItemsByEmployee(Employee employee) =>
+      (select(soldItems)..where((t) => t.employeeId.equals(employee.id))).get();
 
   // [更新：１件分の売上データを更新]
   Future updateSoldItem(SoldItem soldItem) =>
@@ -188,4 +196,25 @@ class MyDatabase extends _$MyDatabase {
   // [削除：１件分のメニューカテゴリを削除]
   Future deleteMenu(Menu menu) =>
       (delete(menus)..where((t) => t.id.equals(menu.id))).go();
+
+  //
+  //
+  // -- Employees：スタッフデータ ------------------------------------------
+  //
+  //
+
+  // [追加：１件分のスタッフデータを追加]
+  Future<int> addEmployee(Employee employee) =>
+      into(employees).insert(employee);
+
+  // [取得：すべてのスタッフデータを取得]
+  Future<List<Employee>> get allEmployees => select(employees).get();
+
+  // [更新：１件分のスタッフデータを更新]
+  Future updateEmployee(Employee employee) =>
+      update(employees).replace(employee);
+
+  // [削除：１件分のスタッフデータを削除]
+  Future deleteEmployee(Employee employee) =>
+      (delete(employees)..where((t) => t.id.equals(employee.id))).go();
 }

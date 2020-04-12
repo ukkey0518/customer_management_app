@@ -248,7 +248,7 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
       date: _date,
       customerId: _customer.id,
       menuId: 1,
-      stuffId: 1,
+      employeeId: 1,
     );
     print(soldItem);
     // DBに新規登録
