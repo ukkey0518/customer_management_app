@@ -249,7 +249,6 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
       customerId: _customer.id,
       menuId: 1,
       stuffId: 1,
-      discountId: 1,
       price: 1000,
     );
     print(salesItem);

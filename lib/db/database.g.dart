@@ -306,17 +306,15 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
   final int id;
   final DateTime date;
   final int customerId;
-  final int menuId;
   final int stuffId;
-  final int discountId;
+  final int menuId;
   final int price;
   SalesItem(
       {@required this.id,
       @required this.date,
       @required this.customerId,
-      @required this.menuId,
       @required this.stuffId,
-      @required this.discountId,
+      @required this.menuId,
       @required this.price});
   factory SalesItem.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
@@ -329,12 +327,10 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
       customerId: intType
           .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
-      menuId:
-          intType.mapFromDatabaseResponse(data['${effectivePrefix}menu_id']),
       stuffId:
           intType.mapFromDatabaseResponse(data['${effectivePrefix}stuff_id']),
-      discountId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}discount_id']),
+      menuId:
+          intType.mapFromDatabaseResponse(data['${effectivePrefix}menu_id']),
       price: intType.mapFromDatabaseResponse(data['${effectivePrefix}price']),
     );
   }
@@ -345,9 +341,8 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
       id: serializer.fromJson<int>(json['id']),
       date: serializer.fromJson<DateTime>(json['date']),
       customerId: serializer.fromJson<int>(json['customerId']),
-      menuId: serializer.fromJson<int>(json['menuId']),
       stuffId: serializer.fromJson<int>(json['stuffId']),
-      discountId: serializer.fromJson<int>(json['discountId']),
+      menuId: serializer.fromJson<int>(json['menuId']),
       price: serializer.fromJson<int>(json['price']),
     );
   }
@@ -358,9 +353,8 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
       'id': serializer.toJson<int>(id),
       'date': serializer.toJson<DateTime>(date),
       'customerId': serializer.toJson<int>(customerId),
-      'menuId': serializer.toJson<int>(menuId),
       'stuffId': serializer.toJson<int>(stuffId),
-      'discountId': serializer.toJson<int>(discountId),
+      'menuId': serializer.toJson<int>(menuId),
       'price': serializer.toJson<int>(price),
     };
   }
@@ -373,14 +367,11 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
       customerId: customerId == null && nullToAbsent
           ? const Value.absent()
           : Value(customerId),
-      menuId:
-          menuId == null && nullToAbsent ? const Value.absent() : Value(menuId),
       stuffId: stuffId == null && nullToAbsent
           ? const Value.absent()
           : Value(stuffId),
-      discountId: discountId == null && nullToAbsent
-          ? const Value.absent()
-          : Value(discountId),
+      menuId:
+          menuId == null && nullToAbsent ? const Value.absent() : Value(menuId),
       price:
           price == null && nullToAbsent ? const Value.absent() : Value(price),
     );
@@ -390,17 +381,15 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
           {int id,
           DateTime date,
           int customerId,
-          int menuId,
           int stuffId,
-          int discountId,
+          int menuId,
           int price}) =>
       SalesItem(
         id: id ?? this.id,
         date: date ?? this.date,
         customerId: customerId ?? this.customerId,
-        menuId: menuId ?? this.menuId,
         stuffId: stuffId ?? this.stuffId,
-        discountId: discountId ?? this.discountId,
+        menuId: menuId ?? this.menuId,
         price: price ?? this.price,
       );
   @override
@@ -409,9 +398,8 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
           ..write('id: $id, ')
           ..write('date: $date, ')
           ..write('customerId: $customerId, ')
-          ..write('menuId: $menuId, ')
           ..write('stuffId: $stuffId, ')
-          ..write('discountId: $discountId, ')
+          ..write('menuId: $menuId, ')
           ..write('price: $price')
           ..write(')'))
         .toString();
@@ -425,9 +413,7 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
           $mrjc(
               customerId.hashCode,
               $mrjc(
-                  menuId.hashCode,
-                  $mrjc(stuffId.hashCode,
-                      $mrjc(discountId.hashCode, price.hashCode)))))));
+                  stuffId.hashCode, $mrjc(menuId.hashCode, price.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -435,9 +421,8 @@ class SalesItem extends DataClass implements Insertable<SalesItem> {
           other.id == this.id &&
           other.date == this.date &&
           other.customerId == this.customerId &&
-          other.menuId == this.menuId &&
           other.stuffId == this.stuffId &&
-          other.discountId == this.discountId &&
+          other.menuId == this.menuId &&
           other.price == this.price);
 }
 
@@ -445,48 +430,42 @@ class SalesItemsCompanion extends UpdateCompanion<SalesItem> {
   final Value<int> id;
   final Value<DateTime> date;
   final Value<int> customerId;
-  final Value<int> menuId;
   final Value<int> stuffId;
-  final Value<int> discountId;
+  final Value<int> menuId;
   final Value<int> price;
   const SalesItemsCompanion({
     this.id = const Value.absent(),
     this.date = const Value.absent(),
     this.customerId = const Value.absent(),
-    this.menuId = const Value.absent(),
     this.stuffId = const Value.absent(),
-    this.discountId = const Value.absent(),
+    this.menuId = const Value.absent(),
     this.price = const Value.absent(),
   });
   SalesItemsCompanion.insert({
     this.id = const Value.absent(),
     @required DateTime date,
     @required int customerId,
-    @required int menuId,
     @required int stuffId,
-    @required int discountId,
+    @required int menuId,
     @required int price,
   })  : date = Value(date),
         customerId = Value(customerId),
-        menuId = Value(menuId),
         stuffId = Value(stuffId),
-        discountId = Value(discountId),
+        menuId = Value(menuId),
         price = Value(price);
   SalesItemsCompanion copyWith(
       {Value<int> id,
       Value<DateTime> date,
       Value<int> customerId,
-      Value<int> menuId,
       Value<int> stuffId,
-      Value<int> discountId,
+      Value<int> menuId,
       Value<int> price}) {
     return SalesItemsCompanion(
       id: id ?? this.id,
       date: date ?? this.date,
       customerId: customerId ?? this.customerId,
-      menuId: menuId ?? this.menuId,
       stuffId: stuffId ?? this.stuffId,
-      discountId: discountId ?? this.discountId,
+      menuId: menuId ?? this.menuId,
       price: price ?? this.price,
     );
   }
@@ -530,18 +509,6 @@ class $SalesItemsTable extends SalesItems
     );
   }
 
-  final VerificationMeta _menuIdMeta = const VerificationMeta('menuId');
-  GeneratedIntColumn _menuId;
-  @override
-  GeneratedIntColumn get menuId => _menuId ??= _constructMenuId();
-  GeneratedIntColumn _constructMenuId() {
-    return GeneratedIntColumn(
-      'menu_id',
-      $tableName,
-      false,
-    );
-  }
-
   final VerificationMeta _stuffIdMeta = const VerificationMeta('stuffId');
   GeneratedIntColumn _stuffId;
   @override
@@ -554,13 +521,13 @@ class $SalesItemsTable extends SalesItems
     );
   }
 
-  final VerificationMeta _discountIdMeta = const VerificationMeta('discountId');
-  GeneratedIntColumn _discountId;
+  final VerificationMeta _menuIdMeta = const VerificationMeta('menuId');
+  GeneratedIntColumn _menuId;
   @override
-  GeneratedIntColumn get discountId => _discountId ??= _constructDiscountId();
-  GeneratedIntColumn _constructDiscountId() {
+  GeneratedIntColumn get menuId => _menuId ??= _constructMenuId();
+  GeneratedIntColumn _constructMenuId() {
     return GeneratedIntColumn(
-      'discount_id',
+      'menu_id',
       $tableName,
       false,
     );
@@ -580,7 +547,7 @@ class $SalesItemsTable extends SalesItems
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, date, customerId, menuId, stuffId, discountId, price];
+      [id, date, customerId, stuffId, menuId, price];
   @override
   $SalesItemsTable get asDslTable => this;
   @override
@@ -606,23 +573,17 @@ class $SalesItemsTable extends SalesItems
     } else if (isInserting) {
       context.missing(_customerIdMeta);
     }
-    if (d.menuId.present) {
-      context.handle(
-          _menuIdMeta, menuId.isAcceptableValue(d.menuId.value, _menuIdMeta));
-    } else if (isInserting) {
-      context.missing(_menuIdMeta);
-    }
     if (d.stuffId.present) {
       context.handle(_stuffIdMeta,
           stuffId.isAcceptableValue(d.stuffId.value, _stuffIdMeta));
     } else if (isInserting) {
       context.missing(_stuffIdMeta);
     }
-    if (d.discountId.present) {
-      context.handle(_discountIdMeta,
-          discountId.isAcceptableValue(d.discountId.value, _discountIdMeta));
+    if (d.menuId.present) {
+      context.handle(
+          _menuIdMeta, menuId.isAcceptableValue(d.menuId.value, _menuIdMeta));
     } else if (isInserting) {
-      context.missing(_discountIdMeta);
+      context.missing(_menuIdMeta);
     }
     if (d.price.present) {
       context.handle(
@@ -653,14 +614,11 @@ class $SalesItemsTable extends SalesItems
     if (d.customerId.present) {
       map['customer_id'] = Variable<int, IntType>(d.customerId.value);
     }
-    if (d.menuId.present) {
-      map['menu_id'] = Variable<int, IntType>(d.menuId.value);
-    }
     if (d.stuffId.present) {
       map['stuff_id'] = Variable<int, IntType>(d.stuffId.value);
     }
-    if (d.discountId.present) {
-      map['discount_id'] = Variable<int, IntType>(d.discountId.value);
+    if (d.menuId.present) {
+      map['menu_id'] = Variable<int, IntType>(d.menuId.value);
     }
     if (d.price.present) {
       map['price'] = Variable<int, IntType>(d.price.value);

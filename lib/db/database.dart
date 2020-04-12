@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:js';
 
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
@@ -8,6 +7,7 @@ import 'package:path/path.dart' as p;
 
 part 'database.g.dart';
 
+// [テーブル：顧客データ]
 class Customers extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
@@ -19,18 +19,22 @@ class Customers extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+// [テーブル：売上データ(１アイテム分)]
 class SalesItems extends Table {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get date => dateTime()();
   IntColumn get customerId => integer()();
-  IntColumn get menuId => integer()();
   IntColumn get stuffId => integer()();
-  IntColumn get discountId => integer()();
+  IntColumn get menuId => integer()();
   IntColumn get price => integer()();
 
   @override
   Set<Column> get primaryKey => {id};
 }
+
+// [テーブル：メニューデータ(割引も含む)]
+
+// [テーブル：スタッフデータ]
 
 LazyDatabase _openConnection() {
   return LazyDatabase(() async {
