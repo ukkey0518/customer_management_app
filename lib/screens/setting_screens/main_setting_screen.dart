@@ -2,6 +2,8 @@ import 'package:customermanagementapp/parts/my_drawer.dart';
 import 'package:customermanagementapp/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:flutter/material.dart';
 
+import 'menu_setting_screen.dart';
+
 class MainSettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,13 @@ class MainSettingScreen extends StatelessWidget {
             ),
           ),
           Divider(height: 1),
-          _settingListItemBuilder(title: 'メニュー管理', onTap: null),
+          _settingListItemBuilder(
+            title: 'メニュー管理',
+            onTap: () => _startSettingScreen(
+              context,
+              MenuSettingScreen(),
+            ),
+          ),
           Divider(height: 1),
           _settingListItemBuilder(title: 'スタッフ管理', onTap: null),
         ],
