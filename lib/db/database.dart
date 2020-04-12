@@ -138,8 +138,7 @@ class MyDatabase extends _$MyDatabase {
 
   // [取得：指定したメニューの売上データを取得]
   Future<List<SalesItem>> getSalesItemsByMenu(Menu menu) =>
-      (select(salesItems)..where((t) => t.menuId.equals(menu.id)))
-          .get();
+      (select(salesItems)..where((t) => t.menuId.equals(menu.id))).get();
 
   //TODO Read[指定担当者の売上データをすべて抽出する]
 
