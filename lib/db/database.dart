@@ -54,7 +54,7 @@ LazyDatabase _openConnection() {
   });
 }
 
-@UseMoor(tables: [Customers, SalesItems])
+@UseMoor(tables: [Customers, SalesItems, MenuCategories])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());
 
@@ -130,4 +130,26 @@ class MyDatabase extends _$MyDatabase {
   // [削除：１件分の売上データを削除]
   Future deleteSalesItem(SalesItem salesItem) =>
       (delete(salesItems)..where((t) => t.id.equals(salesItem.id))).go();
+
+  //
+  //
+  // -- MenuCategories：メニューカテゴリ ------------------------------------------
+  //
+  //
+
+  // [追加：１件分のメニューカテゴリを追加]
+  Future<int> addMenuCategory(MenuCategory menuCategory) =>
+      into(menuCategories).insert(menuCategory);
+
+  // [取得：すべてのメニューカテゴリを取得]
+  Future<List<MenuCategory>> get allMenuCategories =>
+      select(menuCategories).get();
+
+  // [更新：１件分のメニューカテゴリを更新]
+  Future updateMenuCategory(MenuCategory menuCategory) =>
+      update(menuCategories).replace(menuCategory);
+
+  // [削除：１件分のメニューカテゴリを削除]
+  Future deleteMenuCategory(MenuCategory menuCategory) =>
+      (delete(menuCategories)..where((t) => t.id.equals(menuCategory.id))).go();
 }
