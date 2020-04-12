@@ -660,10 +660,9 @@ class MenuCategoriesCompanion extends UpdateCompanion<MenuCategory> {
     this.name = const Value.absent(),
   });
   MenuCategoriesCompanion.insert({
-    @required int id,
+    this.id = const Value.absent(),
     @required String name,
-  })  : id = Value(id),
-        name = Value(name);
+  }) : name = Value(name);
   MenuCategoriesCompanion copyWith({Value<int> id, Value<String> name}) {
     return MenuCategoriesCompanion(
       id: id ?? this.id,
@@ -682,11 +681,8 @@ class $MenuCategoriesTable extends MenuCategories
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _nameMeta = const VerificationMeta('name');
@@ -715,8 +711,6 @@ class $MenuCategoriesTable extends MenuCategories
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (d.name.present) {
       context.handle(
@@ -852,12 +846,11 @@ class MenusCompanion extends UpdateCompanion<Menu> {
     this.price = const Value.absent(),
   });
   MenusCompanion.insert({
-    @required int id,
+    this.id = const Value.absent(),
     @required int menuCategoryId,
     @required String name,
     @required int price,
-  })  : id = Value(id),
-        menuCategoryId = Value(menuCategoryId),
+  })  : menuCategoryId = Value(menuCategoryId),
         name = Value(name),
         price = Value(price);
   MenusCompanion copyWith(
@@ -883,11 +876,8 @@ class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _menuCategoryIdMeta =
@@ -942,8 +932,6 @@ class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (d.menuCategoryId.present) {
       context.handle(
@@ -1068,10 +1056,9 @@ class EmployeesCompanion extends UpdateCompanion<Employee> {
     this.name = const Value.absent(),
   });
   EmployeesCompanion.insert({
-    @required int id,
+    this.id = const Value.absent(),
     @required String name,
-  })  : id = Value(id),
-        name = Value(name);
+  }) : name = Value(name);
   EmployeesCompanion copyWith({Value<int> id, Value<String> name}) {
     return EmployeesCompanion(
       id: id ?? this.id,
@@ -1090,11 +1077,8 @@ class $EmployeesTable extends Employees
   @override
   GeneratedIntColumn get id => _id ??= _constructId();
   GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn(
-      'id',
-      $tableName,
-      false,
-    );
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
   final VerificationMeta _nameMeta = const VerificationMeta('name');
@@ -1123,8 +1107,6 @@ class $EmployeesTable extends Employees
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
-    } else if (isInserting) {
-      context.missing(_idMeta);
     }
     if (d.name.present) {
       context.handle(

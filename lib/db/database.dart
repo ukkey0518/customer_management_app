@@ -34,7 +34,7 @@ class SoldItems extends Table {
 // [テーブル：メニューカテゴリデータ]
 @DataClassName('MenuCategory')
 class MenuCategories extends Table {
-  IntColumn get id => integer()();
+  IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
 
   @override
@@ -43,7 +43,7 @@ class MenuCategories extends Table {
 
 // [テーブル：メニューデータ]
 class Menus extends Table {
-  IntColumn get id => integer()();
+  IntColumn get id => integer().autoIncrement()();
   IntColumn get menuCategoryId => integer()();
   TextColumn get name => text()();
   IntColumn get price => integer()();
@@ -54,7 +54,7 @@ class Menus extends Table {
 
 // [テーブル：スタッフデータ]
 class Employees extends Table {
-  IntColumn get id => integer()();
+  IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
 
   @override
