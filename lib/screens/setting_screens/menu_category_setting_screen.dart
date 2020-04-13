@@ -134,7 +134,13 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
                 ),
                 TextField(
                   controller: categoryController,
-                  decoration: InputDecoration(hintText: 'カテゴリ名を入力'),
+                  decoration: InputDecoration(
+                    hintText: 'カテゴリ名を入力',
+                    suffixIcon: IconButton(
+                      icon: Icon(Icons.clear),
+                      onPressed: () => categoryController.text = '',
+                    ),
+                  ),
                 ),
                 SizedBox(
                   height: 24,
