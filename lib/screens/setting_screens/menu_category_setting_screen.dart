@@ -51,7 +51,11 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
                   children: <Widget>[
                     Divider(height: 1),
                     ListTile(
-                      title: Text('${_menuCategoriesList[index].name}'),
+                      title: Text(
+                        '${_menuCategoriesList[index].name}',
+                        style: TextStyle(
+                            fontSize: 16, fontWeight: FontWeight.bold),
+                      ),
                       leading: Icon(
                         Icons.category,
                         color: Color(_menuCategoriesList[index].color),
