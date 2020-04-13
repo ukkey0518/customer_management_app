@@ -40,3 +40,10 @@ class ColorPickerDialog extends StatelessWidget {
     );
   }
 }
+
+// [変換関数：Colorから色番号をintで抽出するメソッド]
+int getColorNumber(Color color) {
+  var colorStr = color.toString();
+  var numStr = colorStr.substring(6, colorStr.length - 1);
+  return int.parse(numStr);
+}

@@ -144,7 +144,6 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
                         },
                       ).then(
                         (newColor) {
-                          print(newColor);
                           setState(() => currentColor = newColor);
                         },
                       ),
