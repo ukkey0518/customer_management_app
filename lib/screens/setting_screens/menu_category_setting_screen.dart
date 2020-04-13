@@ -52,7 +52,10 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
                     Divider(height: 1),
                     ListTile(
                       title: Text('${_menuCategoriesList[index].name}'),
-                      leading: Icon(Icons.category),
+                      leading: Icon(
+                        Icons.category,
+                        color: Color(_menuCategoriesList[index].color),
+                      ),
                       onTap: null,
                       onLongPress: () => _deleteMenuCategory(index),
                     ),
@@ -168,7 +171,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
                 }
                 var menuCategory = MenuCategory(
                   name: categoryController.text,
-//                  color: currentColor;
+                  color: getColorNumber(currentColor),
                 );
                 updateDbTable(menuCategory);
               },
