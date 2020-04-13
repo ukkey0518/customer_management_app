@@ -35,6 +35,7 @@ class SoldItems extends Table {
 @DataClassName('MenuCategory')
 class MenuCategories extends Table {
   TextColumn get name => text()();
+  IntColumn get color => integer()();
 
   @override
   Set<Column> get primaryKey => {name};

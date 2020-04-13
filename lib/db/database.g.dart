@@ -594,13 +594,16 @@ class $SoldItemsTable extends SoldItems
 
 class MenuCategory extends DataClass implements Insertable<MenuCategory> {
   final String name;
-  MenuCategory({@required this.name});
+  final int color;
+  MenuCategory({@required this.name, @required this.color});
   factory MenuCategory.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final stringType = db.typeSystem.forDartType<String>();
+    final intType = db.typeSystem.forDartType<int>();
     return MenuCategory(
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      color: intType.mapFromDatabaseResponse(data['${effectivePrefix}color']),
     );
   }
   factory MenuCategory.fromJson(Map<String, dynamic> json,
@@ -608,6 +611,7 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return MenuCategory(
       name: serializer.fromJson<String>(json['name']),
+      color: serializer.fromJson<int>(json['color']),
     );
   }
   @override
@@ -615,6 +619,7 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'name': serializer.toJson<String>(name),
+      'color': serializer.toJson<int>(color),
     };
   }
 
@@ -622,37 +627,50 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
   MenuCategoriesCompanion createCompanion(bool nullToAbsent) {
     return MenuCategoriesCompanion(
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      color:
+          color == null && nullToAbsent ? const Value.absent() : Value(color),
     );
   }
 
-  MenuCategory copyWith({String name}) => MenuCategory(
+  MenuCategory copyWith({String name, int color}) => MenuCategory(
         name: name ?? this.name,
+        color: color ?? this.color,
       );
   @override
   String toString() {
-    return (StringBuffer('MenuCategory(')..write('name: $name')..write(')'))
+    return (StringBuffer('MenuCategory(')
+          ..write('name: $name, ')
+          ..write('color: $color')
+          ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf(name.hashCode);
+  int get hashCode => $mrjf($mrjc(name.hashCode, color.hashCode));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is MenuCategory && other.name == this.name);
+      (other is MenuCategory &&
+          other.name == this.name &&
+          other.color == this.color);
 }
 
 class MenuCategoriesCompanion extends UpdateCompanion<MenuCategory> {
   final Value<String> name;
+  final Value<int> color;
   const MenuCategoriesCompanion({
     this.name = const Value.absent(),
+    this.color = const Value.absent(),
   });
   MenuCategoriesCompanion.insert({
     @required String name,
-  }) : name = Value(name);
-  MenuCategoriesCompanion copyWith({Value<String> name}) {
+    @required int color,
+  })  : name = Value(name),
+        color = Value(color);
+  MenuCategoriesCompanion copyWith({Value<String> name, Value<int> color}) {
     return MenuCategoriesCompanion(
       name: name ?? this.name,
+      color: color ?? this.color,
     );
   }
 }
@@ -674,8 +692,20 @@ class $MenuCategoriesTable extends MenuCategories
     );
   }
 
+  final VerificationMeta _colorMeta = const VerificationMeta('color');
+  GeneratedIntColumn _color;
   @override
-  List<GeneratedColumn> get $columns => [name];
+  GeneratedIntColumn get color => _color ??= _constructColor();
+  GeneratedIntColumn _constructColor() {
+    return GeneratedIntColumn(
+      'color',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [name, color];
   @override
   $MenuCategoriesTable get asDslTable => this;
   @override
@@ -691,6 +721,12 @@ class $MenuCategoriesTable extends MenuCategories
           _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
+    }
+    if (d.color.present) {
+      context.handle(
+          _colorMeta, color.isAcceptableValue(d.color.value, _colorMeta));
+    } else if (isInserting) {
+      context.missing(_colorMeta);
     }
     return context;
   }
@@ -708,6 +744,9 @@ class $MenuCategoriesTable extends MenuCategories
     final map = <String, Variable>{};
     if (d.name.present) {
       map['name'] = Variable<String, StringType>(d.name.value);
+    }
+    if (d.color.present) {
+      map['color'] = Variable<int, IntType>(d.color.value);
     }
     return map;
   }
