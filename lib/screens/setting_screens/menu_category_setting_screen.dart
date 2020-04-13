@@ -36,9 +36,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => showDialog(
-                context: context, builder: (_) => _menuCategoryAddDialog())
-            .then((_) => _reloadMenuCategories()),
+        onPressed: () => _showAddDialog(),
       ),
       body: Column(
         children: <Widget>[
@@ -104,6 +102,16 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
           },
         ),
       ],
+    );
+  }
+
+  // [コールバック：FABをタップ時]
+  _showAddDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => _menuCategoryAddDialog(),
+    ).then(
+      (_) => _reloadMenuCategories(),
     );
   }
 
