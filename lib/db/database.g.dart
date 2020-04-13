@@ -593,15 +593,17 @@ class $SoldItemsTable extends SoldItems
 }
 
 class MenuCategory extends DataClass implements Insertable<MenuCategory> {
+  final int id;
   final String name;
   final int color;
-  MenuCategory({@required this.name, @required this.color});
+  MenuCategory({@required this.id, @required this.name, @required this.color});
   factory MenuCategory.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
-    final stringType = db.typeSystem.forDartType<String>();
     final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
     return MenuCategory(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
       color: intType.mapFromDatabaseResponse(data['${effectivePrefix}color']),
     );
@@ -610,6 +612,7 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return MenuCategory(
+      id: serializer.fromJson<int>(json['id']),
       name: serializer.fromJson<String>(json['name']),
       color: serializer.fromJson<int>(json['color']),
     );
@@ -618,6 +621,7 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
   Map<String, dynamic> toJson({ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
       'color': serializer.toJson<int>(color),
     };
@@ -626,19 +630,22 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
   @override
   MenuCategoriesCompanion createCompanion(bool nullToAbsent) {
     return MenuCategoriesCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
       color:
           color == null && nullToAbsent ? const Value.absent() : Value(color),
     );
   }
 
-  MenuCategory copyWith({String name, int color}) => MenuCategory(
+  MenuCategory copyWith({int id, String name, int color}) => MenuCategory(
+        id: id ?? this.id,
         name: name ?? this.name,
         color: color ?? this.color,
       );
   @override
   String toString() {
     return (StringBuffer('MenuCategory(')
+          ..write('id: $id, ')
           ..write('name: $name, ')
           ..write('color: $color')
           ..write(')'))
@@ -646,29 +653,36 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(name.hashCode, color.hashCode));
+  int get hashCode =>
+      $mrjf($mrjc(id.hashCode, $mrjc(name.hashCode, color.hashCode)));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is MenuCategory &&
+          other.id == this.id &&
           other.name == this.name &&
           other.color == this.color);
 }
 
 class MenuCategoriesCompanion extends UpdateCompanion<MenuCategory> {
+  final Value<int> id;
   final Value<String> name;
   final Value<int> color;
   const MenuCategoriesCompanion({
+    this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.color = const Value.absent(),
   });
   MenuCategoriesCompanion.insert({
+    this.id = const Value.absent(),
     @required String name,
     @required int color,
   })  : name = Value(name),
         color = Value(color);
-  MenuCategoriesCompanion copyWith({Value<String> name, Value<int> color}) {
+  MenuCategoriesCompanion copyWith(
+      {Value<int> id, Value<String> name, Value<int> color}) {
     return MenuCategoriesCompanion(
+      id: id ?? this.id,
       name: name ?? this.name,
       color: color ?? this.color,
     );
@@ -680,6 +694,15 @@ class $MenuCategoriesTable extends MenuCategories
   final GeneratedDatabase _db;
   final String _alias;
   $MenuCategoriesTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
   final VerificationMeta _nameMeta = const VerificationMeta('name');
   GeneratedTextColumn _name;
   @override
@@ -705,7 +728,7 @@ class $MenuCategoriesTable extends MenuCategories
   }
 
   @override
-  List<GeneratedColumn> get $columns => [name, color];
+  List<GeneratedColumn> get $columns => [id, name, color];
   @override
   $MenuCategoriesTable get asDslTable => this;
   @override
@@ -716,6 +739,9 @@ class $MenuCategoriesTable extends MenuCategories
   VerificationContext validateIntegrity(MenuCategoriesCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    }
     if (d.name.present) {
       context.handle(
           _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
@@ -732,7 +758,7 @@ class $MenuCategoriesTable extends MenuCategories
   }
 
   @override
-  Set<GeneratedColumn> get $primaryKey => {name};
+  Set<GeneratedColumn> get $primaryKey => {id};
   @override
   MenuCategory map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
@@ -742,6 +768,9 @@ class $MenuCategoriesTable extends MenuCategories
   @override
   Map<String, Variable> entityToSql(MenuCategoriesCompanion d) {
     final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
     if (d.name.present) {
       map['name'] = Variable<String, StringType>(d.name.value);
     }

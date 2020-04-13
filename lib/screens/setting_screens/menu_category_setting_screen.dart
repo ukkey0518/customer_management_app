@@ -56,7 +56,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
                         Icons.category,
                         color: Color(_menuCategoriesList[index].color),
                       ),
-                      onTap: null,
+                      onTap: () => _showEditDialog(_menuCategoriesList[index]),
                       onLongPress: () => _deleteMenuCategory(index),
                     ),
                     Divider(height: 1),
@@ -83,9 +83,14 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
       currentColor = Colors.white;
       categoryController.text = '';
       positiveButtonText = '追加';
-      updateDbTable = (MenuCategory menuCategory) async {
+      updateDbTable = () async {
+        var newCategory = MenuCategory(
+          id: null,
+          name: categoryController.text,
+          color: getColorNumber(currentColor),
+        );
         try {
-          await database.addMenuCategory(menuCategory);
+          await database.addMenuCategory(newCategory);
         } on SqliteException catch (e) {
           // 重複時のエラーメッセージ
           Toast.show('カテゴリ名が重複しています。', context);
@@ -97,11 +102,18 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
       };
     } else {
       title = 'カテゴリの編集';
-//      currentColor = menuCategory.color;
+      currentColor = Color(menuCategory.color);
       categoryController.text = menuCategory.name;
       positiveButtonText = '更新';
-      updateDbTable = (MenuCategory menuCategory) async {
-        await database.updateMenuCategory(menuCategory);
+      updateDbTable = () async {
+        var newCategory = MenuCategory(
+          id: menuCategory.id,
+          name: categoryController.text,
+          color: getColorNumber(currentColor),
+        );
+        await database.updateMenuCategory(newCategory);
+        Navigator.of(context).pop();
+        Toast.show('カテゴリを更新しました。', context);
       };
     }
 
@@ -169,11 +181,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
                   Toast.show('カテゴリ名が未入力です', context);
                   return;
                 }
-                var menuCategory = MenuCategory(
-                  name: categoryController.text,
-                  color: getColorNumber(currentColor),
-                );
-                updateDbTable(menuCategory);
+                updateDbTable();
               },
             ),
           ],
@@ -187,6 +195,16 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
     showDialog(
       context: context,
       builder: (context) => _categoryEditDialog(),
+    ).then(
+      (_) => _reloadMenuCategories(),
+    );
+  }
+
+  // [コールバック：リストアイテムをタップ時]
+  _showEditDialog(MenuCategory menuCategory) {
+    showDialog(
+      context: context,
+      builder: (context) => _categoryEditDialog(menuCategory),
     ).then(
       (_) => _reloadMenuCategories(),
     );

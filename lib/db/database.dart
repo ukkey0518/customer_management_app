@@ -34,11 +34,12 @@ class SoldItems extends Table {
 // [テーブル：メニューカテゴリデータ]
 @DataClassName('MenuCategory')
 class MenuCategories extends Table {
+  IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   IntColumn get color => integer()();
 
   @override
-  Set<Column> get primaryKey => {name};
+  Set<Column> get primaryKey => {id};
 }
 
 // [テーブル：メニューデータ]
