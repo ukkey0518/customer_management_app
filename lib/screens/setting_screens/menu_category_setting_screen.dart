@@ -84,6 +84,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
         FlatButton(
           child: Text('追加'),
           onPressed: () async {
+            // 未入力チェック
             if (newCategoryController.text.isEmpty) {
               Toast.show('カテゴリ名が未入力です', context);
               return;
@@ -94,6 +95,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
             try {
               await database.addMenuCategory(menuCategory);
             } on SqliteException catch (e) {
+              // 重複時のエラーメッセージ
               Toast.show('カテゴリ名が重複しています。', context);
               print('メニューカテゴリ名の重複：$e');
               return;
