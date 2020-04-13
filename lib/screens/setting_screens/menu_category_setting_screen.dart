@@ -67,99 +67,124 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
     );
   }
 
+  // [ウィジェット：カテゴリ追加or編集ダイアログ]
+  _categoryEditDialog([MenuCategory menuCategory]) {
+    var title;
+    var currentColor;
+    var categoryController = TextEditingController();
+    var positiveButtonText;
+    var updateDbTable;
+
+    if (menuCategory == null) {
+      title = 'カテゴリの追加';
+      currentColor = Colors.white;
+      categoryController.text = '';
+      positiveButtonText = '追加';
+      updateDbTable = (MenuCategory menuCategory) async {
+        try {
+          await database.addMenuCategory(menuCategory);
+        } on SqliteException catch (e) {
+          // 重複時のエラーメッセージ
+          Toast.show('カテゴリ名が重複しています。', context);
+          print('メニューカテゴリ名の重複：$e');
+          return;
+        }
+        Navigator.of(context).pop();
+        Toast.show('新しいカテゴリを登録しました。', context);
+      };
+    } else {
+      title = 'カテゴリの編集';
+//      currentColor = menuCategory.color;
+      categoryController.text = menuCategory.name;
+      positiveButtonText = '更新';
+      updateDbTable = (MenuCategory menuCategory) async {
+        await database.updateMenuCategory(menuCategory);
+      };
+    }
+
+    return StatefulBuilder(
+      builder: (context, setState) {
+        return AlertDialog(
+          title: Text(title),
+          content: SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                SizedBox(
+                  width: double.infinity,
+                  child: Text('カテゴリ名：', textAlign: TextAlign.left),
+                ),
+                TextField(
+                  controller: categoryController,
+                  decoration: InputDecoration(hintText: 'カテゴリ名を入力'),
+                ),
+                SizedBox(
+                  height: 24,
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Text('カテゴリカラー：', textAlign: TextAlign.left),
+                ),
+                SizedBox(
+                  width: double.infinity,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.black),
+                      borderRadius: BorderRadius.circular(8),
+                      color: currentColor,
+                    ),
+                    child: FlatButton(
+                      child: Text('タップしてカラーを選択'),
+                      textColor: useWhiteForeground(currentColor)
+                          ? const Color(0xffffffff)
+                          : const Color(0xff000000),
+                      onPressed: () => showDialog(
+                        context: context,
+                        builder: (_) {
+                          return ColorPickerDialog(currentColor);
+                        },
+                      ).then(
+                        (newColor) {
+                          print(newColor);
+                          setState(() => currentColor = newColor);
+                        },
+                      ),
+                    ),
+                  ),
+                )
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            FlatButton(
+              child: Text('キャンセル'),
+              onPressed: () => Navigator.of(context).pop(),
+            ),
+            FlatButton(
+              child: Text(positiveButtonText),
+              onPressed: () async {
+                // 未入力チェック
+                if (categoryController.text.isEmpty) {
+                  Toast.show('カテゴリ名が未入力です', context);
+                  return;
+                }
+                var menuCategory = MenuCategory(
+                  name: categoryController.text,
+//                  color: currentColor;
+                );
+                updateDbTable(menuCategory);
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   // [コールバック：FABをタップ時]
   _showAddDialog() {
     showDialog(
       context: context,
-      builder: (context) {
-        var currentColor;
-        var newCategoryController = TextEditingController();
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              title: Text('新規カテゴリ追加'),
-              content: SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text('カテゴリ名：', textAlign: TextAlign.left),
-                    ),
-                    TextField(
-                      controller: newCategoryController,
-                      decoration: InputDecoration(hintText: 'カテゴリ名を入力'),
-                    ),
-                    SizedBox(
-                      height: 24,
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Text('カテゴリカラー：', textAlign: TextAlign.left),
-                    ),
-                    SizedBox(
-                      width: double.infinity,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Colors.black),
-                          borderRadius: BorderRadius.circular(8),
-                          color: currentColor ?? Color(0xffffffff),
-                        ),
-                        child: FlatButton(
-                          child: Text('タップしてカラーを選択'),
-                          textColor: useWhiteForeground(
-                                  currentColor ?? Color(0xffffffff))
-                              ? const Color(0xffffffff)
-                              : const Color(0xff000000),
-                          onPressed: () => showDialog(
-                            context: context,
-                            builder: (_) {
-                              return ColorPickerDialog(
-                                  currentColor ?? Color(0xffffffff));
-                            },
-                          ).then(
-                            (newColor) {
-                              print(newColor);
-                              setState(() => currentColor = newColor);
-                            },
-                          ),
-                        ),
-                      ),
-                    )
-                  ],
-                ),
-              ),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('キャンセル'),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-                FlatButton(
-                  child: Text('追加'),
-                  onPressed: () async {
-                    // 未入力チェック
-                    if (newCategoryController.text.isEmpty) {
-                      Toast.show('カテゴリ名が未入力です', context);
-                      return;
-                    }
-                    var menuCategory = MenuCategory(
-                      name: newCategoryController.text,
-                    );
-                    try {
-                      await database.addMenuCategory(menuCategory);
-                    } on SqliteException catch (e) {
-                      // 重複時のエラーメッセージ
-                      Toast.show('カテゴリ名が重複しています。', context);
-                      print('メニューカテゴリ名の重複：$e');
-                      return;
-                    }
-                    Navigator.of(context).pop();
-                  },
-                ),
-              ],
-            );
-          },
-        );
-      },
+      builder: (context) => _categoryEditDialog(),
     ).then(
       (_) => _reloadMenuCategories(),
     );
