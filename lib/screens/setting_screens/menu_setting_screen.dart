@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 class MenuSettingScreen extends StatefulWidget {
@@ -158,6 +159,12 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     // カテゴリ別メニュータイルのリスト
     var menuTilesList = List<Widget>();
 
+    // 数値を金額文字列に変換するメソッド
+    var intToPriceString = (int price) {
+      final formatter = NumberFormat('#,###,###');
+      return formatter.format(price);
+    };
+
     // メインコンテンツであるメニューリストを追加
     menuTilesList.addAll(
       List.generate(
@@ -166,9 +173,28 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           return Column(
             children: <Widget>[
               Divider(height: 1),
-              ListTile(
-                title: Text(menus[index].name),
-                subtitle: Text(menus[index].price.toString()),
+              InkWell(
+                child: Padding(
+                  padding: const EdgeInsets.all(24),
+                  child: Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Text(
+                          menus[index].name,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '\¥${intToPriceString(menus[index].price)}',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                ),
                 onTap: () => _showEditMenuDialog(
                   menusByCategory.menuCategory,
                   menus[index],
@@ -189,8 +215,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           ListTile(
             title: const Text('メニューを追加'),
             leading: Icon(Icons.add),
-            onTap: () => _showAddMenuDialog(
-                menusByCategory.menuCategory), //TODO メニュー追加処理(引数にカテゴリ)
+            onTap: () => _showAddMenuDialog(menusByCategory.menuCategory),
           ),
         ],
       ),
