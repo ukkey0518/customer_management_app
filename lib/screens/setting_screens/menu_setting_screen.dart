@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class MenuSettingScreen extends StatefulWidget {
   @override
@@ -71,7 +72,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
       builder: (_) {
         return _addMenuDialog(menuCategory);
       },
-    );
+    ).then((_) => _reloadMenusByCategoriesList());
   }
 
   @override
@@ -202,7 +203,18 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         FlatButton(
           child: const Text('追加'),
           onPressed: () async {
-            // TODO DB追加処理
+            // 未入力チェック
+            if (nameController.text.isEmpty || priceController.text.isEmpty) {
+              Toast.show('未入力項目があります', context);
+              return;
+            }
+            var newMenu = Menu(
+              id: null,
+              menuCategoryId: menuCategory.id,
+              name: nameController.text,
+              price: int.parse(priceController.text),
+            );
+            await database.addMenu(newMenu);
             Navigator.of(context).pop();
           },
         ),
