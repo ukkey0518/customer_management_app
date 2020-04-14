@@ -71,7 +71,17 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     showDialog(
       context: context,
       builder: (_) {
-        return _addMenuDialog(menuCategory);
+        return _editMenuDialog(menuCategory);
+      },
+    ).then((_) => _reloadMenusByCategoriesList());
+  }
+
+  // [コールバック：メニューリストパネルタップ時]
+  _showEditMenuDialog(MenuCategory menuCategory, Menu menu) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return _editMenuDialog(menuCategory, menu);
       },
     ).then((_) => _reloadMenusByCategoriesList());
   }
@@ -154,7 +164,10 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
               ListTile(
                 title: Text(menus[index].name),
                 subtitle: Text(menus[index].price.toString()),
-                onTap: null, //TODO メニューの編集
+                onTap: () => _showEditMenuDialog(
+                  menusByCategory.menuCategory,
+                  menus[index],
+                ),
                 onLongPress: () => _deleteMenuTile(menus[index]),
               ),
             ],
@@ -181,12 +194,55 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     return menuTilesList;
   }
 
-  // [ウィジェット：メニュー追加用ダイアログ]
-  Widget _addMenuDialog(MenuCategory menuCategory) {
+  // [ウィジェット：メニュー編集ダイアログ]
+  Widget _editMenuDialog(MenuCategory menuCategory, [Menu menu]) {
+    var titleText;
     var nameController = TextEditingController();
     var priceController = TextEditingController();
+    var positiveButtonPressed;
+
+    if (menu == null) {
+      titleText = 'メニューの追加';
+      nameController.text = '';
+      priceController.text = '';
+      positiveButtonPressed = () async {
+        // 未入力チェック
+        if (nameController.text.isEmpty || priceController.text.isEmpty) {
+          Toast.show('未入力項目があります', context);
+          return;
+        }
+        var newMenu = Menu(
+          id: null,
+          menuCategoryId: menuCategory.id,
+          name: nameController.text,
+          price: int.parse(priceController.text),
+        );
+        await database.addMenu(newMenu);
+        Navigator.of(context).pop();
+      };
+    } else {
+      titleText = 'メニューの編集';
+      nameController.text = menu.name;
+      priceController.text = menu.price.toString();
+      positiveButtonPressed = () async {
+        // 未入力チェック
+        if (nameController.text.isEmpty || priceController.text.isEmpty) {
+          Toast.show('未入力項目があります', context);
+          return;
+        }
+        var newMenu = Menu(
+          id: menu.id,
+          menuCategoryId: menuCategory.id,
+          name: nameController.text,
+          price: int.parse(priceController.text),
+        );
+        await database.updateMenu(newMenu);
+        Navigator.of(context).pop();
+      };
+    }
+
     return AlertDialog(
-      title: const Text('メニューの追加'),
+      title: Text(titleText),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -214,21 +270,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         ),
         FlatButton(
           child: const Text('追加'),
-          onPressed: () async {
-            // 未入力チェック
-            if (nameController.text.isEmpty || priceController.text.isEmpty) {
-              Toast.show('未入力項目があります', context);
-              return;
-            }
-            var newMenu = Menu(
-              id: null,
-              menuCategoryId: menuCategory.id,
-              name: nameController.text,
-              price: int.parse(priceController.text),
-            );
-            await database.addMenu(newMenu);
-            Navigator.of(context).pop();
-          },
+          onPressed: positiveButtonPressed,
         ),
       ],
     );
