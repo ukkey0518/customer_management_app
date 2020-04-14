@@ -90,7 +90,10 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           // カテゴリタイトル部分の生成
           headerBuilder: (BuildContext context, bool isExpanded) =>
               _titleCategoryPart(menusByCategory.menuCategory),
+          // メニュー部分の生成
           body: null, //TODO
+          // 展開ステータスの設定
+          isExpanded: menusByCategory.isExpanded,
         );
       }).toList(),
     );
