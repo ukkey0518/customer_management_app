@@ -42,16 +42,23 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     // DBからメニューをすべて取得
     var menusList = await database.allMenus;
     // メニューカテゴリ別にメニューをまとめてリスト化
-    _menusByCategories = menuCategoriesList.map<MenusByCategory>(
+    var newMenusByCategoriesList = menuCategoriesList.map<MenusByCategory>(
       (category) {
+        var list = _menusByCategories
+            .where(
+                (menusByCategory) => menusByCategory.menuCategory == category)
+            .toList();
         return MenusByCategory(
           menuCategory: category,
           menus: menusList
               .where((menu) => menu.menuCategoryId == category.id)
               .toList(),
+          isExpanded: list.isEmpty ? false : list.single.isExpanded,
         );
       },
     ).toList();
+
+    _menusByCategories = newMenusByCategoriesList;
 
     // デバッグ用：コンソール出力
     print(
