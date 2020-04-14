@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/main.dart';
 import 'package:flutter/material.dart';
 
 class MenuSettingScreen extends StatefulWidget {
@@ -20,6 +21,11 @@ class MenusByCategory {
 class _MenuSettingScreenState extends State<MenuSettingScreen> {
   List<MenusByCategory> _menusByCategories;
   List<MenuCategory> _menuCategoriesList;
+
+  // [更新：リストの更新]
+  _initializedLists() async{
+    _menuCategoriesList = await database.allMenuCategories;
+  }
 
   @override
   Widget build(BuildContext context) {
