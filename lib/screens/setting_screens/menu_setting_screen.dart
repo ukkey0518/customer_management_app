@@ -92,7 +92,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
               _titleCategoryPart(menusByCategory.menuCategory),
           body: null, //TODO
         );
-      }),
+      }).toList(),
     );
   }
 
