@@ -268,12 +268,24 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
             TextField(
               controller: nameController,
               keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () => nameController.text = '',
+                ),
+              ),
             ),
             SizedBox(height: 30),
             Text('価格：'),
             TextField(
               controller: priceController,
               keyboardType: TextInputType.number,
+              decoration: InputDecoration(
+                suffixIcon: IconButton(
+                  icon: Icon(Icons.clear),
+                  onPressed: () => priceController.text = '',
+                ),
+              ),
             ),
           ],
         ),
