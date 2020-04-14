@@ -143,13 +143,12 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         (index) {
           return Column(
             children: <Widget>[
-              Divider(),
+              Divider(height: 1),
               ListTile(
                 title: Text(menus[index].name),
                 subtitle: Text(menus[index].price.toString()),
                 onTap: null, //TODO メニューの編集
               ),
-              Divider(),
             ],
           );
         },
@@ -158,11 +157,16 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
 
     // リスト末尾に付く、メニュー追加用リストタイルを追加
     menuTilesList.add(
-      ListTile(
-        title: const Text('メニューを追加'),
-        leading: Icon(Icons.add),
-        onTap: () => _showAddMenuDialog(
-            menusByCategory.menuCategory), //TODO メニュー追加処理(引数にカテゴリ)
+      Column(
+        children: <Widget>[
+          Divider(height: 1),
+          ListTile(
+            title: const Text('メニューを追加'),
+            leading: Icon(Icons.add),
+            onTap: () => _showAddMenuDialog(
+                menusByCategory.menuCategory), //TODO メニュー追加処理(引数にカテゴリ)
+          ),
+        ],
       ),
     );
 
