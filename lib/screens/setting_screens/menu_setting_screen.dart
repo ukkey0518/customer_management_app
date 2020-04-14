@@ -67,10 +67,11 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   // [コールバック：メニュー追加パネルタップ時]
   _showAddMenuDialog(MenuCategory menuCategory) {
     showDialog(
-        context: context,
-        builder: (_) {
-          return _addMenuDialog(menuCategory);
-        });
+      context: context,
+      builder: (_) {
+        return _addMenuDialog(menuCategory);
+      },
+    );
   }
 
   @override
