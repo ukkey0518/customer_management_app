@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MenuSettingScreen extends StatefulWidget {
@@ -154,5 +155,47 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     );
 
     return menuTilesList;
+  }
+
+  // [ウィジェット：メニュー追加用ダイアログ]
+  Widget _addMenuDialog(MenuCategory menuCategory) {
+    var nameController = TextEditingController();
+    var priceController = TextEditingController();
+    return AlertDialog(
+      title: const Text('メニューの追加'),
+      content: SingleChildScrollView(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('カテゴリ：'),
+            Text(menuCategory.name),
+            Text('メニュー名：'),
+            TextField(
+              controller: nameController,
+              keyboardType: TextInputType.text,
+            ),
+            SizedBox(height: 30),
+            Text('価格：'),
+            TextField(
+              controller: priceController,
+              keyboardType: TextInputType.number,
+            ),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('キャンセル'),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        FlatButton(
+          child: const Text('追加'),
+          onPressed: () async {
+            // TODO DB追加処理
+            Navigator.of(context).pop();
+          },
+        ),
+      ],
+    );
   }
 }
