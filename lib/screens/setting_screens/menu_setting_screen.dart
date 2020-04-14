@@ -160,7 +160,8 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
       ListTile(
         title: const Text('メニューを追加'),
         leading: Icon(Icons.add),
-        onTap: null, //TODO メニュー追加処理(引数にカテゴリ)
+        onTap: () => _showAddMenuDialog(
+            menusByCategory.menuCategory), //TODO メニュー追加処理(引数にカテゴリ)
       ),
     );
 
