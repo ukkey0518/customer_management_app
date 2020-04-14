@@ -23,7 +23,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   List<MenuCategory> _menuCategoriesList;
 
   // [更新：リストの更新]
-  _initializedLists() async{
+  _initializedLists() async {
     _menuCategoriesList = await database.allMenuCategories;
   }
 
