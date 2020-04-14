@@ -79,7 +79,12 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   // [ウィジェット：カテゴリ別メニューの展開パネルリスト]
   Widget _buildPanel() {
     return ExpansionPanelList(
-      expansionCallback: null,
+      // 展開ボタンが押されたときのコールバック
+      expansionCallback: (index, isExpanded) {
+        setState(() {
+          _menusByCategories[index].isExpanded = !isExpanded;
+        });
+      },
       children: _menusByCategories.map<ExpansionPanel>((menusByCategory) {
         return ExpansionPanel(
           // カテゴリタイトル部分の生成
