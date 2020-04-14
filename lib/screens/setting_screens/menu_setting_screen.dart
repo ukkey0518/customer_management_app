@@ -21,6 +21,7 @@ class MenusByCategory {
 class _MenuSettingScreenState extends State<MenuSettingScreen> {
   List<MenusByCategory> _menusByCategories;
   List<MenuCategory> _menuCategoriesList;
+  List<Menu> _menusList;
 
   // [更新：リストの更新]
   _initializedLists() async {
