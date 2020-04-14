@@ -9,7 +9,7 @@ class MenuSettingScreen extends StatefulWidget {
 
 // [クラス：カテゴリごとのメニューをまとめたクラス]
 class MenusByCategory {
-  MenusByCategory({this.menuCategory, this.menus, this.isExpanded});
+  MenusByCategory({this.menuCategory, this.menus, this.isExpanded = false});
   // カテゴリ
   MenuCategory menuCategory;
   // カテゴリの全メニュー
