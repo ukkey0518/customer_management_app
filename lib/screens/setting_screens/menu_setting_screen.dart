@@ -89,7 +89,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         return ExpansionPanel(
           // カテゴリタイトル部分の生成
           headerBuilder: (BuildContext context, bool isExpanded) =>
-              _titleCategoryPart(menusByCategory),
+              _titleCategoryPart(menusByCategory.menuCategory),
           body: null, //TODO
         );
       }),
@@ -97,12 +97,12 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   }
 
   // [ウィジェット：カテゴリタイトル部分]
-  Widget _titleCategoryPart(MenusByCategory menusByCategory) {
+  Widget _titleCategoryPart(MenuCategory menuCategory) {
     return ListTile(
-      title: Text(menusByCategory.menuCategory.name),
+      title: Text(menuCategory.name),
       leading: Icon(
         Icons.category,
-        color: Color(menusByCategory.menuCategory.color),
+        color: Color(menuCategory.color),
       ),
     );
   }
