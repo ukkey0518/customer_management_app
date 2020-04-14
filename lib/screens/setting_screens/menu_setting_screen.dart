@@ -29,11 +29,11 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   @override
   void initState() {
     super.initState();
-    _initializedLists();
+    _reloadMenusByCategoriesList();
   }
 
-  // [更新：リストの更新]
-  _initializedLists() async {
+  // [更新：カテゴリ別メニュー達のリストを更新]
+  _reloadMenusByCategoriesList() async {
     var menuCategoriesList = await database.allMenuCategories;
     var menusList = await database.allMenus;
     _menusByCategories = menuCategoriesList.map<MenusByCategory>(
