@@ -135,11 +135,17 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
 
   // [ウィジェット：カテゴリタイトル部分]
   Widget _titleCategoryPart(MenuCategory menuCategory) {
-    return ListTile(
-      title: Text(menuCategory.name),
-      leading: Icon(
-        Icons.category,
-        color: Color(menuCategory.color),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: ListTile(
+        title: Text(
+          menuCategory.name,
+          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
+        leading: Icon(
+          Icons.category,
+          color: Color(menuCategory.color),
+        ),
       ),
     );
   }
