@@ -23,6 +23,12 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   List<MenuCategory> _menuCategoriesList;
   List<Menu> _menusList;
 
+  @override
+  void initState() {
+    super.initState();
+    _initializedLists();
+  }
+
   // [更新：リストの更新]
   _initializedLists() async {
     _menuCategoriesList = await database.allMenuCategories;
