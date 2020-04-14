@@ -16,6 +16,11 @@ class MenusByCategory {
   List<Menu> menus;
   // パネルが開いているかどうか
   bool isExpanded;
+
+  @override
+  String toString() {
+    return 'menuCategory...$menuCategory, menus...$menus, isExpanded...$isExpanded';
+  }
 }
 
 class _MenuSettingScreenState extends State<MenuSettingScreen> {
