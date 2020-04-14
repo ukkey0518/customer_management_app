@@ -129,6 +129,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           ),
           // 展開ステータスの設定
           isExpanded: menusByCategory.isExpanded,
+          canTapOnHeader: true,
         );
       }).toList(),
     );
