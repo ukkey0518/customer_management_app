@@ -263,27 +263,63 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text('カテゴリ：'),
-            Text(menuCategory.name),
+            Container(
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).primaryColor),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: TextField(
+                controller: TextEditingController(text: menuCategory.name),
+                readOnly: true,
+                decoration: InputDecoration(
+                  border: InputBorder.none,
+                  prefixIcon: Icon(
+                    Icons.category,
+                    color: Color(menuCategory.color),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 30),
             Text('メニュー名：'),
-            TextField(
-              controller: nameController,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () => nameController.text = '',
+            Container(
+              padding: EdgeInsets.only(left: 16),
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).primaryColor),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: TextField(
+                controller: nameController,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  hintText: 'メニュー名を入力',
+                  border: InputBorder.none,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () => nameController.text = '',
+                  ),
                 ),
               ),
             ),
             SizedBox(height: 30),
             Text('価格：'),
-            TextField(
-              controller: priceController,
-              keyboardType: TextInputType.number,
-              decoration: InputDecoration(
-                suffixIcon: IconButton(
-                  icon: Icon(Icons.clear),
-                  onPressed: () => priceController.text = '',
+            Container(
+              padding: EdgeInsets.only(left: 16),
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).primaryColor),
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: TextField(
+                controller: priceController,
+                keyboardType: TextInputType.number,
+                decoration: InputDecoration(
+                  hintText: '価格を入力',
+                  border: InputBorder.none,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () => priceController.text = '',
+                  ),
                 ),
               ),
             ),
