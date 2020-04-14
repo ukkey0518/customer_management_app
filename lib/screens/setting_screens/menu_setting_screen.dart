@@ -59,6 +59,8 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
          !!-----------------------!!
       ''',
     );
+    // 画面を更新
+    setState(() {});
   }
 
   @override
