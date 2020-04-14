@@ -25,8 +25,6 @@ class MenusByCategory {
 
 class _MenuSettingScreenState extends State<MenuSettingScreen> {
   List<MenusByCategory> _menusByCategories = List();
-  List<MenuCategory> _menuCategoriesList = List();
-  List<Menu> _menusList = List();
 
   @override
   void initState() {
@@ -36,21 +34,26 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
 
   // [更新：リストの更新]
   _initializedLists() async {
-    _menuCategoriesList = await database.allMenuCategories;
-    _menusList = await database.allMenus;
-    _menusByCategories = _menuCategoriesList.map<MenusByCategory>(
+    var menuCategoriesList = await database.allMenuCategories;
+    var menusList = await database.allMenus;
+    _menusByCategories = menuCategoriesList.map<MenusByCategory>(
       (category) {
         return MenusByCategory(
           menuCategory: category,
-          menus: _menusList
+          menus: menusList
               .where((menu) => menu.menuCategoryId == category.id)
               .toList(),
         );
       },
     ).toList();
-    print('Categories => $_menuCategoriesList');
-    print('Menus => $_menusList');
-    print('MenusByCategories => $_menusByCategories');
+    print(
+      '''!!-- _initializedLists --!!
+         local: Categories => $menuCategoriesList
+         local: Menus => $menusList
+         field: MenusByCategories => $_menusByCategories
+         !!-----------------------!!
+      ''',
+    );
   }
 
   @override
