@@ -34,8 +34,11 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
 
   // [更新：カテゴリ別メニュー達のリストを更新]
   _reloadMenusByCategoriesList() async {
+    // DBからメニューカテゴリをすべて取得
     var menuCategoriesList = await database.allMenuCategories;
+    // DBからメニューをすべて取得
     var menusList = await database.allMenus;
+    // メニューカテゴリ別にメニューをまとめてリスト化
     _menusByCategories = menuCategoriesList.map<MenusByCategory>(
       (category) {
         return MenusByCategory(
@@ -46,6 +49,8 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         );
       },
     ).toList();
+
+    // デバッグ用：コンソール出力
     print(
       '''!!-- _initializedLists --!!
          local: Categories => $menuCategoriesList
@@ -75,7 +80,25 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   Widget _buildPanel() {
     return ExpansionPanelList(
       expansionCallback: null,
-      children: <ExpansionPanel>[],
+      children: _menusByCategories.map<ExpansionPanel>((menusByCategory) {
+        return ExpansionPanel(
+          // カテゴリタイトル部分の生成
+          headerBuilder: (BuildContext context, bool isExpanded) =>
+              _titleCategoryPart(menusByCategory),
+          body: null, //TODO
+        );
+      }),
+    );
+  }
+
+  // [ウィジェット：カテゴリタイトル部分]
+  Widget _titleCategoryPart(MenusByCategory menusByCategory) {
+    return ListTile(
+      title: Text(menusByCategory.menuCategory.name),
+      leading: Icon(
+        Icons.category,
+        color: Color(menusByCategory.menuCategory.color),
+      ),
     );
   }
 }
