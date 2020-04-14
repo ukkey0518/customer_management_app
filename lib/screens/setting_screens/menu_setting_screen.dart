@@ -18,6 +18,8 @@ class MenusByCategory {
 }
 
 class _MenuSettingScreenState extends State<MenuSettingScreen> {
+  List<MenusByCategory> _menusByCategories;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
