@@ -13,7 +13,18 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         title: const Text('メニュー管理'),
         centerTitle: true,
       ),
-      body: Container(),
+      body: SingleChildScrollView(
+        child: Container(
+          child: _buildPanel(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPanel() {
+    return ExpansionPanelList(
+      expansionCallback: null,
+      children: <ExpansionPanel>[],
     );
   }
 }
