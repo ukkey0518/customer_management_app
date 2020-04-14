@@ -71,7 +71,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     showDialog(
       context: context,
       builder: (_) {
-        return _editMenuDialog(menuCategory);
+        return _menuEditDialog(menuCategory);
       },
     ).then((_) => _reloadMenusByCategoriesList());
   }
@@ -81,7 +81,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     showDialog(
       context: context,
       builder: (_) {
-        return _editMenuDialog(menuCategory, menu);
+        return _menuEditDialog(menuCategory, menu);
       },
     ).then((_) => _reloadMenusByCategoriesList());
   }
@@ -195,7 +195,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   }
 
   // [ウィジェット：メニュー編集ダイアログ]
-  Widget _editMenuDialog(MenuCategory menuCategory, [Menu menu]) {
+  Widget _menuEditDialog(MenuCategory menuCategory, [Menu menu]) {
     var titleText;
     var nameController = TextEditingController();
     var priceController = TextEditingController();
