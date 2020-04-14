@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:toast/toast.dart';
 
 class MenuSettingScreen extends StatefulWidget {
@@ -73,6 +74,12 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         return _addMenuDialog(menuCategory);
       },
     ).then((_) => _reloadMenusByCategoriesList());
+  }
+
+  // [コールバック：メニューリストパネル長押し時]
+  _deleteMenuTile(Menu menu) async {
+    await database.deleteMenu(menu);
+    _reloadMenusByCategoriesList();
   }
 
   @override
@@ -148,6 +155,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
                 title: Text(menus[index].name),
                 subtitle: Text(menus[index].price.toString()),
                 onTap: null, //TODO メニューの編集
+                onLongPress: () => _deleteMenuTile(menus[index]),
               ),
             ],
           );
