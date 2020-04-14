@@ -19,9 +19,9 @@ class MenusByCategory {
 }
 
 class _MenuSettingScreenState extends State<MenuSettingScreen> {
-  List<MenusByCategory> _menusByCategories;
-  List<MenuCategory> _menuCategoriesList;
-  List<Menu> _menusList;
+  List<MenusByCategory> _menusByCategories = List();
+  List<MenuCategory> _menuCategoriesList = List();
+  List<Menu> _menusList = List();
 
   @override
   void initState() {
