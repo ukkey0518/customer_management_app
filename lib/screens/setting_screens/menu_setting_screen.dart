@@ -33,6 +33,19 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   _initializedLists() async {
     _menuCategoriesList = await database.allMenuCategories;
     _menusList = await database.allMenus;
+    _menusByCategories = _menuCategoriesList.map<MenusByCategory>(
+      (category) {
+        return MenusByCategory(
+          menuCategory: category,
+          menus: _menusList
+              .where((menu) => menu.menuCategoryId == category.id)
+              .toList(),
+        );
+      },
+    ).toList();
+    print('Categories => $_menuCategoriesList');
+    print('Menus => $_menusList');
+    print('MenusByCategories => $_menusByCategories');
   }
 
   @override
