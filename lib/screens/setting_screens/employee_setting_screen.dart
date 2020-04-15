@@ -27,7 +27,14 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
 
   // [コールバック：FABタップ時]
   // ・追加用ダイアログを表示する
-  _showAddEmployeeDialog() {}
+  _showAddEmployeeDialog() {
+    showDialog(
+      context: context,
+      builder: (_) => _editEmployeeDialog(),
+    ).then(
+      (_) => _reloadEmployeesList(),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +45,7 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: _showAddEmployeeDialog(),
+        onPressed: () => _showAddEmployeeDialog(),
       ),
       body: Container(),
     );
@@ -52,7 +59,7 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
     var databaseProcess;
 
     // 引数にEmployeeが渡されたときは編集用として開く
-    if (employee = null) {
+    if (employee == null) {
       titleText = 'スタッフ情報登録';
       nameController.text = '';
       positiveButtonText = '追加';
