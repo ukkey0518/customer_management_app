@@ -55,6 +55,8 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
               ListTile(
                 leading: const Icon(Icons.supervisor_account),
                 title: Text(_employees[index].name),
+                onTap: null, //TODO: 編集処理
+                onLongPress: () => _deleteEmployee(_employees[index]),
               ),
               Divider(height: 1),
             ],
@@ -127,5 +129,13 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
         )
       ],
     );
+  }
+
+  // [コールバック：リストアイテム長押し時]
+  // ・従業員データを削除する
+  _deleteEmployee(Employee employee) async {
+    await database.deleteEmployee(employee);
+    _reloadEmployeesList();
+    Toast.show('削除しました。', context);
   }
 }
