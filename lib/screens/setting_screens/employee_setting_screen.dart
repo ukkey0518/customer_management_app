@@ -24,6 +24,10 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
     setState(() {});
   }
 
+  // [コールバック：FABタップ時]
+  // ・追加用ダイアログを表示する
+  _showAddEmployeeDialog() {}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -39,7 +43,47 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
     );
   }
 
-  // [コールバック：FABタップ時]
-  // ・追加用ダイアログを表示する
-  _showAddEmployeeDialog() {}
+  // [ウィジェット：従業員データ編集用ダイアログ]
+  Widget _editEmployeeDialog([Employee employee]) {
+    var titleText;
+    var nameController = TextEditingController();
+    var positiveButtonText;
+
+    // 引数にEmployeeが渡されたときは編集用として開く
+    if (employee = null) {
+      titleText = 'スタッフ情報登録';
+      nameController.text = '';
+      positiveButtonText = '追加';
+    } else {
+      titleText = 'スタッフ情報編集';
+      nameController.text = employee.name;
+      positiveButtonText = '更新';
+    }
+
+    return AlertDialog(
+      title: Text(titleText),
+      content: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Text('名前'),
+            TextField(
+              controller: nameController,
+              decoration: InputDecoration(hintText: 'スタッフ名を入力'),
+            ),
+            SizedBox(height: 30),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: const Text('キャンセル'),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
+        FlatButton(
+          child: Text(positiveButtonText),
+          onPressed: null, // TODO
+        )
+      ],
+    );
+  }
 }
