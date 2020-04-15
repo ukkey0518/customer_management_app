@@ -343,7 +343,10 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     icon: Icon(Icons.clear),
-                    onPressed: () => nameController.text = '',
+                    onPressed: () =>
+                        WidgetsBinding.instance.addPostFrameCallback(
+                      (_) => nameController.clear(),
+                    ),
                   ),
                 ),
               ),
@@ -364,7 +367,10 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     icon: Icon(Icons.clear),
-                    onPressed: () => priceController.text = '',
+                    onPressed: () =>
+                        WidgetsBinding.instance.addPostFrameCallback(
+                      (_) => priceController.clear(),
+                    ),
                   ),
                 ),
               ),
