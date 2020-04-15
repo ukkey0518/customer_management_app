@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -107,7 +108,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {}, //TODO
+        onPressed: () => _startMenuCategorySettingScreen(),
         icon: Icon(Icons.category),
         label: const Text('カテゴリの編集'),
       ),
@@ -381,6 +382,17 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           onPressed: positiveButtonPressed,
         ),
       ],
+    );
+  }
+
+  // [コールバック：FABタップ時]
+  // ・カテゴリ編集画面へ遷移する
+  _startMenuCategorySettingScreen() {
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) => MenuCategorySettingScreen(),
+        fullscreenDialog: true,
+      ),
     );
   }
 }
