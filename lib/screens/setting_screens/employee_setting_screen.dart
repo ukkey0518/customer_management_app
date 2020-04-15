@@ -1,3 +1,5 @@
+import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/main.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeSettingScreen extends StatefulWidget {
@@ -6,6 +8,22 @@ class EmployeeSettingScreen extends StatefulWidget {
 }
 
 class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
+  List<Employee> _employees;
+
+  @override
+  void initState() {
+    super.initState();
+    _reloadEmployeesList();
+  }
+
+  // [更新：従業員リストの更新]
+  _reloadEmployeesList() async {
+    // すべての従業員リストを取得
+    _employees = await database.allEmployees;
+    // 画面を更新
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
