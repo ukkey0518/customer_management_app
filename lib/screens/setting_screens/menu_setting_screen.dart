@@ -106,6 +106,12 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         title: const Text('メニュー管理'),
         centerTitle: true,
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {}, //TODO
+        icon: Icon(Icons.category),
+        label: const Text('カテゴリの編集'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: SingleChildScrollView(
         child: Container(
           child: _buildPanel(),
