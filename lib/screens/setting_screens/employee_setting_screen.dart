@@ -36,6 +36,25 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
     );
   }
 
+  // [コールバック：リストアイテムタップ時]
+  // ・従業員データを編集するダイアログを開く
+  _showEditEmployeeDialog(Employee employee) {
+    showDialog(
+      context: context,
+      builder: (_) => _editEmployeeDialog(employee),
+    ).then(
+      (_) => _reloadEmployeesList(),
+    );
+  }
+
+  // [コールバック：リストアイテム長押し時]
+  // ・従業員データを削除する
+  _deleteEmployee(Employee employee) async {
+    await database.deleteEmployee(employee);
+    _reloadEmployeesList();
+    Toast.show('削除しました。', context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,13 +148,5 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
         )
       ],
     );
-  }
-
-  // [コールバック：リストアイテム長押し時]
-  // ・従業員データを削除する
-  _deleteEmployee(Employee employee) async {
-    await database.deleteEmployee(employee);
-    _reloadEmployeesList();
-    Toast.show('削除しました。', context);
   }
 }
