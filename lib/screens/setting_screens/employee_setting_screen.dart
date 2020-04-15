@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:flutter/material.dart';
+import 'package:toast/toast.dart';
 
 class EmployeeSettingScreen extends StatefulWidget {
   @override
@@ -48,16 +49,27 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
     var titleText;
     var nameController = TextEditingController();
     var positiveButtonText;
+    var databaseProcess;
 
     // 引数にEmployeeが渡されたときは編集用として開く
     if (employee = null) {
       titleText = 'スタッフ情報登録';
       nameController.text = '';
       positiveButtonText = '追加';
+      databaseProcess = () async {
+        var newEmployee = Employee(id: null, name: nameController.text);
+        await database.addEmployee(newEmployee);
+        Toast.show('登録されました。', context);
+      };
     } else {
       titleText = 'スタッフ情報編集';
       nameController.text = employee.name;
       positiveButtonText = '更新';
+      databaseProcess = () async {
+        var newEmployee = Employee(id: employee.id, name: nameController.text);
+        await database.updateEmployee(newEmployee);
+        Toast.show('更新されました。', context);
+      };
     }
 
     return AlertDialog(
@@ -81,7 +93,15 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
         ),
         FlatButton(
           child: Text(positiveButtonText),
-          onPressed: null, // TODO
+          onPressed: () {
+            // 未入力チェック
+            if (nameController.text.isEmpty) {
+              Toast.show('未入力項目があります', context);
+              return;
+            }
+            // 更新or追加処理
+            databaseProcess();
+          }, // TODO
         )
       ],
     );
