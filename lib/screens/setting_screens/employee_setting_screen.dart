@@ -9,7 +9,7 @@ class EmployeeSettingScreen extends StatefulWidget {
 }
 
 class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
-  List<Employee> _employees;
+  List<Employee> _employees = List();
 
   @override
   void initState() {
@@ -47,7 +47,20 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
         child: Icon(Icons.add),
         onPressed: () => _showAddEmployeeDialog(),
       ),
-      body: Container(),
+      body: ListView.builder(
+        itemCount: _employees.length,
+        itemBuilder: (context, index) {
+          return Column(
+            children: <Widget>[
+              ListTile(
+                leading: const Icon(Icons.supervisor_account),
+                title: Text(_employees[index].name),
+              ),
+              Divider(height: 1),
+            ],
+          );
+        },
+      ),
     );
   }
 
