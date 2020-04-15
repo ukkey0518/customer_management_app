@@ -31,7 +31,15 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
         title: const Text('スタッフ管理'),
         centerTitle: true,
       ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: _showAddEmployeeDialog(),
+      ),
       body: Container(),
     );
   }
+
+  // [コールバック：FABタップ時]
+  // ・追加用ダイアログを表示する
+  _showAddEmployeeDialog() {}
 }
