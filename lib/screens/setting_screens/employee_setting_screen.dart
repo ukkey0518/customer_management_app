@@ -93,15 +93,17 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
         ),
         FlatButton(
           child: Text(positiveButtonText),
-          onPressed: () {
+          onPressed: () async {
             // 未入力チェック
             if (nameController.text.isEmpty) {
               Toast.show('未入力項目があります', context);
               return;
             }
             // 更新or追加処理
-            databaseProcess();
-          }, // TODO
+            await databaseProcess();
+            // 画面を閉じる
+            Navigator.of(context).pop();
+          },
         )
       ],
     );
