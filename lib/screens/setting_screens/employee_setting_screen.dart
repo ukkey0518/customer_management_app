@@ -74,7 +74,7 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
               ListTile(
                 leading: const Icon(Icons.supervisor_account),
                 title: Text(_employees[index].name),
-                onTap: null, //TODO: 編集処理
+                onTap: () => _showEditEmployeeDialog(_employees[index]),
                 onLongPress: () => _deleteEmployee(_employees[index]),
               ),
               Divider(height: 1),
