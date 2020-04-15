@@ -388,11 +388,15 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   // [コールバック：FABタップ時]
   // ・カテゴリ編集画面へ遷移する
   _startMenuCategorySettingScreen() {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => MenuCategorySettingScreen(),
-        fullscreenDialog: true,
-      ),
-    );
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => MenuCategorySettingScreen(),
+            fullscreenDialog: true,
+          ),
+        )
+        .then(
+          (_) => _reloadMenusByCategoriesList(),
+        );
   }
 }
