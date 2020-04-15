@@ -140,7 +140,10 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
                     hintText: 'カテゴリ名を入力',
                     suffixIcon: IconButton(
                       icon: Icon(Icons.clear),
-                      onPressed: () => categoryController.text = '',
+                      onPressed: () =>
+                          WidgetsBinding.instance.addPostFrameCallback(
+                        (_) => categoryController.clear(),
+                      ),
                     ),
                   ),
                 ),
