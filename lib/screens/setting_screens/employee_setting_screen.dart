@@ -134,7 +134,10 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
                   border: InputBorder.none,
                   suffixIcon: IconButton(
                     icon: Icon(Icons.clear),
-                    onPressed: () => nameController.clear(),
+                    onPressed: () =>
+                        WidgetsBinding.instance.addPostFrameCallback(
+                      (_) => nameController.clear(),
+                    ),
                   ),
                 ),
               ),
