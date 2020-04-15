@@ -17,14 +17,6 @@ class MainSettingScreen extends StatelessWidget {
         children: <Widget>[
           Divider(height: 1),
           _settingListItemBuilder(
-            title: 'メニューカテゴリ管理',
-            onTap: () => _startSettingScreen(
-              context,
-              MenuCategorySettingScreen(),
-            ),
-          ),
-          Divider(height: 1),
-          _settingListItemBuilder(
             title: 'メニュー管理',
             onTap: () => _startSettingScreen(
               context,
