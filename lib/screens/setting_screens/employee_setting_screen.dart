@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -117,11 +118,26 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
       title: Text(titleText),
       content: SingleChildScrollView(
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('名前'),
-            TextField(
-              controller: nameController,
-              decoration: InputDecoration(hintText: 'スタッフ名を入力'),
+            Text('名前：'),
+            Container(
+              padding: EdgeInsets.only(left: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: Theme.of(context).primaryColor),
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: 'スタッフ名を入力',
+                  border: InputBorder.none,
+                  suffixIcon: IconButton(
+                    icon: Icon(Icons.clear),
+                    onPressed: () => nameController.clear(),
+                  ),
+                ),
+              ),
             ),
             SizedBox(height: 30),
           ],
