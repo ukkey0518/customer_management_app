@@ -15,6 +15,7 @@ class MenuCategorySettingScreen extends StatefulWidget {
 
 class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   List<MenuCategory> _menuCategoriesList;
+  List<Menu> _menus;
 
   @override
   void initState() {
@@ -26,6 +27,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   // [更新：DBからメニューカテゴリを取得してリストに反映する処理]
   _reloadMenuCategories() async {
     _menuCategoriesList = await database.allMenuCategories;
+    _menus = await database.allMenus;
     setState(() {});
   }
 
@@ -223,8 +225,13 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   // [コールバック：リストアイテム長押し時]
   _deleteMenuCategory(int index) async {
     var deleteMenuCategory = _menuCategoriesList[index];
-    await database.deleteMenuCategory(deleteMenuCategory);
+    // カテゴリ内にメニューがある場合は削除できない
+    if (_menus.any((menu) => menu.menuCategoryId == deleteMenuCategory.id)) {
+      Toast.show('カテゴリ内にメニューが存在するため削除できません。', context);
+    } else {
+      await database.deleteMenuCategory(deleteMenuCategory);
+      Toast.show('削除しました', context);
+    }
     _reloadMenuCategories();
-    Toast.show('削除しました', context);
   }
 }
