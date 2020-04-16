@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/screens/visit_record_list_screens/visit_record_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'visit_record_list_screen.dart';
 
 class VisitRecordInformationScreen extends StatefulWidget {
   final VisitRecordListScreenPreferences pref;

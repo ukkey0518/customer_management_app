@@ -1,18 +1,14 @@
-import 'dart:math';
-
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_list_card.dart';
-import 'package:customermanagementapp/parts/visit_record_list_card.dart';
-import 'package:customermanagementapp/screens/customers_list_screens/customers_list_screen.dart';
-import 'package:customermanagementapp/screens/visit_record_list_screens/customer_select_screen.dart';
-import 'package:customermanagementapp/screens/visit_record_list_screens/visit_record_information_screen.dart';
-import 'package:customermanagementapp/screens/visit_record_list_screens/visit_record_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
+
+import 'customer_select_screen.dart';
+import 'visit_record_list_screen.dart';
 
 enum VisitRecordEditState { ADD, EDIT }
 
