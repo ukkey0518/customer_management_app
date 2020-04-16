@@ -186,16 +186,16 @@ class MyDatabase extends _$MyDatabase {
   //
   //
 
-  // [追加：１件分のメニューカテゴリを追加]
+  // [追加：１件分のメニューを追加]
   Future<int> addMenu(Menu menu) => into(menus).insert(menu);
 
-  // [取得：すべてのメニューカテゴリを取得]
+  // [取得：すべてのメニューを取得]
   Future<List<Menu>> get allMenus => select(menus).get();
 
-  // [更新：１件分のメニューカテゴリを更新]
+  // [更新：１件分のメニューを更新]
   Future updateMenu(Menu menu) => update(menus).replace(menu);
 
-  // [削除：１件分のメニューカテゴリを削除]
+  // [削除：１件分のメニューを削除]
   Future deleteMenu(Menu menu) =>
       (delete(menus)..where((t) => t.id.equals(menu.id))).go();
 

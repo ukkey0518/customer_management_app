@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_selected_card.dart';
+import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -35,7 +36,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   // [初期化：担当選択ドロップダウン用フィールド初期化]
   _initEmployees() async {
     _employees = await database.allEmployees;
-    _selectedEmployee = _employees[0];
+    _selectedEmployee = _employees.isEmpty ? null : _employees[0];
     setState(() {});
   }
 
@@ -112,6 +113,24 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
               ),
               _divider(),
 //              _menuInputPart(),
+              // デバッグ用-----------------------------------------------
+              RaisedButton(
+                child: Text('list -> str'),
+                onPressed: () async {
+                  var list = await database.allMenus;
+                  var str = await InterConverter.menusToIdStr(list);
+                  print('result : $str');
+                },
+              ),
+              RaisedButton(
+                child: Text('str -> list'),
+                onPressed: () async {
+                  var str = '1,2,3';
+                  var list = await InterConverter.idStrToMenus(str).toList();
+                  print('result : $list');
+                },
+              ),
+              // --------------------------------------------------------
               _divider(),
             ],
           ),
