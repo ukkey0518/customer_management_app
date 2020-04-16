@@ -7,7 +7,7 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
-import 'customer_select_screen.dart';
+import 'select_screens/customer_select_screen.dart';
 import 'visit_history_list_screen.dart';
 
 enum VisitHistoryEditState { ADD, EDIT }
@@ -62,6 +62,49 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     });
   }
 
+  // [コールバック：日付欄タップ時]
+  _showDateSelectPicker() {
+    DatePicker.showDatePicker(
+      context,
+      showTitleActions: true,
+      minTime: DateTime(1970, 1, 1),
+      maxTime: DateTime.now(),
+      onConfirm: (date) => _setDate(date),
+      currentTime: _date,
+      locale: LocaleType.jp,
+    );
+    setState(() {});
+  }
+
+  // [コールバック：保存ボタンタップ時]
+  _saveVisitRecord() async {
+    // 新しいCustomerオブジェクト生成
+    var soldItem = SoldItem(
+      id: null,
+      date: _date,
+      customerId: _customer.id,
+      menuId: 1,
+      employeeId: 1,
+    );
+    print(soldItem);
+    // DBに新規登録
+    await database.addSoldItem(soldItem);
+    Toast.show('登録されました', context);
+
+    // 画面を終了
+    _finishEditScreen(context);
+  }
+
+  // [コールバック：画面終了時]
+  Future<bool> _finishEditScreen(BuildContext context) {
+    Navigator.pushReplacement(
+      context,
+      MyCustomRoute(
+          builder: (context) => VisitHistoryListScreen(pref: widget.pref)),
+    );
+    return Future.value(false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
@@ -92,7 +135,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
               Divider(height: 8),
               _dateInputPart(),
               Divider(height: 8),
-//              _stuffInputPart(),
+//              _employeeInputPart(),
               Divider(height: 8),
 //              _menuInputPart(),
               Divider(height: 8),
@@ -171,48 +214,5 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         ),
       ),
     );
-  }
-
-  // [コールバック：日付欄タップ時]
-  _showDateSelectPicker() {
-    DatePicker.showDatePicker(
-      context,
-      showTitleActions: true,
-      minTime: DateTime(1970, 1, 1),
-      maxTime: DateTime.now(),
-      onConfirm: (date) => _setDate(date),
-      currentTime: _date,
-      locale: LocaleType.jp,
-    );
-    setState(() {});
-  }
-
-  // [コールバック：保存ボタンタップ時]
-  _saveVisitRecord() async {
-    // 新しいCustomerオブジェクト生成
-    var soldItem = SoldItem(
-      id: null,
-      date: _date,
-      customerId: _customer.id,
-      menuId: 1,
-      employeeId: 1,
-    );
-    print(soldItem);
-    // DBに新規登録
-    await database.addSoldItem(soldItem);
-    Toast.show('登録されました', context);
-
-    // 画面を終了
-    _finishEditScreen(context);
-  }
-
-  // [コールバック：画面終了時]
-  Future<bool> _finishEditScreen(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MyCustomRoute(
-          builder: (context) => VisitHistoryListScreen(pref: widget.pref)),
-    );
-    return Future.value(false);
   }
 }
