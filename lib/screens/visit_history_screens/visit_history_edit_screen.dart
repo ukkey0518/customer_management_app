@@ -85,25 +85,47 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         ),
         body: Center(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               SizedBox(height: 30),
-              const Text('売上データ作成', style: TextStyle(fontSize: 20)),
-              Divider(height: 8),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: const Text('お客様情報', style: TextStyle(fontSize: 20)),
+              ),
+              _divider(),
               _customerInputPart(),
-              Divider(height: 8),
-              _dateInputPart(),
-              Divider(height: 8),
-              _employeeInputPart(),
-              Divider(height: 8),
-//              _menuInputPart(),
-              Divider(height: 8),
-//              _discountInputPart(),
+              _divider(),
               SizedBox(height: 30),
-//              _priceInputPart(),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: const Text('詳細情報', style: TextStyle(fontSize: 20)),
+              ),
+              _divider(),
+              _dateInputPart(),
+              _divider(indent: 8),
+              _employeeInputPart(),
+              _divider(),
+              SizedBox(height: 30),
+              Padding(
+                padding: const EdgeInsets.only(left: 16.0),
+                child: const Text('提供メニュー', style: TextStyle(fontSize: 20)),
+              ),
+              _divider(),
+//              _menuInputPart(),
+              _divider(),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  // [ウィジェット：区切り線スタイル]
+  Widget _divider({double indent = 0.0}) {
+    return Divider(
+      height: 8,
+      indent: indent,
+      endIndent: indent,
     );
   }
 
