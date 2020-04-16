@@ -30,6 +30,9 @@ dependencies:
   #color_picker-package
   flutter_colorpicker: ^0.3.2
 
+  #dotted_border-package
+  dotted_border: ^1.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
