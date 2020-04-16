@@ -1,14 +1,11 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/my_drawer.dart';
-import 'package:customermanagementapp/parts/visit_record_list_card.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:toast/toast.dart';
 
-import 'visit_record_edit_screen.dart';
-import 'visit_record_information_screen.dart';
+import 'visit_history_edit_screen.dart';
 
 enum VisitHistoryListNarrowState { ALL, TODAY }
 enum VisitHistoryListSortState { REGISTER_NEW, REGISTER_OLD }
@@ -47,7 +44,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   }
 
   // [リスト更新処理：指定の条件でリストを更新する]
-  _reloadVisitRecordList() async {
+  _reloadVisitHistoryList() async {
     // 絞り込み条件
     switch (_narrowState) {
       case VisitHistoryListNarrowState.ALL:
@@ -87,6 +84,53 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     _reloadVisitHistoryList();
   }
 
+  // [コールバック：FABタップ]
+  // →売上データを登録する画面へ遷移する
+  _startVisitHistoryEditScreen() {
+    Navigator.pushReplacement(
+      context,
+      MyCustomRoute(
+        builder: (context) => VisitHistoryEditScreen(
+          VisitHistoryListScreenPreferences(
+            narrowState: _narrowState,
+            sortState: _sortState,
+          ),
+          state: VisitHistoryEditState.ADD,
+        ),
+      ),
+    );
+  }
+
+  // [コールバック：絞り込みメニューアイテム選択時]
+  // →各項目ごとに絞り込み
+  _narrowMenuSelected(String value) async {
+    switch (value) {
+      case '今日':
+        // 今日の売上データを抽出
+        _setNarrowState(VisitHistoryListNarrowState.TODAY);
+        break;
+      default:
+        // すべての売上データを抽出して更新
+        _setNarrowState(VisitHistoryListNarrowState.ALL);
+        break;
+    }
+  }
+
+  // [コールバック：ソートメニューアイテム選択時]
+  // →各項目ごとにソート
+  _sortMenuSelected(String value) async {
+    switch (value) {
+      case '登録順(新)':
+        // 新規登録が新しい順に並び替え
+        _setSortState(VisitHistoryListSortState.REGISTER_NEW);
+        break;
+      case '登録順(古)':
+        // 新規登録が新しい順に並び替え
+        _setSortState(VisitHistoryListSortState.REGISTER_OLD);
+        break;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,23 +140,14 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         tooltip: '来店追加',
-        onPressed: () => _addVisitRecord(),
+        onPressed: () => _startVisitHistoryEditScreen(),
       ),
       drawer: MyDrawer(),
       body: Column(
         children: <Widget>[
           _menuBarPart(),
           Divider(),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ListView.builder(
-                itemBuilder: (context, index) =>
-                    _visitHistoryListItemPart(index),
-                itemCount: _soldItemsList.length,
-              ),
-            ),
-          ),
+          // TODO コンテンツ
         ],
       ),
     );
@@ -204,92 +239,6 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         ),
       ),
     );
-  }
-
-  // [ウィジェット：各リストアイテム]
-  Widget _visitHistoryListItemPart(int index) {
-    var soldItem = _soldItemsList[index];
-    return VisitHistoryListCard(
-      soldItem: soldItem,
-//      onTap: () => _showVisitHistory(soldItem),
-      onTap: null,
-      onLongPress: () => _deleteVisitHistory(soldItem),
-    );
-  }
-
-  // [コールバック：FABタップ]
-  // →新しい顧客情報を登録する
-  _addVisitHistory() {
-    Navigator.pushReplacement(
-      context,
-      MyCustomRoute(
-        builder: (context) => VisitHistoryEditScreen(
-          VisitHistoryListScreenPreferences(
-            narrowState: _narrowState,
-            sortState: _sortState,
-          ),
-          state: VisitHistoryEditState.ADD,
-        ),
-      ),
-    );
-  }
-
-  // [コールバック：リストアイテムタップ]
-  // →選択した顧客情報の詳細ページへ遷移する
-  _showVisitHistory(SoldItem soldItem) {
-    Navigator.pushReplacement(
-      context,
-      MyCustomRoute(
-        builder: (context) => VisitHistoryInformationScreen(
-          VisitHistoryListScreenPreferences(
-            narrowState: _narrowState,
-            sortState: _sortState,
-          ),
-          soldItem: soldItem,
-        ),
-      ),
-    );
-  }
-
-  // [コールバック：リストアイテム長押し]
-  // →長押ししたアイテムを削除する
-  _deleteVisitHistory(SoldItem soldItem) async {
-    // DBから指定のCustomerを削除
-    await database.deleteSoldItem(soldItem);
-    // 現在の条件でリストを更新
-    _reloadVisitHistoryList();
-    // トースト表示
-    Toast.show('削除しました。', context);
-  }
-
-  // [コールバック：絞り込みメニューアイテム選択時]
-  // →各項目ごとに絞り込み
-  _narrowMenuSelected(String value) async {
-    switch (value) {
-      case '今日':
-        // 今日の売上データを抽出
-        _setNarrowState(VisitHistoryListNarrowState.TODAY);
-        break;
-      default:
-        // すべての売上データを抽出して更新
-        _setNarrowState(VisitHistoryListNarrowState.ALL);
-        break;
-    }
-  }
-
-  // [コールバック：ソートメニューアイテム選択時]
-  // →各項目ごとにソート
-  _sortMenuSelected(String value) async {
-    switch (value) {
-      case '登録順(新)':
-        // 新規登録が新しい順に並び替え
-        _setSortState(VisitHistoryListSortState.REGISTER_NEW);
-        break;
-      case '登録順(古)':
-        // 新規登録が新しい順に並び替え
-        _setSortState(VisitHistoryListSortState.REGISTER_OLD);
-        break;
-    }
   }
 }
 

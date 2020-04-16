@@ -50,7 +50,7 @@ class MyDrawer extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MyCustomRoute(
-                  builder: (context) => VisitRecordListScreen(),
+                  builder: (context) => VisitHistoryListScreen(),
                 ),
               );
             },

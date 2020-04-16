@@ -10,19 +10,19 @@ import 'package:toast/toast.dart';
 import 'customer_select_screen.dart';
 import 'visit_history_list_screen.dart';
 
-enum VisitRecordEditState { ADD, EDIT }
+enum VisitHistoryEditState { ADD, EDIT }
 
-class VisitRecordEditScreen extends StatefulWidget {
-  final VisitRecordListScreenPreferences pref;
-  final VisitRecordEditState state;
+class VisitHistoryEditScreen extends StatefulWidget {
+  final VisitHistoryListScreenPreferences pref;
+  final VisitHistoryEditState state;
   final SoldItem soldItem;
 
-  VisitRecordEditScreen(this.pref, {@required this.state, this.soldItem});
+  VisitHistoryEditScreen(this.pref, {@required this.state, this.soldItem});
   @override
-  _VisitRecordEditScreenState createState() => _VisitRecordEditScreenState();
+  _VisitHistoryEditScreenState createState() => _VisitHistoryEditScreenState();
 }
 
-class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
+class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   DateTime _date;
   DateFormat _dateFormatter;
   Customer _customer;
@@ -32,7 +32,7 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
   @override
   void initState() {
     super.initState();
-    if (widget.state == VisitRecordEditState.ADD) {
+    if (widget.state == VisitHistoryEditState.ADD) {
       _titleStr = '売上データの新規登録';
     } else {
       _titleStr = '売上データの編集';
@@ -260,7 +260,7 @@ class _VisitRecordEditScreenState extends State<VisitRecordEditScreen> {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
-          builder: (context) => VisitRecordListScreen(pref: widget.pref)),
+          builder: (context) => VisitHistoryListScreen(pref: widget.pref)),
     );
     return Future.value(false);
   }
