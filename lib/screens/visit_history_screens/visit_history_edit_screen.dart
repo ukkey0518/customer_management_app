@@ -1,65 +1,31 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_selected_card.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:toast/toast.dart';
 
 import 'select_screens/customer_select_screen.dart';
 import 'visit_history_list_screen.dart';
 
-enum VisitHistoryEditState { ADD, EDIT }
-
 class VisitHistoryEditScreen extends StatefulWidget {
   final VisitHistoryListScreenPreferences pref;
-  final VisitHistoryEditState state;
-  final SoldItem soldItem;
 
-  VisitHistoryEditScreen(this.pref, {@required this.state, this.soldItem});
+  VisitHistoryEditScreen(this.pref);
+
   @override
   _VisitHistoryEditScreenState createState() => _VisitHistoryEditScreenState();
 }
 
 class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
+  final DateFormat _dateFormatter = DateFormat('yyyy/M/d');
   DateTime _date;
-  DateFormat _dateFormatter;
-  Customer _customer;
-  String _titleStr;
-  SoldItem _editedSoldItem;
+  Customer _selectedCustomer;
 
   @override
   void initState() {
     super.initState();
-    if (widget.state == VisitHistoryEditState.ADD) {
-      _titleStr = '売上データの新規登録';
-    } else {
-      _titleStr = '売上データの編集';
-    }
-    _dateFormatter = DateFormat('yyyy/M/d');
     _date = DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now()));
-    _initCustomer();
-  }
-
-  // [更新：CustomerをDBから取得]
-  _initCustomer() async {
-    _customer = await database.getCustomersById(widget.soldItem.customerId);
-    setState(() {});
-  }
-
-  // [更新：日付入力後に更新する処理]
-  _setDate(DateTime date) {
-    setState(() {
-      _date = date;
-    });
-  }
-
-  // [更新：日付入力後に更新する処理]
-  _setCustomer(Customer customer) {
-    setState(() {
-      _customer = customer;
-    });
   }
 
   // [コールバック：日付欄タップ時]
@@ -69,30 +35,11 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       showTitleActions: true,
       minTime: DateTime(1970, 1, 1),
       maxTime: DateTime.now(),
-      onConfirm: (date) => _setDate(date),
+      onConfirm: (date) => setState(() => _date = date),
       currentTime: _date,
       locale: LocaleType.jp,
     );
     setState(() {});
-  }
-
-  // [コールバック：保存ボタンタップ時]
-  _saveVisitRecord() async {
-    // 新しいCustomerオブジェクト生成
-    var soldItem = SoldItem(
-      id: null,
-      date: _date,
-      customerId: _customer.id,
-      menuId: 1,
-      employeeId: 1,
-    );
-    print(soldItem);
-    // DBに新規登録
-    await database.addSoldItem(soldItem);
-    Toast.show('登録されました', context);
-
-    // 画面を終了
-    _finishEditScreen(context);
   }
 
   // [コールバック：画面終了時]
@@ -111,7 +58,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       onWillPop: () => _finishEditScreen(context),
       child: Scaffold(
         appBar: AppBar(
-          title: Text(_titleStr),
+          title: Text('来店情報の登録'),
           // 戻るボタン
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
@@ -121,7 +68,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             // 保存ボタン
             IconButton(
               icon: Icon(Icons.save),
-              onPressed: _saveVisitRecord,
+              onPressed: () {}, //TODO 保存処理
             ),
           ],
         ),
@@ -177,7 +124,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     return _inputPartBuilder(
       title: '顧客',
       content: CustomerSelectedCard(
-        customer: _customer,
+        customer: _selectedCustomer,
         onTap: () {
           Navigator.of(context)
               .push(
@@ -187,7 +134,9 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 ),
               )
               .then(
-                (customer) => _setCustomer(customer ?? _customer),
+                (newCustomer) => setState(
+                  () => _selectedCustomer = newCustomer ?? _selectedCustomer,
+                ),
               );
         },
         onLongPress: null,

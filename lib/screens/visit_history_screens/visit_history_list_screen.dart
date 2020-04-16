@@ -95,7 +95,6 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
             narrowState: _narrowState,
             sortState: _sortState,
           ),
-          state: VisitHistoryEditState.ADD,
         ),
       ),
     );
