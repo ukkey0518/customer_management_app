@@ -87,15 +87,15 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             children: <Widget>[
               SizedBox(height: 30),
               const Text('売上データ作成', style: TextStyle(fontSize: 20)),
-              SizedBox(height: 16),
+              Divider(height: 8),
               _customerInputPart(),
-              SizedBox(height: 16),
+              Divider(height: 8),
               _dateInputPart(),
-              SizedBox(height: 16),
+              Divider(height: 8),
 //              _stuffInputPart(),
-              SizedBox(height: 16),
+              Divider(height: 8),
 //              _menuInputPart(),
-              SizedBox(height: 16),
+              Divider(height: 8),
 //              _discountInputPart(),
               SizedBox(height: 30),
 //              _priceInputPart(),
@@ -109,14 +109,14 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   // [ウィジェットビルダー：各入力欄のフォーマッタ]
   Widget _inputPartBuilder({String title, Widget content}) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         children: <Widget>[
           Row(
             children: <Widget>[
               Expanded(
                 flex: 2,
-                child: Text(title, style: TextStyle(fontSize: 20)),
+                child: Text(title, style: TextStyle(fontSize: 16)),
               ),
               Expanded(
                 flex: 8,
@@ -133,24 +133,21 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   Widget _customerInputPart() {
     return _inputPartBuilder(
       title: '顧客',
-      content: Container(
-        padding: EdgeInsets.only(top: 8),
-        child: CustomerSelectedCard(
-          customer: _customer,
-          onTap: () {
-            Navigator.of(context)
-                .push(
-                  MaterialPageRoute(
-                    builder: (context) => CustomerSelectScreen(),
-                    fullscreenDialog: true,
-                  ),
-                )
-                .then(
-                  (customer) => _setCustomer(customer ?? _customer),
-                );
-          },
-          onLongPress: null,
-        ),
+      content: CustomerSelectedCard(
+        customer: _customer,
+        onTap: () {
+          Navigator.of(context)
+              .push(
+                MaterialPageRoute(
+                  builder: (context) => CustomerSelectScreen(),
+                  fullscreenDialog: true,
+                ),
+              )
+              .then(
+                (customer) => _setCustomer(customer ?? _customer),
+              );
+        },
+        onLongPress: null,
       ),
     );
   }

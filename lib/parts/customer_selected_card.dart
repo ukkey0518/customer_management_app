@@ -11,17 +11,14 @@ class CustomerSelectedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
-      child: Card(
-        color: Color(0xeeeeeeee),
-        child: InkWell(
-          onTap: onTap,
-          onLongPress: onLongPress,
-          child: Padding(
-            padding: const EdgeInsets.all(4.0),
-            child: customer == null ? _emptyPart() : _mainPart(),
-          ),
+    return Card(
+      color: Color(0xeeeeeeee),
+      child: InkWell(
+        onTap: onTap,
+        onLongPress: onLongPress,
+        child: Padding(
+          padding: const EdgeInsets.all(4.0),
+          child: customer == null ? _emptyPart() : _mainPart(),
         ),
       ),
     );
