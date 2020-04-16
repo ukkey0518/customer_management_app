@@ -109,76 +109,36 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   // [ウィジェット：顧客選択欄]
   Widget _customerInputPart() {
     var widget;
-    var leftButton;
-    var rightButton;
     if (_customer == null) {
       widget = Container(
         height: 153,
         child: Text('未選択'),
-      );
-      leftButton = RaisedButton(
-        child: Text('初回来店'),
-        onPressed: null,
-      );
-      rightButton = RaisedButton(
-        child: Text('2回目以降'),
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) => CustomerSelectScreen(),
-                  fullscreenDialog: true,
-                ),
-              )
-              .then(
-                (customer) => _setCustomer(customer),
-              );
-        },
       );
     } else {
       widget = Container(
         padding: EdgeInsets.only(top: 8),
         child: CustomerSelectedCard(
           customer: _customer,
-          onTap: null,
+          onTap: () {
+            Navigator.of(context)
+                .push(
+                  MaterialPageRoute(
+                    builder: (context) => CustomerSelectScreen(),
+                    fullscreenDialog: true,
+                  ),
+                )
+                .then(
+                  (customer) => _setCustomer(customer),
+                );
+          },
           onLongPress: null,
         ),
-      );
-      leftButton = RaisedButton(
-        child: Text('変更'),
-        onPressed: () {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) => CustomerSelectScreen(),
-                  fullscreenDialog: true,
-                ),
-              )
-              .then(
-                (customer) => _setCustomer(customer),
-              );
-        },
-      );
-      rightButton = RaisedButton(
-        child: Text('取り除く'),
-        onPressed: () => _setCustomer(null),
       );
     }
     return Container(
       color: Theme.of(context).primaryColor,
       padding: EdgeInsets.all(8),
-      child: Column(
-        children: <Widget>[
-          widget,
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: <Widget>[
-              leftButton,
-              rightButton,
-            ],
-          ),
-        ],
-      ),
+      child: widget,
     );
   }
 
