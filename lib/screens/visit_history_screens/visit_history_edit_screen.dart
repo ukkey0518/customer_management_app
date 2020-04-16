@@ -108,14 +108,10 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
 
   // [ウィジェット：顧客選択欄]
   Widget _customerInputPart() {
-    var widget;
-    if (_customer == null) {
-      widget = Container(
-        height: 153,
-        child: Text('未選択'),
-      );
-    } else {
-      widget = Container(
+    return Container(
+      color: Theme.of(context).primaryColor,
+      padding: EdgeInsets.all(8),
+      child: Container(
         padding: EdgeInsets.only(top: 8),
         child: CustomerSelectedCard(
           customer: _customer,
@@ -128,17 +124,12 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                   ),
                 )
                 .then(
-                  (customer) => _setCustomer(customer),
+                  (customer) => _setCustomer(customer ?? _customer),
                 );
           },
           onLongPress: null,
         ),
-      );
-    }
-    return Container(
-      color: Theme.of(context).primaryColor,
-      padding: EdgeInsets.all(8),
-      child: widget,
+      ),
     );
   }
 

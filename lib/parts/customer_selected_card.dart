@@ -18,15 +18,15 @@ class CustomerSelectedCard extends StatelessWidget {
           onLongPress: onLongPress,
           child: Container(
             padding: EdgeInsets.all(16.0),
-            child: _basicInformationPart(),
+            child: customer == null ? _emptyPart() : _mainPart(),
           ),
         ),
       ),
     );
   }
 
-  // [ウィジェット：基本情報表示部分]
-  Widget _basicInformationPart() {
+  // [ウィジェット：customerに渡された情報を表示]
+  Widget _mainPart() {
     var diffDays = customer.birth == null
         ? -1
         : DateTime.now().difference(customer.birth).inDays;
@@ -64,6 +64,29 @@ class CustomerSelectedCard extends StatelessWidget {
     return Icon(
       Icons.account_circle,
       color: iconColor,
+    );
+  }
+
+  // [ウィジェット：customerにnullが渡されたときの本体]
+  Widget _emptyPart() {
+    return SizedBox(
+      width: double.infinity,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              '未選択',
+              style: TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
