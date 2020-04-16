@@ -211,28 +211,29 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   // [ウィジェット：担当入力欄]
   Widget _employeeInputPart() {
     return _inputPartBuilder(
-        icon: Icon(Icons.supervisor_account),
-        title: '担当',
-        content: DropdownButton<Employee>(
-          isDense: true,
-          isExpanded: true,
-          value: _selectedEmployee,
-          onChanged: (selectedEmployee) {
-            setState(() {
-              _selectedEmployee = selectedEmployee;
-            });
-          },
-          selectedItemBuilder: (context) {
-            return _employees.map<Widget>((employee) {
-              return Text(employee.name);
-            }).toList();
-          },
-          items: _employees.map<DropdownMenuItem<Employee>>((employee) {
-            return DropdownMenuItem(
-              value: employee,
-              child: Text(employee.name),
-            );
-          }).toList(),
-        ));
+      icon: Icon(Icons.supervisor_account),
+      title: '担当',
+      content: DropdownButton<Employee>(
+        isDense: true,
+        isExpanded: true,
+        value: _selectedEmployee,
+        onChanged: (selectedEmployee) {
+          setState(() {
+            _selectedEmployee = selectedEmployee;
+          });
+        },
+        selectedItemBuilder: (context) {
+          return _employees.map<Widget>((employee) {
+            return Text(employee.name);
+          }).toList();
+        },
+        items: _employees.map<DropdownMenuItem<Employee>>((employee) {
+          return DropdownMenuItem(
+            value: employee,
+            child: Text(employee.name),
+          );
+        }).toList(),
+      ),
+    );
   }
 }
