@@ -8,7 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 import 'customer_select_screen.dart';
-import 'visit_record_list_screen.dart';
+import 'visit_history_list_screen.dart';
 
 enum VisitRecordEditState { ADD, EDIT }
 

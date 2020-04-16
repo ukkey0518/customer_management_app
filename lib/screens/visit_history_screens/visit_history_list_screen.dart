@@ -10,22 +10,22 @@ import 'package:toast/toast.dart';
 import 'visit_record_edit_screen.dart';
 import 'visit_record_information_screen.dart';
 
-enum VisitRecordListNarrowState { ALL, TODAY }
-enum VisitRecordListSortState { REGISTER_NEW, REGISTER_OLD }
+enum VisitHistoryListNarrowState { ALL, TODAY }
+enum VisitHistoryListSortState { REGISTER_NEW, REGISTER_OLD }
 
-class VisitRecordListScreen extends StatefulWidget {
-  final VisitRecordListScreenPreferences pref;
+class VisitHistoryListScreen extends StatefulWidget {
+  final VisitHistoryListScreenPreferences pref;
 
-  VisitRecordListScreen({this.pref});
+  VisitHistoryListScreen({this.pref});
 
   @override
-  _VisitRecordScreenState createState() => _VisitRecordScreenState();
+  _VisitHistoryScreenState createState() => _VisitHistoryScreenState();
 }
 
-class _VisitRecordScreenState extends State<VisitRecordListScreen> {
+class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   List<SoldItem> _soldItemsList = List();
-  VisitRecordListNarrowState _narrowState = VisitRecordListNarrowState.ALL;
-  VisitRecordListSortState _sortState = VisitRecordListSortState.REGISTER_OLD;
+  VisitHistoryListNarrowState _narrowState = VisitHistoryListNarrowState.ALL;
+  VisitHistoryListSortState _sortState = VisitHistoryListSortState.REGISTER_OLD;
   List<String> _narrowDropdownMenuItems = List();
   List<String> _sortDropdownMenuItems = List();
   String _narrowDropdownSelectedValue = '';
@@ -43,18 +43,18 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
       _narrowState = widget.pref.narrowState;
       _sortState = widget.pref.sortState;
     }
-    _reloadVisitRecordList();
+    _reloadVisitHistoryList();
   }
 
   // [リスト更新処理：指定の条件でリストを更新する]
   _reloadVisitRecordList() async {
     // 絞り込み条件
     switch (_narrowState) {
-      case VisitRecordListNarrowState.ALL:
+      case VisitHistoryListNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
         _soldItemsList = await database.allSoldItems;
         break;
-      case VisitRecordListNarrowState.TODAY:
+      case VisitHistoryListNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
         _soldItemsList = await database.getSoldItemsByDay(
             DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
@@ -63,11 +63,11 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
     // 並べ替え条件
     switch (_sortState) {
-      case VisitRecordListSortState.REGISTER_OLD:
+      case VisitHistoryListSortState.REGISTER_OLD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
         _soldItemsList.sort((a, b) => a.id - b.id);
         break;
-      case VisitRecordListSortState.REGISTER_NEW:
+      case VisitHistoryListSortState.REGISTER_NEW:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
         _soldItemsList.sort((a, b) => b.id - a.id);
         break;
@@ -76,15 +76,15 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
   }
 
   // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
-  _setNarrowState(VisitRecordListNarrowState narrowState) {
+  _setNarrowState(VisitHistoryListNarrowState narrowState) {
     _narrowState = narrowState;
-    _reloadVisitRecordList();
+    _reloadVisitHistoryList();
   }
 
   // [ソート状態変更：現在のソートステータスを変更して更新する]
-  _setSortState(VisitRecordListSortState sortState) {
+  _setSortState(VisitHistoryListSortState sortState) {
     _sortState = sortState;
-    _reloadVisitRecordList();
+    _reloadVisitHistoryList();
   }
 
   @override
@@ -108,7 +108,7 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
                 itemBuilder: (context, index) =>
-                    _visitRecordListItemPart(index),
+                    _visitHistoryListItemPart(index),
                 itemCount: _soldItemsList.length,
               ),
             ),
@@ -207,28 +207,28 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
   }
 
   // [ウィジェット：各リストアイテム]
-  Widget _visitRecordListItemPart(int index) {
+  Widget _visitHistoryListItemPart(int index) {
     var soldItem = _soldItemsList[index];
-    return VisitRecordListCard(
+    return VisitHistoryListCard(
       soldItem: soldItem,
-//      onTap: () => _showVisitRecord(soldItem),
+//      onTap: () => _showVisitHistory(soldItem),
       onTap: null,
-      onLongPress: () => _deleteVisitRecord(soldItem),
+      onLongPress: () => _deleteVisitHistory(soldItem),
     );
   }
 
   // [コールバック：FABタップ]
   // →新しい顧客情報を登録する
-  _addVisitRecord() {
+  _addVisitHistory() {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
-        builder: (context) => VisitRecordEditScreen(
-          VisitRecordListScreenPreferences(
+        builder: (context) => VisitHistoryEditScreen(
+          VisitHistoryListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
           ),
-          state: VisitRecordEditState.ADD,
+          state: VisitHistoryEditState.ADD,
         ),
       ),
     );
@@ -236,12 +236,12 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [コールバック：リストアイテムタップ]
   // →選択した顧客情報の詳細ページへ遷移する
-  _showVisitRecord(SoldItem soldItem) {
+  _showVisitHistory(SoldItem soldItem) {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
-        builder: (context) => VisitRecordInformationScreen(
-          VisitRecordListScreenPreferences(
+        builder: (context) => VisitHistoryInformationScreen(
+          VisitHistoryListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
           ),
@@ -253,11 +253,11 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
 
   // [コールバック：リストアイテム長押し]
   // →長押ししたアイテムを削除する
-  _deleteVisitRecord(SoldItem soldItem) async {
+  _deleteVisitHistory(SoldItem soldItem) async {
     // DBから指定のCustomerを削除
     await database.deleteSoldItem(soldItem);
     // 現在の条件でリストを更新
-    _reloadVisitRecordList();
+    _reloadVisitHistoryList();
     // トースト表示
     Toast.show('削除しました。', context);
   }
@@ -268,11 +268,11 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
     switch (value) {
       case '今日':
         // 今日の売上データを抽出
-        _setNarrowState(VisitRecordListNarrowState.TODAY);
+        _setNarrowState(VisitHistoryListNarrowState.TODAY);
         break;
       default:
         // すべての売上データを抽出して更新
-        _setNarrowState(VisitRecordListNarrowState.ALL);
+        _setNarrowState(VisitHistoryListNarrowState.ALL);
         break;
     }
   }
@@ -283,20 +283,20 @@ class _VisitRecordScreenState extends State<VisitRecordListScreen> {
     switch (value) {
       case '登録順(新)':
         // 新規登録が新しい順に並び替え
-        _setSortState(VisitRecordListSortState.REGISTER_NEW);
+        _setSortState(VisitHistoryListSortState.REGISTER_NEW);
         break;
       case '登録順(古)':
         // 新規登録が新しい順に並び替え
-        _setSortState(VisitRecordListSortState.REGISTER_OLD);
+        _setSortState(VisitHistoryListSortState.REGISTER_OLD);
         break;
     }
   }
 }
 
 // HomeScreenの環境設定を保持するクラス
-class VisitRecordListScreenPreferences {
-  VisitRecordListNarrowState narrowState;
-  VisitRecordListSortState sortState;
+class VisitHistoryListScreenPreferences {
+  VisitHistoryListNarrowState narrowState;
+  VisitHistoryListSortState sortState;
 
-  VisitRecordListScreenPreferences({this.narrowState, this.sortState});
+  VisitHistoryListScreenPreferences({this.narrowState, this.sortState});
 }
