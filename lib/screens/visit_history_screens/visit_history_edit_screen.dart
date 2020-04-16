@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/parts/customer_list_card.dart';
+import 'package:customermanagementapp/parts/customer_selected_card.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -138,7 +138,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     } else {
       widget = Container(
         padding: EdgeInsets.only(top: 8),
-        child: CustomerListCard(
+        child: CustomerSelectedCard(
           customer: _customer,
           onTap: null,
           onLongPress: null,
