@@ -130,22 +130,30 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   }
 
   // [ウィジェットビルダー：各入力欄のフォーマッタ]
-  Widget _inputPartBuilder({String title, Widget content}) {
+  Widget _inputPartBuilder({Icon icon, String title, Widget content}) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: Column(
+      child: Row(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              Expanded(
-                flex: 2,
-                child: Text(title, style: TextStyle(fontSize: 16)),
-              ),
-              Expanded(
-                flex: 8,
-                child: content,
-              ),
-            ],
+          Expanded(
+            flex: 2,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(right: 4.0),
+                  child: icon,
+                ),
+                Text(title, style: TextStyle(fontSize: 16)),
+              ],
+            ),
+          ),
+          SizedBox(
+            width: 16,
+          ),
+          Expanded(
+            flex: 8,
+            child: content,
           ),
         ],
       ),
@@ -155,6 +163,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   // [ウィジェット：顧客選択欄]
   Widget _customerInputPart() {
     return _inputPartBuilder(
+      icon: Icon(Icons.account_circle),
       title: '顧客',
       content: CustomerSelectedCard(
         customer: _selectedCustomer,
@@ -180,6 +189,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   // [ウィジェット：日付入力欄]
   Widget _dateInputPart() {
     return _inputPartBuilder(
+      icon: Icon(Icons.calendar_today),
       title: '日付',
       content: InkWell(
         onTap: _showDateSelectPicker,
@@ -201,6 +211,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   // [ウィジェット：担当入力欄]
   Widget _employeeInputPart() {
     return _inputPartBuilder(
+        icon: Icon(Icons.supervisor_account),
         title: '担当',
         content: DropdownButton<Employee>(
           isDense: true,
