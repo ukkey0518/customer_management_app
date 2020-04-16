@@ -106,12 +106,34 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     );
   }
 
+  // [ウィジェットビルダー：各入力欄のフォーマッタ]
+  Widget _inputPartBuilder({String title, Widget content}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Column(
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                flex: 2,
+                child: Text(title, style: TextStyle(fontSize: 20)),
+              ),
+              Expanded(
+                flex: 8,
+                child: content,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
   // [ウィジェット：顧客選択欄]
   Widget _customerInputPart() {
-    return Container(
-      color: Theme.of(context).primaryColor,
-      padding: EdgeInsets.all(8),
-      child: Container(
+    return _inputPartBuilder(
+      title: '顧客',
+      content: Container(
         padding: EdgeInsets.only(top: 8),
         child: CustomerSelectedCard(
           customer: _customer,
@@ -129,25 +151,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
           },
           onLongPress: null,
         ),
-      ),
-    );
-  }
-
-  // [ウィジェットビルダー：各入力欄のフォーマッタ]
-  Widget _inputPartBuilder({String title, Widget content}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: Text(title, style: TextStyle(fontSize: 20)),
-          ),
-          Expanded(
-            flex: 7,
-            child: content,
-          ),
-        ],
       ),
     );
   }
