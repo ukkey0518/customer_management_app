@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
 class CustomerSelectedCard extends StatelessWidget {
@@ -13,6 +14,7 @@ class CustomerSelectedCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Card(
+        color: Color(0xeeeeeeee),
         child: InkWell(
           onTap: onTap,
           onLongPress: onLongPress,
@@ -74,20 +76,16 @@ class CustomerSelectedCard extends StatelessWidget {
   Widget _emptyPart() {
     return SizedBox(
       width: double.infinity,
-      child: Container(
-        decoration: BoxDecoration(
-          border: Border.all(color: Colors.grey),
-          borderRadius: BorderRadius.all(
-            Radius.circular(8),
-          ),
-        ),
+      child: DottedBorder(
+        borderType: BorderType.RRect,
+        color: Colors.grey,
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Text(
-                'タップして顧客を選択',
+                '+タップして顧客を選択',
                 style: TextStyle(
                   fontSize: 16,
                   color: Colors.grey,
