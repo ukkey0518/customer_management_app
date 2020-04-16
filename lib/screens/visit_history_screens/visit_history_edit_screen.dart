@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_selected_card.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
@@ -21,11 +22,21 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   final DateFormat _dateFormatter = DateFormat('yyyy/M/d');
   DateTime _date;
   Customer _selectedCustomer;
+  List<Employee> _employees = List();
+  Employee _selectedEmployee;
 
   @override
   void initState() {
     super.initState();
+    _initEmployees();
     _date = DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now()));
+  }
+
+  // [初期化：担当選択ドロップダウン用フィールド初期化]
+  _initEmployees() async {
+    _employees = await database.allEmployees;
+    _selectedEmployee = _employees[0];
+    setState(() {});
   }
 
   // [コールバック：日付欄タップ時]
@@ -82,7 +93,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
               Divider(height: 8),
               _dateInputPart(),
               Divider(height: 8),
-//              _employeeInputPart(),
+              _employeeInputPart(),
               Divider(height: 8),
 //              _menuInputPart(),
               Divider(height: 8),
@@ -163,5 +174,32 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         ),
       ),
     );
+  }
+
+  // [ウィジェット：担当入力欄]
+  Widget _employeeInputPart() {
+    return _inputPartBuilder(
+        title: '担当',
+        content: DropdownButton<Employee>(
+          isDense: true,
+          isExpanded: true,
+          value: _selectedEmployee,
+          onChanged: (selectedEmployee) {
+            setState(() {
+              _selectedEmployee = selectedEmployee;
+            });
+          },
+          selectedItemBuilder: (context) {
+            return _employees.map<Widget>((employee) {
+              return Text(employee.name);
+            }).toList();
+          },
+          items: _employees.map<DropdownMenuItem<Employee>>((employee) {
+            return DropdownMenuItem(
+              value: employee,
+              child: Text(employee.name),
+            );
+          }).toList(),
+        ));
   }
 }
