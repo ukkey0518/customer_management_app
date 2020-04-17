@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/screens/setting_screens/menu_setting_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:toast/toast.dart';
 
 import '../../../main.dart';
 
@@ -58,8 +59,10 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
     // 選択中のアイテムリストに含まれている場合は選択中リストから削除
     if (_selectedMenus.contains(menu)) {
       _selectedMenus.remove(menu);
+      Toast.show('リストから削除しました。', context);
     } else {
       _selectedMenus.add(menu);
+      Toast.show('リストに追加しました。', context);
     }
     // カテゴリ順にソート
     _selectedMenus.sort((a, b) => a.menuCategoryId - b.menuCategoryId);
