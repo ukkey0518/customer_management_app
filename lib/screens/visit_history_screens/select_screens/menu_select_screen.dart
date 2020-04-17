@@ -114,7 +114,8 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
           padding: const EdgeInsets.all(8.0),
           child: Column(
             children: <Widget>[
-              Text('選択中のメニュー(${_selectedMenus.length})'),
+              _selectedMenuListHeader(),
+              Divider(),
               Expanded(
                 child: ListView.builder(
                   itemCount: _selectedMenus.length,
@@ -127,6 +128,31 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  // [ウィジェット：選択中リストヘッダー部分]
+  Widget _selectedMenuListHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: <Widget>[
+        Text(
+          '選択中：${_selectedMenus.length}',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+        Text(
+          _selectedMenus.isEmpty
+              ? '\¥0'
+              : '合計：\¥${_intToPriceString(_selectedMenus.reduce(
+                    (a, b) => Menu(
+                        id: null,
+                        name: null,
+                        price: a.price + b.price,
+                        menuCategoryId: null),
+                  ).price)}',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
+      ],
     );
   }
 
