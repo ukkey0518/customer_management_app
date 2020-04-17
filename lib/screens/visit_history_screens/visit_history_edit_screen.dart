@@ -25,12 +25,14 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   Customer _selectedCustomer;
   List<Employee> _employees = List();
   Employee _selectedEmployee;
+  List<MenuCategory> _categories = List();
   List<Menu> _menus = List();
 
   @override
   void initState() {
     super.initState();
     _initEmployees();
+    _initCategories();
     _date = DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now()));
   }
 
@@ -39,6 +41,11 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     _employees = await database.allEmployees;
     _selectedEmployee = _employees.isEmpty ? null : _employees[0];
     setState(() {});
+  }
+
+  // [初期化：メニューカテゴリーリスト初期化]
+  _initCategories() async {
+    _categories = await database.allMenuCategories;
   }
 
   // [コールバック：日付欄タップ時]
@@ -53,6 +60,23 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       locale: LocaleType.jp,
     );
     setState(() {});
+  }
+
+  // [ウィジェット：メニュー表示欄タップ時]
+  _startMenuSelectScreen() {
+    Navigator.of(context)
+        .push(
+      MaterialPageRoute(
+        builder: (context) => MenuSelectScreen(),
+        fullscreenDialog: true,
+      ),
+    )
+        .then(
+      (menuList) {
+        setState(() => _menus = menuList ?? _menus);
+        print(_menus);
+      },
+    );
   }
 
   // [コールバック：画面終了時]
@@ -113,8 +137,9 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 child: const Text('提供メニュー', style: TextStyle(fontSize: 20)),
               ),
               _divider(),
-              _menuInputPart(),
-              _divider(),
+              Expanded(
+                child: _menuInputPart(),
+              ),
             ],
           ),
         ),
@@ -241,23 +266,74 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
 
   // [ウィジェット：メニュー選択部分]
   Widget _menuInputPart() {
-    return RaisedButton(
-      child: Text('選択'),
-      onPressed: () {
-        Navigator.of(context)
-            .push(
-          MaterialPageRoute(
-            builder: (context) => MenuSelectScreen(),
-            fullscreenDialog: true,
+    return InkWell(
+      onTap: () => _startMenuSelectScreen(),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                Text('合計：', style: TextStyle(fontSize: 16)),
+                Text(
+                  _menus.isEmpty
+                      ? '\¥0'
+                      : '\¥${_menus.reduce(
+                            (a, b) => Menu(
+                                id: null,
+                                name: null,
+                                price: a.price + b.price,
+                                menuCategoryId: null),
+                          ).price}',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                ),
+              ],
+            ),
           ),
-        )
-            .then(
-          (menuList) {
-            setState(() => _menus = menuList ?? _menus);
-            print(_menus);
-          },
-        );
-      },
+          _divider(indent: 8),
+          Expanded(
+            child: ListView.builder(
+              itemCount: _menus.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
+                  child: Row(
+                    children: <Widget>[
+                      Icon(
+                        Icons.import_contacts,
+                        color: _categories.isEmpty
+                            ? null
+                            : Color(_categories
+                                .where((category) =>
+                                    category.id == _menus[index].menuCategoryId)
+                                .single
+                                .color),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: Text(
+                          _menus[index].name,
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '\¥${_menus[index].price}',
+                        style: TextStyle(
+                          fontSize: 16,
+                        ),
+                      )
+                    ],
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
