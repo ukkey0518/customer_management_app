@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_selected_card.dart';
-import 'package:customermanagementapp/src/inter_converter.dart';
+import 'package:customermanagementapp/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -112,25 +112,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 child: const Text('提供メニュー', style: TextStyle(fontSize: 20)),
               ),
               _divider(),
-//              _menuInputPart(),
-              // デバッグ用-----------------------------------------------
-              RaisedButton(
-                child: Text('list -> str'),
-                onPressed: () async {
-                  var list = await database.allMenus;
-                  var str = await InterConverter.menusToIdStr(list);
-                  print('result : $str');
-                },
-              ),
-              RaisedButton(
-                child: Text('str -> list'),
-                onPressed: () async {
-                  var str = '1,2,3';
-                  var list = await InterConverter.idStrToMenus(str).toList();
-                  print('result : $list');
-                },
-              ),
-              // --------------------------------------------------------
+              _menuInputPart(),
               _divider(),
             ],
           ),
@@ -253,6 +235,20 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
           );
         }).toList(),
       ),
+    );
+  }
+
+  // [ウィジェット：メニュー選択部分]
+  Widget _menuInputPart() {
+    return RaisedButton(
+      child: Text('選択'),
+      onPressed: () {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => MenuSelectScreen(),
+          ),
+        );
+      },
     );
   }
 }
