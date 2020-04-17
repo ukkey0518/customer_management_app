@@ -251,10 +251,12 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             fullscreenDialog: true,
           ),
         )
-            .then((menuList) {
-          setState(() => _menus = menuList);
-          print(_menus);
-        });
+            .then(
+          (menuList) {
+            setState(() => _menus = menuList ?? _menus);
+            print(_menus);
+          },
+        );
       },
     );
   }
