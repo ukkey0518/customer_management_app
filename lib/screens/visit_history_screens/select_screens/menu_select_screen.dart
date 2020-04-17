@@ -50,8 +50,17 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
   }
 
   // [コールバック：メニューリストパネルタップ時]
-  _itemSelect() {
-    return;
+  _onItemSelect(Menu menu) {
+    // 選択中のアイテムリストに含まれている場合は選択中リストから削除
+    if (_selectedMenus.contains(menu)) {
+      _selectedMenus.remove(menu);
+    } else {
+      _selectedMenus.add(menu);
+    }
+    // カテゴリ順にソート
+    _selectedMenus.sort((a, b) => a.menuCategoryId - b.menuCategoryId);
+    // 画面を更新
+    setState(() {});
   }
 
   @override
@@ -65,24 +74,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
         children: <Widget>[
           Expanded(
             flex: 3,
-            child: Container(
-              decoration: BoxDecoration(
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 5,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: Card(
-                child: SingleChildScrollView(
-                  child: Container(
-                    height: 300,
-                  ),
-                ),
-              ),
-            ),
+            child: _selectedMenusPart(),
           ),
           SizedBox(height: 30),
           Expanded(
@@ -94,6 +86,69 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  // [ウィジェット：選択中メニュー表示部分]
+  Widget _selectedMenusPart() {
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 5,
+            offset: Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Text('選択中のメニュー(${_selectedMenus.length})'),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: _selectedMenus.length,
+                  itemBuilder: (context, index) {
+                    return _selectedMenuListItem(index);
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  // [ウィジェット：選択中リストアイテム部分]
+  Widget _selectedMenuListItem(int index) {
+    return InkWell(
+      onTap: () => _onItemSelect(_selectedMenus[index]),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        child: Row(
+          children: <Widget>[
+            Icon(Icons.check, color: Theme.of(context).primaryColor),
+            SizedBox(width: 16),
+            Expanded(
+              child: Text(
+                _selectedMenus[index].name,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ),
+            Text(
+              '\¥${_intToPriceString(_selectedMenus[index].price)}',
+              style: TextStyle(
+                fontSize: 16,
+              ),
+            )
+          ],
+        ),
       ),
     );
   }
@@ -151,17 +206,18 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
     // カテゴリ別メニュータイルのリスト
     var menuTilesList = List<Widget>();
 
-    // 数値を金額文字列に変換するメソッド
-    var intToPriceString = (int price) {
-      final formatter = NumberFormat('#,###,###');
-      return formatter.format(price);
-    };
-
     // メインコンテンツであるメニューリストを追加
     menuTilesList.addAll(
       List.generate(
         menus.length,
         (index) {
+          // 選択中メニューリストにアイテムが存在する場合は文字色をプライマリカラーに設定
+          var style = TextStyle(fontSize: 16);
+          if (_selectedMenus.contains(menus[index])) {
+            style = style.merge(
+              TextStyle(color: Theme.of(context).primaryColor),
+            );
+          }
           return Column(
             children: <Widget>[
               Divider(height: 1),
@@ -173,21 +229,17 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
                       Expanded(
                         child: Text(
                           menus[index].name,
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
+                          style: style,
                         ),
                       ),
                       Text(
-                        '\¥${intToPriceString(menus[index].price)}',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
+                        '\¥${_intToPriceString(menus[index].price)}',
+                        style: style,
                       )
                     ],
                   ),
                 ),
-                onTap: () => _itemSelect(),
+                onTap: () => _onItemSelect(menus[index]),
               ),
             ],
           );
@@ -196,5 +248,11 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
     );
 
     return menuTilesList;
+  }
+
+  // [ツール：数値を金額文字列に変換するメソッド]
+  String _intToPriceString(int price) {
+    final formatter = NumberFormat('#,###,###');
+    return formatter.format(price);
   }
 }
