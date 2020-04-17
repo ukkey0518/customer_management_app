@@ -25,6 +25,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   Customer _selectedCustomer;
   List<Employee> _employees = List();
   Employee _selectedEmployee;
+  List<Menu> _menus = List();
 
   @override
   void initState() {
@@ -243,11 +244,17 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     return RaisedButton(
       child: Text('選択'),
       onPressed: () {
-        Navigator.of(context).push(
+        Navigator.of(context)
+            .push(
           MaterialPageRoute(
             builder: (context) => MenuSelectScreen(),
+            fullscreenDialog: true,
           ),
-        );
+        )
+            .then((menuList) {
+          setState(() => _menus = menuList);
+          print(_menus);
+        });
       },
     );
   }
