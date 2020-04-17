@@ -65,11 +65,21 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
         children: <Widget>[
           Expanded(
             flex: 3,
-            child: Card(
-              color: Colors.grey,
-              child: SingleChildScrollView(
-                child: Container(
-                  height: 300,
+            child: Container(
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey,
+                    blurRadius: 5,
+                    offset: Offset(0, 2),
+                  ),
+                ],
+              ),
+              child: Card(
+                child: SingleChildScrollView(
+                  child: Container(
+                    height: 300,
+                  ),
                 ),
               ),
             ),
