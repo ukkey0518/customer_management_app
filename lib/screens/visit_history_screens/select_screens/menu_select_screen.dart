@@ -7,6 +7,10 @@ import 'package:toast/toast.dart';
 import '../../../main.dart';
 
 class MenuSelectScreen extends StatefulWidget {
+  MenuSelectScreen({this.selectedMenus});
+
+  final List<Menu> selectedMenus;
+
   @override
   _MenuSelectScreenState createState() => _MenuSelectScreenState();
 }
@@ -14,25 +18,23 @@ class MenuSelectScreen extends StatefulWidget {
 class _MenuSelectScreenState extends State<MenuSelectScreen> {
   List<MenusByCategory> _menusByCategories = List();
   List<Menu> _selectedMenus = List();
-  Map<int, int> _categoryColorPairs = {};
+  List<MenuCategory> _categories = List();
 
   @override
   void initState() {
     super.initState();
     _reloadMenusByCategoriesList();
+    _selectedMenus.addAll(widget.selectedMenus);
   }
 
   // [更新：カテゴリ別メニュー達のリストを更新]
   _reloadMenusByCategoriesList() async {
     // DBからメニューカテゴリをすべて取得
-    var menuCategoriesList = await database.allMenuCategories;
+    _categories = await database.allMenuCategories;
     // DBからメニューをすべて取得
     var menusList = await database.allMenus;
-    // カテゴリカラーMapを初期化
-    menuCategoriesList.forEach((menuCategory) =>
-        _categoryColorPairs[menuCategory.id] = menuCategory.color);
     // メニューカテゴリ別にメニューをまとめてリスト化
-    var newMenusByCategoriesList = menuCategoriesList.map<MenusByCategory>(
+    var newMenusByCategoriesList = _categories.map<MenusByCategory>(
       (category) {
         var list = _menusByCategories
             .where(
@@ -170,8 +172,9 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
 
   // [ウィジェット：選択中リストアイテム部分]
   Widget _selectedMenuListItem(int index) {
+    var selectedMenu = _selectedMenus[index];
     return InkWell(
-      onTap: () => _onItemSelect(_selectedMenus[index]),
+      onTap: () => _onItemSelect(selectedMenu),
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Row(
@@ -179,7 +182,12 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
             Icon(
               Icons.import_contacts,
               color: Color(
-                  _categoryColorPairs[_selectedMenus[index].menuCategoryId]),
+                _categories.isEmpty
+                    ? 0xffffffff
+                    : _categories.firstWhere((category) {
+                        return category.id == selectedMenu.menuCategoryId;
+                      }).color,
+              ),
             ),
             SizedBox(width: 16),
             Expanded(

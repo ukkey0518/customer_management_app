@@ -68,14 +68,13 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     Navigator.of(context)
         .push(
       MaterialPageRoute(
-        builder: (context) => MenuSelectScreen(),
+        builder: (context) => MenuSelectScreen(selectedMenus: _menus),
         fullscreenDialog: true,
       ),
     )
         .then(
       (menuList) {
         setState(() => _menus = menuList ?? _menus);
-        print(_menus);
       },
     );
   }
