@@ -13,6 +13,7 @@ class MenuSelectScreen extends StatefulWidget {
 class _MenuSelectScreenState extends State<MenuSelectScreen> {
   List<MenusByCategory> _menusByCategories = List();
   List<Menu> _selectedMenus = List();
+  Map<int, int> _categoryColorPairs = {};
 
   @override
   void initState() {
@@ -26,6 +27,9 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
     var menuCategoriesList = await database.allMenuCategories;
     // DBからメニューをすべて取得
     var menusList = await database.allMenus;
+    // カテゴリカラーMapを初期化
+    menuCategoriesList.forEach((menuCategory) =>
+        _categoryColorPairs[menuCategory.id] = menuCategory.color);
     // メニューカテゴリ別にメニューをまとめてリスト化
     var newMenusByCategoriesList = menuCategoriesList.map<MenusByCategory>(
       (category) {
@@ -128,10 +132,14 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
     return InkWell(
       onTap: () => _onItemSelect(_selectedMenus[index]),
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
         child: Row(
           children: <Widget>[
-            Icon(Icons.check, color: Theme.of(context).primaryColor),
+            Icon(
+              Icons.import_contacts,
+              color: Color(
+                  _categoryColorPairs[_selectedMenus[index].menuCategoryId]),
+            ),
             SizedBox(width: 16),
             Expanded(
               child: Text(
