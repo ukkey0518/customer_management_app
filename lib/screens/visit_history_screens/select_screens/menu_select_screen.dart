@@ -70,29 +70,39 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
     setState(() {});
   }
 
+  // [コールバック：画面終了時]
+  Future<bool> _finishScreen() {
+    // 選択中のメニューリストを返す
+    Navigator.of(context).pop(_selectedMenus);
+    return Future.value(false);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('メニューの選択'),
-        centerTitle: true,
-      ),
-      body: Column(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: _selectedMenusPart(),
-          ),
-          SizedBox(height: 30),
-          Expanded(
-            flex: 7,
-            child: SingleChildScrollView(
-              child: Container(
-                child: _buildPanel(),
+    return WillPopScope(
+      onWillPop: () => _finishScreen(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('メニューの選択'),
+          centerTitle: true,
+        ),
+        body: Column(
+          children: <Widget>[
+            Expanded(
+              flex: 3,
+              child: _selectedMenusPart(),
+            ),
+            SizedBox(height: 30),
+            Expanded(
+              flex: 7,
+              child: SingleChildScrollView(
+                child: Container(
+                  child: _buildPanel(),
+                ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
