@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/screens/setting_screens/menu_setting_screen.dart';
+import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 import '../../../main.dart';
@@ -155,7 +155,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
         Text(
           _selectedMenus.isEmpty
               ? '\¥0'
-              : '合計：\¥${_intToPriceString(_selectedMenus.reduce(
+              : '合計：\¥${InterConverter.intToPriceString(_selectedMenus.reduce(
                     (a, b) => Menu(
                         id: null,
                         name: null,
@@ -191,7 +191,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
               ),
             ),
             Text(
-              '\¥${_intToPriceString(_selectedMenus[index].price)}',
+              '\¥${InterConverter.intToPriceString(_selectedMenus[index].price)}',
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -282,7 +282,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
                         ),
                       ),
                       Text(
-                        '\¥${_intToPriceString(menus[index].price)}',
+                        '\¥${InterConverter.intToPriceString(menus[index].price)}',
                         style: style,
                       )
                     ],
@@ -297,11 +297,5 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
     );
 
     return menuTilesList;
-  }
-
-  // [ツール：数値を金額文字列に変換するメソッド]
-  String _intToPriceString(int price) {
-    final formatter = NumberFormat('#,###,###');
-    return formatter.format(price);
   }
 }

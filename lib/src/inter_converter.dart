@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:intl/intl.dart';
 
 class InterConverter {
   // [変換：List<Menu>からStringへ]
@@ -33,5 +34,11 @@ class InterConverter {
           menus.where((menu) => menu.id == menuIdStrLists[i]).toList().single;
       yield menu;
     }
+  }
+
+  // [変換：数値を金額文字列へ]
+  static String intToPriceString(int price) {
+    final formatter = NumberFormat('#,###,###');
+    return formatter.format(price);
   }
 }

@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_selected_card.dart';
 import 'package:customermanagementapp/screens/visit_history_screens/select_screens/menu_select_screen.dart';
+import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -279,13 +280,13 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 Text(
                   _menus.isEmpty
                       ? '\¥0'
-                      : '\¥${_menus.reduce(
+                      : '\¥${InterConverter.intToPriceString(_menus.reduce(
                             (a, b) => Menu(
                                 id: null,
                                 name: null,
                                 price: a.price + b.price,
                                 menuCategoryId: null),
-                          ).price}',
+                          ).price)}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -321,7 +322,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                         ),
                       ),
                       Text(
-                        '\¥${_menus[index].price}',
+                        '\¥${InterConverter.intToPriceString(_menus[index].price)}',
                         style: TextStyle(
                           fontSize: 16,
                         ),
