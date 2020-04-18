@@ -146,7 +146,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         children: <Widget>[
           _menuBarPart(),
           Divider(),
-          // TODO コンテンツ
+          _listPart(),
         ],
       ),
     );
@@ -236,6 +236,21 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
             },
           ).toList(),
         ),
+      ),
+    );
+  }
+
+  // [ウィジェット：リスト表示部分]
+  _listPart() {
+    return Expanded(
+      child: ListView.separated(
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(_soldItemsList[index].toString()),
+          );
+        },
+        separatorBuilder: (context, index) => Divider(),
+        itemCount: _soldItemsList.length,
       ),
     );
   }
