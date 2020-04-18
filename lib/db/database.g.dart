@@ -302,6 +302,303 @@ class $CustomersTable extends Customers
   }
 }
 
+class VisitHistory extends DataClass implements Insertable<VisitHistory> {
+  final int id;
+  final DateTime date;
+  final int customerId;
+  final int employeeId;
+  final String menuIdsString;
+  VisitHistory(
+      {@required this.id,
+      @required this.date,
+      @required this.customerId,
+      @required this.employeeId,
+      @required this.menuIdsString});
+  factory VisitHistory.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return VisitHistory(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      date:
+          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
+      customerId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
+      employeeId: intType
+          .mapFromDatabaseResponse(data['${effectivePrefix}employee_id']),
+      menuIdsString: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}menu_ids_string']),
+    );
+  }
+  factory VisitHistory.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return VisitHistory(
+      id: serializer.fromJson<int>(json['id']),
+      date: serializer.fromJson<DateTime>(json['date']),
+      customerId: serializer.fromJson<int>(json['customerId']),
+      employeeId: serializer.fromJson<int>(json['employeeId']),
+      menuIdsString: serializer.fromJson<String>(json['menuIdsString']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'date': serializer.toJson<DateTime>(date),
+      'customerId': serializer.toJson<int>(customerId),
+      'employeeId': serializer.toJson<int>(employeeId),
+      'menuIdsString': serializer.toJson<String>(menuIdsString),
+    };
+  }
+
+  @override
+  VisitHistoriesCompanion createCompanion(bool nullToAbsent) {
+    return VisitHistoriesCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
+      customerId: customerId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerId),
+      employeeId: employeeId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(employeeId),
+      menuIdsString: menuIdsString == null && nullToAbsent
+          ? const Value.absent()
+          : Value(menuIdsString),
+    );
+  }
+
+  VisitHistory copyWith(
+          {int id,
+          DateTime date,
+          int customerId,
+          int employeeId,
+          String menuIdsString}) =>
+      VisitHistory(
+        id: id ?? this.id,
+        date: date ?? this.date,
+        customerId: customerId ?? this.customerId,
+        employeeId: employeeId ?? this.employeeId,
+        menuIdsString: menuIdsString ?? this.menuIdsString,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('VisitHistory(')
+          ..write('id: $id, ')
+          ..write('date: $date, ')
+          ..write('customerId: $customerId, ')
+          ..write('employeeId: $employeeId, ')
+          ..write('menuIdsString: $menuIdsString')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          date.hashCode,
+          $mrjc(customerId.hashCode,
+              $mrjc(employeeId.hashCode, menuIdsString.hashCode)))));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is VisitHistory &&
+          other.id == this.id &&
+          other.date == this.date &&
+          other.customerId == this.customerId &&
+          other.employeeId == this.employeeId &&
+          other.menuIdsString == this.menuIdsString);
+}
+
+class VisitHistoriesCompanion extends UpdateCompanion<VisitHistory> {
+  final Value<int> id;
+  final Value<DateTime> date;
+  final Value<int> customerId;
+  final Value<int> employeeId;
+  final Value<String> menuIdsString;
+  const VisitHistoriesCompanion({
+    this.id = const Value.absent(),
+    this.date = const Value.absent(),
+    this.customerId = const Value.absent(),
+    this.employeeId = const Value.absent(),
+    this.menuIdsString = const Value.absent(),
+  });
+  VisitHistoriesCompanion.insert({
+    this.id = const Value.absent(),
+    @required DateTime date,
+    @required int customerId,
+    @required int employeeId,
+    @required String menuIdsString,
+  })  : date = Value(date),
+        customerId = Value(customerId),
+        employeeId = Value(employeeId),
+        menuIdsString = Value(menuIdsString);
+  VisitHistoriesCompanion copyWith(
+      {Value<int> id,
+      Value<DateTime> date,
+      Value<int> customerId,
+      Value<int> employeeId,
+      Value<String> menuIdsString}) {
+    return VisitHistoriesCompanion(
+      id: id ?? this.id,
+      date: date ?? this.date,
+      customerId: customerId ?? this.customerId,
+      employeeId: employeeId ?? this.employeeId,
+      menuIdsString: menuIdsString ?? this.menuIdsString,
+    );
+  }
+}
+
+class $VisitHistoriesTable extends VisitHistories
+    with TableInfo<$VisitHistoriesTable, VisitHistory> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $VisitHistoriesTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _dateMeta = const VerificationMeta('date');
+  GeneratedDateTimeColumn _date;
+  @override
+  GeneratedDateTimeColumn get date => _date ??= _constructDate();
+  GeneratedDateTimeColumn _constructDate() {
+    return GeneratedDateTimeColumn(
+      'date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
+  GeneratedIntColumn _customerId;
+  @override
+  GeneratedIntColumn get customerId => _customerId ??= _constructCustomerId();
+  GeneratedIntColumn _constructCustomerId() {
+    return GeneratedIntColumn(
+      'customer_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _employeeIdMeta = const VerificationMeta('employeeId');
+  GeneratedIntColumn _employeeId;
+  @override
+  GeneratedIntColumn get employeeId => _employeeId ??= _constructEmployeeId();
+  GeneratedIntColumn _constructEmployeeId() {
+    return GeneratedIntColumn(
+      'employee_id',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _menuIdsStringMeta =
+      const VerificationMeta('menuIdsString');
+  GeneratedTextColumn _menuIdsString;
+  @override
+  GeneratedTextColumn get menuIdsString =>
+      _menuIdsString ??= _constructMenuIdsString();
+  GeneratedTextColumn _constructMenuIdsString() {
+    return GeneratedTextColumn(
+      'menu_ids_string',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, date, customerId, employeeId, menuIdsString];
+  @override
+  $VisitHistoriesTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'visit_histories';
+  @override
+  final String actualTableName = 'visit_histories';
+  @override
+  VerificationContext validateIntegrity(VisitHistoriesCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    }
+    if (d.date.present) {
+      context.handle(
+          _dateMeta, date.isAcceptableValue(d.date.value, _dateMeta));
+    } else if (isInserting) {
+      context.missing(_dateMeta);
+    }
+    if (d.customerId.present) {
+      context.handle(_customerIdMeta,
+          customerId.isAcceptableValue(d.customerId.value, _customerIdMeta));
+    } else if (isInserting) {
+      context.missing(_customerIdMeta);
+    }
+    if (d.employeeId.present) {
+      context.handle(_employeeIdMeta,
+          employeeId.isAcceptableValue(d.employeeId.value, _employeeIdMeta));
+    } else if (isInserting) {
+      context.missing(_employeeIdMeta);
+    }
+    if (d.menuIdsString.present) {
+      context.handle(
+          _menuIdsStringMeta,
+          menuIdsString.isAcceptableValue(
+              d.menuIdsString.value, _menuIdsStringMeta));
+    } else if (isInserting) {
+      context.missing(_menuIdsStringMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  VisitHistory map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return VisitHistory.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(VisitHistoriesCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.date.present) {
+      map['date'] = Variable<DateTime, DateTimeType>(d.date.value);
+    }
+    if (d.customerId.present) {
+      map['customer_id'] = Variable<int, IntType>(d.customerId.value);
+    }
+    if (d.employeeId.present) {
+      map['employee_id'] = Variable<int, IntType>(d.employeeId.value);
+    }
+    if (d.menuIdsString.present) {
+      map['menu_ids_string'] =
+          Variable<String, StringType>(d.menuIdsString.value);
+    }
+    return map;
+  }
+
+  @override
+  $VisitHistoriesTable createAlias(String alias) {
+    return $VisitHistoriesTable(_db, alias);
+  }
+}
+
 class SoldItem extends DataClass implements Insertable<SoldItem> {
   final int id;
   final DateTime date;
@@ -1186,6 +1483,9 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $CustomersTable _customers;
   $CustomersTable get customers => _customers ??= $CustomersTable(this);
+  $VisitHistoriesTable _visitHistories;
+  $VisitHistoriesTable get visitHistories =>
+      _visitHistories ??= $VisitHistoriesTable(this);
   $SoldItemsTable _soldItems;
   $SoldItemsTable get soldItems => _soldItems ??= $SoldItemsTable(this);
   $MenuCategoriesTable _menuCategories;
@@ -1199,5 +1499,5 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [customers, soldItems, menuCategories, menus, employees];
+      [customers, visitHistories, soldItems, menuCategories, menus, employees];
 }

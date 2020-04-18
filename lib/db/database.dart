@@ -19,6 +19,16 @@ class Customers extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+// [テーブル：来店履歴(１件毎)]
+@DataClassName('VisitHistory')
+class VisitHistories extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  DateTimeColumn get date => dateTime()();
+  IntColumn get customerId => integer()();
+  IntColumn get employeeId => integer()();
+  TextColumn get menuIdsString => text()();
+}
+
 // [テーブル：売上データ(１アイテム毎)]
 class SoldItems extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -72,6 +82,7 @@ LazyDatabase _openConnection() {
 
 @UseMoor(tables: [
   Customers,
+  VisitHistories,
   SoldItems,
   MenuCategories,
   Menus,
@@ -119,6 +130,28 @@ class MyDatabase extends _$MyDatabase {
   // [削除：１件分の顧客データを削除]
   Future deleteCustomer(Customer customer) =>
       (delete(customers)..where((t) => t.id.equals(customer.id))).go();
+
+  //
+  //
+  // -- VisitHistories：来店履歴１件毎のデータテーブル -----------------------------------
+  //
+  //
+
+  // [追加：１件分の来店履歴]
+  Future<int> addVisitHistory(VisitHistory visitHistory) =>
+      into(visitHistories).insert(visitHistory);
+
+  // [取得：すべての来店履歴を取得]
+  Future<List<VisitHistory>> get allVisitHistories =>
+      select(visitHistories).get();
+
+  // [更新：１件分の来店履歴を更新]
+  Future updateVisitHistory(VisitHistory visitHistory) =>
+      update(visitHistories).replace(visitHistory);
+
+  // [削除：１件分の来店履歴を削除]
+  Future deleteVisitHistory(VisitHistory visitHistory) =>
+      (delete(visitHistories)..where((t) => t.id.equals(visitHistory.id))).go();
 
   //
   //
