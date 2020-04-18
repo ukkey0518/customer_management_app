@@ -20,7 +20,7 @@ class VisitHistoryListScreen extends StatefulWidget {
 }
 
 class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
-  List<SoldItem> _soldItemsList = List();
+  List<VisitHistory> _visitHistoriesList = List();
   VisitHistoryListNarrowState _narrowState = VisitHistoryListNarrowState.ALL;
   VisitHistoryListSortState _sortState = VisitHistoryListSortState.REGISTER_OLD;
   List<String> _narrowDropdownMenuItems = List();
@@ -49,12 +49,12 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     switch (_narrowState) {
       case VisitHistoryListNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _soldItemsList = await database.allSoldItems;
+        _visitHistoriesList = await database.allVisitHistories;
         break;
       case VisitHistoryListNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _soldItemsList = await database.getSoldItemsByDay(
-            DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
+//        _visitHistoriesList = await database.getVisitHistoriesByDay(
+//            DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
         break;
     }
 
@@ -62,11 +62,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     switch (_sortState) {
       case VisitHistoryListSortState.REGISTER_OLD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
-        _soldItemsList.sort((a, b) => a.id - b.id);
+        _visitHistoriesList.sort((a, b) => a.id - b.id);
         break;
       case VisitHistoryListSortState.REGISTER_NEW:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
-        _soldItemsList.sort((a, b) => b.id - a.id);
+        _visitHistoriesList.sort((a, b) => b.id - a.id);
         break;
     }
     setState(() {});
@@ -163,7 +163,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
               children: <TextSpan>[
                 TextSpan(text: '検索結果：'),
                 TextSpan(
-                  text: '${_soldItemsList.length}',
+                  text: '${_visitHistoriesList.length}',
                   style: TextStyle(
                     fontSize: 20,
                     color: Colors.red,
@@ -246,11 +246,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       child: ListView.separated(
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(_soldItemsList[index].toString()),
+            title: Text(_visitHistoriesList[index].toString()),
           );
         },
         separatorBuilder: (context, index) => Divider(),
-        itemCount: _soldItemsList.length,
+        itemCount: _visitHistoriesList.length,
       ),
     );
   }
