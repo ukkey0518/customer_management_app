@@ -53,8 +53,8 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         break;
       case VisitHistoryListNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-//        _visitHistoriesList = await database.getVisitHistoriesByDay(
-//            DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
+        _visitHistoriesList = await database.getVisitHistoriesByDay(
+            DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
         break;
     }
 

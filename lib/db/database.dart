@@ -145,6 +145,10 @@ class MyDatabase extends _$MyDatabase {
   Future<List<VisitHistory>> get allVisitHistories =>
       select(visitHistories).get();
 
+  // [取得：指定した日付の来店履歴を取得]
+  Future<List<VisitHistory>> getVisitHistoriesByDay(DateTime date) =>
+      (select(visitHistories)..where((t) => t.date.equals(date))).get();
+
   // [更新：１件分の来店履歴を更新]
   Future updateVisitHistory(VisitHistory visitHistory) =>
       update(visitHistories).replace(visitHistory);
