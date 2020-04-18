@@ -97,7 +97,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       Toast.show('メニューが選択されていません。', context);
       return;
     }
-    // メニューリストを売上アイテムデータとして変換
+    // 新しい売上アイテムデータリスト作成
     var soldItemsList = _menus.map<SoldItem>((menu) {
       return SoldItem(
         id: null,
@@ -107,7 +107,16 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         menuId: menu.id,
       );
     }).toList();
+    // 新しい来店履歴データ作成
+    var visitHistory = VisitHistory(
+      id: null,
+      date: _date,
+      customerId: _selectedCustomer.id,
+      employeeId: _selectedEmployee.id,
+      menuIdsString: await InterConverter.menusToIdStr(_menus),
+    );
     // DB挿入
+    await database.addVisitHistory(visitHistory);
     await database.addAllSoldItems(soldItemsList);
     // 完了メッセージ表示
     Toast.show('保存しました。', context);
