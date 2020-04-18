@@ -130,6 +130,13 @@ class MyDatabase extends _$MyDatabase {
   Future<int> addSoldItem(SoldItem soldItem) =>
       into(soldItems).insert(soldItem);
 
+  // [追加：複数の売上データを追加]
+  Future<void> addAllSoldItems(List<SoldItem> soldItemsList) async {
+    batch((batch) {
+      batch.insertAll(soldItems, soldItemsList);
+    });
+  }
+
   // [取得：すべての売上データを取得]
   Future<List<SoldItem>> get allSoldItems => select(soldItems).get();
 
