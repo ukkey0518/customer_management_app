@@ -79,6 +79,22 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     );
   }
 
+  // [コールバック：保存ボタン押下時]
+  _saveSingleVisitHistory() async {
+    var soldItemsList = _menus.map<SoldItem>((menu) {
+      return SoldItem(
+        id: null,
+        date: _date,
+        customerId: _selectedCustomer.id,
+        employeeId: _selectedEmployee.id,
+        menuId: menu.id,
+      );
+    });
+    await database.addAllSoldItems(soldItemsList);
+    print('ok');
+    Navigator.of(context).pop();
+  }
+
   // [コールバック：画面終了時]
   Future<bool> _finishEditScreen(BuildContext context) {
     Navigator.pushReplacement(
@@ -105,7 +121,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             // 保存ボタン
             IconButton(
               icon: Icon(Icons.save),
-              onPressed: () {}, //TODO 保存処理
+              onPressed: () => _saveSingleVisitHistory(),
             ),
           ],
         ),
