@@ -7,6 +7,7 @@ import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:toast/toast.dart';
 
 import 'select_screens/customer_select_screen.dart';
 import 'visit_history_list_screen.dart';
@@ -81,6 +82,22 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
 
   // [コールバック：保存ボタン押下時]
   _saveSingleVisitHistory() async {
+    // 未入力チェック：顧客選択欄
+    if (_selectedCustomer == null) {
+      Toast.show('顧客が選択されていません。', context);
+      return;
+    }
+    // 未入力チェック：担当選択欄
+    if (_selectedEmployee == null) {
+      Toast.show('担当が選択されていません。', context);
+      return;
+    }
+    // 未入力チェック：メニュー欄
+    if (_menus == null || _menus.isEmpty) {
+      Toast.show('メニューが選択されていません。', context);
+      return;
+    }
+    // メニューリストを売上アイテムデータとして変換
     var soldItemsList = _menus.map<SoldItem>((menu) {
       return SoldItem(
         id: null,
@@ -89,10 +106,13 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         employeeId: _selectedEmployee.id,
         menuId: menu.id,
       );
-    });
+    }).toList();
+    // DB挿入
     await database.addAllSoldItems(soldItemsList);
-    print('ok');
-    Navigator.of(context).pop();
+    // 完了メッセージ表示
+    Toast.show('保存しました。', context);
+    // 画面を終了
+    _finishEditScreen(context);
   }
 
   // [コールバック：画面終了時]
