@@ -4,6 +4,7 @@ import 'package:customermanagementapp/parts/my_drawer.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:toast/toast.dart';
 
 import 'visit_history_edit_screen.dart';
 
@@ -115,7 +116,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     }
   }
 
-  // [コールバック：ソートメニューアイテム選択時]
+  // [コールバック：ソートメニュー選択肢タップ時]
   // →各項目ごとにソート
   _sortMenuSelected(String value) async {
     switch (value) {
@@ -128,6 +129,14 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         _setSortState(VisitHistoryListSortState.REGISTER_OLD);
         break;
     }
+  }
+
+  // [コールバック：リストアイテム長押し時]
+  // ・リスト＆DBからデータを削除
+  _deleteVisitHistory(VisitHistory visitHistory) async {
+//TODO   await database.deleteMenuByIds(visitHistory.menuIdsString);
+    await database.deleteVisitHistory(visitHistory);
+    Toast.show('削除しました。', context);
   }
 
   @override
@@ -247,6 +256,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(_visitHistoriesList[index].toString()),
+            onLongPress: () => _deleteVisitHistory(_visitHistoriesList[index]),
           );
         },
         separatorBuilder: (context, index) => Divider(),
