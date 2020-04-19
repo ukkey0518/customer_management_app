@@ -262,7 +262,6 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             sortState: _sortState,
             searchWord: _searchNameFieldController.text,
           ),
-          state: CustomerEditState.ADD,
         ),
       ),
     );

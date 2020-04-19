@@ -92,7 +92,7 @@ class MyDatabase extends _$MyDatabase {
 
   // [追加：１件追加]
   Future<int> addCustomer(Customer customer) =>
-      into(customers).insert(customer);
+      into(customers).insert(customer, orReplace: true);
 
   // [追加：渡されたデータをすべて追加]
   Future<void> addAllCustomers(List<Customer> customersList) async {

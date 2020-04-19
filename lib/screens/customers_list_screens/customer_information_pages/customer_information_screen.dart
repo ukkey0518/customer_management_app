@@ -75,7 +75,6 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
       MyCustomRoute(
         builder: (context) => CustomerEditScreen(
           _pref,
-          state: CustomerEditState.EDIT,
           customer: customer,
         ),
       ),

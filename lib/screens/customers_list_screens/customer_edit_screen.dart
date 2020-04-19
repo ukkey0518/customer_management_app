@@ -9,13 +9,10 @@ import 'package:toast/toast.dart';
 
 import 'customer_information_pages/customer_information_screen.dart';
 
-enum CustomerEditState { ADD, EDIT }
-
 class CustomerEditScreen extends StatefulWidget {
   final CustomersListScreenPreferences pref;
-  final CustomerEditState state;
   final Customer customer;
-  CustomerEditScreen(this.pref, {@required this.state, this.customer});
+  CustomerEditScreen(this.pref, {this.customer});
 
   @override
   _CustomerEditScreenState createState() => _CustomerEditScreenState();
@@ -29,16 +26,18 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
   DateTime _birthDay = DateTime(1980, 1, 1);
   DateFormat _birthDayFormatter = DateFormat('yyyy年 M月 d日');
   Customer _editedCustomer;
+  String _completeMessage = '';
 
   @override
   void initState() {
     super.initState();
-    if (widget.state == CustomerEditState.ADD) {
+    if (widget.customer == null) {
       _nameController.text = '';
       _nameReadingController.text = '';
       _isGenderFemale = null;
       _birthDay = null;
       _titleStr = '顧客情報の新規登録';
+      _completeMessage = '登録されました。';
     } else {
       _nameController.text = widget.customer.name;
       _nameReadingController.text = widget.customer.nameReading;
@@ -46,6 +45,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
       _birthDay = widget.customer.birth;
       _titleStr = '顧客情報の編集';
       _editedCustomer = widget.customer;
+      _completeMessage = '更新されました。';
     }
   }
 
@@ -219,37 +219,23 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
       return;
     }
 
-    if (widget.state != CustomerEditState.EDIT &&
+    if (widget.customer == null &&
         await database.getCustomersByName(_nameController.text) != null) {
       Toast.show('同名の顧客データが存在しています。', context);
       return;
     }
 
-    if (widget.state == CustomerEditState.ADD) {
-      // 新しいCustomerオブジェクト生成
-      var customer = Customer(
-        id: null,
-        name: _nameController.text,
-        nameReading: _nameReadingController.text,
-        isGenderFemale: _isGenderFemale,
-        birth: _birthDay,
-      );
-      // DBに新規登録
-      await database.addCustomer(customer);
-      Toast.show('登録されました', context);
-    } else {
-      // 新しいCustomerオブジェクト生成(idはそのまま)
-      _editedCustomer = Customer(
-        id: widget.customer.id,
-        name: _nameController.text,
-        nameReading: _nameReadingController.text,
-        isGenderFemale: _isGenderFemale,
-        birth: _birthDay,
-      );
-      //idを基準に更新
-      await database.updateCustomer(_editedCustomer);
-      Toast.show('更新されました', context);
-    }
+    _editedCustomer = Customer(
+      id: widget.customer?.id,
+      name: _nameController.text,
+      nameReading: _nameReadingController.text,
+      isGenderFemale: _isGenderFemale,
+      birth: _birthDay,
+    );
+
+    // DBに新規登録
+    await database.addCustomer(_editedCustomer);
+    Toast.show(_completeMessage, context);
 
     // 画面を終了
     _finishEditScreen(context);
@@ -258,7 +244,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
   // [コールバック：画面終了時]
   Future<bool> _finishEditScreen(BuildContext context) {
     var widgetBuilder;
-    if (widget.state == CustomerEditState.ADD) {
+    if (widget.customer == null) {
       widgetBuilder = (context) => CustomersListScreen(pref: widget.pref);
     } else {
       widgetBuilder = (context) => CustomerInformationScreen(
