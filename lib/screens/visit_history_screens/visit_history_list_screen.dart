@@ -153,6 +153,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   _deleteVisitHistory(VisitHistory visitHistory) async {
     await database.deleteVisitHistory(visitHistory);
     Toast.show('削除しました。', context);
+    _reloadVisitHistoryList();
   }
 
   @override
