@@ -69,10 +69,14 @@ class SampleDataInitializer {
   // [初期化メソッド]
   initialize() async {
     try {
-//      await database.addAllCustomers();
-//      await database.addAllEmployees();
-//      await database.addAllMenuCategories();
-//      await database.addAllMenus();
+      await database.addAllCustomers(_initialCustomers);
+      print('customers init ok.');
+      await database.addAllEmployees(_initialEmployees);
+      print('employees init ok.');
+      await database.addAllMenuCategories(_initialMenuCategories);
+      print('menuCategories init ok.');
+      await database.addAllMenus(_initialMenus);
+      print('menus init ok.');
     } on SqliteException catch (e) {
       print('サンプルデータ初期化時のエラー：$e');
     }

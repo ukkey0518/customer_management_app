@@ -94,6 +94,13 @@ class MyDatabase extends _$MyDatabase {
   Future<int> addCustomer(Customer customer) =>
       into(customers).insert(customer);
 
+  // [追加：渡されたデータをすべて追加]
+  Future<void> addAllCustomers(List<Customer> customersList) async {
+    await batch((batch) {
+      batch.insertAll(customers, customersList);
+    });
+  }
+
   // [取得：すべての顧客情報を取得]
   Future<List<Customer>> get allCustomers => select(customers).get();
 
@@ -157,6 +164,14 @@ class MyDatabase extends _$MyDatabase {
   Future<int> addMenuCategory(MenuCategory menuCategory) =>
       into(menuCategories).insert(menuCategory);
 
+  // [追加：渡されたデータをすべて追加]
+  Future<void> addAllMenuCategories(
+      List<MenuCategory> menuCategoriesList) async {
+    await batch((batch) {
+      batch.insertAll(menuCategories, menuCategoriesList);
+    });
+  }
+
   // [取得：すべてのメニューカテゴリを取得]
   Future<List<MenuCategory>> get allMenuCategories =>
       select(menuCategories).get();
@@ -179,6 +194,13 @@ class MyDatabase extends _$MyDatabase {
   // [追加：１件分のメニューを追加]
   Future<int> addMenu(Menu menu) => into(menus).insert(menu);
 
+  // [追加：渡されたデータをすべて追加]
+  Future<void> addAllMenus(List<Menu> menusList) async {
+    await batch((batch) {
+      batch.insertAll(menus, menusList);
+    });
+  }
+
   // [取得：すべてのメニューを取得]
   Future<List<Menu>> get allMenus => select(menus).get();
 
@@ -198,6 +220,13 @@ class MyDatabase extends _$MyDatabase {
   // [追加：１件分のスタッフデータを追加]
   Future<int> addEmployee(Employee employee) =>
       into(employees).insert(employee);
+
+  // [追加：渡されたデータをすべて追加]
+  Future<void> addAllEmployees(List<Employee> employeesList) async {
+    await batch((batch) {
+      batch.insertAll(employees, employeesList);
+    });
+  }
 
   // [取得：すべてのスタッフデータを取得]
   Future<List<Employee>> get allEmployees => select(employees).get();
