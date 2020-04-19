@@ -45,7 +45,14 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       _selectedEmployee = null;
       _menus = List();
     } else {
-      // TODO 編集時の初期化
+      _date = widget.visitHistory.date;
+      _selectedCustomer =
+          await database.getCustomersById(widget.visitHistory.customerId);
+      _selectedEmployee =
+          await database.getEmployeeById(widget.visitHistory.employeeId);
+      _menus =
+          await InterConverter.idStrToMenus(widget.visitHistory.menuIdsString)
+              .toList();
     }
     _employees = await database.allEmployees;
     _categories = await database.allMenuCategories;

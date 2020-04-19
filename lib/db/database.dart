@@ -232,8 +232,8 @@ class MyDatabase extends _$MyDatabase {
   Future<List<Employee>> get allEmployees => select(employees).get();
 
   // [取得：IDからスタッフデータを取得]
-  Future<Employee> getEmployeeById(Employee employee) {
-    return (select(employees)..where((t) => t.id.equals(employee.id)))
+  Future<Employee> getEmployeeById(int employeeId) {
+    return (select(employees)..where((t) => t.id.equals(employeeId)))
         .getSingle();
   }
 
