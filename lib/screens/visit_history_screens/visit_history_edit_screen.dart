@@ -108,7 +108,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     }
     // 新しい来店履歴データ作成
     var visitHistory = VisitHistory(
-      id: null,
+      id: widget.visitHistory?.id,
       date: _date,
       customerId: _selectedCustomer.id,
       employeeId: _selectedEmployee.id,

@@ -136,7 +136,7 @@ class MyDatabase extends _$MyDatabase {
 
   // [追加：１件分の来店履歴]
   Future<int> addVisitHistory(VisitHistory visitHistory) =>
-      into(visitHistories).insert(visitHistory);
+      into(visitHistories).insert(visitHistory, orReplace: true);
 
   // [取得：すべての来店履歴を取得]
   Future<List<VisitHistory>> get allVisitHistories =>
