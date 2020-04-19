@@ -231,6 +231,12 @@ class MyDatabase extends _$MyDatabase {
   // [取得：すべてのスタッフデータを取得]
   Future<List<Employee>> get allEmployees => select(employees).get();
 
+  // [取得：IDからスタッフデータを取得]
+  Future<Employee> getEmployeeById(Employee employee) {
+    return (select(employees)..where((t) => t.id.equals(employee.id)))
+        .getSingle();
+  }
+
   // [更新：１件分のスタッフデータを更新]
   Future updateEmployee(Employee employee) =>
       update(employees).replace(employee);
