@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
 
@@ -15,7 +16,7 @@ class SampleDataInitializer {
   SampleDataInitializer._internal();
 
   // [初期データ：顧客]
-  final List<Customer> _initialCustomers = [
+  static final List<Customer> _initialCustomers = [
     Customer(
       id: 1,
       name: 'カスタマーA',
@@ -40,30 +41,84 @@ class SampleDataInitializer {
   ];
 
   // [初期データ：従業員]
-  final List<Employee> _initialEmployees = [
+  static final List<Employee> _initialEmployees = [
     Employee(id: 1, name: 'スタッフA'),
     Employee(id: 2, name: 'スタッフB'),
     Employee(id: 3, name: 'スタッフC'),
   ];
 
   // [初期データ：メニューカテゴリ]
-  final List<MenuCategory> _initialMenuCategories = [
+  static final List<MenuCategory> _initialMenuCategories = [
     MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value),
     MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value),
     MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value),
   ];
 
   // [初期データ：メニュー]
-  final List<Menu> _initialMenus = [
-    Menu(id: 1, name: 'メニュー1', price: 1000, menuCategoryId: 1),
-    Menu(id: 2, name: 'メニュー2', price: 2000, menuCategoryId: 1),
-    Menu(id: 3, name: 'メニュー3', price: 3000, menuCategoryId: 1),
-    Menu(id: 4, name: 'メニュー4', price: 4000, menuCategoryId: 2),
-    Menu(id: 5, name: 'メニュー5', price: 5000, menuCategoryId: 2),
-    Menu(id: 6, name: 'メニュー6', price: 6000, menuCategoryId: 2),
-    Menu(id: 7, name: 'メニュー7', price: 7000, menuCategoryId: 3),
-    Menu(id: 8, name: 'メニュー8', price: 8000, menuCategoryId: 3),
-    Menu(id: 9, name: 'メニュー9', price: 9000, menuCategoryId: 3),
+  static final List<Menu> _initialMenus = [
+    Menu(
+      id: 1,
+      name: 'メニュー1',
+      price: 1000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value)),
+    ),
+    Menu(
+      id: 2,
+      name: 'メニュー2',
+      price: 2000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value)),
+    ),
+    Menu(
+      id: 3,
+      name: 'メニュー3',
+      price: 3000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value)),
+    ),
+    Menu(
+      id: 4,
+      name: 'メニュー4',
+      price: 4000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value)),
+    ),
+    Menu(
+      id: 5,
+      name: 'メニュー5',
+      price: 5000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value)),
+    ),
+    Menu(
+      id: 6,
+      name: 'メニュー6',
+      price: 6000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value)),
+    ),
+    Menu(
+      id: 7,
+      name: 'メニュー7',
+      price: 7000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)),
+    ),
+    Menu(
+      id: 8,
+      name: 'メニュー8',
+      price: 8000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)),
+    ),
+    Menu(
+      id: 9,
+      name: 'メニュー9',
+      price: 9000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)),
+    ),
   ];
 
   // [初期化メソッド]

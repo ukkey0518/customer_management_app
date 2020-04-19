@@ -24,9 +24,9 @@ class Customers extends Table {
 class VisitHistories extends Table {
   IntColumn get id => integer().autoIncrement()();
   DateTimeColumn get date => dateTime()();
-  IntColumn get customerId => integer()();
-  IntColumn get employeeId => integer()();
-  TextColumn get menuIdsString => text()();
+  TextColumn get customerJson => text()();
+  TextColumn get employeeJson => text()();
+  TextColumn get menuListJson => text()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -46,7 +46,7 @@ class MenuCategories extends Table {
 // [テーブル：メニューデータ]
 class Menus extends Table {
   IntColumn get id => integer().autoIncrement()();
-  IntColumn get menuCategoryId => integer()();
+  TextColumn get menuCategoryJson => text()();
   TextColumn get name => text()();
   IntColumn get price => integer()();
 

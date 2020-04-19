@@ -47,11 +47,11 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     } else {
       _date = widget.visitHistory.date;
       _selectedCustomer =
-          await database.getCustomersById(widget.visitHistory.customerId);
+          InterConverter.jsonToCustomer(widget.visitHistory.customerJson);
       _selectedEmployee =
-          await database.getEmployeeById(widget.visitHistory.employeeId);
+          InterConverter.jsonToEmployee(widget.visitHistory.employeeJson);
       _menus =
-          await InterConverter.idStrToMenus(widget.visitHistory.menuIdsString)
+          await InterConverter.jsonToMenuList(widget.visitHistory.menuListJson)
               .toList();
     }
     _employees = await database.allEmployees;
@@ -110,9 +110,9 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     var visitHistory = VisitHistory(
       id: widget.visitHistory?.id,
       date: _date,
-      customerId: _selectedCustomer.id,
-      employeeId: _selectedEmployee.id,
-      menuIdsString: await InterConverter.menusToIdStr(_menus),
+      customerJson: InterConverter.customerToJson(_selectedCustomer),
+      employeeJson: InterConverter.employeeToJson(_selectedEmployee),
+      menuListJson: InterConverter.menuListToJson(_menus),
     );
     // DB挿入
     await database.addVisitHistory(visitHistory);
@@ -327,7 +327,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                                 id: null,
                                 name: null,
                                 price: a.price + b.price,
-                                menuCategoryId: null),
+                                menuCategoryJson: null),
                           ).price)}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
@@ -350,7 +350,10 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                             ? null
                             : Color(_categories
                                 .where((category) =>
-                                    category.id == _menus[index].menuCategoryId)
+                                    category.id ==
+                                    InterConverter.jsonToMenuCategory(
+                                            _menus[index].menuCategoryJson)
+                                        .id)
                                 .single
                                 .color),
                       ),

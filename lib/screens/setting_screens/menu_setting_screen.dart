@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/setting_screens/menu_category_setting_screen.dart';
+import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -52,7 +53,9 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         return MenusByCategory(
           menuCategory: category,
           menus: menusList
-              .where((menu) => menu.menuCategoryId == category.id)
+              .where((menu) =>
+                  InterConverter.jsonToMenuCategory(menu.menuCategoryJson).id ==
+                  category.id)
               .toList(),
           isExpanded: list.isEmpty ? false : list.single.isExpanded,
         );
@@ -60,16 +63,6 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     ).toList();
 
     _menusByCategories = newMenusByCategoriesList;
-
-    // デバッグ用：コンソール出力
-    print(
-      '''!!-- _initializedLists --!!
-         local: Categories => $menuCategoriesList
-         local: Menus => $menusList
-         field: MenusByCategories => $_menusByCategories
-         !!-----------------------!!
-      ''',
-    );
     // 画面を更新
     setState(() {});
   }
@@ -266,7 +259,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         }
         var newMenu = Menu(
           id: null,
-          menuCategoryId: menuCategory.id,
+          menuCategoryJson: InterConverter.menuCategoryToJson(menuCategory),
           name: nameController.text,
           price: int.parse(priceController.text),
         );
@@ -293,7 +286,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         }
         var newMenu = Menu(
           id: menu.id,
-          menuCategoryId: menuCategory.id,
+          menuCategoryJson: InterConverter.menuCategoryToJson(menuCategory),
           name: nameController.text,
           price: int.parse(priceController.text),
         );

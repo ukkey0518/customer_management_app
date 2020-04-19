@@ -305,15 +305,15 @@ class $CustomersTable extends Customers
 class VisitHistory extends DataClass implements Insertable<VisitHistory> {
   final int id;
   final DateTime date;
-  final int customerId;
-  final int employeeId;
-  final String menuIdsString;
+  final String customerJson;
+  final String employeeJson;
+  final String menuListJson;
   VisitHistory(
       {@required this.id,
       @required this.date,
-      @required this.customerId,
-      @required this.employeeId,
-      @required this.menuIdsString});
+      @required this.customerJson,
+      @required this.employeeJson,
+      @required this.menuListJson});
   factory VisitHistory.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -324,12 +324,12 @@ class VisitHistory extends DataClass implements Insertable<VisitHistory> {
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
       date:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
-      customerId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}customer_id']),
-      employeeId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}employee_id']),
-      menuIdsString: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}menu_ids_string']),
+      customerJson: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_json']),
+      employeeJson: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}employee_json']),
+      menuListJson: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}menu_list_json']),
     );
   }
   factory VisitHistory.fromJson(Map<String, dynamic> json,
@@ -338,9 +338,9 @@ class VisitHistory extends DataClass implements Insertable<VisitHistory> {
     return VisitHistory(
       id: serializer.fromJson<int>(json['id']),
       date: serializer.fromJson<DateTime>(json['date']),
-      customerId: serializer.fromJson<int>(json['customerId']),
-      employeeId: serializer.fromJson<int>(json['employeeId']),
-      menuIdsString: serializer.fromJson<String>(json['menuIdsString']),
+      customerJson: serializer.fromJson<String>(json['customerJson']),
+      employeeJson: serializer.fromJson<String>(json['employeeJson']),
+      menuListJson: serializer.fromJson<String>(json['menuListJson']),
     );
   }
   @override
@@ -349,9 +349,9 @@ class VisitHistory extends DataClass implements Insertable<VisitHistory> {
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
       'date': serializer.toJson<DateTime>(date),
-      'customerId': serializer.toJson<int>(customerId),
-      'employeeId': serializer.toJson<int>(employeeId),
-      'menuIdsString': serializer.toJson<String>(menuIdsString),
+      'customerJson': serializer.toJson<String>(customerJson),
+      'employeeJson': serializer.toJson<String>(employeeJson),
+      'menuListJson': serializer.toJson<String>(menuListJson),
     };
   }
 
@@ -360,39 +360,39 @@ class VisitHistory extends DataClass implements Insertable<VisitHistory> {
     return VisitHistoriesCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
       date: date == null && nullToAbsent ? const Value.absent() : Value(date),
-      customerId: customerId == null && nullToAbsent
+      customerJson: customerJson == null && nullToAbsent
           ? const Value.absent()
-          : Value(customerId),
-      employeeId: employeeId == null && nullToAbsent
+          : Value(customerJson),
+      employeeJson: employeeJson == null && nullToAbsent
           ? const Value.absent()
-          : Value(employeeId),
-      menuIdsString: menuIdsString == null && nullToAbsent
+          : Value(employeeJson),
+      menuListJson: menuListJson == null && nullToAbsent
           ? const Value.absent()
-          : Value(menuIdsString),
+          : Value(menuListJson),
     );
   }
 
   VisitHistory copyWith(
           {int id,
           DateTime date,
-          int customerId,
-          int employeeId,
-          String menuIdsString}) =>
+          String customerJson,
+          String employeeJson,
+          String menuListJson}) =>
       VisitHistory(
         id: id ?? this.id,
         date: date ?? this.date,
-        customerId: customerId ?? this.customerId,
-        employeeId: employeeId ?? this.employeeId,
-        menuIdsString: menuIdsString ?? this.menuIdsString,
+        customerJson: customerJson ?? this.customerJson,
+        employeeJson: employeeJson ?? this.employeeJson,
+        menuListJson: menuListJson ?? this.menuListJson,
       );
   @override
   String toString() {
     return (StringBuffer('VisitHistory(')
           ..write('id: $id, ')
           ..write('date: $date, ')
-          ..write('customerId: $customerId, ')
-          ..write('employeeId: $employeeId, ')
-          ..write('menuIdsString: $menuIdsString')
+          ..write('customerJson: $customerJson, ')
+          ..write('employeeJson: $employeeJson, ')
+          ..write('menuListJson: $menuListJson')
           ..write(')'))
         .toString();
   }
@@ -402,54 +402,54 @@ class VisitHistory extends DataClass implements Insertable<VisitHistory> {
       id.hashCode,
       $mrjc(
           date.hashCode,
-          $mrjc(customerId.hashCode,
-              $mrjc(employeeId.hashCode, menuIdsString.hashCode)))));
+          $mrjc(customerJson.hashCode,
+              $mrjc(employeeJson.hashCode, menuListJson.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is VisitHistory &&
           other.id == this.id &&
           other.date == this.date &&
-          other.customerId == this.customerId &&
-          other.employeeId == this.employeeId &&
-          other.menuIdsString == this.menuIdsString);
+          other.customerJson == this.customerJson &&
+          other.employeeJson == this.employeeJson &&
+          other.menuListJson == this.menuListJson);
 }
 
 class VisitHistoriesCompanion extends UpdateCompanion<VisitHistory> {
   final Value<int> id;
   final Value<DateTime> date;
-  final Value<int> customerId;
-  final Value<int> employeeId;
-  final Value<String> menuIdsString;
+  final Value<String> customerJson;
+  final Value<String> employeeJson;
+  final Value<String> menuListJson;
   const VisitHistoriesCompanion({
     this.id = const Value.absent(),
     this.date = const Value.absent(),
-    this.customerId = const Value.absent(),
-    this.employeeId = const Value.absent(),
-    this.menuIdsString = const Value.absent(),
+    this.customerJson = const Value.absent(),
+    this.employeeJson = const Value.absent(),
+    this.menuListJson = const Value.absent(),
   });
   VisitHistoriesCompanion.insert({
     this.id = const Value.absent(),
     @required DateTime date,
-    @required int customerId,
-    @required int employeeId,
-    @required String menuIdsString,
+    @required String customerJson,
+    @required String employeeJson,
+    @required String menuListJson,
   })  : date = Value(date),
-        customerId = Value(customerId),
-        employeeId = Value(employeeId),
-        menuIdsString = Value(menuIdsString);
+        customerJson = Value(customerJson),
+        employeeJson = Value(employeeJson),
+        menuListJson = Value(menuListJson);
   VisitHistoriesCompanion copyWith(
       {Value<int> id,
       Value<DateTime> date,
-      Value<int> customerId,
-      Value<int> employeeId,
-      Value<String> menuIdsString}) {
+      Value<String> customerJson,
+      Value<String> employeeJson,
+      Value<String> menuListJson}) {
     return VisitHistoriesCompanion(
       id: id ?? this.id,
       date: date ?? this.date,
-      customerId: customerId ?? this.customerId,
-      employeeId: employeeId ?? this.employeeId,
-      menuIdsString: menuIdsString ?? this.menuIdsString,
+      customerJson: customerJson ?? this.customerJson,
+      employeeJson: employeeJson ?? this.employeeJson,
+      menuListJson: menuListJson ?? this.menuListJson,
     );
   }
 }
@@ -480,39 +480,43 @@ class $VisitHistoriesTable extends VisitHistories
     );
   }
 
-  final VerificationMeta _customerIdMeta = const VerificationMeta('customerId');
-  GeneratedIntColumn _customerId;
+  final VerificationMeta _customerJsonMeta =
+      const VerificationMeta('customerJson');
+  GeneratedTextColumn _customerJson;
   @override
-  GeneratedIntColumn get customerId => _customerId ??= _constructCustomerId();
-  GeneratedIntColumn _constructCustomerId() {
-    return GeneratedIntColumn(
-      'customer_id',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _employeeIdMeta = const VerificationMeta('employeeId');
-  GeneratedIntColumn _employeeId;
-  @override
-  GeneratedIntColumn get employeeId => _employeeId ??= _constructEmployeeId();
-  GeneratedIntColumn _constructEmployeeId() {
-    return GeneratedIntColumn(
-      'employee_id',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _menuIdsStringMeta =
-      const VerificationMeta('menuIdsString');
-  GeneratedTextColumn _menuIdsString;
-  @override
-  GeneratedTextColumn get menuIdsString =>
-      _menuIdsString ??= _constructMenuIdsString();
-  GeneratedTextColumn _constructMenuIdsString() {
+  GeneratedTextColumn get customerJson =>
+      _customerJson ??= _constructCustomerJson();
+  GeneratedTextColumn _constructCustomerJson() {
     return GeneratedTextColumn(
-      'menu_ids_string',
+      'customer_json',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _employeeJsonMeta =
+      const VerificationMeta('employeeJson');
+  GeneratedTextColumn _employeeJson;
+  @override
+  GeneratedTextColumn get employeeJson =>
+      _employeeJson ??= _constructEmployeeJson();
+  GeneratedTextColumn _constructEmployeeJson() {
+    return GeneratedTextColumn(
+      'employee_json',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _menuListJsonMeta =
+      const VerificationMeta('menuListJson');
+  GeneratedTextColumn _menuListJson;
+  @override
+  GeneratedTextColumn get menuListJson =>
+      _menuListJson ??= _constructMenuListJson();
+  GeneratedTextColumn _constructMenuListJson() {
+    return GeneratedTextColumn(
+      'menu_list_json',
       $tableName,
       false,
     );
@@ -520,7 +524,7 @@ class $VisitHistoriesTable extends VisitHistories
 
   @override
   List<GeneratedColumn> get $columns =>
-      [id, date, customerId, employeeId, menuIdsString];
+      [id, date, customerJson, employeeJson, menuListJson];
   @override
   $VisitHistoriesTable get asDslTable => this;
   @override
@@ -540,25 +544,29 @@ class $VisitHistoriesTable extends VisitHistories
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
-    if (d.customerId.present) {
-      context.handle(_customerIdMeta,
-          customerId.isAcceptableValue(d.customerId.value, _customerIdMeta));
-    } else if (isInserting) {
-      context.missing(_customerIdMeta);
-    }
-    if (d.employeeId.present) {
-      context.handle(_employeeIdMeta,
-          employeeId.isAcceptableValue(d.employeeId.value, _employeeIdMeta));
-    } else if (isInserting) {
-      context.missing(_employeeIdMeta);
-    }
-    if (d.menuIdsString.present) {
+    if (d.customerJson.present) {
       context.handle(
-          _menuIdsStringMeta,
-          menuIdsString.isAcceptableValue(
-              d.menuIdsString.value, _menuIdsStringMeta));
+          _customerJsonMeta,
+          customerJson.isAcceptableValue(
+              d.customerJson.value, _customerJsonMeta));
     } else if (isInserting) {
-      context.missing(_menuIdsStringMeta);
+      context.missing(_customerJsonMeta);
+    }
+    if (d.employeeJson.present) {
+      context.handle(
+          _employeeJsonMeta,
+          employeeJson.isAcceptableValue(
+              d.employeeJson.value, _employeeJsonMeta));
+    } else if (isInserting) {
+      context.missing(_employeeJsonMeta);
+    }
+    if (d.menuListJson.present) {
+      context.handle(
+          _menuListJsonMeta,
+          menuListJson.isAcceptableValue(
+              d.menuListJson.value, _menuListJsonMeta));
+    } else if (isInserting) {
+      context.missing(_menuListJsonMeta);
     }
     return context;
   }
@@ -580,15 +588,15 @@ class $VisitHistoriesTable extends VisitHistories
     if (d.date.present) {
       map['date'] = Variable<DateTime, DateTimeType>(d.date.value);
     }
-    if (d.customerId.present) {
-      map['customer_id'] = Variable<int, IntType>(d.customerId.value);
+    if (d.customerJson.present) {
+      map['customer_json'] = Variable<String, StringType>(d.customerJson.value);
     }
-    if (d.employeeId.present) {
-      map['employee_id'] = Variable<int, IntType>(d.employeeId.value);
+    if (d.employeeJson.present) {
+      map['employee_json'] = Variable<String, StringType>(d.employeeJson.value);
     }
-    if (d.menuIdsString.present) {
-      map['menu_ids_string'] =
-          Variable<String, StringType>(d.menuIdsString.value);
+    if (d.menuListJson.present) {
+      map['menu_list_json'] =
+          Variable<String, StringType>(d.menuListJson.value);
     }
     return map;
   }
@@ -795,12 +803,12 @@ class $MenuCategoriesTable extends MenuCategories
 
 class Menu extends DataClass implements Insertable<Menu> {
   final int id;
-  final int menuCategoryId;
+  final String menuCategoryJson;
   final String name;
   final int price;
   Menu(
       {@required this.id,
-      @required this.menuCategoryId,
+      @required this.menuCategoryJson,
       @required this.name,
       @required this.price});
   factory Menu.fromData(Map<String, dynamic> data, GeneratedDatabase db,
@@ -810,8 +818,8 @@ class Menu extends DataClass implements Insertable<Menu> {
     final stringType = db.typeSystem.forDartType<String>();
     return Menu(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      menuCategoryId: intType
-          .mapFromDatabaseResponse(data['${effectivePrefix}menu_category_id']),
+      menuCategoryJson: stringType.mapFromDatabaseResponse(
+          data['${effectivePrefix}menu_category_json']),
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
       price: intType.mapFromDatabaseResponse(data['${effectivePrefix}price']),
     );
@@ -821,7 +829,7 @@ class Menu extends DataClass implements Insertable<Menu> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return Menu(
       id: serializer.fromJson<int>(json['id']),
-      menuCategoryId: serializer.fromJson<int>(json['menuCategoryId']),
+      menuCategoryJson: serializer.fromJson<String>(json['menuCategoryJson']),
       name: serializer.fromJson<String>(json['name']),
       price: serializer.fromJson<int>(json['price']),
     );
@@ -831,7 +839,7 @@ class Menu extends DataClass implements Insertable<Menu> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'menuCategoryId': serializer.toJson<int>(menuCategoryId),
+      'menuCategoryJson': serializer.toJson<String>(menuCategoryJson),
       'name': serializer.toJson<String>(name),
       'price': serializer.toJson<int>(price),
     };
@@ -841,18 +849,19 @@ class Menu extends DataClass implements Insertable<Menu> {
   MenusCompanion createCompanion(bool nullToAbsent) {
     return MenusCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      menuCategoryId: menuCategoryId == null && nullToAbsent
+      menuCategoryJson: menuCategoryJson == null && nullToAbsent
           ? const Value.absent()
-          : Value(menuCategoryId),
+          : Value(menuCategoryJson),
       name: name == null && nullToAbsent ? const Value.absent() : Value(name),
       price:
           price == null && nullToAbsent ? const Value.absent() : Value(price),
     );
   }
 
-  Menu copyWith({int id, int menuCategoryId, String name, int price}) => Menu(
+  Menu copyWith({int id, String menuCategoryJson, String name, int price}) =>
+      Menu(
         id: id ?? this.id,
-        menuCategoryId: menuCategoryId ?? this.menuCategoryId,
+        menuCategoryJson: menuCategoryJson ?? this.menuCategoryJson,
         name: name ?? this.name,
         price: price ?? this.price,
       );
@@ -860,7 +869,7 @@ class Menu extends DataClass implements Insertable<Menu> {
   String toString() {
     return (StringBuffer('Menu(')
           ..write('id: $id, ')
-          ..write('menuCategoryId: $menuCategoryId, ')
+          ..write('menuCategoryJson: $menuCategoryJson, ')
           ..write('name: $name, ')
           ..write('price: $price')
           ..write(')'))
@@ -869,44 +878,44 @@ class Menu extends DataClass implements Insertable<Menu> {
 
   @override
   int get hashCode => $mrjf($mrjc(id.hashCode,
-      $mrjc(menuCategoryId.hashCode, $mrjc(name.hashCode, price.hashCode))));
+      $mrjc(menuCategoryJson.hashCode, $mrjc(name.hashCode, price.hashCode))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
       (other is Menu &&
           other.id == this.id &&
-          other.menuCategoryId == this.menuCategoryId &&
+          other.menuCategoryJson == this.menuCategoryJson &&
           other.name == this.name &&
           other.price == this.price);
 }
 
 class MenusCompanion extends UpdateCompanion<Menu> {
   final Value<int> id;
-  final Value<int> menuCategoryId;
+  final Value<String> menuCategoryJson;
   final Value<String> name;
   final Value<int> price;
   const MenusCompanion({
     this.id = const Value.absent(),
-    this.menuCategoryId = const Value.absent(),
+    this.menuCategoryJson = const Value.absent(),
     this.name = const Value.absent(),
     this.price = const Value.absent(),
   });
   MenusCompanion.insert({
     this.id = const Value.absent(),
-    @required int menuCategoryId,
+    @required String menuCategoryJson,
     @required String name,
     @required int price,
-  })  : menuCategoryId = Value(menuCategoryId),
+  })  : menuCategoryJson = Value(menuCategoryJson),
         name = Value(name),
         price = Value(price);
   MenusCompanion copyWith(
       {Value<int> id,
-      Value<int> menuCategoryId,
+      Value<String> menuCategoryJson,
       Value<String> name,
       Value<int> price}) {
     return MenusCompanion(
       id: id ?? this.id,
-      menuCategoryId: menuCategoryId ?? this.menuCategoryId,
+      menuCategoryJson: menuCategoryJson ?? this.menuCategoryJson,
       name: name ?? this.name,
       price: price ?? this.price,
     );
@@ -926,15 +935,15 @@ class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
-  final VerificationMeta _menuCategoryIdMeta =
-      const VerificationMeta('menuCategoryId');
-  GeneratedIntColumn _menuCategoryId;
+  final VerificationMeta _menuCategoryJsonMeta =
+      const VerificationMeta('menuCategoryJson');
+  GeneratedTextColumn _menuCategoryJson;
   @override
-  GeneratedIntColumn get menuCategoryId =>
-      _menuCategoryId ??= _constructMenuCategoryId();
-  GeneratedIntColumn _constructMenuCategoryId() {
-    return GeneratedIntColumn(
-      'menu_category_id',
+  GeneratedTextColumn get menuCategoryJson =>
+      _menuCategoryJson ??= _constructMenuCategoryJson();
+  GeneratedTextColumn _constructMenuCategoryJson() {
+    return GeneratedTextColumn(
+      'menu_category_json',
       $tableName,
       false,
     );
@@ -965,7 +974,7 @@ class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, menuCategoryId, name, price];
+  List<GeneratedColumn> get $columns => [id, menuCategoryJson, name, price];
   @override
   $MenusTable get asDslTable => this;
   @override
@@ -979,13 +988,13 @@ class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
     }
-    if (d.menuCategoryId.present) {
+    if (d.menuCategoryJson.present) {
       context.handle(
-          _menuCategoryIdMeta,
-          menuCategoryId.isAcceptableValue(
-              d.menuCategoryId.value, _menuCategoryIdMeta));
+          _menuCategoryJsonMeta,
+          menuCategoryJson.isAcceptableValue(
+              d.menuCategoryJson.value, _menuCategoryJsonMeta));
     } else if (isInserting) {
-      context.missing(_menuCategoryIdMeta);
+      context.missing(_menuCategoryJsonMeta);
     }
     if (d.name.present) {
       context.handle(
@@ -1016,8 +1025,9 @@ class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
     if (d.id.present) {
       map['id'] = Variable<int, IntType>(d.id.value);
     }
-    if (d.menuCategoryId.present) {
-      map['menu_category_id'] = Variable<int, IntType>(d.menuCategoryId.value);
+    if (d.menuCategoryJson.present) {
+      map['menu_category_json'] =
+          Variable<String, StringType>(d.menuCategoryJson.value);
     }
     if (d.name.present) {
       map['name'] = Variable<String, StringType>(d.name.value);

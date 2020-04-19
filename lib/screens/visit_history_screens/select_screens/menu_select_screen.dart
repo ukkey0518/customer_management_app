@@ -43,7 +43,9 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
         return MenusByCategory(
           menuCategory: category,
           menus: menusList
-              .where((menu) => menu.menuCategoryId == category.id)
+              .where((menu) =>
+                  InterConverter.jsonToMenuCategory(menu.menuCategoryJson).id ==
+                  category.id)
               .toList(),
           isExpanded: list.isEmpty ? false : list.single.isExpanded,
         );
@@ -67,7 +69,11 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
       Toast.show('リストに追加しました。', context);
     }
     // カテゴリ順にソート
-    _selectedMenus.sort((a, b) => a.menuCategoryId - b.menuCategoryId);
+    _selectedMenus.sort((a, b) {
+      var aCategory = InterConverter.jsonToMenuCategory(a.menuCategoryJson);
+      var bCategory = InterConverter.jsonToMenuCategory(b.menuCategoryJson);
+      return aCategory.id - bCategory.id;
+    });
     // 画面を更新
     setState(() {});
   }
@@ -162,7 +168,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
                         id: null,
                         name: null,
                         price: a.price + b.price,
-                        menuCategoryId: null),
+                        menuCategoryJson: null),
                   ).price)}',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
@@ -185,7 +191,8 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
                 _categories.isEmpty
                     ? 0xffffffff
                     : _categories.firstWhere((category) {
-                        return category.id == selectedMenu.menuCategoryId;
+                        return InterConverter.menuCategoryToJson(category) ==
+                            selectedMenu.menuCategoryJson;
                       }).color,
               ),
             ),
