@@ -13,9 +13,10 @@ import 'select_screens/customer_select_screen.dart';
 import 'visit_history_list_screen.dart';
 
 class VisitHistoryEditScreen extends StatefulWidget {
-  final VisitHistoryListScreenPreferences pref;
+  VisitHistoryEditScreen(this.pref, {this.visitHistory});
 
-  VisitHistoryEditScreen(this.pref);
+  final VisitHistoryListScreenPreferences pref;
+  final VisitHistory visitHistory;
 
   @override
   _VisitHistoryEditScreenState createState() => _VisitHistoryEditScreenState();
@@ -33,21 +34,22 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   @override
   void initState() {
     super.initState();
-    _initEmployees();
-    _initCategories();
-    _date = DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now()));
+    _initScreenState();
   }
 
   // [初期化：担当選択ドロップダウン用フィールド初期化]
-  _initEmployees() async {
+  _initScreenState() async {
+    if (widget.visitHistory == null) {
+      _date = DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now()));
+      _selectedCustomer = null;
+      _selectedEmployee = null;
+      _menus = List();
+    } else {
+      // TODO 編集時の初期化
+    }
     _employees = await database.allEmployees;
-    _selectedEmployee = _employees.isEmpty ? null : _employees[0];
-    setState(() {});
-  }
-
-  // [初期化：メニューカテゴリーリスト初期化]
-  _initCategories() async {
     _categories = await database.allMenuCategories;
+    setState(() {});
   }
 
   // [コールバック：日付欄タップ時]
