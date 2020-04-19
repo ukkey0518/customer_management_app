@@ -27,6 +27,9 @@ class VisitHistories extends Table {
   IntColumn get customerId => integer()();
   IntColumn get employeeId => integer()();
   TextColumn get menuIdsString => text()();
+
+  @override
+  Set<Column> get primaryKey => {id};
 }
 
 // [テーブル：売上データ(１アイテム毎)]
