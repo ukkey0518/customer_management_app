@@ -32,18 +32,6 @@ class VisitHistories extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-// [テーブル：売上データ(１アイテム毎)]
-class SoldItems extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  DateTimeColumn get date => dateTime()();
-  IntColumn get customerId => integer()();
-  IntColumn get employeeId => integer()();
-  IntColumn get menuId => integer()();
-
-  @override
-  Set<Column> get primaryKey => {id};
-}
-
 // [テーブル：メニューカテゴリデータ]
 @DataClassName('MenuCategory')
 class MenuCategories extends Table {
@@ -86,7 +74,6 @@ LazyDatabase _openConnection() {
 @UseMoor(tables: [
   Customers,
   VisitHistories,
-  SoldItems,
   MenuCategories,
   Menus,
   Employees,
@@ -159,50 +146,6 @@ class MyDatabase extends _$MyDatabase {
   // [削除：１件分の来店履歴を削除]
   Future deleteVisitHistory(VisitHistory visitHistory) =>
       (delete(visitHistories)..where((t) => t.id.equals(visitHistory.id))).go();
-
-  //
-  //
-  // -- SoldItems：売上項目１件毎のデータテーブル -----------------------------------
-  //
-  //
-
-  // [追加：１件分の売上データを追加]
-  Future<int> addSoldItem(SoldItem soldItem) =>
-      into(soldItems).insert(soldItem);
-
-  // [追加：複数の売上データを追加]
-  Future<void> addAllSoldItems(List<SoldItem> soldItemsList) async {
-    batch((batch) {
-      batch.insertAll(soldItems, soldItemsList);
-    });
-  }
-
-  // [取得：すべての売上データを取得]
-  Future<List<SoldItem>> get allSoldItems => select(soldItems).get();
-
-  // [取得：指定した日付の売上データを取得]
-  Future<List<SoldItem>> getSoldItemsByDay(DateTime date) =>
-      (select(soldItems)..where((t) => t.date.equals(date))).get();
-
-  // [取得：指定した顧客データの売上データを取得]
-  Future<List<SoldItem>> getSoldItemsByCustomer(Customer customer) =>
-      (select(soldItems)..where((t) => t.customerId.equals(customer.id))).get();
-
-  // [取得：指定したメニューの売上データを取得]
-  Future<List<SoldItem>> getSoldItemsByMenu(Menu menu) =>
-      (select(soldItems)..where((t) => t.menuId.equals(menu.id))).get();
-
-  // [取得：指定した担当者の売上データを取得]
-  Future<List<SoldItem>> getSoldItemsByEmployee(Employee employee) =>
-      (select(soldItems)..where((t) => t.employeeId.equals(employee.id))).get();
-
-  // [更新：１件分の売上データを更新]
-  Future updateSoldItem(SoldItem soldItem) =>
-      update(soldItems).replace(soldItem);
-
-  // [削除：１件分の売上データを削除]
-  Future deleteSoldItem(SoldItem salesItem) =>
-      (delete(soldItems)..where((t) => t.id.equals(salesItem.id))).go();
 
   //
   //

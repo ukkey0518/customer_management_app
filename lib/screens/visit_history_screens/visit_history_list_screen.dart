@@ -134,7 +134,6 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   // [コールバック：リストアイテム長押し時]
   // ・リスト＆DBからデータを削除
   _deleteVisitHistory(VisitHistory visitHistory) async {
-//TODO   await database.deleteMenuByIds(visitHistory.menuIdsString);
     await database.deleteVisitHistory(visitHistory);
     Toast.show('削除しました。', context);
   }
