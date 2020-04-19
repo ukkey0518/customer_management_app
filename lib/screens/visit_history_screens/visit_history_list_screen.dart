@@ -87,7 +87,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
 
   // [コールバック：FABタップ]
   // →売上データを登録する画面へ遷移する
-  _startVisitHistoryEditScreen() {
+  _editVisitHistory() {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -131,6 +131,23 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     }
   }
 
+  // [コールバック：リストアイテムタップ時]
+  // →売上データを登録する画面へ遷移する
+  _addVisitHistory(VisitHistory visitHistory) {
+    Navigator.pushReplacement(
+      context,
+      MyCustomRoute(
+        builder: (context) => VisitHistoryEditScreen(
+          VisitHistoryListScreenPreferences(
+            narrowState: _narrowState,
+            sortState: _sortState,
+          ),
+          visitHistory: visitHistory,
+        ),
+      ),
+    );
+  }
+
   // [コールバック：リストアイテム長押し時]
   // ・リスト＆DBからデータを削除
   _deleteVisitHistory(VisitHistory visitHistory) async {
@@ -147,7 +164,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         tooltip: '来店追加',
-        onPressed: () => _startVisitHistoryEditScreen(),
+        onPressed: () => _editVisitHistory(),
       ),
       drawer: MyDrawer(),
       body: Column(
@@ -255,6 +272,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         itemBuilder: (context, index) {
           return ListTile(
             title: Text(_visitHistoriesList[index].toString()),
+            onTap: () => _addVisitHistory(_visitHistoriesList[index]),
             onLongPress: () => _deleteVisitHistory(_visitHistoriesList[index]),
           );
         },
