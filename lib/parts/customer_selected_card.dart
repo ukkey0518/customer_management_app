@@ -1,4 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/src/inter_converter.dart';
+import 'package:customermanagementapp/styles.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 
@@ -26,9 +28,6 @@ class CustomerSelectedCard extends StatelessWidget {
 
   // [ウィジェット：customerに渡された情報を表示]
   Widget _mainPart() {
-    var diffDays = customer.birth == null
-        ? -1
-        : DateTime.now().difference(customer.birth).inDays;
     return Container(
       padding: EdgeInsets.all(12),
       child: Row(
@@ -52,7 +51,7 @@ class CustomerSelectedCard extends StatelessWidget {
               ],
             ),
           ),
-          Text('${diffDays < 0 ? '(誕生日未登録)' : '${(diffDays / 365).floor()}歳'}'),
+          Text('${InterConverter.getAgeFromBirthDay(customer.birth) ?? '?'}歳'),
         ],
       ),
     );
@@ -61,8 +60,7 @@ class CustomerSelectedCard extends StatelessWidget {
   // [ウィジェット：アイコン生成]
   // →性別でアイコンカラーが変わる
   Widget _getGenderIcon() {
-    var iconColor =
-        customer.isGenderFemale ? Colors.pinkAccent : Colors.blueAccent;
+    var iconColor = customer.isGenderFemale ? femaleIconColor : maleIconColor;
     return Icon(
       Icons.account_circle,
       color: iconColor,

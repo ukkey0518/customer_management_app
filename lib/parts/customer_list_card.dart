@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/src/inter_converter.dart';
+import 'package:customermanagementapp/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -64,8 +65,7 @@ class CustomerListCard extends StatelessWidget {
   // [ウィジェット：アイコン生成]
   // →性別でアイコンカラーが変わる
   Widget _getGenderIcon() {
-    var iconColor =
-        customer.isGenderFemale ? Colors.pinkAccent : Colors.blueAccent;
+    var iconColor = customer.isGenderFemale ? femaleIconColor : maleIconColor;
     return Icon(
       Icons.account_circle,
       color: iconColor,

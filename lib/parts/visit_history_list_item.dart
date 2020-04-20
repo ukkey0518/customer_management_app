@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/src/inter_converter.dart';
+import 'package:customermanagementapp/styles.dart';
 import 'package:flutter/material.dart';
 
 class VisitHistoryListItem extends StatelessWidget {
@@ -104,9 +105,7 @@ class VisitHistoryListItem extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8.0),
             child: Icon(
               Icons.account_circle,
-              color: customer.isGenderFemale
-                  ? Colors.pinkAccent
-                  : Colors.blueAccent,
+              color: customer.isGenderFemale ? femaleIconColor : maleIconColor,
             ),
           ),
           Column(
