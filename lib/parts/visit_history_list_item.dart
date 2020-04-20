@@ -54,6 +54,7 @@ class VisitHistoryListItem extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(16.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     _datePart(date),
                     Divider(),
@@ -79,7 +80,18 @@ class VisitHistoryListItem extends StatelessWidget {
   // [ウィジェット：日付欄]
   Widget _datePart(DateTime dateTime) {
     var dateStr = InterConverter.dateObjToStr(dateTime);
-    return Text(dateStr);
+    return Container(
+      decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: BorderRadius.all(
+            Radius.circular(30),
+          )),
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Text(
+        dateStr,
+        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
   }
 
   // [ウィジェット：顧客名表示欄]
