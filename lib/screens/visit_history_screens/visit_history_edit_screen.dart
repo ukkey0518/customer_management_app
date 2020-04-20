@@ -131,13 +131,28 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     _setAbsorbing(true);
   }
 
-  // [コールバック：画面終了時]
-  Future<bool> _finishEditScreen(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
-      MyCustomRoute(
-          builder: (context) => VisitHistoryListScreen(pref: widget.pref)),
-    );
+  // [コールバック：画面終了時の処理]
+  Future<bool> _finishEditScreen(BuildContext context) async {
+    if (_screenAbsorbing) {
+      Navigator.pushReplacement(
+        context,
+        MyCustomRoute(
+          builder: (context) => VisitHistoryListScreen(pref: widget.pref),
+        ),
+      );
+      return Future.value(false);
+    }
+    await showDialog(context: context, builder: (_) => _finishWarningDialog())
+        .then((flag) {
+      if (flag) {
+        Navigator.pushReplacement(
+          context,
+          MyCustomRoute(
+            builder: (context) => VisitHistoryListScreen(pref: widget.pref),
+          ),
+        );
+      }
+    });
     return Future.value(false);
   }
 
@@ -147,7 +162,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       onWillPop: () => _finishEditScreen(context),
       child: Scaffold(
         appBar: AppBar(
-          title: Text('来店情報の登録'),
+          title: Text('来店情報'),
           // 戻るボタン
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
@@ -443,6 +458,36 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  // [ダイアログ：編集中に画面を戻ろうとしたときのダイアログ]
+  Widget _finishWarningDialog() {
+    return AlertDialog(
+      title: const Text('ご注意ください'),
+      content: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            const Text('このまま画面を閉じると'),
+            const Text('保存されていないデータは失われます。'),
+            const Text('保存せずに終了しますか？'),
+          ],
+        ),
+      ),
+      actions: <Widget>[
+        FlatButton(
+          child: Text('キャンセル'),
+          onPressed: () {
+            Navigator.of(context).pop(false);
+          },
+        ),
+        FlatButton(
+          child: Text('保存せずに閉じる'),
+          onPressed: () {
+            Navigator.of(context).pop(true);
+          },
+        ),
+      ],
     );
   }
 }
