@@ -57,7 +57,12 @@ class VisitHistoryListItem extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    _datePart(date),
+                    Row(
+                      children: <Widget>[
+                        _datePart(date),
+                        _employeePart(employee),
+                      ],
+                    ),
                     SizedBox(height: 16),
                     _customerPart(customer),
                     Divider(),
@@ -91,6 +96,16 @@ class VisitHistoryListItem extends StatelessWidget {
       child: Text(
         dateStr,
         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      ),
+    );
+  }
+
+  // [ウィジェット：担当者表示欄]
+  Widget _employeePart(Employee employee) {
+    return Expanded(
+      child: Text(
+        '担当: ${employee.name}',
+        textAlign: TextAlign.end,
       ),
     );
   }
