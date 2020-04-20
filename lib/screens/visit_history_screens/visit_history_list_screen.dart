@@ -56,6 +56,9 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         _visitHistoriesList = await database.getVisitHistoriesByDay(
             DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
         break;
+      default:
+        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
+        _visitHistoriesList = await database.allVisitHistories;
     }
 
     // 並べ替え条件
@@ -68,6 +71,9 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
         _visitHistoriesList.sort((a, b) => b.id - a.id);
         break;
+      default:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+        _visitHistoriesList.sort((a, b) => a.id - b.id);
     }
     setState(() {});
   }

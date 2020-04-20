@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/customers_list_screens/customers_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
@@ -10,7 +11,7 @@ import 'package:toast/toast.dart';
 import 'customer_information_pages/customer_information_screen.dart';
 
 class CustomerEditScreen extends StatefulWidget {
-  final CustomersListScreenPreferences pref;
+  final ListScreenPreferences pref;
   final Customer customer;
   CustomerEditScreen(this.pref, {this.customer});
 

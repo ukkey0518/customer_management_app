@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_list_card.dart';
 import 'package:customermanagementapp/parts/my_drawer.dart';
@@ -9,11 +10,8 @@ import 'package:toast/toast.dart';
 
 import 'customer_information_pages/customer_information_screen.dart';
 
-enum NarrowState { ALL, FEMALE, MALE }
-enum SortState { REGISTER_NEW, REGISTER_OLD, NAME_FORWARD, NAME_REVERSE }
-
 class CustomersListScreen extends StatefulWidget {
-  final CustomersListScreenPreferences pref;
+  final ListScreenPreferences pref;
 
   CustomersListScreen({this.pref});
 
@@ -24,8 +22,8 @@ class CustomersListScreen extends StatefulWidget {
 class _CustomersListScreenState extends State<CustomersListScreen> {
   List<Customer> _customersList = List();
   TextEditingController _searchNameFieldController = TextEditingController();
-  NarrowState _narrowState = NarrowState.ALL;
-  SortState _sortState = SortState.REGISTER_OLD;
+  ListNarrowState _narrowState = ListNarrowState.ALL;
+  ListSortState _sortState = ListSortState.REGISTER_OLD;
   List<String> _narrowDropdownMenuItems = List();
   List<String> _sortDropdownMenuItems = List();
   String _narrowDropdownSelectedValue = '';
@@ -51,18 +49,21 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   _reloadCustomersList() async {
     // 絞り込み条件
     switch (_narrowState) {
-      case NarrowState.ALL:
+      case ListNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
         _customersList = await database.allCustomers;
         break;
-      case NarrowState.FEMALE:
+      case ListNarrowState.FEMALE:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
         _customersList = await database.femaleCustomers;
         break;
-      case NarrowState.MALE:
+      case ListNarrowState.MALE:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[2];
         _customersList = await database.maleCustomers;
         break;
+      default:
+        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
+        _customersList = await database.allCustomers;
     }
     // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {
@@ -73,34 +74,37 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     }
     // 並べ替え条件
     switch (_sortState) {
-      case SortState.REGISTER_OLD:
+      case ListSortState.REGISTER_OLD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
         _customersList.sort((a, b) => a.id - b.id);
         break;
-      case SortState.REGISTER_NEW:
+      case ListSortState.REGISTER_NEW:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
         _customersList.sort((a, b) => b.id - a.id);
         break;
-      case SortState.NAME_FORWARD:
+      case ListSortState.NAME_FORWARD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[2];
         _customersList.sort((a, b) => a.nameReading.compareTo(b.nameReading));
         break;
-      case SortState.NAME_REVERSE:
+      case ListSortState.NAME_REVERSE:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[3];
         _customersList.sort((a, b) => b.nameReading.compareTo(a.nameReading));
         break;
+      default:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+        _customersList.sort((a, b) => a.id - b.id);
     }
     setState(() {});
   }
 
   // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
-  _setNarrowState(NarrowState narrowState) {
+  _setNarrowState(ListNarrowState narrowState) {
     _narrowState = narrowState;
     _reloadCustomersList();
   }
 
   // [ソート状態変更：現在のソートステータスを変更して更新する]
-  _setSortState(SortState sortState) {
+  _setSortState(ListSortState sortState) {
     _sortState = sortState;
     _reloadCustomersList();
   }
@@ -257,7 +261,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
       context,
       MyCustomRoute(
         builder: (context) => CustomerEditScreen(
-          CustomersListScreenPreferences(
+          ListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
             searchWord: _searchNameFieldController.text,
@@ -274,7 +278,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
       context,
       MyCustomRoute(
         builder: (context) => CustomerInformationScreen(
-          CustomersListScreenPreferences(
+          ListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
             searchWord: _searchNameFieldController.text,
@@ -302,15 +306,15 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     switch (value) {
       case '女性のみ':
         // 女性のみデータを抽出
-        _setNarrowState(NarrowState.FEMALE);
+        _setNarrowState(ListNarrowState.FEMALE);
         break;
       case '男性のみ':
         // 男性のみデータを抽出
-        _setNarrowState(NarrowState.MALE);
+        _setNarrowState(ListNarrowState.MALE);
         break;
       default:
         // すべてのCustomerを抽出して更新
-        _setNarrowState(NarrowState.ALL);
+        _setNarrowState(ListNarrowState.ALL);
         break;
     }
   }
@@ -321,30 +325,20 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     switch (value) {
       case '登録順(新)':
         // 新規登録が新しい順に並び替え
-        _setSortState(SortState.REGISTER_NEW);
+        _setSortState(ListSortState.REGISTER_NEW);
         break;
       case '登録順(古)':
         // 新規登録が新しい順に並び替え
-        _setSortState(SortState.REGISTER_OLD);
+        _setSortState(ListSortState.REGISTER_OLD);
         break;
       case '名前順':
         // 名前順に並び替え
-        _setSortState(SortState.NAME_FORWARD);
+        _setSortState(ListSortState.NAME_FORWARD);
         break;
       case '名前逆順':
         // 名前逆順に並び替え
-        _setSortState(SortState.NAME_REVERSE);
+        _setSortState(ListSortState.NAME_REVERSE);
         break;
     }
   }
-}
-
-// HomeScreenの環境設定を保持するクラス
-class CustomersListScreenPreferences {
-  NarrowState narrowState;
-  SortState sortState;
-  String searchWord;
-
-  CustomersListScreenPreferences(
-      {this.narrowState, this.sortState, this.searchWord});
 }
