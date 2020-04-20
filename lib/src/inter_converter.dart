@@ -1,8 +1,6 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/main.dart';
 import 'package:intl/intl.dart';
 
 class InterConverter {
