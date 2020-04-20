@@ -57,7 +57,7 @@ class VisitHistoryListItem extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     _datePart(date),
-                    Divider(),
+                    SizedBox(height: 16),
                     _customerPart(customer),
                     Divider(),
                     Row(
@@ -96,30 +96,39 @@ class VisitHistoryListItem extends StatelessWidget {
 
   // [ウィジェット：顧客名表示欄]
   Widget _customerPart(Customer customer) {
-    return Row(
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Icon(
-            Icons.account_circle,
-            color:
-                customer.isGenderFemale ? Colors.pinkAccent : Colors.blueAccent,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Icon(
+              Icons.account_circle,
+              color: customer.isGenderFemale
+                  ? Colors.pinkAccent
+                  : Colors.blueAccent,
+            ),
           ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              customer.nameReading,
-              style: TextStyle(fontSize: 12, color: Colors.grey),
-            ),
-            Text(
-              '${customer.name} 様',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ],
-        ),
-      ],
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Text(
+                customer.nameReading,
+                style: TextStyle(fontSize: 12, color: Colors.grey),
+              ),
+              Text(
+                '${customer.name} 様',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+              ),
+            ],
+          ),
+          Expanded(
+              child: Text(
+            '${InterConverter.getAgeFromBirthDay(customer.birth) ?? '?'} 歳',
+            textAlign: TextAlign.end,
+          )),
+        ],
+      ),
     );
   }
 
