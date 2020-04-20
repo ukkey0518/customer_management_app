@@ -88,4 +88,14 @@ class InterConverter {
     // DataTime解析後オブジェクト化して返す
     return DateTime.parse(parseStr);
   }
+
+  // [変換：誕生日から年齢を取得する]
+  static int getAgeFromBirthDay(DateTime birthDay) {
+    // 引数がnullの場合はnullを返す
+    if (birthDay == null) return null;
+
+    var diffDays = DateTime.now().difference(birthDay).inDays;
+    var age = (diffDays / 365).floor();
+    return age;
+  }
 }

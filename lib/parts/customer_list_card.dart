@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -34,9 +35,6 @@ class CustomerListCard extends StatelessWidget {
 
   // [ウィジェット：基本情報表示部分]
   Widget _basicInformationPart() {
-    var diffDays = customer.birth == null
-        ? -1
-        : DateTime.now().difference(customer.birth).inDays;
     return Row(
       children: <Widget>[
         Padding(
@@ -58,7 +56,7 @@ class CustomerListCard extends StatelessWidget {
             ],
           ),
         ),
-        Text('${diffDays < 0 ? '(誕生日未登録)' : '${(diffDays / 365).floor()}歳'}'),
+        Text('${InterConverter.getAgeFromBirthDay(customer.birth) ?? '?'} 歳'),
       ],
     );
   }
