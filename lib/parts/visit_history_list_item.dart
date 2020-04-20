@@ -66,13 +66,7 @@ class VisitHistoryListItem extends StatelessWidget {
                     SizedBox(height: 16),
                     _customerPart(customer),
                     Divider(),
-                    Row(
-                      children: <Widget>[
-                        _categoriesPart(categoryColors),
-                        _pricePart(menus),
-                      ],
-                    ),
-                    Divider(),
+                    _menuPart(categoryColors, menus),
                   ],
                 ),
               ),
@@ -149,20 +143,33 @@ class VisitHistoryListItem extends StatelessWidget {
   }
 
   // [ウィジェット：カテゴリアイコン表示パート]
-  Widget _categoriesPart(List<Color> categoryColors) {
+  Widget _menuPart(List<Color> categoryColors, List<Menu> menus) {
     var icons = categoryColors
         .map<Icon>((color) => Icon(Icons.category, color: color))
         .toList();
-    return Wrap(
-      direction: Axis.horizontal,
-      children: icons,
-    );
-  }
-
-  // [ウィジェット：価格表示部分]
-  Widget _pricePart(List<Menu> menus) {
     var sumPrice = menus.map((menu) => menu.price).reduce((a, b) => a + b);
     var priceStr = InterConverter.intToPriceString(sumPrice);
-    return Text(priceStr);
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Row(
+        children: <Widget>[
+          Expanded(
+            flex: 4,
+            child: Wrap(
+              direction: Axis.horizontal,
+              children: icons,
+            ),
+          ),
+          Expanded(
+              flex: 6,
+              child: Text(
+                priceStr,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.end,
+              )),
+        ],
+      ),
+    );
   }
 }
