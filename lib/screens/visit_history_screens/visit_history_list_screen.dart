@@ -165,7 +165,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('来店記録一覧'),
+        title: const Text('来店履歴リスト'),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

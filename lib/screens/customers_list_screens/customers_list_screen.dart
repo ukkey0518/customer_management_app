@@ -113,7 +113,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('顧客管理アプリ'),
+        title: const Text('顧客リスト'),
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),

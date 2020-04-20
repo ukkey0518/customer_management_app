@@ -44,7 +44,7 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             leading: Icon(Icons.shopping_cart),
-            title: Text('来店記録一覧'),
+            title: Text('来店履歴リスト'),
             onTap: () {
               Navigator.of(context).pop();
               Navigator.pushReplacement(

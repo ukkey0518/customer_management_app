@@ -10,7 +10,7 @@ class MainSettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('各種設定画面'),
+        title: const Text('各種設定'),
       ),
       drawer: MyDrawer(),
       body: ListView(
