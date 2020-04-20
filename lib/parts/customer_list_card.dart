@@ -48,11 +48,11 @@ class CustomerListCard extends StatelessWidget {
             children: <Widget>[
               Text(
                 '${customer.nameReading}',
-                style: TextStyle(fontSize: 12),
+                style: Styles.nameReadingStyle,
               ),
               Text(
                 '${customer.name} 様',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: Styles.nameStyle,
               ),
             ],
           ),
@@ -65,7 +65,8 @@ class CustomerListCard extends StatelessWidget {
   // [ウィジェット：アイコン生成]
   // →性別でアイコンカラーが変わる
   Widget _getGenderIcon() {
-    var iconColor = customer.isGenderFemale ? femaleIconColor : maleIconColor;
+    var iconColor =
+        customer.isGenderFemale ? Styles.femaleIconColor : Styles.maleIconColor;
     return Icon(
       Icons.account_circle,
       color: iconColor,

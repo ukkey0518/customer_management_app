@@ -105,7 +105,9 @@ class VisitHistoryListItem extends StatelessWidget {
             padding: const EdgeInsets.only(right: 8.0),
             child: Icon(
               Icons.account_circle,
-              color: customer.isGenderFemale ? femaleIconColor : maleIconColor,
+              color: customer.isGenderFemale
+                  ? Styles.femaleIconColor
+                  : Styles.maleIconColor,
             ),
           ),
           Column(
@@ -113,11 +115,11 @@ class VisitHistoryListItem extends StatelessWidget {
             children: <Widget>[
               Text(
                 customer.nameReading,
-                style: TextStyle(fontSize: 12, color: Colors.grey),
+                style: Styles.nameReadingStyle,
               ),
               Text(
                 '${customer.name} 様',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                style: Styles.nameStyle,
               ),
             ],
           ),
