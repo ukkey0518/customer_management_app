@@ -96,10 +96,29 @@ class VisitHistoryListItem extends StatelessWidget {
 
   // [ウィジェット：顧客名表示欄]
   Widget _customerPart(Customer customer) {
-    return Column(
+    return Row(
       children: <Widget>[
-        Text(customer.nameReading),
-        Text(customer.name),
+        Padding(
+          padding: const EdgeInsets.only(right: 8.0),
+          child: Icon(
+            Icons.account_circle,
+            color:
+                customer.isGenderFemale ? Colors.pinkAccent : Colors.blueAccent,
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              customer.nameReading,
+              style: TextStyle(fontSize: 12, color: Colors.grey),
+            ),
+            Text(
+              '${customer.name} 様',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          ],
+        ),
       ],
     );
   }
