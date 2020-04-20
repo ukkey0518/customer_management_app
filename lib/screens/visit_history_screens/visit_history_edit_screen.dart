@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/customer_selected_card.dart';
 import 'package:customermanagementapp/screens/visit_history_screens/select_screens/menu_select_screen.dart';
@@ -15,7 +16,7 @@ import 'visit_history_list_screen.dart';
 class VisitHistoryEditScreen extends StatefulWidget {
   VisitHistoryEditScreen(this.pref, {this.visitHistory});
 
-  final VisitHistoryListScreenPreferences pref;
+  final ListScreenPreferences pref;
   final VisitHistory visitHistory;
 
   @override

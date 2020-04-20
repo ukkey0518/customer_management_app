@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/my_drawer.dart';
 import 'package:customermanagementapp/parts/visit_history_list_item.dart';
@@ -9,11 +10,8 @@ import 'package:toast/toast.dart';
 
 import 'visit_history_edit_screen.dart';
 
-enum VisitHistoryListNarrowState { ALL, TODAY }
-enum VisitHistoryListSortState { REGISTER_NEW, REGISTER_OLD }
-
 class VisitHistoryListScreen extends StatefulWidget {
-  final VisitHistoryListScreenPreferences pref;
+  final ListScreenPreferences pref;
 
   VisitHistoryListScreen({this.pref});
 
@@ -23,8 +21,8 @@ class VisitHistoryListScreen extends StatefulWidget {
 
 class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   List<VisitHistory> _visitHistoriesList = List();
-  VisitHistoryListNarrowState _narrowState = VisitHistoryListNarrowState.ALL;
-  VisitHistoryListSortState _sortState = VisitHistoryListSortState.REGISTER_OLD;
+  ListNarrowState _narrowState = ListNarrowState.ALL;
+  ListSortState _sortState = ListSortState.REGISTER_OLD;
   List<String> _narrowDropdownMenuItems = List();
   List<String> _sortDropdownMenuItems = List();
   String _narrowDropdownSelectedValue = '';
@@ -49,11 +47,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   _reloadVisitHistoryList() async {
     // 絞り込み条件
     switch (_narrowState) {
-      case VisitHistoryListNarrowState.ALL:
+      case ListNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
         _visitHistoriesList = await database.allVisitHistories;
         break;
-      case VisitHistoryListNarrowState.TODAY:
+      case ListNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
         _visitHistoriesList = await database.getVisitHistoriesByDay(
             DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
@@ -62,11 +60,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
 
     // 並べ替え条件
     switch (_sortState) {
-      case VisitHistoryListSortState.REGISTER_OLD:
+      case ListSortState.REGISTER_OLD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
         _visitHistoriesList.sort((a, b) => a.id - b.id);
         break;
-      case VisitHistoryListSortState.REGISTER_NEW:
+      case ListSortState.REGISTER_NEW:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
         _visitHistoriesList.sort((a, b) => b.id - a.id);
         break;
@@ -75,13 +73,13 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   }
 
   // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
-  _setNarrowState(VisitHistoryListNarrowState narrowState) {
+  _setNarrowState(ListNarrowState narrowState) {
     _narrowState = narrowState;
     _reloadVisitHistoryList();
   }
 
   // [ソート状態変更：現在のソートステータスを変更して更新する]
-  _setSortState(VisitHistoryListSortState sortState) {
+  _setSortState(ListSortState sortState) {
     _sortState = sortState;
     _reloadVisitHistoryList();
   }
@@ -93,7 +91,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       context,
       MyCustomRoute(
         builder: (context) => VisitHistoryEditScreen(
-          VisitHistoryListScreenPreferences(
+          ListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
           ),
@@ -108,11 +106,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     switch (value) {
       case '今日':
         // 今日の売上データを抽出
-        _setNarrowState(VisitHistoryListNarrowState.TODAY);
+        _setNarrowState(ListNarrowState.TODAY);
         break;
       default:
         // すべての売上データを抽出して更新
-        _setNarrowState(VisitHistoryListNarrowState.ALL);
+        _setNarrowState(ListNarrowState.ALL);
         break;
     }
   }
@@ -123,11 +121,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     switch (value) {
       case '登録順(新)':
         // 新規登録が新しい順に並び替え
-        _setSortState(VisitHistoryListSortState.REGISTER_NEW);
+        _setSortState(ListSortState.REGISTER_NEW);
         break;
       case '登録順(古)':
         // 新規登録が新しい順に並び替え
-        _setSortState(VisitHistoryListSortState.REGISTER_OLD);
+        _setSortState(ListSortState.REGISTER_OLD);
         break;
     }
   }
@@ -139,7 +137,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       context,
       MyCustomRoute(
         builder: (context) => VisitHistoryEditScreen(
-          VisitHistoryListScreenPreferences(
+          ListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
           ),
@@ -284,12 +282,4 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       ),
     );
   }
-}
-
-// HomeScreenの環境設定を保持するクラス
-class VisitHistoryListScreenPreferences {
-  VisitHistoryListNarrowState narrowState;
-  VisitHistoryListSortState sortState;
-
-  VisitHistoryListScreenPreferences({this.narrowState, this.sortState});
 }
