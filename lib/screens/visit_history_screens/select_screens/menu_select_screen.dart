@@ -137,11 +137,13 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
               _selectedMenuListHeader(),
               Divider(),
               Expanded(
-                child: ListView.builder(
-                  itemCount: _selectedMenus.length,
-                  itemBuilder: (context, index) {
-                    return _selectedMenuListItem(index);
-                  },
+                child: Scrollbar(
+                  child: ListView.builder(
+                    itemCount: _selectedMenus.length,
+                    itemBuilder: (context, index) {
+                      return _selectedMenuListItem(index);
+                    },
+                  ),
                 ),
               ),
             ],

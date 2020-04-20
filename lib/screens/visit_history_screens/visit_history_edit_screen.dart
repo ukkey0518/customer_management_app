@@ -414,46 +414,48 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
           ),
           _divider(indent: 8),
           Expanded(
-            child: ListView.builder(
-              itemCount: _menus.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8),
-                  child: Row(
-                    children: <Widget>[
-                      Icon(
-                        Icons.import_contacts,
-                        color: _categories.isEmpty
-                            ? null
-                            : Color(_categories
-                                .where((category) =>
-                                    category.id ==
-                                    InterConverter.jsonToMenuCategory(
-                                            _menus[index].menuCategoryJson)
-                                        .id)
-                                .single
-                                .color),
-                      ),
-                      SizedBox(width: 16),
-                      Expanded(
-                        child: Text(
-                          _menus[index].name,
+            child: Scrollbar(
+              child: ListView.builder(
+                itemCount: _menus.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0, vertical: 8),
+                    child: Row(
+                      children: <Widget>[
+                        Icon(
+                          Icons.import_contacts,
+                          color: _categories.isEmpty
+                              ? null
+                              : Color(_categories
+                                  .where((category) =>
+                                      category.id ==
+                                      InterConverter.jsonToMenuCategory(
+                                              _menus[index].menuCategoryJson)
+                                          .id)
+                                  .single
+                                  .color),
+                        ),
+                        SizedBox(width: 16),
+                        Expanded(
+                          child: Text(
+                            _menus[index].name,
+                            style: TextStyle(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ),
+                        Text(
+                          '${InterConverter.intToPriceString(_menus[index].price)}',
                           style: TextStyle(
                             fontSize: 16,
                           ),
-                        ),
-                      ),
-                      Text(
-                        '${InterConverter.intToPriceString(_menus[index].price)}',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      )
-                    ],
-                  ),
-                );
-              },
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
           ),
         ],
