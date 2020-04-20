@@ -32,6 +32,8 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   List<MenuCategory> _categories = List();
   List<Menu> _menus = List();
 
+  bool _screenAbsorbing = true;
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +47,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       _selectedCustomer = null;
       _selectedEmployee = null;
       _menus = List();
+      _screenAbsorbing = false;
     } else {
       _date = widget.visitHistory.date;
       _selectedCustomer =
@@ -56,6 +59,13 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     _employees = await database.allEmployees;
     _categories = await database.allMenuCategories;
     setState(() {});
+  }
+
+  // [更新：編集モードと閲覧モードを切り替える]
+  _setAbsorbing(bool flag) {
+    setState(() {
+      _screenAbsorbing = flag;
+    });
   }
 
   // [コールバック：日付欄タップ時]
@@ -117,8 +127,8 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     await database.addVisitHistory(visitHistory);
     // 完了メッセージ表示
     Toast.show('保存しました。', context);
-    // 画面を終了
-    _finishEditScreen(context);
+    // 閲覧モードにする
+    _setAbsorbing(true);
   }
 
   // [コールバック：画面終了時]
@@ -144,18 +154,14 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             onPressed: () => _finishEditScreen(context),
           ),
           actions: <Widget>[
-            // 保存ボタン
-            IconButton(
-              icon: Icon(Icons.save),
-              onPressed: () => _saveSingleVisitHistory(),
-            ),
+            _actionButtonPart(),
           ],
         ),
         body: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              SizedBox(height: 30),
+              _showModePart(),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: const Text('お客様情報', style: TextStyle(fontSize: 20)),
@@ -187,6 +193,46 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         ),
       ),
     );
+  }
+
+  // [ウィジェット：閲覧、編集アイコンテキスト部分]
+  Widget _showModePart() {
+    var text;
+    var color;
+    if (_screenAbsorbing) {
+      text = '閲覧モード';
+      color = Theme.of(context).primaryColorLight;
+    } else {
+      text = '編集モード';
+      color = Colors.amber;
+    }
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Container(
+        alignment: Alignment.center,
+        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(30)),
+          color: color,
+        ),
+        child: Text(text),
+      ),
+    );
+  }
+
+  // [ウィジェット：アクションボタン]
+  Widget _actionButtonPart() {
+    if (_screenAbsorbing) {
+      return IconButton(
+        icon: Icon(Icons.edit),
+        onPressed: () => _setAbsorbing(false),
+      );
+    } else {
+      return IconButton(
+        icon: Icon(Icons.save),
+        onPressed: () => _saveSingleVisitHistory(),
+      );
+    }
   }
 
   // [ウィジェット：区切り線スタイル]
@@ -236,20 +282,23 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       title: '顧客',
       content: CustomerSelectedCard(
         customer: _selectedCustomer,
-        onTap: () {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) => CustomerSelectScreen(),
-                  fullscreenDialog: true,
-                ),
-              )
-              .then(
-                (newCustomer) => setState(
-                  () => _selectedCustomer = newCustomer ?? _selectedCustomer,
-                ),
-              );
-        },
+        onTap: _screenAbsorbing
+            ? null
+            : () {
+                Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
+                        builder: (context) => CustomerSelectScreen(),
+                        fullscreenDialog: true,
+                      ),
+                    )
+                    .then(
+                      (newCustomer) => setState(
+                        () => _selectedCustomer =
+                            newCustomer ?? _selectedCustomer,
+                      ),
+                    );
+              },
         onLongPress: null,
       ),
     );
@@ -257,10 +306,14 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
 
   // [ウィジェット：日付入力欄]
   Widget _dateInputPart() {
-    return _inputPartBuilder(
-      icon: Icon(Icons.calendar_today),
-      title: '日付',
-      content: InkWell(
+    var content;
+    if (_screenAbsorbing) {
+      content = Text(
+        '${_dateFormatter.format(_date)}',
+        style: TextStyle(fontSize: 16),
+      );
+    } else {
+      content = InkWell(
         onTap: _showDateSelectPicker,
         child: Row(
           children: <Widget>[
@@ -273,16 +326,25 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             Icon(Icons.chevron_right),
           ],
         ),
-      ),
+      );
+    }
+    return _inputPartBuilder(
+      icon: Icon(Icons.calendar_today),
+      title: '日付',
+      content: content,
     );
   }
 
   // [ウィジェット：担当入力欄]
   Widget _employeeInputPart() {
-    return _inputPartBuilder(
-      icon: Icon(Icons.supervisor_account),
-      title: '担当',
-      content: DropdownButton<Employee>(
+    var content;
+    if (_screenAbsorbing) {
+      content = Text(
+        _selectedEmployee?.name ?? '',
+        style: TextStyle(fontSize: 16),
+      );
+    } else {
+      content = DropdownButton<Employee>(
         isDense: true,
         isExpanded: true,
         value: _selectedEmployee,
@@ -302,14 +364,16 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             child: Text(employee.name),
           );
         }).toList(),
-      ),
-    );
+      );
+    }
+    return _inputPartBuilder(
+        icon: Icon(Icons.supervisor_account), title: '担当', content: content);
   }
 
   // [ウィジェット：メニュー選択部分]
   Widget _menuInputPart() {
     return InkWell(
-      onTap: () => _startMenuSelectScreen(),
+      onTap: _screenAbsorbing ? null : () => _startMenuSelectScreen(),
       child: Column(
         children: <Widget>[
           Padding(
