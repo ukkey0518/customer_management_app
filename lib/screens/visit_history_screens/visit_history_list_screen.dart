@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/parts/my_drawer.dart';
+import 'package:customermanagementapp/parts/visit_history_list_item.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -87,7 +88,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
 
   // [コールバック：FABタップ]
   // →売上データを登録する画面へ遷移する
-  _editVisitHistory() {
+  _addVisitHistory() {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -133,7 +134,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
 
   // [コールバック：リストアイテムタップ時]
   // →売上データを登録する画面へ遷移する
-  _addVisitHistory(VisitHistory visitHistory) {
+  _editVisitHistory(VisitHistory visitHistory) {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -165,7 +166,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         tooltip: '来店追加',
-        onPressed: () => _editVisitHistory(),
+        onPressed: () => _addVisitHistory(),
       ),
       drawer: MyDrawer(),
       body: Column(
@@ -271,10 +272,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     return Expanded(
       child: ListView.separated(
         itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(_visitHistoriesList[index].toString()),
-            onTap: () => _addVisitHistory(_visitHistoriesList[index]),
-            onLongPress: () => _deleteVisitHistory(_visitHistoriesList[index]),
+          var item = _visitHistoriesList[index];
+          return VisitHistoryListItem(
+            visitHistory: item,
+            onTap: () => _editVisitHistory(item),
+            onLongPress: () => _deleteVisitHistory(item),
           );
         },
         separatorBuilder: (context, index) => Divider(),
