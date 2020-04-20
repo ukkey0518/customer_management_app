@@ -1,7 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class VisitHistoryListItem extends StatelessWidget {
   VisitHistoryListItem(
@@ -23,12 +22,15 @@ class VisitHistoryListItem extends StatelessWidget {
     var employee = InterConverter.jsonToEmployee(visitHistory.employeeJson);
     // 提供メニューリスト
     var menus = InterConverter.jsonToMenuList(visitHistory.menuListJson);
-    // 提供メニュー＆カテゴリカラーMap
-    var menuAndColors;
-    menus.forEach((menu) {
-      var category = InterConverter.jsonToMenuCategory(menu.menuCategoryJson);
-      menuAndColors[menu] = Color(category.color);
-    });
+    // カテゴリカラーリスト(重複を排除したもの)
+    var categoryColors = menus
+        .map<Color>((menu) {
+          var category =
+              InterConverter.jsonToMenuCategory(menu.menuCategoryJson);
+          return Color(category.color);
+        })
+        .toSet()
+        .toList();
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
@@ -40,14 +42,14 @@ class VisitHistoryListItem extends StatelessWidget {
             padding: EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
-//                _datePart(date),
+                _datePart(date),
                 Divider(),
-//                _customerPart(customer),
+                _customerPart(customer),
                 Divider(),
                 Row(
                   children: <Widget>[
-//                    _categoriesPart(menuAndColors),
-//                    _pricePart(),
+                    _categoriesPart(categoryColors),
+                    _pricePart(menus),
                   ],
                 ),
                 Divider(),
@@ -61,35 +63,35 @@ class VisitHistoryListItem extends StatelessWidget {
 
   // [ウィジェット：日付欄]
   Widget _datePart(DateTime dateTime) {
-//    var dateStr = DateFormat('yyyy/M/d(E)').format(dateTime);
-//    return Text(dateStr);
+    var dateStr = InterConverter.dateObjToStr(dateTime);
+    return Text(dateStr);
   }
 
   // [ウィジェット：顧客名表示欄]
   Widget _customerPart(Customer customer) {
-//    return Column(
-//      children: <Widget>[
-//        Text(customer.nameReading),
-//        Text(customer.name),
-//      ],
-//    );
+    return Column(
+      children: <Widget>[
+        Text(customer.nameReading),
+        Text(customer.name),
+      ],
+    );
   }
 
   // [ウィジェット：カテゴリアイコン表示パート]
-  Widget _categoriesPart(Map<Menu, Color> menuAndColors) {
-//    var icons = categoryColors
-//        .map<Icon>((color) => Icon(Icons.category, color: color))
-//        .toList();
-//    return Wrap(
-//      direction: Axis.horizontal,
-//      children: icons,
-//    );
+  Widget _categoriesPart(List<Color> categoryColors) {
+    var icons = categoryColors
+        .map<Icon>((color) => Icon(Icons.category, color: color))
+        .toList();
+    return Wrap(
+      direction: Axis.horizontal,
+      children: icons,
+    );
   }
 
   // [ウィジェット：価格表示部分]
-//  Widget _pricePart(List<Menu> menus) {
-//    var sumPrice = menus.map((menu) => menu.price).reduce((a, b) => a + b);
-//    var priceStr = InterConverter.intToPriceString(sumPrice);
-//    return Text(priceStr);
-//  }
+  Widget _pricePart(List<Menu> menus) {
+    var sumPrice = menus.map((menu) => menu.price).reduce((a, b) => a + b);
+    var priceStr = InterConverter.intToPriceString(sumPrice);
+    return Text(priceStr);
+  }
 }
