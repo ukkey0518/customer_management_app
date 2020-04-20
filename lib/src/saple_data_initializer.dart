@@ -52,6 +52,9 @@ class SampleDataInitializer {
     MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value),
     MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value),
     MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value),
+    MenuCategory(id: 4, name: 'カテゴリD', color: Colors.amber.value),
+    MenuCategory(id: 5, name: 'カテゴリE', color: Colors.deepPurpleAccent.value),
+    MenuCategory(id: 6, name: 'カテゴリF', color: Colors.tealAccent.value),
   ];
 
   // [初期データ：メニュー]
@@ -118,6 +121,27 @@ class SampleDataInitializer {
       price: 9000,
       menuCategoryJson: InterConverter.menuCategoryToJson(
           MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)),
+    ),
+    Menu(
+      id: 10,
+      name: 'メニュー10',
+      price: 10000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 4, name: 'カテゴリD', color: Colors.amber.value)),
+    ),
+    Menu(
+      id: 11,
+      name: 'メニュー11',
+      price: 11000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(MenuCategory(
+          id: 5, name: 'カテゴリE', color: Colors.deepPurpleAccent.value)),
+    ),
+    Menu(
+      id: 12,
+      name: 'メニュー12',
+      price: 12000,
+      menuCategoryJson: InterConverter.menuCategoryToJson(
+          MenuCategory(id: 6, name: 'カテゴリF', color: Colors.tealAccent.value)),
     ),
   ];
 
