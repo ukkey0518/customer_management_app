@@ -62,8 +62,8 @@ class InterConverter {
 
   // [変換：数値を金額文字列へ]
   static String intToPriceString(int price) {
-    final formatter = NumberFormat('#,###,###');
-    return formatter.format(price);
+    final formatStr = NumberFormat('#,###,###').format(price);
+    return '\¥ $formatStr';
   }
 
   // [変換：DateTime -> 表示用日付文字列]

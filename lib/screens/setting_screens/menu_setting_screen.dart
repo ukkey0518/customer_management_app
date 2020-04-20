@@ -195,7 +195,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
                         ),
                       ),
                       Text(
-                        '\¥${intToPriceString(menus[index].price)}',
+                        '${intToPriceString(menus[index].price)}',
                         style: TextStyle(
                           fontSize: 16,
                         ),

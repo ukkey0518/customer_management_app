@@ -319,8 +319,8 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 Text('合計：', style: TextStyle(fontSize: 16)),
                 Text(
                   _menus.isEmpty
-                      ? '\¥0'
-                      : '\¥${InterConverter.intToPriceString(_menus.reduce(
+                      ? '0'
+                      : '${InterConverter.intToPriceString(_menus.reduce(
                             (a, b) => Menu(
                                 id: null,
                                 name: null,
@@ -365,7 +365,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                         ),
                       ),
                       Text(
-                        '\¥${InterConverter.intToPriceString(_menus[index].price)}',
+                        '${InterConverter.intToPriceString(_menus[index].price)}',
                         style: TextStyle(
                           fontSize: 16,
                         ),
