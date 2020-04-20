@@ -17,15 +17,13 @@ class InterConverter {
   }
 
   // [変換：JSON文字列からList<Menu>へ]
-  static Stream<Menu> jsonToMenuList(String json) async* {
-    var menus = await database.allMenus;
-    var menuJsonStrLists = json.split('%');
-    for (int i = 0; i <= menuJsonStrLists.length - 1; i++) {
-      var jsonMap = JsonCodec().decode(menuJsonStrLists[i]);
-      var menu =
-          menus.singleWhere((menu) => menu.id == Menu.fromJson(jsonMap).id);
-      yield menu;
-    }
+  static List<Menu> jsonToMenuList(String json) {
+    var menuJsonList = json.split('%');
+    var menuList = menuJsonList.map<Menu>((jsonStr) {
+      var jsonMap = JsonCodec().decode(jsonStr);
+      return Menu.fromJson(jsonMap);
+    }).toList();
+    return menuList;
   }
 
   // [変換：JSON文字列 -> Customer]

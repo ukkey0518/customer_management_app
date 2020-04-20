@@ -50,9 +50,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
           InterConverter.jsonToCustomer(widget.visitHistory.customerJson);
       _selectedEmployee =
           InterConverter.jsonToEmployee(widget.visitHistory.employeeJson);
-      _menus =
-          await InterConverter.jsonToMenuList(widget.visitHistory.menuListJson)
-              .toList();
+      _menus = InterConverter.jsonToMenuList(widget.visitHistory.menuListJson);
     }
     _employees = await database.allEmployees;
     _categories = await database.allMenuCategories;
