@@ -34,26 +34,41 @@ class VisitHistoryListItem extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
-      child: Card(
-        child: InkWell(
-          onTap: onTap,
-          onLongPress: onLongPress,
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            child: Column(
-              children: <Widget>[
-                _datePart(date),
-                Divider(),
-                _customerPart(customer),
-                Divider(),
-                Row(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Container(
+          decoration: BoxDecoration(
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 5,
+                spreadRadius: -5,
+                offset: Offset(5, 5),
+              ),
+            ],
+          ),
+          child: Card(
+            child: InkWell(
+              onTap: onTap,
+              onLongPress: onLongPress,
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                child: Column(
                   children: <Widget>[
-                    _categoriesPart(categoryColors),
-                    _pricePart(menus),
+                    _datePart(date),
+                    Divider(),
+                    _customerPart(customer),
+                    Divider(),
+                    Row(
+                      children: <Widget>[
+                        _categoriesPart(categoryColors),
+                        _pricePart(menus),
+                      ],
+                    ),
+                    Divider(),
                   ],
                 ),
-                Divider(),
-              ],
+              ),
             ),
           ),
         ),
