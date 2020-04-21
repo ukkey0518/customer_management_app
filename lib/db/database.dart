@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';
@@ -141,6 +142,17 @@ class MyDatabase extends _$MyDatabase {
   // [取得：すべての来店履歴を取得]
   Future<List<VisitHistory>> get allVisitHistories =>
       select(visitHistories).get();
+
+  // [取得：指定した顧客の来店履歴を取得]
+  Future<List<VisitHistory>> getVisitHistoriesByCustomer(Customer customer) {
+    return (select(visitHistories)
+          ..where(
+            (t) => t.customerJson.equals(
+              InterConverter.customerToJson(customer),
+            ),
+          ))
+        .get();
+  }
 
   // [取得：指定した日付の来店履歴を取得]
   Future<List<VisitHistory>> getVisitHistoriesByDay(DateTime date) =>

@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
+//import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/screens/customers_list_screens/customers_list_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
@@ -21,6 +22,7 @@ class CustomerInformationScreen extends StatefulWidget {
 
 class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   Customer _customer;
+//  List<VisitHistory> _visitHistories;
   ListScreenPreferences _pref;
   final _tabs = <Tab>[
     Tab(text: '基本情報', icon: Icon(Icons.account_circle)),
@@ -32,7 +34,14 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
     super.initState();
     _customer = widget.customer;
     _pref = widget.pref;
+//    _initVisitHistories();
   }
+
+  // [初期化：対象顧客の来店データを取得]
+//  _initVisitHistories() async {
+//    _visitHistories = await database.getVisitHistoriesByCustomer(_customer);
+//    print(_visitHistories);
+//  }
 
   @override
   Widget build(BuildContext context) {
