@@ -1,6 +1,5 @@
-import 'package:customermanagementapp/parts/my_drawer.dart';
+import 'package:customermanagementapp/components/my_drawer.dart';
 import 'package:customermanagementapp/screens/setting_screens/employee_setting_screen.dart';
-import 'package:customermanagementapp/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'menu_setting_screen.dart';

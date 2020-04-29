@@ -1,8 +1,8 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/parts/my_drawer.dart';
-import 'package:customermanagementapp/parts/visit_history_list_item.dart';
+import 'package:customermanagementapp/components/my_drawer.dart';
+import 'package:customermanagementapp/components/visit_history_list_item.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
