@@ -150,7 +150,6 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     );
   }
 
-
   // [ウィジェット：ソートメニュー部分]
   Widget _sortMenuPart() {
     return Padding(
