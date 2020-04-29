@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_setting_screen.dart';
-import 'package:customermanagementapp/src/inter_converter.dart';
+import 'package:customermanagementapp/util/inter_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 

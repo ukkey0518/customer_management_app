@@ -3,7 +3,7 @@ import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/visit_history_list_item.dart';
-import 'package:customermanagementapp/src/my_custom_route.dart';
+import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';

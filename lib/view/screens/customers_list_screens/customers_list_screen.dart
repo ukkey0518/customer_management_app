@@ -4,7 +4,7 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/customer_list_card.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/screens/customers_list_screens/customer_edit_screen.dart';
-import 'package:customermanagementapp/src/my_custom_route.dart';
+import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 

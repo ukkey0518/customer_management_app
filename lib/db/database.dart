@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:customermanagementapp/src/inter_converter.dart';
+import 'package:customermanagementapp/util/inter_converter.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';

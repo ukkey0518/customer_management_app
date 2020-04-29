@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/src/inter_converter.dart';
+import 'package:customermanagementapp/util/inter_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
 

@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/src/inter_converter.dart';
+import 'package:customermanagementapp/util/inter_converter.dart';
 import 'package:customermanagementapp/styles.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
