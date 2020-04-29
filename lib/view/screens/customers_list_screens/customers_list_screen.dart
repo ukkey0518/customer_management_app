@@ -128,12 +128,16 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             customers: _customersList,
             searchNameController: _searchNameFieldController,
             onChanged: (_) => _reloadCustomersList(),
-            narrowMenuPart: NarrowDropDownButton(
+            narrowMenuPart: NarrowDropDownMenu(
               items: _narrowDropdownMenuItems,
               selectedValue: _narrowDropdownSelectedValue,
               onSelected: (value) => _narrowMenuSelected(value),
             ),
-            sortMenuPart: _sortMenuPart(),
+            sortMenuPart: SortDropDownMenu(
+              items: _sortDropdownMenuItems,
+              selectedValue: _sortDropdownSelectedValue,
+              onSelected: (value) => _sortMenuSelected(value),
+            ),
           ),
           Divider(),
           Expanded(
@@ -146,36 +150,6 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  // [ウィジェット：ソートメニュー部分]
-  Widget _sortMenuPart() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: SizedBox(
-        width: double.infinity,
-        child: DropdownButton(
-          value: _sortDropdownSelectedValue,
-          icon: Icon(Icons.arrow_drop_down),
-          onChanged: (newValue) => _sortMenuSelected(newValue),
-          style: TextStyle(fontSize: 14, color: Colors.black),
-          items: _sortDropdownMenuItems.map<DropdownMenuItem<String>>(
-            (value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: SizedBox(
-                  width: 80,
-                  child: Text(
-                    value,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
-            },
-          ).toList(),
-        ),
       ),
     );
   }
