@@ -77,7 +77,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         tooltip: '新規登録',
-        onPressed: () => _addCustomer(),
+        onPressed: () => _addCustomer(context),
       ),
       drawer: MyDrawer(),
       body: Column(
@@ -102,8 +102,8 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
           Divider(),
           CustomersListView(
             customers: _customersList,
-            onItemTap: (customer) => _showCustomer(customer),
-            onItemLongPress: (customer) => _deleteCustomer(customer),
+            onItemTap: (customer) => _showCustomer(context, customer),
+            onItemLongPress: (customer) => _deleteCustomer(context, customer),
           ),
         ],
       ),
@@ -112,7 +112,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   // [コールバック：FABタップ]
   // →新しい顧客情報を登録する
-  _addCustomer() {
+  _addCustomer(BuildContext context) {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -129,7 +129,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   // [コールバック：リストアイテムタップ]
   // →選択した顧客情報の詳細ページへ遷移する
-  _showCustomer(Customer customer) {
+  _showCustomer(BuildContext context, Customer customer) {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -147,7 +147,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   // [コールバック：リストアイテム長押し]
   // →長押ししたアイテムを削除する
-  _deleteCustomer(Customer customer) async {
+  _deleteCustomer(BuildContext context, Customer customer) async {
     // DBから指定のCustomerを削除
     await dao.deleteCustomer(customer);
     // 現在の条件でリストを更新
