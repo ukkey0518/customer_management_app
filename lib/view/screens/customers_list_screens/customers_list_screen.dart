@@ -34,10 +34,9 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   @override
   void initState() {
-    print(customerNarrowMenuItems);
     super.initState();
-    _narrowDropdownSelectedValue = customerNarrowMenuItems[0];
-    _sortDropdownSelectedValue = customerSortMenuItems[0];
+    _narrowDropdownSelectedValue = customerNarrowStateMap[_narrowState];
+    _sortDropdownSelectedValue = customerSortStateMap[_sortState];
     // 環境設定がある場合はそれを反映
     if (widget.pref != null) {
       _narrowState = widget.pref.narrowState;
@@ -50,36 +49,10 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   // [リスト更新処理：指定の条件でリストを更新する]
   _reloadCustomersList() async {
     // 絞り込みメニュー選択中項目を設定
-    switch (_narrowState) {
-      case CustomerNarrowState.ALL:
-        _narrowDropdownSelectedValue = customerNarrowMenuItems[0];
-        break;
-      case CustomerNarrowState.FEMALE:
-        _narrowDropdownSelectedValue = customerNarrowMenuItems[1];
-        break;
-      case CustomerNarrowState.MALE:
-        _narrowDropdownSelectedValue = customerNarrowMenuItems[2];
-        break;
-      default:
-        _narrowDropdownSelectedValue = customerNarrowMenuItems[0];
-    }
+    _narrowDropdownSelectedValue = customerNarrowStateMap[_narrowState];
+
     // 並べ替えメニュー選択中項目を設定
-    switch (_sortState) {
-      case CustomerSortState.REGISTER_OLD:
-        _sortDropdownSelectedValue = customerSortMenuItems[0];
-        break;
-      case CustomerSortState.REGISTER_NEW:
-        _sortDropdownSelectedValue = customerSortMenuItems[1];
-        break;
-      case CustomerSortState.NAME_FORWARD:
-        _sortDropdownSelectedValue = customerSortMenuItems[2];
-        break;
-      case CustomerSortState.NAME_REVERSE:
-        _sortDropdownSelectedValue = customerSortMenuItems[3];
-        break;
-      default:
-        _sortDropdownSelectedValue = customerSortMenuItems[0];
-    }
+    _sortDropdownSelectedValue = customerSortStateMap[_sortState];
 
     // DB取得処理
     _customersList = await dao.getCustomers(
@@ -93,18 +66,6 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
       });
     }
     setState(() {});
-  }
-
-  // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
-  _setNarrowState(CustomerNarrowState narrowState) {
-    _narrowState = narrowState;
-    _reloadCustomersList();
-  }
-
-  // [ソート状態変更：現在のソートステータスを変更して更新する]
-  _setSortState(CustomerSortState sortState) {
-    _sortState = sortState;
-    _reloadCustomersList();
   }
 
   @override
@@ -124,12 +85,12 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
           SearchBar(
             numberOfCustomers: _customersList.length,
             narrowMenu: NarrowDropDownMenu(
-              items: customerNarrowMenuItems,
+              items: customerNarrowStateMap.values.toList(),
               selectedValue: _narrowDropdownSelectedValue,
               onSelected: (value) => _narrowMenuSelected(value),
             ),
             sortMenu: SortDropDownMenu(
-              items: customerSortMenuItems,
+              items: customerSortStateMap.values.toList(),
               selectedValue: _sortDropdownSelectedValue,
               onSelected: (value) => _sortMenuSelected(value),
             ),
@@ -198,42 +159,24 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   // [コールバック：絞り込みメニューアイテム選択時]
   // →各項目ごとに絞り込み
   _narrowMenuSelected(String value) async {
-    switch (value) {
-      case '女性のみ':
-        // 女性のみデータを抽出
-        _setNarrowState(CustomerNarrowState.FEMALE);
-        break;
-      case '男性のみ':
-        // 男性のみデータを抽出
-        _setNarrowState(CustomerNarrowState.MALE);
-        break;
-      default:
-        // すべてのCustomerを抽出して更新
-        _setNarrowState(CustomerNarrowState.ALL);
-        break;
-    }
+    // 選択中のメニューアイテム文字列と一致するEntryを取得
+    final narrowState = customerNarrowStateMap.entries
+        .singleWhere((entry) => entry.value == value);
+    // EntryのNarrowStatusをフィールドへ代入
+    _narrowState = narrowState.key;
+    // リストを更新
+    _reloadCustomersList();
   }
 
   // [コールバック：ソートメニューアイテム選択時]
   // →各項目ごとにソート
   _sortMenuSelected(String value) async {
-    switch (value) {
-      case '登録順(新)':
-        // 新規登録が新しい順に並び替え
-        _setSortState(CustomerSortState.REGISTER_NEW);
-        break;
-      case '登録順(古)':
-        // 新規登録が新しい順に並び替え
-        _setSortState(CustomerSortState.REGISTER_OLD);
-        break;
-      case '名前順':
-        // 名前順に並び替え
-        _setSortState(CustomerSortState.NAME_FORWARD);
-        break;
-      case '名前逆順':
-        // 名前逆順に並び替え
-        _setSortState(CustomerSortState.NAME_REVERSE);
-        break;
-    }
+    // 選択中のメニューアイテム文字列と一致するEntryを取得
+    final sortState = customerSortStateMap.entries
+        .singleWhere((entry) => entry.value == value);
+    // EntryのNarrowStatusをフィールドへ代入
+    _sortState = sortState.key;
+    // リストを更新
+    _reloadCustomersList();
   }
 }
