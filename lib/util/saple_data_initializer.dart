@@ -189,10 +189,10 @@ class SampleDataInitializer {
       }
 
       // [MenuCategoriesテーブルの初期化]
-      var nowMenuCategoriesData = await database.allMenuCategories;
+      var nowMenuCategoriesData = await dao.allMenuCategories;
       if (nowMenuCategoriesData.isEmpty) {
         print('  ...MenuCategories is Empty.');
-        await database.addAllMenuCategories(_initialMenuCategories);
+        await dao.addAllMenuCategories(_initialMenuCategories);
         print('  ...MenuCategories init ok.');
 
         // [Menusテーブルの初期化]

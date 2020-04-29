@@ -58,7 +58,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       _menus = widget.visitHistory.menuListJson.toMenuList();
     }
     _employees = await dao.allEmployees;
-    _categories = await database.allMenuCategories;
+    _categories = await dao.allMenuCategories;
     setState(() {});
   }
 

@@ -9,4 +9,5 @@ part of 'dao.dart';
 mixin _$MyDaoMixin on DatabaseAccessor<MyDatabase> {
   $CustomersTable get customers => db.customers;
   $EmployeesTable get employees => db.employees;
+  $MenuCategoriesTable get menuCategories => db.menuCategories;
 }

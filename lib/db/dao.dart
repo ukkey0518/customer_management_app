@@ -6,6 +6,7 @@ part 'dao.g.dart';
 @UseDao(tables: [
   Customers,
   Employees,
+  MenuCategories,
 ])
 class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   MyDao(MyDatabase db) : super(db);
@@ -87,4 +88,35 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   // [削除：１件分のスタッフデータを削除]
   Future deleteEmployee(Employee employee) =>
       (delete(employees)..where((t) => t.id.equals(employee.id))).go();
+
+  //
+  //
+  // -- MenuCategories：メニューカテゴリ ------------------------------------------
+  //
+  //
+
+  // [追加：１件分のメニューカテゴリを追加]
+  Future<int> addMenuCategory(MenuCategory menuCategory) =>
+      into(menuCategories).insert(menuCategory);
+
+  // [追加：渡されたデータをすべて追加]
+  Future<void> addAllMenuCategories(
+      List<MenuCategory> menuCategoriesList) async {
+    await batch((batch) {
+      batch.insertAll(menuCategories, menuCategoriesList);
+    });
+  }
+
+  // [取得：すべてのメニューカテゴリを取得]
+  Future<List<MenuCategory>> get allMenuCategories =>
+      select(menuCategories).get();
+
+  // [更新：１件分のメニューカテゴリを更新]
+  Future updateMenuCategory(MenuCategory menuCategory) =>
+      update(menuCategories).replace(menuCategory);
+
+  // [削除：１件分のメニューカテゴリを削除]
+  Future deleteMenuCategory(MenuCategory menuCategory) =>
+      (delete(menuCategories)..where((t) => t.name.equals(menuCategory.name)))
+          .go();
 }

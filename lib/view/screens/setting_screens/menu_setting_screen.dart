@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_category_setting_screen.dart';
@@ -31,6 +32,8 @@ class MenusByCategory {
 class _MenuSettingScreenState extends State<MenuSettingScreen> {
   List<MenusByCategory> _menusByCategories = List();
 
+  final dao = MyDao(database);
+
   @override
   void initState() {
     super.initState();
@@ -40,7 +43,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   // [更新：カテゴリ別メニュー達のリストを更新]
   _reloadMenusByCategoriesList() async {
     // DBからメニューカテゴリをすべて取得
-    var menuCategoriesList = await database.allMenuCategories;
+    var menuCategoriesList = await dao.allMenuCategories;
     // DBからメニューをすべて取得
     var menusList = await database.allMenus;
     // メニューカテゴリ別にメニューをまとめてリスト化

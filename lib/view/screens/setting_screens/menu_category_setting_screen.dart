@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/color_picker_dialog.dart';
 import 'package:customermanagementapp/util/extensions.dart';
@@ -18,6 +19,8 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   List<MenuCategory> _menuCategoriesList;
   List<Menu> _menus;
 
+  final dao = MyDao(database);
+
   @override
   void initState() {
     super.initState();
@@ -27,7 +30,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
 
   // [更新：DBからメニューカテゴリを取得してリストに反映する処理]
   _reloadMenuCategories() async {
-    _menuCategoriesList = await database.allMenuCategories;
+    _menuCategoriesList = await dao.allMenuCategories;
     _menus = await database.allMenus;
     setState(() {});
   }
@@ -97,7 +100,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
           color: getColorNumber(currentColor),
         );
         try {
-          await database.addMenuCategory(newCategory);
+          await dao.addMenuCategory(newCategory);
         } on SqliteException catch (e) {
           // 重複時のエラーメッセージ
           Toast.show('カテゴリ名が重複しています。', context);
@@ -118,7 +121,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
           name: categoryController.text,
           color: getColorNumber(currentColor),
         );
-        await database.updateMenuCategory(newCategory);
+        await dao.updateMenuCategory(newCategory);
         Navigator.of(context).pop();
         Toast.show('カテゴリを更新しました。', context);
       };
@@ -234,7 +237,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
         menu.menuCategoryJson.toMenuCategory().id == deleteMenuCategory.id)) {
       Toast.show('カテゴリ内にメニューが存在するため削除できません。', context);
     } else {
-      await database.deleteMenuCategory(deleteMenuCategory);
+      await dao.deleteMenuCategory(deleteMenuCategory);
       Toast.show('削除しました', context);
     }
     _reloadMenuCategories();
