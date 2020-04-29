@@ -125,7 +125,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       menuListJson: _menus.toJsonString(),
     );
     // DB挿入
-    await database.addVisitHistory(visitHistory);
+    await dao.addVisitHistory(visitHistory);
     // 完了メッセージ表示
     Toast.show('保存しました。', context);
     // 閲覧モードにする

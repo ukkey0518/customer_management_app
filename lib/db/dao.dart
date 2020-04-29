@@ -8,6 +8,7 @@ part 'dao.g.dart';
   Employees,
   MenuCategories,
   Menus,
+  VisitHistories,
 ])
 class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   MyDao(MyDatabase db) : super(db);
@@ -146,4 +147,41 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   // [削除：１件分のメニューを削除]
   Future deleteMenu(Menu menu) =>
       (delete(menus)..where((t) => t.id.equals(menu.id))).go();
+
+  //
+  //
+  // -- VisitHistories：来店履歴１件毎のデータテーブル -----------------------------------
+  //
+  //
+
+  // [追加：１件分の来店履歴]
+  Future<int> addVisitHistory(VisitHistory visitHistory) =>
+      into(visitHistories).insert(visitHistory, orReplace: true);
+
+  // [取得：すべての来店履歴を取得]
+  Future<List<VisitHistory>> get allVisitHistories =>
+      select(visitHistories).get();
+
+  // [取得：指定した顧客の来店履歴を取得]
+  Future<List<VisitHistory>> getVisitHistoriesByCustomer(Customer customer) {
+    return (select(visitHistories)
+          ..where(
+            (t) => t.customerJson.equals(
+              customer.toJsonString(),
+            ),
+          ))
+        .get();
+  }
+
+  // [取得：指定した日付の来店履歴を取得]
+  Future<List<VisitHistory>> getVisitHistoriesByDay(DateTime date) =>
+      (select(visitHistories)..where((t) => t.date.equals(date))).get();
+
+  // [更新：１件分の来店履歴を更新]
+  Future updateVisitHistory(VisitHistory visitHistory) =>
+      update(visitHistories).replace(visitHistory);
+
+  // [削除：１件分の来店履歴を削除]
+  Future deleteVisitHistory(VisitHistory visitHistory) =>
+      (delete(visitHistories)..where((t) => t.id.equals(visitHistory.id))).go();
 }

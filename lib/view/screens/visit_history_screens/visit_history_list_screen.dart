@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
@@ -28,6 +29,8 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   String _narrowDropdownSelectedValue = '';
   String _sortDropdownSelectedValue = '';
 
+  final dao = MyDao(database);
+
   @override
   void initState() {
     super.initState();
@@ -49,16 +52,16 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     switch (_narrowState) {
       case ListNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _visitHistoriesList = await database.allVisitHistories;
+        _visitHistoriesList = await dao.allVisitHistories;
         break;
       case ListNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _visitHistoriesList = await database.getVisitHistoriesByDay(
+        _visitHistoriesList = await dao.getVisitHistoriesByDay(
             DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
         break;
       default:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _visitHistoriesList = await database.allVisitHistories;
+        _visitHistoriesList = await dao.allVisitHistories;
     }
 
     // 並べ替え条件
@@ -156,7 +159,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   // [コールバック：リストアイテム長押し時]
   // ・リスト＆DBからデータを削除
   _deleteVisitHistory(VisitHistory visitHistory) async {
-    await database.deleteVisitHistory(visitHistory);
+    await dao.deleteVisitHistory(visitHistory);
     Toast.show('削除しました。', context);
     _reloadVisitHistoryList();
   }

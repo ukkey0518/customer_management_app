@@ -11,4 +11,5 @@ mixin _$MyDaoMixin on DatabaseAccessor<MyDatabase> {
   $EmployeesTable get employees => db.employees;
   $MenuCategoriesTable get menuCategories => db.menuCategories;
   $MenusTable get menus => db.menus;
+  $VisitHistoriesTable get visitHistories => db.visitHistories;
 }
