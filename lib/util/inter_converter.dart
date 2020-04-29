@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:customermanagementapp/db/database.dart';
-import 'package:intl/intl.dart';
 
 class InterConverter {
   // [変換：List<Menu>からJSON文字列へ]
@@ -61,10 +60,10 @@ class InterConverter {
   }
 
   // [変換：数値を金額文字列へ]
-  static String intToPriceString(int price) {
-    final formatStr = NumberFormat('#,###,###').format(price);
-    return '\¥ $formatStr';
-  }
+//  static String intToPriceString(int price) {
+//    final formatStr = NumberFormat('#,###,###').format(price);
+//    return '\¥ $formatStr';
+//  }
 
   // [変換：DateTime -> 表示用日付文字列]
   // 例：2020/4/20(月)

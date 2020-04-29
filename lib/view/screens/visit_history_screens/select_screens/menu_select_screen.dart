@@ -165,13 +165,13 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
         Text(
           _selectedMenus.isEmpty
               ? '0'
-              : '合計：${InterConverter.intToPriceString(_selectedMenus.reduce(
+              : '合計：${_selectedMenus.reduce(
                     (a, b) => Menu(
                         id: null,
                         name: null,
                         price: a.price + b.price,
                         menuCategoryJson: null),
-                  ).price)}',
+                  ).price.toPriceString()}',
           style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ],
@@ -208,7 +208,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
               ),
             ),
             Text(
-              '${InterConverter.intToPriceString(_selectedMenus[index].price)}',
+              '${_selectedMenus[index].price.toPriceString()}',
               style: TextStyle(
                 fontSize: 16,
               ),
@@ -299,7 +299,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
                         ),
                       ),
                       Text(
-                        '${InterConverter.intToPriceString(menus[index].price)}',
+                        '${menus[index].price.toPriceString()}',
                         style: style,
                       )
                     ],

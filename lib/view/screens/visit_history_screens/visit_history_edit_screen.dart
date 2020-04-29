@@ -399,13 +399,13 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 Text(
                   _menus.isEmpty
                       ? '0'
-                      : '${InterConverter.intToPriceString(_menus.reduce(
+                      : '${_menus.reduce(
                             (a, b) => Menu(
                                 id: null,
                                 name: null,
                                 price: a.price + b.price,
                                 menuCategoryJson: null),
-                          ).price)}',
+                          ).price.toPriceString()}',
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
@@ -446,7 +446,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                           ),
                         ),
                         Text(
-                          '${InterConverter.intToPriceString(_menus[index].price)}',
+                          '${_menus[index].price.toPriceString()}',
                           style: TextStyle(
                             fontSize: 16,
                           ),

@@ -1,5 +1,4 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/inter_converter.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/styles.dart';
 import 'package:flutter/material.dart';
@@ -148,7 +147,7 @@ class VisitHistoryListItem extends StatelessWidget {
         .map<Icon>((color) => Icon(Icons.category, color: color))
         .toList();
     var sumPrice = menus.map((menu) => menu.price).reduce((a, b) => a + b);
-    var priceStr = InterConverter.intToPriceString(sumPrice);
+    var priceStr = sumPrice.toPriceString();
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
