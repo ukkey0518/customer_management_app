@@ -74,20 +74,20 @@ class InterConverter {
   }
 
   // [変換：表示用日付文字列 -> DateTime]
-  static DateTime dateStrToObj(String dateStr) {
-    // 曜日部分を削除
-    var date = dateStr.substring(0, dateStr.length - 3);
-    // 分割してリストにする
-    var list = date.split('/');
-    // 月が１桁なら頭に０を追加して２桁に揃える
-    if (list[1].length == 1) list[1] = '0${list[1]}';
-    // 日が１桁なら頭に０を追加して２桁に揃える
-    if (list[2].length == 1) list[2] = '0${list[2]}';
-    // 連結
-    var parseStr = list.join();
-    // DataTime解析後オブジェクト化して返す
-    return DateTime.parse(parseStr);
-  }
+//  static DateTime dateStrToObj(String dateStr) {
+//    // 曜日部分を削除
+//    var date = dateStr.substring(0, dateStr.length - 3);
+//    // 分割してリストにする
+//    var list = date.split('/');
+//    // 月が１桁なら頭に０を追加して２桁に揃える
+//    if (list[1].length == 1) list[1] = '0${list[1]}';
+//    // 日が１桁なら頭に０を追加して２桁に揃える
+//    if (list[2].length == 1) list[2] = '0${list[2]}';
+//    // 連結
+//    var parseStr = list.join();
+//    // DataTime解析後オブジェクト化して返す
+//    return DateTime.parse(parseStr);
+//  }
 
   // [変換：誕生日から年齢を取得する]
   static int getAgeFromBirthDay(DateTime birthDay) {
