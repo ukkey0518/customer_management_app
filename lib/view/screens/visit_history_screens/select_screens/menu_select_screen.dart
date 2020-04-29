@@ -35,7 +35,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
     // DBからメニューカテゴリをすべて取得
     _categories = await dao.allMenuCategories;
     // DBからメニューをすべて取得
-    var menusList = await database.allMenus;
+    var menusList = await dao.allMenus;
     // メニューカテゴリ別にメニューをまとめてリスト化
     var newMenusByCategoriesList = _categories.map<MenusByCategory>(
       (category) {

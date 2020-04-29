@@ -197,10 +197,10 @@ class SampleDataInitializer {
 
         // [Menusテーブルの初期化]
         // (カテゴリIDの重複を避けるためカテゴリメニュー初期化実行時のみ実行)
-        var nowMenusData = await database.allMenus;
+        var nowMenusData = await dao.allMenus;
         if (nowMenusData.isEmpty) {
           print('  ...Menus is Empty.');
-          await database.addAllMenus(_initialMenus);
+          await dao.addAllMenus(_initialMenus);
           print('  ...Menus init ok.');
         } else {
           print('  ...Menus is Not Empty.');

@@ -45,7 +45,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     // DBからメニューカテゴリをすべて取得
     var menuCategoriesList = await dao.allMenuCategories;
     // DBからメニューをすべて取得
-    var menusList = await database.allMenus;
+    var menusList = await dao.allMenus;
     // メニューカテゴリ別にメニューをまとめてリスト化
     var newMenusByCategoriesList = menuCategoriesList.map<MenusByCategory>(
       (category) {
@@ -91,7 +91,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
 
   // [コールバック：メニューリストパネル長押し時]
   _deleteMenuTile(Menu menu) async {
-    await database.deleteMenu(menu);
+    await dao.deleteMenu(menu);
     _reloadMenusByCategoriesList();
   }
 
@@ -265,7 +265,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           name: nameController.text,
           price: int.parse(priceController.text),
         );
-        await database.addMenu(newMenu);
+        await dao.addMenu(newMenu);
         Navigator.of(context).pop();
       };
     } else {
@@ -292,7 +292,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           name: nameController.text,
           price: int.parse(priceController.text),
         );
-        await database.updateMenu(newMenu);
+        await dao.updateMenu(newMenu);
         Navigator.of(context).pop();
       };
     }

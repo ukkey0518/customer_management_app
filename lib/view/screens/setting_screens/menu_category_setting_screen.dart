@@ -31,7 +31,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   // [更新：DBからメニューカテゴリを取得してリストに反映する処理]
   _reloadMenuCategories() async {
     _menuCategoriesList = await dao.allMenuCategories;
-    _menus = await database.allMenus;
+    _menus = await dao.allMenus;
     setState(() {});
   }
 
