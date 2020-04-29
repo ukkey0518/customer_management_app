@@ -1,20 +1,17 @@
-import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatelessWidget {
-  const SearchBar({
-    @required this.customers,
-    @required this.searchNameController,
-    @required this.onChanged,
-    @required this.narrowMenu,
-    @required this.sortMenu,
+  SearchBar({
+    @required this.numberOfCustomers,
+    this.narrowMenu,
+    this.sortMenu,
+    this.searchMenu,
   });
 
-  final List<Customer> customers;
-  final TextEditingController searchNameController;
-  final ValueChanged<String> onChanged;
-  final NarrowDropDownMenu narrowMenu;
-  final SortDropDownMenu sortMenu;
+  final int numberOfCustomers;
+  final Widget narrowMenu;
+  final Widget sortMenu;
+  final Widget searchMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +26,7 @@ class SearchBar extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(text: '検索結果：'),
                     TextSpan(
-                      text: '${customers.length}',
+                      text: '$numberOfCustomers',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.red,
@@ -39,26 +36,11 @@ class SearchBar extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(child: narrowMenu),
-              Expanded(child: sortMenu),
+              Expanded(child: narrowMenu ?? Container()),
+              Expanded(child: sortMenu ?? Container()),
             ],
           ),
-          TextField(
-            keyboardType: TextInputType.text,
-            controller: searchNameController,
-            decoration: InputDecoration(
-              hintText: '名前で検索',
-              prefixIcon: Icon(Icons.search),
-              suffixIcon: IconButton(
-                icon: Icon(Icons.clear),
-                onPressed: () => WidgetsBinding.instance.addPostFrameCallback(
-                  (_) => searchNameController.clear(),
-                ),
-              ),
-            ),
-            onChanged: onChanged,
-            onEditingComplete: () => onChanged(searchNameController.text),
-          ),
+          searchMenu ?? Container(),
         ],
       ),
     );
@@ -139,6 +121,34 @@ class SortDropDownMenu extends StatelessWidget {
           ).toList(),
         ),
       ),
+    );
+  }
+}
+
+// [検索欄]
+class SearchMenu extends StatelessWidget {
+  SearchMenu({this.searchNameController, this.onChanged});
+
+  final TextEditingController searchNameController;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      keyboardType: TextInputType.text,
+      controller: searchNameController,
+      decoration: InputDecoration(
+        hintText: '名前で検索',
+        prefixIcon: Icon(Icons.search),
+        suffixIcon: IconButton(
+          icon: Icon(Icons.clear),
+          onPressed: () => WidgetsBinding.instance.addPostFrameCallback(
+            (_) => searchNameController.clear(),
+          ),
+        ),
+      ),
+      onChanged: onChanged,
+      onEditingComplete: () => onChanged(searchNameController.text),
     );
   }
 }

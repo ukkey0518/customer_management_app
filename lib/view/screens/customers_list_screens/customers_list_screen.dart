@@ -125,9 +125,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
       body: Column(
         children: <Widget>[
           SearchBar(
-            customers: _customersList,
-            searchNameController: _searchNameFieldController,
-            onChanged: (_) => _reloadCustomersList(),
+            numberOfCustomers: _customersList.length,
             narrowMenu: NarrowDropDownMenu(
               items: _narrowDropdownMenuItems,
               selectedValue: _narrowDropdownSelectedValue,
@@ -137,6 +135,10 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
               items: _sortDropdownMenuItems,
               selectedValue: _sortDropdownSelectedValue,
               onSelected: (value) => _sortMenuSelected(value),
+            ),
+            searchMenu: SearchMenu(
+              searchNameController: _searchNameFieldController,
+              onChanged: (_) => _reloadCustomersList(),
             ),
           ),
           Divider(),
