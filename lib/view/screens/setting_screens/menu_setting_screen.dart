@@ -5,7 +5,6 @@ import 'package:customermanagementapp/view/screens/setting_screens/menu_category
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 class MenuSettingScreen extends StatefulWidget {
@@ -169,12 +168,6 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     // カテゴリ別メニュータイルのリスト
     var menuTilesList = List<Widget>();
 
-    // 数値を金額文字列に変換するメソッド
-    var intToPriceString = (int price) {
-      final formatter = NumberFormat('#,###,###');
-      return formatter.format(price);
-    };
-
     // メインコンテンツであるメニューリストを追加
     menuTilesList.addAll(
       List.generate(
@@ -197,7 +190,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
                         ),
                       ),
                       Text(
-                        '${intToPriceString(menus[index].price)}',
+                        '${menus[index].price.toPriceString()}',
                         style: TextStyle(
                           fontSize: 16,
                         ),
