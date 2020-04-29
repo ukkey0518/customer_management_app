@@ -1,8 +1,8 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/components/customer_selected_card.dart';
-import 'package:customermanagementapp/screens/visit_history_screens/select_screens/menu_select_screen.dart';
+import 'package:customermanagementapp/view/components/customer_selected_card.dart';
+import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';

@@ -1,9 +1,9 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/components/customer_list_card.dart';
-import 'package:customermanagementapp/components/my_drawer.dart';
-import 'package:customermanagementapp/screens/customers_list_screens/customer_edit_screen.dart';
+import 'package:customermanagementapp/view/components/customer_list_card.dart';
+import 'package:customermanagementapp/view/components/my_drawer.dart';
+import 'package:customermanagementapp/view/screens/customers_list_screens/customer_edit_screen.dart';
 import 'package:customermanagementapp/src/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';

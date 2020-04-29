@@ -3,7 +3,7 @@ import 'package:customermanagementapp/src/saple_data_initializer.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-import 'screens/home_screen.dart';
+import 'view/screens/home_screen.dart';
 
 MyDatabase database;
 

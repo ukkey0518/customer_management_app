@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/screens/setting_screens/menu_category_setting_screen.dart';
+import 'package:customermanagementapp/view/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:customermanagementapp/src/inter_converter.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

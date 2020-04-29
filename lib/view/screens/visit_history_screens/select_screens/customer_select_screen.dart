@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/components/customer_list_card.dart';
+import 'package:customermanagementapp/view/components/customer_list_card.dart';
 import 'package:flutter/material.dart';
 
 enum NarrowState { ALL, FEMALE, MALE }
