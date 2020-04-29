@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
@@ -26,8 +27,6 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   TextEditingController _searchNameFieldController = TextEditingController();
   CustomerNarrowState _narrowState = CustomerNarrowState.ALL;
   CustomerSortState _sortState = CustomerSortState.REGISTER_OLD;
-  List<String> _narrowDropdownMenuItems = List();
-  List<String> _sortDropdownMenuItems = List();
   String _narrowDropdownSelectedValue = '';
   String _sortDropdownSelectedValue = '';
 
@@ -35,11 +34,10 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   @override
   void initState() {
+    print(customerNarrowMenuItems);
     super.initState();
-    _narrowDropdownMenuItems = ['すべて', '女性のみ', '男性のみ'];
-    _sortDropdownMenuItems = ['登録順(古)', '登録順(新)', '名前順', '名前逆順'];
-    _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-    _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+    _narrowDropdownSelectedValue = customerNarrowMenuItems[0];
+    _sortDropdownSelectedValue = customerSortMenuItems[0];
     // 環境設定がある場合はそれを反映
     if (widget.pref != null) {
       _narrowState = widget.pref.narrowState;
@@ -54,33 +52,33 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     // 絞り込みメニュー選択中項目を設定
     switch (_narrowState) {
       case CustomerNarrowState.ALL:
-        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
+        _narrowDropdownSelectedValue = customerNarrowMenuItems[0];
         break;
       case CustomerNarrowState.FEMALE:
-        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
+        _narrowDropdownSelectedValue = customerNarrowMenuItems[1];
         break;
       case CustomerNarrowState.MALE:
-        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[2];
+        _narrowDropdownSelectedValue = customerNarrowMenuItems[2];
         break;
       default:
-        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
+        _narrowDropdownSelectedValue = customerNarrowMenuItems[0];
     }
     // 並べ替えメニュー選択中項目を設定
     switch (_sortState) {
       case CustomerSortState.REGISTER_OLD:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+        _sortDropdownSelectedValue = customerSortMenuItems[0];
         break;
       case CustomerSortState.REGISTER_NEW:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
+        _sortDropdownSelectedValue = customerSortMenuItems[1];
         break;
       case CustomerSortState.NAME_FORWARD:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[2];
+        _sortDropdownSelectedValue = customerSortMenuItems[2];
         break;
       case CustomerSortState.NAME_REVERSE:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[3];
+        _sortDropdownSelectedValue = customerSortMenuItems[3];
         break;
       default:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+        _sortDropdownSelectedValue = customerSortMenuItems[0];
     }
 
     // DB取得処理
@@ -126,12 +124,12 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
           SearchBar(
             numberOfCustomers: _customersList.length,
             narrowMenu: NarrowDropDownMenu(
-              items: _narrowDropdownMenuItems,
+              items: customerNarrowMenuItems,
               selectedValue: _narrowDropdownSelectedValue,
               onSelected: (value) => _narrowMenuSelected(value),
             ),
             sortMenu: SortDropDownMenu(
-              items: _sortDropdownMenuItems,
+              items: customerSortMenuItems,
               selectedValue: _sortDropdownSelectedValue,
               onSelected: (value) => _sortMenuSelected(value),
             ),
