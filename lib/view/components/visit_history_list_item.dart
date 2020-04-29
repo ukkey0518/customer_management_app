@@ -79,7 +79,7 @@ class VisitHistoryListItem extends StatelessWidget {
 
   // [ウィジェット：日付欄]
   Widget _datePart(DateTime dateTime) {
-    var dateStr = InterConverter.dateObjToStr(dateTime);
+    var dateStr = dateTime.toFormatString();
     return Container(
       decoration: BoxDecoration(
           color: Colors.grey,
@@ -134,7 +134,7 @@ class VisitHistoryListItem extends StatelessWidget {
           ),
           Expanded(
               child: Text(
-            '${InterConverter.getAgeFromBirthDay(customer.birth) ?? '?'} 歳',
+            '${customer.birth.toAge() ?? '?'} 歳',
             textAlign: TextAlign.end,
           )),
         ],

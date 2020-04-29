@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/inter_converter.dart';
+import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -57,7 +57,7 @@ class CustomerListCard extends StatelessWidget {
             ],
           ),
         ),
-        Text('${InterConverter.getAgeFromBirthDay(customer.birth) ?? '?'} 歳'),
+        Text('${customer.birth.toAge() ?? '?'} 歳'),
       ],
     );
   }

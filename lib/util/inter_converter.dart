@@ -68,10 +68,10 @@ class InterConverter {
 
   // [変換：DateTime -> 表示用日付文字列]
   // 例：2020/4/20(月)
-  static String dateObjToStr(DateTime date) {
-    var dateStr = DateFormat('yyyy/M/d(E)').format(date);
-    return dateStr;
-  }
+//  static String dateObjToStr(DateTime date) {
+//    var dateStr = DateFormat('yyyy/M/d(E)').format(date);
+//    return dateStr;
+//  }
 
   // [変換：表示用日付文字列 -> DateTime]
 //  static DateTime dateStrToObj(String dateStr) {
@@ -90,11 +90,11 @@ class InterConverter {
 //  }
 
   // [変換：誕生日から年齢を取得する]
-  static int getAgeFromBirthDay(DateTime birthDay) {
-    // 引数がnullの場合はnullを返す
-    if (birthDay == null) return null;
-    var diffDays = DateTime.now().difference(birthDay).inDays;
-    var age = (diffDays / 365).floor();
-    return age;
-  }
+//  static int getAgeFromBirthDay(DateTime birthDay) {
+//    // 引数がnullの場合はnullを返す
+//    if (birthDay == null) return null;
+//    var diffDays = DateTime.now().difference(birthDay).inDays;
+//    var age = (diffDays / 365).floor();
+//    return age;
+//  }
 }

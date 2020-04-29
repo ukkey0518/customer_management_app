@@ -1,7 +1,9 @@
 import 'dart:convert';
 
 import 'package:customermanagementapp/db/database.dart';
+import 'package:intl/intl.dart';
 
+// JSONを各オブジェクトへ変換する
 extension ConvertFromJson on String {
   // [変換：JSON文字列 -> Customer]
   Customer toCustomer() {
@@ -32,6 +34,7 @@ extension ConvertFromJson on String {
   }
 }
 
+// Stringをオブジェクトへ変換する
 extension ConvertFromString on String {
   // [変換：表示用日付文字列 -> DateTime]
   DateTime toDateTime() {
@@ -47,5 +50,23 @@ extension ConvertFromString on String {
     var parseStr = list.join();
     // DataTime解析後オブジェクト化して返す
     return DateTime.parse(parseStr);
+  }
+}
+
+extension ConvertFromDateTime on DateTime {
+  // [変換：DateTime -> 表示用日付文字列]
+  // 例：2020/4/20(月)
+  String toFormatString() {
+    var dateStr = DateFormat('yyyy/M/d(E)').format(this);
+    return dateStr;
+  }
+
+  // [変換：誕生日から年齢を取得する]
+  int toAge() {
+    // 引数がnullの場合はnullを返す
+    if (this == null) return null;
+    var diffDays = DateTime.now().difference(this).inDays;
+    var age = (diffDays / 365).floor();
+    return age;
   }
 }
