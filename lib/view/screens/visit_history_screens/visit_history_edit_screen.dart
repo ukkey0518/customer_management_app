@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
@@ -34,6 +35,8 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
 
   bool _screenAbsorbing = true;
 
+  final dao = MyDao(database);
+
   @override
   void initState() {
     super.initState();
@@ -54,7 +57,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       _selectedEmployee = widget.visitHistory.employeeJson.toEmployee();
       _menus = widget.visitHistory.menuListJson.toMenuList();
     }
-    _employees = await database.allEmployees;
+    _employees = await dao.allEmployees;
     _categories = await database.allMenuCategories;
     setState(() {});
   }

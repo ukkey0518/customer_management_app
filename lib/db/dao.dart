@@ -3,9 +3,18 @@ import 'package:moor/moor.dart';
 import 'database.dart';
 part 'dao.g.dart';
 
-@UseDao(tables: [Customers])
+@UseDao(tables: [
+  Customers,
+  Employees,
+])
 class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   MyDao(MyDatabase db) : super(db);
+
+  //
+  //
+  // -- Customer：顧客データテーブル -----------------------------------------------------
+  //
+  //
 
   // [追加：１件追加]
   Future<int> addCustomer(Customer customer) =>
@@ -44,4 +53,38 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   // [削除：１件分の顧客データを削除]
   Future deleteCustomer(Customer customer) =>
       (delete(customers)..where((t) => t.id.equals(customer.id))).go();
+
+  //
+  //
+  // -- Employees：スタッフデータ ------------------------------------------
+  //
+  //
+
+  // [追加：１件分のスタッフデータを追加]
+  Future<int> addEmployee(Employee employee) =>
+      into(employees).insert(employee);
+
+  // [追加：渡されたデータをすべて追加]
+  Future<void> addAllEmployees(List<Employee> employeesList) async {
+    await batch((batch) {
+      batch.insertAll(employees, employeesList);
+    });
+  }
+
+  // [取得：すべてのスタッフデータを取得]
+  Future<List<Employee>> get allEmployees => select(employees).get();
+
+  // [取得：IDからスタッフデータを取得]
+  Future<Employee> getEmployeeById(int employeeId) {
+    return (select(employees)..where((t) => t.id.equals(employeeId)))
+        .getSingle();
+  }
+
+  // [更新：１件分のスタッフデータを更新]
+  Future updateEmployee(Employee employee) =>
+      update(employees).replace(employee);
+
+  // [削除：１件分のスタッフデータを削除]
+  Future deleteEmployee(Employee employee) =>
+      (delete(employees)..where((t) => t.id.equals(employee.id))).go();
 }

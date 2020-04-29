@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:flutter/cupertino.dart';
@@ -12,6 +13,8 @@ class EmployeeSettingScreen extends StatefulWidget {
 class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
   List<Employee> _employees = List();
 
+  final dao = MyDao(database);
+
   @override
   void initState() {
     super.initState();
@@ -21,7 +24,7 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
   // [更新：従業員リストの更新]
   _reloadEmployeesList() async {
     // すべての従業員リストを取得
-    _employees = await database.allEmployees;
+    _employees = await dao.allEmployees;
     // 画面を更新
     setState(() {});
   }
@@ -51,7 +54,7 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
   // [コールバック：リストアイテム長押し時]
   // ・従業員データを削除する
   _deleteEmployee(Employee employee) async {
-    await database.deleteEmployee(employee);
+    await dao.deleteEmployee(employee);
     _reloadEmployeesList();
     Toast.show('削除しました。', context);
   }
@@ -100,7 +103,7 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
       positiveButtonText = '追加';
       databaseProcess = () async {
         var newEmployee = Employee(id: null, name: nameController.text);
-        await database.addEmployee(newEmployee);
+        await dao.addEmployee(newEmployee);
         Toast.show('登録されました。', context);
       };
     } else {
@@ -109,7 +112,7 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
       positiveButtonText = '更新';
       databaseProcess = () async {
         var newEmployee = Employee(id: employee.id, name: nameController.text);
-        await database.updateEmployee(newEmployee);
+        await dao.updateEmployee(newEmployee);
         Toast.show('更新されました。', context);
       };
     }

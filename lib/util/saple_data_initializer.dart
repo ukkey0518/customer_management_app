@@ -177,10 +177,10 @@ class SampleDataInitializer {
       }
 
       // [Employeesテーブルの初期化]
-      var nowEmployeesData = await database.allEmployees;
+      var nowEmployeesData = await dao.allEmployees;
       if (nowEmployeesData.isEmpty) {
         print('  ...Employees is Empty.');
-        await database.addAllEmployees(_initialEmployees);
+        await dao.addAllEmployees(_initialEmployees);
         print('  ...Employees init ok.');
       } else {
         print('  ...Employees is Not Empty.');
