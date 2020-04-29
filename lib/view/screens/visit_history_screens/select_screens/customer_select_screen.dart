@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/customer_list_card.dart';
@@ -21,6 +22,8 @@ class _CustomersSelectScreenState extends State<CustomerSelectScreen> {
   String _narrowDropdownSelectedValue = '';
   String _sortDropdownSelectedValue = '';
 
+  final dao = MyDao(database);
+
   @override
   void initState() {
     super.initState();
@@ -37,15 +40,15 @@ class _CustomersSelectScreenState extends State<CustomerSelectScreen> {
     switch (_narrowState) {
       case NarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _customersList = await database.allCustomers;
+        _customersList = await dao.allCustomers;
         break;
       case NarrowState.FEMALE:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _customersList = await database.femaleCustomers;
+        _customersList = await dao.femaleCustomers;
         break;
       case NarrowState.MALE:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[2];
-        _customersList = await database.maleCustomers;
+        _customersList = await dao.maleCustomers;
         break;
     }
     // 検索条件

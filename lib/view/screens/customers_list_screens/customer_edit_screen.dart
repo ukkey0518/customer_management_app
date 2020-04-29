@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
@@ -219,9 +220,10 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
       Toast.show('すべての入力欄を埋めてください', context);
       return;
     }
+    final dao = MyDao(database);
 
     if (widget.customer == null &&
-        await database.getCustomersByName(_nameController.text) != null) {
+        await dao.getCustomersByName(_nameController.text) != null) {
       Toast.show('同名の顧客データが存在しています。', context);
       return;
     }
@@ -235,7 +237,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
     );
 
     // DBに新規登録
-    await database.addCustomer(_editedCustomer);
+    await dao.addCustomer(_editedCustomer);
     Toast.show(_completeMessage, context);
 
     // 画面を終了

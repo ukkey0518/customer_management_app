@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
@@ -160,12 +161,14 @@ class SampleDataInitializer {
   initialize() async {
     print('--- sample data init start ...');
 
+    final dao = MyDao(database);
+
     try {
       // [Customersテーブルの初期化]
-      var nowCustomersData = await database.allCustomers;
+      var nowCustomersData = await dao.allCustomers;
       if (nowCustomersData.isEmpty) {
         print('  ...Customers is Empty.');
-        await database.addAllCustomers(_initialCustomers);
+        await dao.addAllCustomers(_initialCustomers);
         print('  ...Customers init ok.');
       } else {
         print('  ...Customers is Not Empty.');

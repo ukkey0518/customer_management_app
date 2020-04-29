@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
@@ -30,6 +31,8 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   String _narrowDropdownSelectedValue = '';
   String _sortDropdownSelectedValue = '';
 
+  final dao = MyDao(database);
+
   @override
   void initState() {
     super.initState();
@@ -52,19 +55,19 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     switch (_narrowState) {
       case ListNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _customersList = await database.allCustomers;
+        _customersList = await dao.allCustomers;
         break;
       case ListNarrowState.FEMALE:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _customersList = await database.femaleCustomers;
+        _customersList = await dao.femaleCustomers;
         break;
       case ListNarrowState.MALE:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[2];
-        _customersList = await database.maleCustomers;
+        _customersList = await dao.maleCustomers;
         break;
       default:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _customersList = await database.allCustomers;
+        _customersList = await dao.allCustomers;
     }
     // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {
@@ -191,7 +194,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   // →長押ししたアイテムを削除する
   _deleteCustomer(Customer customer) async {
     // DBから指定のCustomerを削除
-    await database.deleteCustomer(customer);
+    await dao.deleteCustomer(customer);
     // 現在の条件でリストを更新
     _reloadCustomersList();
     // トースト表示
