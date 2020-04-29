@@ -128,7 +128,11 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             customers: _customersList,
             searchNameController: _searchNameFieldController,
             onChanged: (_) => _reloadCustomersList(),
-            narrowMenuPart: _narrowMenuPart(),
+            narrowMenuPart: NarrowDropDownButton(
+              items: _narrowDropdownMenuItems,
+              selectedValue: _narrowDropdownSelectedValue,
+              onSelected: (value) => _narrowMenuSelected(value),
+            ),
             sortMenuPart: _sortMenuPart(),
           ),
           Divider(),
@@ -146,35 +150,6 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     );
   }
 
-  // [ウィジェット：絞り込みメニュー部分]
-  Widget _narrowMenuPart() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: SizedBox(
-        width: double.infinity,
-        child: DropdownButton(
-          value: _narrowDropdownSelectedValue,
-          icon: Icon(Icons.arrow_drop_down),
-          onChanged: (newValue) => _narrowMenuSelected(newValue),
-          style: TextStyle(fontSize: 14, color: Colors.black),
-          items: _narrowDropdownMenuItems.map<DropdownMenuItem<String>>(
-            (value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: SizedBox(
-                  width: 80,
-                  child: Text(
-                    value,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
-            },
-          ).toList(),
-        ),
-      ),
-    );
-  }
 
   // [ウィジェット：ソートメニュー部分]
   Widget _sortMenuPart() {
