@@ -6,15 +6,15 @@ class SearchBar extends StatelessWidget {
     @required this.customers,
     @required this.searchNameController,
     @required this.onChanged,
-    @required this.narrowMenuPart,
-    @required this.sortMenuPart,
+    @required this.narrowMenu,
+    @required this.sortMenu,
   });
 
   final List<Customer> customers;
   final TextEditingController searchNameController;
   final ValueChanged<String> onChanged;
-  final Widget narrowMenuPart;
-  final Widget sortMenuPart;
+  final NarrowDropDownMenu narrowMenu;
+  final SortDropDownMenu sortMenu;
 
   @override
   Widget build(BuildContext context) {
@@ -39,8 +39,8 @@ class SearchBar extends StatelessWidget {
                   ],
                 ),
               ),
-              Expanded(child: narrowMenuPart),
-              Expanded(child: sortMenuPart),
+              Expanded(child: narrowMenu),
+              Expanded(child: sortMenu),
             ],
           ),
           TextField(

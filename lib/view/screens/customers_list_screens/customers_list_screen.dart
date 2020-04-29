@@ -128,12 +128,12 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             customers: _customersList,
             searchNameController: _searchNameFieldController,
             onChanged: (_) => _reloadCustomersList(),
-            narrowMenuPart: NarrowDropDownMenu(
+            narrowMenu: NarrowDropDownMenu(
               items: _narrowDropdownMenuItems,
               selectedValue: _narrowDropdownSelectedValue,
               onSelected: (value) => _narrowMenuSelected(value),
             ),
-            sortMenuPart: SortDropDownMenu(
+            sortMenu: SortDropDownMenu(
               items: _sortDropdownMenuItems,
               selectedValue: _sortDropdownSelectedValue,
               onSelected: (value) => _sortMenuSelected(value),
