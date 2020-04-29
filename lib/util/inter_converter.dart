@@ -15,20 +15,20 @@ class InterConverter {
   }
 
   // [変換：JSON文字列からList<Menu>へ]
-  static List<Menu> jsonToMenuList(String json) {
-    var menuJsonList = json.split('%');
-    var menuList = menuJsonList.map<Menu>((jsonStr) {
-      var jsonMap = JsonCodec().decode(jsonStr);
-      return Menu.fromJson(jsonMap);
-    }).toList();
-    return menuList;
-  }
+//  static List<Menu> jsonToMenuList(String json) {
+//    var menuJsonList = json.split('%');
+//    var menuList = menuJsonList.map<Menu>((jsonStr) {
+//      var jsonMap = JsonCodec().decode(jsonStr);
+//      return Menu.fromJson(jsonMap);
+//    }).toList();
+//    return menuList;
+//  }
 
   // [変換：JSON文字列 -> Customer]
-  static Customer jsonToCustomer(String jsonStr) {
-    var jsonMap = JsonCodec().decode(jsonStr);
-    return Customer.fromJson(jsonMap);
-  }
+//  static Customer jsonToCustomer(String jsonStr) {
+//    var jsonMap = JsonCodec().decode(jsonStr);
+//    return Customer.fromJson(jsonMap);
+//  }
 
   // [変換：Customer -> JSON文字列]
   static String customerToJson(Customer customer) {
@@ -37,10 +37,10 @@ class InterConverter {
   }
 
   // [変換：JSON文字列 -> Employee]
-  static Employee jsonToEmployee(String jsonStr) {
-    var jsonMap = JsonCodec().decode(jsonStr);
-    return Employee.fromJson(jsonMap);
-  }
+//  static Employee jsonToEmployee(String jsonStr) {
+//    var jsonMap = JsonCodec().decode(jsonStr);
+//    return Employee.fromJson(jsonMap);
+//  }
 
   // [変換：Employee -> JSON文字列]
   static String employeeToJson(Employee employee) {
@@ -49,10 +49,10 @@ class InterConverter {
   }
 
   // [変換：JSON文字列 -> MenuCategory]
-  static MenuCategory jsonToMenuCategory(String jsonStr) {
-    var jsonMap = JsonCodec().decode(jsonStr);
-    return MenuCategory.fromJson(jsonMap);
-  }
+//  static MenuCategory jsonToMenuCategory(String jsonStr) {
+//    var jsonMap = JsonCodec().decode(jsonStr);
+//    return MenuCategory.fromJson(jsonMap);
+//  }
 
   // [変換：MenuCategory -> JSON文字列]
   static String menuCategoryToJson(MenuCategory menuCategory) {

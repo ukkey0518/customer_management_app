@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/color_picker_dialog.dart';
-import 'package:customermanagementapp/util/inter_converter.dart';
+import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:moor_ffi/database.dart';
@@ -231,8 +231,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
     var deleteMenuCategory = _menuCategoriesList[index];
     // カテゴリ内にメニューがある場合は削除できない
     if (_menus.any((menu) =>
-        InterConverter.jsonToMenuCategory(menu.menuCategoryJson).id ==
-        deleteMenuCategory.id)) {
+        menu.menuCategoryJson.toMenuCategory().id == deleteMenuCategory.id)) {
       Toast.show('カテゴリ内にメニューが存在するため削除できません。', context);
     } else {
       await database.deleteMenuCategory(deleteMenuCategory);

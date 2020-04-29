@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_setting_screen.dart';
 import 'package:customermanagementapp/util/inter_converter.dart';
+import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -44,8 +45,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
           menuCategory: category,
           menus: menusList
               .where((menu) =>
-                  InterConverter.jsonToMenuCategory(menu.menuCategoryJson).id ==
-                  category.id)
+                  menu.menuCategoryJson.toMenuCategory().id == category.id)
               .toList(),
           isExpanded: list.isEmpty ? false : list.single.isExpanded,
         );
@@ -70,8 +70,8 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
     }
     // カテゴリ順にソート
     _selectedMenus.sort((a, b) {
-      var aCategory = InterConverter.jsonToMenuCategory(a.menuCategoryJson);
-      var bCategory = InterConverter.jsonToMenuCategory(b.menuCategoryJson);
+      var aCategory = a.menuCategoryJson.toMenuCategory();
+      var bCategory = b.menuCategoryJson.toMenuCategory();
       return aCategory.id - bCategory.id;
     });
     // 画面を更新

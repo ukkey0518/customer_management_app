@@ -4,6 +4,7 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/customer_selected_card.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/util/inter_converter.dart';
+import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -50,11 +51,9 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       _screenAbsorbing = false;
     } else {
       _date = widget.visitHistory.date;
-      _selectedCustomer =
-          InterConverter.jsonToCustomer(widget.visitHistory.customerJson);
-      _selectedEmployee =
-          InterConverter.jsonToEmployee(widget.visitHistory.employeeJson);
-      _menus = InterConverter.jsonToMenuList(widget.visitHistory.menuListJson);
+      _selectedCustomer = widget.visitHistory.customerJson.toCustomer();
+      _selectedEmployee = widget.visitHistory.employeeJson.toEmployee();
+      _menus = widget.visitHistory.menuListJson.toMenuList();
     }
     _employees = await database.allEmployees;
     _categories = await database.allMenuCategories;
@@ -430,8 +429,9 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                               : Color(_categories
                                   .where((category) =>
                                       category.id ==
-                                      InterConverter.jsonToMenuCategory(
-                                              _menus[index].menuCategoryJson)
+                                      _menus[index]
+                                          .menuCategoryJson
+                                          .toMenuCategory()
                                           .id)
                                   .single
                                   .color),

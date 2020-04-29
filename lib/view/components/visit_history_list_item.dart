@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/inter_converter.dart';
+import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/styles.dart';
 import 'package:flutter/material.dart';
 
@@ -18,16 +19,15 @@ class VisitHistoryListItem extends StatelessWidget {
     // 日付
     var date = visitHistory.date;
     // 顧客データ
-    var customer = InterConverter.jsonToCustomer(visitHistory.customerJson);
+    var customer = visitHistory.customerJson.toCustomer();
     // 担当スタッフデータ
-    var employee = InterConverter.jsonToEmployee(visitHistory.employeeJson);
+    var employee = visitHistory.employeeJson.toEmployee();
     // 提供メニューリスト
-    var menus = InterConverter.jsonToMenuList(visitHistory.menuListJson);
+    var menus = visitHistory.menuListJson.toMenuList();
     // カテゴリカラーリスト(重複を排除したもの)
     var categoryColors = menus
         .map<Color>((menu) {
-          var category =
-              InterConverter.jsonToMenuCategory(menu.menuCategoryJson);
+          var category = menu.menuCategoryJson.toMenuCategory();
           return Color(category.color);
         })
         .toSet()
