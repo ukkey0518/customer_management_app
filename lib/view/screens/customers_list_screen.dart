@@ -11,7 +11,7 @@ import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
-import 'customer_information_pages/customer_information_screen.dart';
+import 'customers_list_screens/customer_information_pages/customer_information_screen.dart';
 
 class CustomersListScreen extends StatefulWidget {
   final CustomerListScreenPreferences pref;
