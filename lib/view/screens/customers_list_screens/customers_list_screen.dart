@@ -3,6 +3,7 @@ import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/customer_list_card.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
+import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/screens/customers_list_screens/customer_edit_screen.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +124,13 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
       drawer: MyDrawer(),
       body: Column(
         children: <Widget>[
-          _menuBarPart(),
+          SearchBar(
+            customers: _customersList,
+            searchNameController: _searchNameFieldController,
+            onChanged: (_) => _reloadCustomersList(),
+            narrowMenuPart: _narrowMenuPart(),
+            sortMenuPart: _sortMenuPart(),
+          ),
           Divider(),
           Expanded(
             child: Padding(
@@ -133,51 +140,6 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
                 itemCount: _customersList.length,
               ),
             ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // [ウィジェット：上部メニュー部分]
-  Widget _menuBarPart() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      child: Column(
-        children: <Widget>[
-          Row(
-            children: <Widget>[
-              Text.rich(
-                TextSpan(
-                  children: <TextSpan>[
-                    TextSpan(text: '検索結果：'),
-                    TextSpan(
-                      text: '${_customersList.length}',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.red,
-                      ),
-                    ),
-                    TextSpan(text: '件'),
-                  ],
-                ),
-              ),
-              Expanded(child: _narrowMenuPart()),
-              Expanded(child: _sortMenuPart()),
-            ],
-          ),
-          TextField(
-            keyboardType: TextInputType.text,
-            controller: _searchNameFieldController,
-            decoration: InputDecoration(
-              hintText: '名前で検索',
-              prefixIcon: Icon(Icons.search),
-              suffixIcon: IconButton(
-                icon: Icon(Icons.clear),
-                onPressed: () => _searchNameFieldController.clear(),
-              ),
-            ),
-            onEditingComplete: () => _reloadCustomersList(),
           ),
         ],
       ),
