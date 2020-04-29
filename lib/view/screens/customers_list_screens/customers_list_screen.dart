@@ -144,23 +144,20 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ListView.builder(
-                itemBuilder: (context, index) => _customersListItemPart(index),
+                itemBuilder: (context, index) {
+                  var customer = _customersList[index];
+                  return CustomerListCard(
+                    customer: customer,
+                    onTap: () => _showCustomer(customer),
+                    onLongPress: () => _deleteCustomer(customer),
+                  );
+                },
                 itemCount: _customersList.length,
               ),
             ),
           ),
         ],
       ),
-    );
-  }
-
-  // [ウィジェット：各リストアイテム]
-  Widget _customersListItemPart(int index) {
-    var customer = _customersList[index];
-    return CustomerListCard(
-      customer: customer,
-      onTap: () => _showCustomer(customer),
-      onLongPress: () => _deleteCustomer(customer),
     );
   }
 
