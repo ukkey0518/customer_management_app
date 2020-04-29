@@ -165,7 +165,7 @@ class SampleDataInitializer {
 
     try {
       // [Customersテーブルの初期化]
-      var nowCustomersData = await dao.allCustomers;
+      var nowCustomersData = await dao.getCustomers();
       if (nowCustomersData.isEmpty) {
         print('  ...Customers is Empty.');
         await dao.addAllCustomers(_initialCustomers);

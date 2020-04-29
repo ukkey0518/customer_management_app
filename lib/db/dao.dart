@@ -1,5 +1,6 @@
 import 'package:moor/moor.dart';
 
+import '../list_status.dart';
 import 'database.dart';
 part 'dao.g.dart';
 
@@ -19,43 +20,113 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   //
   //
 
-  // [追加：１件追加]
-  Future<int> addCustomer(Customer customer) =>
-      into(customers).insert(customer, orReplace: true);
-
-  // [追加：渡されたデータをすべて追加]
-  Future<void> addAllCustomers(List<Customer> customersList) async {
-    await batch((batch) {
-      batch.insertAll(customers, customersList);
+  // [一括処理( 追加 )：１件追加 -> 全取得]
+  Future<List<Customer>> addOneAndGetAllCustomers(
+    Customer customer, {
+    CustomerNarrowState narrowState,
+    CustomerSortState sortState,
+  }) {
+    return transaction(() async {
+      await addCustomer(customer);
+      return await getCustomers(
+        narrowState: narrowState,
+        sortState: sortState,
+      );
     });
   }
 
-  // [取得：すべての顧客情報を取得]
-  Future<List<Customer>> get allCustomers => select(customers).get();
+  // [一括処理( 追加 ) : 複数追加 -> 全取得]
+  Future<List<Customer>> addAllAndGetAllCustomers(List<Customer> customersList,
+      {CustomerNarrowState narrowState, CustomerSortState sortState}) {
+    return transaction(() async {
+      await addAllCustomers(customersList);
+      return await getCustomers(narrowState: narrowState, sortState: sortState);
+    });
+  }
 
-  // [取得：女性顧客データを取得]
-  Future<List<Customer>> get femaleCustomers =>
-      (select(customers)..where((t) => t.isGenderFemale)).get();
+  // [一括処理( 削除 )：１件削除 -> 全取得]
+  Future<List<Customer>> deleteOneAndGetAllCustomers(Customer customer,
+      {CustomerNarrowState narrowState, CustomerSortState sortState}) {
+    return transaction(() async {
+      await deleteCustomer(customer);
+      return await getCustomers(narrowState: narrowState, sortState: sortState);
+    });
+  }
 
-  // [取得：男性顧客データを取得]
-  Future<List<Customer>> get maleCustomers =>
-      (select(customers)..where((t) => t.isGenderFemale.not())).get();
+  // [追加：１件]
+  Future<int> addCustomer(Customer customer) =>
+      into(customers).insert(customer, mode: InsertMode.replace);
 
-  // [取得：指定した顧客IDに一致する顧客データを取得]
-  Future<Customer> getCustomersById(int id) =>
-      (select(customers)..where((t) => t.id.equals(id))).getSingle();
+  // [追加：複数]
+  Future<void> addAllCustomers(List<Customer> customersList) {
+    return batch((batch) {
+      batch.insertAll(customers, customersList, mode: InsertMode.replace);
+    });
+  }
 
-  // [取得：指定した名前に一致する顧客データを取得]
+  // [取得：条件付きで取得]
+  Future<List<Customer>> getCustomers({
+    CustomerNarrowState narrowState = CustomerNarrowState.ALL,
+    CustomerSortState sortState = CustomerSortState.REGISTER_OLD,
+  }) async {
+    // 全取得ステートメント
+    var statement = select(customers);
+
+    // 絞り込み条件追加
+    switch (narrowState) {
+      case CustomerNarrowState.FEMALE:
+        statement..where((t) => t.isGenderFemale);
+        break;
+      case CustomerNarrowState.MALE:
+        statement..where((t) => t.isGenderFemale.not());
+        break;
+      case CustomerNarrowState.ALL:
+        break;
+    }
+
+    // 並べ替え条件追加
+    switch (sortState) {
+      case CustomerSortState.REGISTER_OLD:
+        statement
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.id, mode: OrderingMode.asc),
+          ]);
+        break;
+      case CustomerSortState.REGISTER_NEW:
+        statement
+          ..orderBy([
+            (t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc),
+          ]);
+        break;
+      case CustomerSortState.NAME_FORWARD:
+        statement
+          ..orderBy([
+            (t) =>
+                OrderingTerm(expression: t.nameReading, mode: OrderingMode.asc),
+          ]);
+        break;
+      case CustomerSortState.NAME_REVERSE:
+        statement
+          ..orderBy([
+            (t) => OrderingTerm(
+                expression: t.nameReading, mode: OrderingMode.desc),
+          ]);
+        break;
+    }
+    // 設定された条件で取得
+    return statement.get();
+  }
+
+  // [取得：顧客名]
   Future<Customer> getCustomersByName(String name) =>
       (select(customers)..where((t) => t.name.equals(name))).getSingle();
 
-  // [更新：１件分の顧客データを更新]
-  Future updateCustomer(Customer customer) =>
-      update(customers).replace(customer);
-
-  // [削除：１件分の顧客データを削除]
-  Future deleteCustomer(Customer customer) =>
-      (delete(customers)..where((t) => t.id.equals(customer.id))).go();
+  // [削除：１件]
+  Future deleteCustomer(Customer customer) => (delete(customers)
+        ..where(
+          (t) => t.id.equals(customer.id),
+        ))
+      .go();
 
   //
   //

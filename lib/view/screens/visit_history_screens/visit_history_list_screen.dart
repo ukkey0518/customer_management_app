@@ -12,7 +12,7 @@ import 'package:toast/toast.dart';
 import 'visit_history_edit_screen.dart';
 
 class VisitHistoryListScreen extends StatefulWidget {
-  final ListScreenPreferences pref;
+  final VisitHistoryListScreenPreferences pref;
 
   VisitHistoryListScreen({this.pref});
 
@@ -22,8 +22,8 @@ class VisitHistoryListScreen extends StatefulWidget {
 
 class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   List<VisitHistory> _visitHistoriesList = List();
-  ListNarrowState _narrowState = ListNarrowState.ALL;
-  ListSortState _sortState = ListSortState.REGISTER_OLD;
+  VisitHistoryNarrowState _narrowState = VisitHistoryNarrowState.ALL;
+  VisitHistorySortState _sortState = VisitHistorySortState.REGISTER_OLD;
   List<String> _narrowDropdownMenuItems = List();
   List<String> _sortDropdownMenuItems = List();
   String _narrowDropdownSelectedValue = '';
@@ -50,11 +50,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   _reloadVisitHistoryList() async {
     // 絞り込み条件
     switch (_narrowState) {
-      case ListNarrowState.ALL:
+      case VisitHistoryNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
         _visitHistoriesList = await dao.allVisitHistories;
         break;
-      case ListNarrowState.TODAY:
+      case VisitHistoryNarrowState.TODAY:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
         _visitHistoriesList = await dao.getVisitHistoriesByDay(
             DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
@@ -66,11 +66,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
 
     // 並べ替え条件
     switch (_sortState) {
-      case ListSortState.REGISTER_OLD:
+      case VisitHistorySortState.REGISTER_OLD:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
         _visitHistoriesList.sort((a, b) => a.id - b.id);
         break;
-      case ListSortState.REGISTER_NEW:
+      case VisitHistorySortState.REGISTER_NEW:
         _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
         _visitHistoriesList.sort((a, b) => b.id - a.id);
         break;
@@ -82,13 +82,13 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   }
 
   // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
-  _setNarrowState(ListNarrowState narrowState) {
+  _setNarrowState(VisitHistoryNarrowState narrowState) {
     _narrowState = narrowState;
     _reloadVisitHistoryList();
   }
 
   // [ソート状態変更：現在のソートステータスを変更して更新する]
-  _setSortState(ListSortState sortState) {
+  _setSortState(VisitHistorySortState sortState) {
     _sortState = sortState;
     _reloadVisitHistoryList();
   }
@@ -100,7 +100,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       context,
       MyCustomRoute(
         builder: (context) => VisitHistoryEditScreen(
-          ListScreenPreferences(
+          VisitHistoryListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
           ),
@@ -115,11 +115,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     switch (value) {
       case '今日':
         // 今日の売上データを抽出
-        _setNarrowState(ListNarrowState.TODAY);
+        _setNarrowState(VisitHistoryNarrowState.TODAY);
         break;
       default:
         // すべての売上データを抽出して更新
-        _setNarrowState(ListNarrowState.ALL);
+        _setNarrowState(VisitHistoryNarrowState.ALL);
         break;
     }
   }
@@ -130,11 +130,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     switch (value) {
       case '登録順(新)':
         // 新規登録が新しい順に並び替え
-        _setSortState(ListSortState.REGISTER_NEW);
+        _setSortState(VisitHistorySortState.REGISTER_NEW);
         break;
       case '登録順(古)':
         // 新規登録が新しい順に並び替え
-        _setSortState(ListSortState.REGISTER_OLD);
+        _setSortState(VisitHistorySortState.REGISTER_OLD);
         break;
     }
   }
@@ -146,7 +146,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       context,
       MyCustomRoute(
         builder: (context) => VisitHistoryEditScreen(
-          ListScreenPreferences(
+          VisitHistoryListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
           ),

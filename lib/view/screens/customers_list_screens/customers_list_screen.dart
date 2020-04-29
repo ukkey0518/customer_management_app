@@ -13,7 +13,7 @@ import 'package:toast/toast.dart';
 import 'customer_information_pages/customer_information_screen.dart';
 
 class CustomersListScreen extends StatefulWidget {
-  final ListScreenPreferences pref;
+  final CustomerListScreenPreferences pref;
 
   CustomersListScreen({this.pref});
 
@@ -24,8 +24,8 @@ class CustomersListScreen extends StatefulWidget {
 class _CustomersListScreenState extends State<CustomersListScreen> {
   List<Customer> _customersList = List();
   TextEditingController _searchNameFieldController = TextEditingController();
-  ListNarrowState _narrowState = ListNarrowState.ALL;
-  ListSortState _sortState = ListSortState.REGISTER_OLD;
+  CustomerNarrowState _narrowState = CustomerNarrowState.ALL;
+  CustomerSortState _sortState = CustomerSortState.REGISTER_OLD;
   List<String> _narrowDropdownMenuItems = List();
   List<String> _sortDropdownMenuItems = List();
   String _narrowDropdownSelectedValue = '';
@@ -51,24 +51,42 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   // [リスト更新処理：指定の条件でリストを更新する]
   _reloadCustomersList() async {
-    // 絞り込み条件
+    // 絞り込みメニュー選択中項目を設定
     switch (_narrowState) {
-      case ListNarrowState.ALL:
+      case CustomerNarrowState.ALL:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _customersList = await dao.allCustomers;
         break;
-      case ListNarrowState.FEMALE:
+      case CustomerNarrowState.FEMALE:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _customersList = await dao.femaleCustomers;
         break;
-      case ListNarrowState.MALE:
+      case CustomerNarrowState.MALE:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[2];
-        _customersList = await dao.maleCustomers;
         break;
       default:
         _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _customersList = await dao.allCustomers;
     }
+    // 並べ替えメニュー選択中項目を設定
+    switch (_sortState) {
+      case CustomerSortState.REGISTER_OLD:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+        break;
+      case CustomerSortState.REGISTER_NEW:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
+        break;
+      case CustomerSortState.NAME_FORWARD:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[2];
+        break;
+      case CustomerSortState.NAME_REVERSE:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[3];
+        break;
+      default:
+        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+    }
+
+    // DB取得処理
+    _customersList = await dao.getCustomers(
+        narrowState: _narrowState, sortState: _sortState);
+
     // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {
       _customersList.removeWhere((customer) {
@@ -76,39 +94,17 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             customer.nameReading.contains(_searchNameFieldController.text));
       });
     }
-    // 並べ替え条件
-    switch (_sortState) {
-      case ListSortState.REGISTER_OLD:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
-        _customersList.sort((a, b) => a.id - b.id);
-        break;
-      case ListSortState.REGISTER_NEW:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
-        _customersList.sort((a, b) => b.id - a.id);
-        break;
-      case ListSortState.NAME_FORWARD:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[2];
-        _customersList.sort((a, b) => a.nameReading.compareTo(b.nameReading));
-        break;
-      case ListSortState.NAME_REVERSE:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[3];
-        _customersList.sort((a, b) => b.nameReading.compareTo(a.nameReading));
-        break;
-      default:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
-        _customersList.sort((a, b) => a.id - b.id);
-    }
     setState(() {});
   }
 
   // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
-  _setNarrowState(ListNarrowState narrowState) {
+  _setNarrowState(CustomerNarrowState narrowState) {
     _narrowState = narrowState;
     _reloadCustomersList();
   }
 
   // [ソート状態変更：現在のソートステータスを変更して更新する]
-  _setSortState(ListSortState sortState) {
+  _setSortState(CustomerSortState sortState) {
     _sortState = sortState;
     _reloadCustomersList();
   }
@@ -162,7 +158,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
       context,
       MyCustomRoute(
         builder: (context) => CustomerEditScreen(
-          ListScreenPreferences(
+          CustomerListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
             searchWord: _searchNameFieldController.text,
@@ -179,7 +175,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
       context,
       MyCustomRoute(
         builder: (context) => CustomerInformationScreen(
-          ListScreenPreferences(
+          CustomerListScreenPreferences(
             narrowState: _narrowState,
             sortState: _sortState,
             searchWord: _searchNameFieldController.text,
@@ -207,15 +203,15 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     switch (value) {
       case '女性のみ':
         // 女性のみデータを抽出
-        _setNarrowState(ListNarrowState.FEMALE);
+        _setNarrowState(CustomerNarrowState.FEMALE);
         break;
       case '男性のみ':
         // 男性のみデータを抽出
-        _setNarrowState(ListNarrowState.MALE);
+        _setNarrowState(CustomerNarrowState.MALE);
         break;
       default:
         // すべてのCustomerを抽出して更新
-        _setNarrowState(ListNarrowState.ALL);
+        _setNarrowState(CustomerNarrowState.ALL);
         break;
     }
   }
@@ -226,19 +222,19 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     switch (value) {
       case '登録順(新)':
         // 新規登録が新しい順に並び替え
-        _setSortState(ListSortState.REGISTER_NEW);
+        _setSortState(CustomerSortState.REGISTER_NEW);
         break;
       case '登録順(古)':
         // 新規登録が新しい順に並び替え
-        _setSortState(ListSortState.REGISTER_OLD);
+        _setSortState(CustomerSortState.REGISTER_OLD);
         break;
       case '名前順':
         // 名前順に並び替え
-        _setSortState(ListSortState.NAME_FORWARD);
+        _setSortState(CustomerSortState.NAME_FORWARD);
         break;
       case '名前逆順':
         // 名前逆順に並び替え
-        _setSortState(ListSortState.NAME_REVERSE);
+        _setSortState(CustomerSortState.NAME_REVERSE);
         break;
     }
   }

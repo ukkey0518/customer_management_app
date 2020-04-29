@@ -12,7 +12,7 @@ import 'visit_record_page.dart';
 
 class CustomerInformationScreen extends StatefulWidget {
   final customer;
-  final ListScreenPreferences pref;
+  final CustomerListScreenPreferences pref;
 
   CustomerInformationScreen(this.pref, {this.customer});
 
@@ -24,7 +24,7 @@ class CustomerInformationScreen extends StatefulWidget {
 class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   Customer _customer;
   List<VisitHistory> _visitHistories;
-  ListScreenPreferences _pref;
+  CustomerListScreenPreferences _pref;
   final _tabs = <Tab>[
     Tab(text: '基本情報', icon: Icon(Icons.account_circle)),
     Tab(text: '来店履歴', icon: Icon(Icons.shopping_cart)),

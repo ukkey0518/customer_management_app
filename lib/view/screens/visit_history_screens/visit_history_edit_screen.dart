@@ -17,7 +17,7 @@ import 'visit_history_list_screen.dart';
 class VisitHistoryEditScreen extends StatefulWidget {
   VisitHistoryEditScreen(this.pref, {this.visitHistory});
 
-  final ListScreenPreferences pref;
+  final VisitHistoryListScreenPreferences pref;
   final VisitHistory visitHistory;
 
   @override

@@ -12,7 +12,7 @@ import 'package:toast/toast.dart';
 import 'customer_information_pages/customer_information_screen.dart';
 
 class CustomerEditScreen extends StatefulWidget {
-  final ListScreenPreferences pref;
+  final CustomerListScreenPreferences pref;
   final Customer customer;
   CustomerEditScreen(this.pref, {this.customer});
 
