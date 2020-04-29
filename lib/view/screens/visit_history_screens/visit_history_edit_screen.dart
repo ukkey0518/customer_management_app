@@ -3,7 +3,6 @@ import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/customer_selected_card.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
-import 'package:customermanagementapp/util/inter_converter.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
@@ -118,9 +117,9 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     var visitHistory = VisitHistory(
       id: widget.visitHistory?.id,
       date: _date,
-      customerJson: InterConverter.customerToJson(_selectedCustomer),
-      employeeJson: InterConverter.employeeToJson(_selectedEmployee),
-      menuListJson: InterConverter.menuListToJson(_menus),
+      customerJson: _selectedCustomer.toJsonString(),
+      employeeJson: _selectedEmployee.toJsonString(),
+      menuListJson: _menus.toJsonString(),
     );
     // DB挿入
     await database.addVisitHistory(visitHistory);

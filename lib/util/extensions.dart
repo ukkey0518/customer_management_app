@@ -34,6 +34,17 @@ extension ConvertFromJson on String {
   }
 }
 
+extension ConvertFromMenuList on List<Menu> {
+  // [変換：List<Menu> -> JSON文字列]
+  String toJsonString() {
+    var menuIds = this.map<String>((menu) {
+      return menu.toJsonString();
+    });
+    var menuIdsStr = menuIds.join('%');
+    return menuIdsStr;
+  }
+}
+
 // Stringをオブジェクトへ変換する
 extension ConvertFromString on String {
   // [変換：表示用日付文字列 -> DateTime]

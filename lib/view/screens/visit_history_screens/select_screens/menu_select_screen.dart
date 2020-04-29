@@ -1,6 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_setting_screen.dart';
-import 'package:customermanagementapp/util/inter_converter.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -193,7 +192,7 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
                 _categories.isEmpty
                     ? 0xffffffff
                     : _categories.firstWhere((category) {
-                        return InterConverter.menuCategoryToJson(category) ==
+                        return category.toJsonString() ==
                             selectedMenu.menuCategoryJson;
                       }).color,
               ),

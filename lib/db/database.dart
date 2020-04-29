@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:customermanagementapp/util/inter_converter.dart';
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
 import 'package:path_provider/path_provider.dart';
@@ -148,7 +147,7 @@ class MyDatabase extends _$MyDatabase {
     return (select(visitHistories)
           ..where(
             (t) => t.customerJson.equals(
-              InterConverter.customerToJson(customer),
+              customer.toJsonString(),
             ),
           ))
         .get();

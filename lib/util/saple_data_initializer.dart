@@ -1,5 +1,4 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/inter_converter.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
 
@@ -63,85 +62,97 @@ class SampleDataInitializer {
       id: 1,
       name: 'メニュー1',
       price: 1000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value)),
+      menuCategoryJson:
+          MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value)
+              .toJsonString(),
     ),
     Menu(
       id: 2,
       name: 'メニュー2',
       price: 2000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value)),
+      menuCategoryJson:
+          MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value)
+              .toJsonString(),
     ),
     Menu(
       id: 3,
       name: 'メニュー3',
       price: 3000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value)),
+      menuCategoryJson:
+          MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value)
+              .toJsonString(),
     ),
     Menu(
       id: 4,
       name: 'メニュー4',
       price: 4000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value)),
+      menuCategoryJson:
+          MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value)
+              .toJsonString(),
     ),
     Menu(
       id: 5,
       name: 'メニュー5',
       price: 5000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value)),
+      menuCategoryJson:
+          MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value)
+              .toJsonString(),
     ),
     Menu(
       id: 6,
       name: 'メニュー6',
       price: 6000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value)),
+      menuCategoryJson:
+          MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value)
+              .toJsonString(),
     ),
     Menu(
       id: 7,
       name: 'メニュー7',
       price: 7000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)),
+      menuCategoryJson:
+          MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)
+              .toJsonString(),
     ),
     Menu(
       id: 8,
       name: 'メニュー8',
       price: 8000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)),
+      menuCategoryJson:
+          MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)
+              .toJsonString(),
     ),
     Menu(
       id: 9,
       name: 'メニュー9',
       price: 9000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)),
+      menuCategoryJson:
+          MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value)
+              .toJsonString(),
     ),
     Menu(
       id: 10,
       name: 'メニュー10',
       price: 10000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 4, name: 'カテゴリD', color: Colors.amber.value)),
+      menuCategoryJson:
+          MenuCategory(id: 4, name: 'カテゴリD', color: Colors.amber.value)
+              .toJsonString(),
     ),
     Menu(
       id: 11,
       name: 'メニュー11',
       price: 11000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(MenuCategory(
-          id: 5, name: 'カテゴリE', color: Colors.deepPurpleAccent.value)),
+      menuCategoryJson: MenuCategory(
+              id: 5, name: 'カテゴリE', color: Colors.deepPurpleAccent.value)
+          .toJsonString(),
     ),
     Menu(
       id: 12,
       name: 'メニュー12',
       price: 12000,
-      menuCategoryJson: InterConverter.menuCategoryToJson(
-          MenuCategory(id: 6, name: 'カテゴリF', color: Colors.tealAccent.value)),
+      menuCategoryJson:
+          MenuCategory(id: 6, name: 'カテゴリF', color: Colors.tealAccent.value)
+              .toJsonString(),
     ),
   ];
 
