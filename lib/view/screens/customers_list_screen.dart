@@ -6,7 +6,7 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/customers_list_view.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
-import 'package:customermanagementapp/view/screens/customers_list_screens/customer_edit_screen.dart';
+import 'package:customermanagementapp/view/screens/customer_edit_screen.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';

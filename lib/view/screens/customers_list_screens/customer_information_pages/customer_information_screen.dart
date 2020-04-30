@@ -6,7 +6,7 @@ import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 
-import '../customer_edit_screen.dart';
+import '../../customer_edit_screen.dart';
 import 'basic_information_page.dart';
 import 'visit_record_page.dart';
 
