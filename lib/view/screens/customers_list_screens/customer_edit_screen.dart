@@ -2,7 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/view/components/customer_basic_input_form.dart';
+import 'package:customermanagementapp/view/components/basic_input_form.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/date_select_form.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/input_field.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/select_buttons.dart';
