@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
 import 'package:customermanagementapp/view/screens/home_screen.dart';
-import 'package:customermanagementapp/view/screens/setting_screens/main_setting_screen.dart';
+import 'package:customermanagementapp/view/screens/setting_screen.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/visit_history_list_screen.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
