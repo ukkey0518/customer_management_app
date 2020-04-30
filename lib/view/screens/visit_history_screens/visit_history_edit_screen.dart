@@ -3,6 +3,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/customer_selected_card.dart';
+import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
@@ -143,7 +144,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       );
       return Future.value(false);
     }
-    await showDialog(context: context, builder: (_) => _finishWarningDialog())
+    await showDialog(context: context, builder: (_) => UnsavedConfirmDialog())
         .then((flag) {
       if (flag) {
         Navigator.pushReplacement(
@@ -462,36 +463,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  // [ダイアログ：編集中に画面を戻ろうとしたときのダイアログ]
-  Widget _finishWarningDialog() {
-    return AlertDialog(
-      title: const Text('ご注意ください'),
-      content: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-            const Text('このまま画面を閉じると'),
-            const Text('保存されていないデータは失われます。'),
-            const Text('保存せずに終了しますか？'),
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        FlatButton(
-          child: Text('キャンセル'),
-          onPressed: () {
-            Navigator.of(context).pop(false);
-          },
-        ),
-        FlatButton(
-          child: Text('保存せずに閉じる'),
-          onPressed: () {
-            Navigator.of(context).pop(true);
-          },
-        ),
-      ],
     );
   }
 }

@@ -7,11 +7,12 @@ import 'package:customermanagementapp/view/components/basic_input_form.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/date_select_form.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/input_field.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/select_buttons.dart';
-import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
+import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
+import '../customers_list_screen.dart';
 import 'customer_information_pages/customer_information_screen.dart';
 
 class CustomerEditScreen extends StatefulWidget {
@@ -81,14 +82,14 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
     final Map<bool, String> genderEntry = {true: '女性', false: '男性'};
 
     return WillPopScope(
-      onWillPop: () => _finishEditScreen(context),
+      onWillPop: () => _finishEditScreen(context, true),
       child: Scaffold(
         appBar: AppBar(
           title: Text(_titleStr),
           // 戻るボタン
           leading: IconButton(
             icon: Icon(Icons.arrow_back_ios),
-            onPressed: () => _finishEditScreen(context),
+            onPressed: () => _finishEditScreen(context, true),
           ),
           actions: <Widget>[
             // 保存ボタン
@@ -166,11 +167,12 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
     Toast.show(_completeMessage, context);
 
     // 画面を終了
-    _finishEditScreen(context);
+    _finishEditScreen(context, false);
   }
 
   // [コールバック：画面終了時]
-  Future<bool> _finishEditScreen(BuildContext context) {
+  Future<bool> _finishEditScreen(
+      BuildContext context, bool dialogShowFlag) async {
     var widgetBuilder;
     if (widget.customer == null) {
       widgetBuilder = (context) => CustomersListScreen(pref: widget.pref);
@@ -180,12 +182,28 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
             customer: _editedCustomer,
           );
     }
-    Navigator.pushReplacement(
-      context,
-      MyCustomRoute(
-        builder: widgetBuilder,
-      ),
-    );
+    if (dialogShowFlag) {
+      await showDialog(
+        context: context,
+        builder: (_) => UnsavedConfirmDialog(),
+      ).then((flag) {
+        if (flag) {
+          Navigator.pushReplacement(
+            context,
+            MyCustomRoute(
+              builder: widgetBuilder,
+            ),
+          );
+        }
+      });
+    } else {
+      Navigator.pushReplacement(
+        context,
+        MyCustomRoute(
+          builder: widgetBuilder,
+        ),
+      );
+    }
     return Future.value(false);
   }
 }
