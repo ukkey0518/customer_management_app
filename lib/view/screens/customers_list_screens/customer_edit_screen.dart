@@ -56,7 +56,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
     }
   }
 
-  // [更新：性別選択後に更新する処理]
+  // [コールバック：性別選択時]
   _setGender(String value) {
     switch (value) {
       case '女性':
@@ -69,7 +69,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
     setState(() {});
   }
 
-  // [更新：誕生日入力後に更新する処理]
+  // [コールバック：誕生日入力を決定した時]
   _setBirthDay(DateTime birthDay) {
     setState(() {
       _birthDay = birthDay;
@@ -78,6 +78,8 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final Map<bool, String> genderEntry = {true: '女性', false: '男性'};
+
     return WillPopScope(
       onWillPop: () => _finishEditScreen(context),
       child: Scaffold(
@@ -114,13 +116,13 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
                       errorText: _nameReadingFieldErrorText,
                     ),
                     '性別*': SelectButtons(
-                      values: ['女性', '男性'],
-                      selectedValue: _isGenderFemale ? '女性' : '男性',
-                      onChanged: (value) => _setGender(value),
+                      values: genderEntry.values.toList(),
+                      selectedValue: genderEntry[_isGenderFemale],
+                      onChanged: _setGender,
                     ),
                     '生年月日': DateSelectForm(
                       selectedDate: _birthDay,
-                      onConfirm: (birthDay) => _setBirthDay(birthDay),
+                      onConfirm: _setBirthDay,
                     ),
                   },
                 ),
