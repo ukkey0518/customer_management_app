@@ -3,10 +3,10 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
+import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 import 'customer_information_pages/customer_information_screen.dart';
@@ -24,11 +24,10 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
   TextEditingController _nameController = TextEditingController();
   TextEditingController _nameReadingController = TextEditingController();
   bool _isGenderFemale = true;
-  String _titleStr = '';
   DateTime _birthDay = DateTime(1980, 1, 1);
-  DateFormat _birthDayFormatter = DateFormat('yyyy年 M月 d日');
-  Customer _editedCustomer;
+  String _titleStr = '';
   String _completeMessage = '';
+  Customer _editedCustomer;
 
   String _nameFieldErrorText;
   String _nameReadingFieldErrorText;
@@ -194,7 +193,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
                       child: Text(
                         _birthDay == null
                             ? '未登録'
-                            : '${_birthDayFormatter.format(_birthDay)}',
+                            : '${_birthDay.toBirthDayString()}',
                         style: TextStyle(fontSize: 16),
                       ),
                     ),

@@ -72,6 +72,12 @@ extension ConvertFromDateTime on DateTime {
     return dateStr;
   }
 
+  // [変換：DateTime -> 生年月日文字列（日本語表記）]
+  String toBirthDayString() {
+    var birthStr = DateFormat('yyyy年 M月 d日').format(this);
+    return birthStr;
+  }
+
   // [変換：誕生日から年齢を取得する]
   int toAge() {
     // 引数がnullの場合はnullを返す
