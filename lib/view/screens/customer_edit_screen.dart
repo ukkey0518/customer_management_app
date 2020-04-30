@@ -16,25 +16,45 @@ import 'customers_list_screen.dart';
 import 'customers_list_screens/customer_information_pages/customer_information_screen.dart';
 
 class CustomerEditScreen extends StatefulWidget {
+  CustomerEditScreen(this.pref, {this.customer});
+
   final CustomerListScreenPreferences pref;
   final Customer customer;
-  CustomerEditScreen(this.pref, {this.customer});
 
   @override
   _CustomerEditScreenState createState() => _CustomerEditScreenState();
 }
 
 class _CustomerEditScreenState extends State<CustomerEditScreen> {
+  // [フィールド：名前入力欄のTextEditingController]
   TextEditingController _nameController = TextEditingController();
+
+  // [フィールド：名前入力欄のTextEditingController]
   TextEditingController _nameReadingController = TextEditingController();
+
+  // [フィールド：性別]
   bool _isGenderFemale = true;
+
+  // [フィールド：生年月日]
   DateTime _birthDay = DateTime(1980, 1, 1);
+
+  // [フィールド：タイトル]
   String _titleStr = '';
+
+  // [フィールド：完了時のメッセージ]
   String _completeMessage = '';
+
+  // [フィールド：編集したカスタマー]
   Customer _editedCustomer;
 
+  // [フィールド：名前入力欄のエラーメッセージ]
   String _nameFieldErrorText;
+
+  // [フィールド：よみがな入力欄のエラーメッセージ]
   String _nameReadingFieldErrorText;
+
+  // [定数フィールド：DAO]
+  final MyDao dao = MyDao(database);
 
   @override
   void initState() {
@@ -139,23 +159,26 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
 
   // [コールバック：保存ボタンタップ時]
   _saveCustomer() async {
+    // 未入力チェック：名前入力欄
     _nameFieldErrorText = _nameController.text.isEmpty ? '必須入力です' : null;
+
+    // 未入力チェック：よみがな入力欄
     _nameReadingFieldErrorText =
         _nameReadingController.text.isEmpty ? '必須入力です' : null;
 
-    final dao = MyDao(database);
-
+    // 重複チェック：
     _nameFieldErrorText = widget.customer == null &&
             await dao.getCustomersByName(_nameController.text) != null
         ? '同名の顧客データが存在しています。'
         : _nameFieldErrorText;
 
-    setState(() {});
-
+    // エラー時は画面を更新して戻る
     if (_nameFieldErrorText != null || _nameReadingFieldErrorText != null) {
+      setState(() {});
       return;
     }
 
+    // 編集後の顧客データを作成
     _editedCustomer = Customer(
       id: widget.customer?.id,
       name: _nameController.text,
@@ -166,6 +189,8 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
 
     // DBに新規登録
     await dao.addCustomer(_editedCustomer);
+
+    // メッセージを表示
     Toast.show(_completeMessage, context);
 
     // 画面を終了
