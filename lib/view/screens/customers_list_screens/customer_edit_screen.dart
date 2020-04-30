@@ -110,10 +110,12 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
                   items: <String, InputWidget>{
                     '氏名*': InputField(
                       controller: _nameController,
+                      inputType: TextInputType.text,
                       errorText: _nameFieldErrorText,
                     ),
                     'よみがな*': InputField(
                       controller: _nameReadingController,
+                      inputType: TextInputType.text,
                       errorText: _nameReadingFieldErrorText,
                     ),
                     '性別*': SelectButtons(

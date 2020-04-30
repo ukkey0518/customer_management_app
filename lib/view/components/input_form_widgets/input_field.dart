@@ -4,11 +4,13 @@ import 'package:flutter/material.dart';
 class InputField extends InputWidget {
   InputField({
     @required this.controller,
+    @required this.inputType,
     @required this.errorText,
     this.hintText = '',
   });
 
   final TextEditingController controller;
+  final TextInputType inputType;
   final String errorText;
   final String hintText;
 
@@ -22,6 +24,8 @@ class InputField extends InputWidget {
             borderRadius: BorderRadius.all(Radius.circular(8)),
           ),
           child: TextField(
+            controller: controller,
+            keyboardType: inputType,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               hintText: hintText,
@@ -30,7 +34,6 @@ class InputField extends InputWidget {
                 borderSide: BorderSide(color: Colors.red),
               ),
             ),
-            controller: controller,
           ),
         ),
       ],
