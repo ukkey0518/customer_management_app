@@ -6,6 +6,7 @@ class BasicInformationPage extends StatefulWidget {
   final Customer customer;
 
   BasicInformationPage({this.customer});
+
   @override
   _BasicInformationPageState createState() => _BasicInformationPageState();
 }
