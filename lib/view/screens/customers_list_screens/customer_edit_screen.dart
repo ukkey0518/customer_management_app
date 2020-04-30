@@ -206,8 +206,9 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
               width: double.infinity,
               alignment: Alignment.centerRight,
               child: RaisedButton(
+                disabledColor: Color(0xe5e5e5e5),
                 child: Text('クリア'),
-                onPressed: () => _setBirthDay(null),
+                onPressed: _birthDay != null ? () => _setBirthDay(null) : null,
               ),
             ),
           ],
