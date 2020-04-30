@@ -101,8 +101,8 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text('基本情報', style: TextStyle(fontSize: 20)),
-                CustomerBasicInputForm(
+                BasicInputForm(
+                  formTitle: '基本情報',
                   nameInputField: InputField(
                     controller: _nameController,
                     errorText: _nameFieldErrorText,
