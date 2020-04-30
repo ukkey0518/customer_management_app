@@ -1,8 +1,9 @@
+import 'package:customermanagementapp/util/mixins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 
-class DateSelectForm extends StatelessWidget {
+class DateSelectForm extends StatelessWidget with InputWidgetMixIn {
   DateSelectForm({
     @required this.selectedDate,
     @required this.onConfirm,

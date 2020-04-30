@@ -1,6 +1,7 @@
+import 'package:customermanagementapp/util/mixins.dart';
 import 'package:flutter/material.dart';
 
-class SelectButtons extends StatelessWidget {
+class SelectButtons extends StatelessWidget with InputWidgetMixIn {
   SelectButtons({
     @required this.values,
     @required this.selectedValue,

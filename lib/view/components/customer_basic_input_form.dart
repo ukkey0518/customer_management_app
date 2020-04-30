@@ -1,9 +1,9 @@
 import 'package:customermanagementapp/util/colors.dart';
-import 'package:customermanagementapp/view/components/select_buttons.dart';
+import 'package:customermanagementapp/view/components/input_form_widgets/select_buttons.dart';
 import 'package:flutter/material.dart';
 
-import 'date_select_form.dart';
-import 'input_field.dart';
+import 'input_form_widgets/date_select_form.dart';
+import 'input_form_widgets/input_field.dart';
 
 class BasicInputForm extends StatelessWidget {
   BasicInputForm({
