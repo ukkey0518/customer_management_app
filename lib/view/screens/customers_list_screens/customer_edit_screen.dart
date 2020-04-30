@@ -2,11 +2,13 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/view/components/customer_basic_input_form.dart';
+import 'package:customermanagementapp/view/components/date_select_form.dart';
+import 'package:customermanagementapp/view/components/input_field.dart';
+import 'package:customermanagementapp/view/components/select_buttons.dart';
 import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
-import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:toast/toast.dart';
 
 import 'customer_information_pages/customer_information_screen.dart';
@@ -54,10 +56,16 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
   }
 
   // [更新：性別選択後に更新する処理]
-  _setGender(bool value) {
-    setState(() {
-      _isGenderFemale = value;
-    });
+  _setGender(String value) {
+    switch (value) {
+      case '女性':
+        _isGenderFemale = true;
+        break;
+      case '男性':
+        _isGenderFemale = false;
+        break;
+    }
+    setState(() {});
   }
 
   // [更新：誕生日入力後に更新する処理]
@@ -94,141 +102,31 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const Text('基本情報', style: TextStyle(fontSize: 20)),
-                _profilePart(),
+                CustomerBasicInputForm(
+                  nameInputField: InputField(
+                    controller: _nameController,
+                    errorText: _nameFieldErrorText,
+                  ),
+                  nameReadingInputField: InputField(
+                    controller: _nameReadingController,
+                    errorText: _nameReadingFieldErrorText,
+                  ),
+                  genderSelectButtons: SelectButtons(
+                    values: ['女性', '男性'],
+                    selectedValue: _isGenderFemale ? '女性' : '男性',
+                    onChanged: (value) => _setGender(value),
+                  ),
+                  birthDaySelectForm: DateSelectForm(
+                    selectedDate: _birthDay,
+                    onConfirm: (birthDay) => _setBirthDay(birthDay),
+                  ),
+                ),
               ],
             ),
           ),
         ),
       ),
     );
-  }
-
-  Widget _profilePart() {
-    return Card(
-      color: Color(0xe5e5e5e5),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('氏名：', style: TextStyle(fontWeight: FontWeight.bold)),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: '顧客 太郎',
-                  errorText: _nameFieldErrorText,
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
-                  ),
-                ),
-                controller: _nameController,
-              ),
-            ),
-            SizedBox(height: 16),
-            Text('よみがな：', style: TextStyle(fontWeight: FontWeight.bold)),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'こきゃく たろう',
-                  errorText: _nameReadingFieldErrorText,
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Colors.red),
-                  ),
-                ),
-                controller: _nameReadingController,
-              ),
-            ),
-            SizedBox(height: 16),
-            Text('性別：', style: TextStyle(fontWeight: FontWeight.bold)),
-            Row(
-              children: <Widget>[
-                RaisedButton(
-                  color: _isGenderFemale
-                      ? Theme.of(context).primaryColorLight
-                      : Colors.white,
-                  child: Text(
-                    '女性',
-                    style: TextStyle(
-                      color: _isGenderFemale ? Colors.black : Colors.grey,
-                    ),
-                  ),
-                  onPressed: () => _setGender(true),
-                ),
-                SizedBox(width: 4),
-                RaisedButton(
-                  color: _isGenderFemale
-                      ? Colors.white
-                      : Theme.of(context).primaryColorLight,
-                  child: Text(
-                    '男性',
-                    style: TextStyle(
-                      color: _isGenderFemale ? Colors.grey : Colors.black,
-                    ),
-                  ),
-                  onPressed: () => _setGender(false),
-                ),
-              ],
-            ),
-            SizedBox(height: 16),
-            Text('生年月日：', style: TextStyle(fontWeight: FontWeight.bold)),
-            Container(
-              color: Colors.white,
-              height: 50,
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              child: InkWell(
-                onTap: _showBirthDaySelectPicker,
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Text(
-                        _birthDay == null
-                            ? '未登録'
-                            : '${_birthDay.toBirthDayString()}',
-                        style: TextStyle(fontSize: 16),
-                      ),
-                    ),
-                    Icon(Icons.chevron_right),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              width: double.infinity,
-              alignment: Alignment.centerRight,
-              child: RaisedButton(
-                disabledColor: Color(0xe5e5e5e5),
-                child: Text('クリア'),
-                onPressed: _birthDay != null ? () => _setBirthDay(null) : null,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  // [コールバック：誕生日欄タップ時]
-  _showBirthDaySelectPicker() {
-    DatePicker.showDatePicker(
-      context,
-      showTitleActions: true,
-      minTime: DateTime(1970, 1, 1),
-      maxTime: DateTime.now(),
-      onConfirm: (birthDay) => _setBirthDay(birthDay),
-      currentTime: _birthDay == null ? DateTime(1990, 1, 1) : _birthDay,
-      locale: LocaleType.jp,
-    );
-    setState(() {});
   }
 
   // [コールバック：保存ボタンタップ時]
