@@ -1,7 +1,7 @@
-import 'package:customermanagementapp/util/mixins.dart';
+import 'package:customermanagementapp/util/abstract_classes.dart';
 import 'package:flutter/material.dart';
 
-class InputField extends StatelessWidget with InputWidgetMixIn {
+class InputField extends InputWidget {
   InputField({
     @required this.controller,
     @required this.errorText,

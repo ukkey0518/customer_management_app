@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/util/abstract_classes.dart';
 import 'package:customermanagementapp/view/components/basic_input_form.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/date_select_form.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/input_field.dart';
@@ -103,23 +104,25 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
               children: <Widget>[
                 BasicInputForm(
                   formTitle: '基本情報',
-                  nameInputField: InputField(
-                    controller: _nameController,
-                    errorText: _nameFieldErrorText,
-                  ),
-                  nameReadingInputField: InputField(
-                    controller: _nameReadingController,
-                    errorText: _nameReadingFieldErrorText,
-                  ),
-                  genderSelectButtons: SelectButtons(
-                    values: ['女性', '男性'],
-                    selectedValue: _isGenderFemale ? '女性' : '男性',
-                    onChanged: (value) => _setGender(value),
-                  ),
-                  birthDaySelectForm: DateSelectForm(
-                    selectedDate: _birthDay,
-                    onConfirm: (birthDay) => _setBirthDay(birthDay),
-                  ),
+                  items: <String, InputWidget>{
+                    '氏名*': InputField(
+                      controller: _nameController,
+                      errorText: _nameFieldErrorText,
+                    ),
+                    'よみがな*': InputField(
+                      controller: _nameReadingController,
+                      errorText: _nameReadingFieldErrorText,
+                    ),
+                    '性別*': SelectButtons(
+                      values: ['女性', '男性'],
+                      selectedValue: _isGenderFemale ? '女性' : '男性',
+                      onChanged: (value) => _setGender(value),
+                    ),
+                    '生年月日': DateSelectForm(
+                      selectedDate: _birthDay,
+                      onConfirm: (birthDay) => _setBirthDay(birthDay),
+                    ),
+                  },
                 ),
               ],
             ),
