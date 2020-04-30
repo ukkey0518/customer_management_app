@@ -6,25 +6,25 @@ import 'package:flutter/material.dart';
 import 'setting_screens/menu_setting_screen.dart';
 
 class MainSettingScreen extends StatelessWidget {
-  final Map<String, Widget> settingMenus = {
+  final Map<String, Widget> settingMenuItems = {
     'メニュー管理': MenuSettingScreen(),
     'スタッフ管理': EmployeeSettingScreen(),
   };
 
   @override
   Widget build(BuildContext context) {
-    final menuEntriesList = settingMenus.entries.toList();
+    final entriesList = settingMenuItems.entries.toList();
     return Scaffold(
       appBar: AppBar(
         title: const Text('各種設定'),
       ),
       drawer: MyDrawer(),
       body: ListView(
-        children: List.generate(menuEntriesList.length, (index) {
-          final menu = menuEntriesList[index];
+        children: List.generate(entriesList.length, (index) {
+          final entry = entriesList[index];
           return SettingListItem(
-            title: menu.key,
-            screen: menu.value,
+            title: entry.key,
+            screen: entry.value,
           );
         }),
       ),
