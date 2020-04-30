@@ -30,13 +30,16 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
   Customer _editedCustomer;
   String _completeMessage = '';
 
+  String _nameFieldErrorText;
+  String _nameReadingFieldErrorText;
+
   @override
   void initState() {
     super.initState();
     if (widget.customer == null) {
       _nameController.text = '';
       _nameReadingController.text = '';
-      _isGenderFemale = null;
+      _isGenderFemale = true;
       _birthDay = null;
       _titleStr = '顧客情報の新規登録';
       _completeMessage = '登録されました。';
@@ -52,7 +55,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
   }
 
   // [更新：性別選択後に更新する処理]
-  _setGender(value) {
+  _setGender(bool value) {
     setState(() {
       _isGenderFemale = value;
     });
@@ -85,113 +88,129 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
             ),
           ],
         ),
-        body: Center(
-          child: Column(
-            children: <Widget>[
-              SizedBox(height: 30),
-              const Text('基本情報', style: TextStyle(fontSize: 20)),
-              SizedBox(height: 16),
-              _nameInputPart(),
-              SizedBox(height: 16),
-              _nameReadingInputPart(),
-              SizedBox(height: 16),
-              _genderInputPart(),
-              SizedBox(height: 30),
-              const Text('詳細情報', style: TextStyle(fontSize: 20)),
-              SizedBox(height: 16),
-              _birthDayInputPart(),
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                const Text('基本情報', style: TextStyle(fontSize: 20)),
+                _profilePart(),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  // [ウィジェットビルダー：各入力欄のフォーマッタ]
-  Widget _inputPartBuilder({String title, Widget content}) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 3,
-            child: Text(title, style: TextStyle(fontSize: 20)),
-          ),
-          Expanded(
-            flex: 7,
-            child: content,
-          ),
-        ],
-      ),
-    );
-  }
-
-  // [ウィジェット：名前入力部分]
-  Widget _nameInputPart() {
-    return _inputPartBuilder(
-      title: 'お名前',
-      content: TextField(
-        controller: _nameController,
-        keyboardType: TextInputType.text,
-      ),
-    );
-  }
-
-  // [ウィジェット：よみがな入力部分]
-  Widget _nameReadingInputPart() {
-    return _inputPartBuilder(
-      title: 'よみがな',
-      content: TextField(
-        controller: _nameReadingController,
-        keyboardType: TextInputType.text,
-      ),
-    );
-  }
-
-  // [ウィジェット：性別入力部分]
-  Widget _genderInputPart() {
-    return _inputPartBuilder(
-      title: '性別',
-      content: Row(
-        children: <Widget>[
-          Expanded(
-            child: RadioListTile(
-              title: const Text('女性'),
-              value: true,
-              groupValue: _isGenderFemale,
-              onChanged: (gender) => _setGender(gender),
-            ),
-          ),
-          Expanded(
-            child: RadioListTile(
-              title: const Text('男性'),
-              value: false,
-              groupValue: _isGenderFemale,
-              onChanged: (gender) => _setGender(gender),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // [ウィジェット：生年月日入力部分]
-  Widget _birthDayInputPart() {
-    return _inputPartBuilder(
-      title: '生年月日',
-      content: InkWell(
-        onTap: _showBirthDaySelectPicker,
-        child: Row(
+  Widget _profilePart() {
+    return Card(
+      color: Color(0xe5e5e5e5),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Expanded(
-              child: Text(
-                _birthDay == null
-                    ? '未登録'
-                    : '${_birthDayFormatter.format(_birthDay)}',
-                style: TextStyle(fontSize: 16),
+            Text('氏名：', style: TextStyle(fontWeight: FontWeight.bold)),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: '顧客 太郎',
+                  errorText: _nameFieldErrorText,
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                controller: _nameController,
               ),
             ),
-            Icon(Icons.chevron_right),
+            SizedBox(height: 16),
+            Text('よみがな：', style: TextStyle(fontWeight: FontWeight.bold)),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(8)),
+              ),
+              child: TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'こきゃく たろう',
+                  errorText: _nameReadingFieldErrorText,
+                  errorBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Colors.red),
+                  ),
+                ),
+                controller: _nameReadingController,
+              ),
+            ),
+            SizedBox(height: 16),
+            Text('性別：', style: TextStyle(fontWeight: FontWeight.bold)),
+            Row(
+              children: <Widget>[
+                RaisedButton(
+                  color: _isGenderFemale
+                      ? Theme.of(context).primaryColorLight
+                      : Colors.white,
+                  child: Text(
+                    '女性',
+                    style: TextStyle(
+                      color: _isGenderFemale ? Colors.black : Colors.grey,
+                    ),
+                  ),
+                  onPressed: () => _setGender(true),
+                ),
+                SizedBox(width: 4),
+                RaisedButton(
+                  color: _isGenderFemale
+                      ? Colors.white
+                      : Theme.of(context).primaryColorLight,
+                  child: Text(
+                    '男性',
+                    style: TextStyle(
+                      color: _isGenderFemale ? Colors.grey : Colors.black,
+                    ),
+                  ),
+                  onPressed: () => _setGender(false),
+                ),
+              ],
+            ),
+            SizedBox(height: 16),
+            Text('生年月日：', style: TextStyle(fontWeight: FontWeight.bold)),
+            Container(
+              color: Colors.white,
+              height: 50,
+              padding: EdgeInsets.symmetric(horizontal: 8),
+              child: InkWell(
+                onTap: _showBirthDaySelectPicker,
+                child: Row(
+                  children: <Widget>[
+                    Expanded(
+                      child: Text(
+                        _birthDay == null
+                            ? '未登録'
+                            : '${_birthDayFormatter.format(_birthDay)}',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ),
+                    Icon(Icons.chevron_right),
+                  ],
+                ),
+              ),
+            ),
+            Container(
+              width: double.infinity,
+              alignment: Alignment.centerRight,
+              child: RaisedButton(
+                child: Text('クリア'),
+                onPressed: () => _setBirthDay(null),
+              ),
+            ),
           ],
         ),
       ),
@@ -214,17 +233,20 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
 
   // [コールバック：保存ボタンタップ時]
   _saveCustomer() async {
-    if (_nameController.text.isEmpty ||
-        _nameReadingController.text.isEmpty ||
-        _isGenderFemale == null) {
-      Toast.show('すべての入力欄を埋めてください', context);
-      return;
-    }
+    _nameFieldErrorText = _nameController.text.isEmpty ? '必須入力です' : null;
+    _nameReadingFieldErrorText =
+        _nameReadingController.text.isEmpty ? '必須入力です' : null;
+
     final dao = MyDao(database);
 
-    if (widget.customer == null &&
-        await dao.getCustomersByName(_nameController.text) != null) {
-      Toast.show('同名の顧客データが存在しています。', context);
+    _nameFieldErrorText = widget.customer == null &&
+            await dao.getCustomersByName(_nameController.text) != null
+        ? '同名の顧客データが存在しています。'
+        : _nameFieldErrorText;
+
+    setState(() {});
+
+    if (_nameFieldErrorText != null || _nameReadingFieldErrorText != null) {
       return;
     }
 
