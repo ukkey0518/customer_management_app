@@ -56,9 +56,7 @@ class MenuCategoryEditDialog extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 24,
-                ),
+                SizedBox(height: 24),
                 SizedBox(
                   width: double.infinity,
                   child: Text('カテゴリカラー：', textAlign: TextAlign.left),

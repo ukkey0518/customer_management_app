@@ -1,8 +1,8 @@
 import 'package:customermanagementapp/util/abstract_classes.dart';
 import 'package:flutter/material.dart';
 
-class InputField extends InputWidget {
-  InputField({
+class RoundedRectangleInputField extends InputWidget {
+  RoundedRectangleInputField({
     @required this.controller,
     @required this.inputType,
     @required this.errorText,
