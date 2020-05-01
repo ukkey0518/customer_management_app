@@ -1,5 +1,6 @@
 import 'package:moor/moor.dart';
 
+import 'package:customermanagementapp/util/extensions.dart';
 import '../list_status.dart';
 import 'database.dart';
 part 'dao.g.dart';
@@ -241,6 +242,26 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
             ),
           ))
         .get();
+  }
+
+  // [取得：顧客別の来店履歴をすべて取得]
+  Future<Map<int, List<VisitHistory>>> getAllVisitHistoriesByCustomers() {
+    return transaction(() async {
+      final customers = await getCustomers();
+      final visitHistories = await allVisitHistories;
+      Map<int, List<VisitHistory>> visitHistoriesByCustomers = Map();
+
+      customers.forEach((customer) {
+        final customerId = customer.id;
+        final historiesByCustomer = visitHistories.where((history) {
+          final customerOfVisitHistory = history.customerJson.toCustomer();
+          return customerOfVisitHistory.id == customer.id;
+        }).toList();
+        visitHistoriesByCustomers[customerId] = historiesByCustomer;
+      });
+
+      return Future.value(visitHistoriesByCustomers);
+    });
   }
 
   // [取得：指定した日付の来店履歴を取得]
