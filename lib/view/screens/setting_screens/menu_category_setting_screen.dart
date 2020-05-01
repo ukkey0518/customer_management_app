@@ -48,36 +48,28 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
         child: Icon(Icons.add),
         onPressed: () => _showEditDialog(),
       ),
-      body: Column(
-        children: <Widget>[
-          // カテゴリーリスト部分
-          Expanded(
-            child: ListView.builder(
-              itemCount: _menuCategoriesList.length,
-              itemBuilder: (context, index) {
-                return Column(
-                  children: <Widget>[
-                    Divider(height: 1),
-                    ListTile(
-                      title: Text(
-                        '${_menuCategoriesList[index].name}',
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold),
-                      ),
-                      leading: Icon(
-                        Icons.category,
-                        color: Color(_menuCategoriesList[index].color),
-                      ),
-                      onTap: () => _showEditDialog(_menuCategoriesList[index]),
-                      onLongPress: () => _deleteMenuCategory(index),
-                    ),
-                    Divider(height: 1),
-                  ],
-                );
-              },
-            ),
-          ),
-        ],
+      body: ListView.builder(
+        itemCount: _menuCategoriesList.length,
+        itemBuilder: (context, index) {
+          return Column(
+            children: <Widget>[
+              Divider(height: 1),
+              ListTile(
+                title: Text(
+                  '${_menuCategoriesList[index].name}',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                ),
+                leading: Icon(
+                  Icons.category,
+                  color: Color(_menuCategoriesList[index].color),
+                ),
+                onTap: () => _showEditDialog(_menuCategoriesList[index]),
+                onLongPress: () => _deleteMenuCategory(index),
+              ),
+              Divider(height: 1),
+            ],
+          );
+        },
       ),
     );
   }
