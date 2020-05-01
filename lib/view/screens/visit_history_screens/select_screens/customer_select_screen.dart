@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
@@ -15,6 +16,7 @@ class CustomerSelectScreen extends StatefulWidget {
 
 class _CustomersSelectScreenState extends State<CustomerSelectScreen> {
   List<Customer> _customersList = List();
+  List<VisitHistoriesByCustomer> _visitHistoriesByCustomers;
   TextEditingController _searchNameFieldController = TextEditingController();
   CustomerNarrowState _narrowState = CustomerNarrowState.ALL;
   CustomerSortState _sortState = CustomerSortState.REGISTER_OLD;
@@ -72,6 +74,9 @@ class _CustomersSelectScreenState extends State<CustomerSelectScreen> {
     // DB取得処理
     _customersList = await dao.getCustomers(
         narrowState: _narrowState, sortState: _sortState);
+
+    // 顧客別来店履歴リスト取得
+    _visitHistoriesByCustomers = await dao.getAllVisitHistoriesByCustomers();
 
     // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {
@@ -226,9 +231,14 @@ class _CustomersSelectScreenState extends State<CustomerSelectScreen> {
 
   // [ウィジェット：各リストアイテム]
   Widget _customersListItemPart(int index) {
+    var visitHistoriesByCustomer = _visitHistoriesByCustomers.singleWhere(
+      (historiesByCustomer) {
+        return historiesByCustomer.customer == _customersList[index];
+      },
+    );
     return CustomerListItem(
-      customer: _customersList[index],
-      onTap: (customer) => _selectCustomer(customer),
+      visitHistoriesByCustomer: visitHistoriesByCustomer,
+      onTap: (customer) => _selectCustomer(visitHistoriesByCustomer.customer),
       onLongPress: null,
     );
   }

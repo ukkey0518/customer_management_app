@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
+import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
@@ -24,6 +25,7 @@ class CustomersListScreen extends StatefulWidget {
 
 class _CustomersListScreenState extends State<CustomersListScreen> {
   List<Customer> _customersList = List();
+  List<VisitHistoriesByCustomer> _visitHistoriesByCustomers;
   TextEditingController _searchNameFieldController = TextEditingController();
   CustomerNarrowState _narrowState = CustomerNarrowState.ALL;
   CustomerSortState _sortState = CustomerSortState.REGISTER_OLD;
@@ -57,6 +59,9 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     // DB取得処理
     _customersList = await dao.getCustomers(
         narrowState: _narrowState, sortState: _sortState);
+
+    // 顧客別来店履歴リスト取得
+    _visitHistoriesByCustomers = await dao.getAllVisitHistoriesByCustomers();
 
     // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {
@@ -106,11 +111,19 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
               child: ListView.builder(
                 itemCount: _customersList.length,
                 itemBuilder: (context, index) {
+                  var visitHistoriesByCustomer =
+                      _visitHistoriesByCustomers.singleWhere(
+                    (historiesByCustomer) {
+                      return historiesByCustomer.customer ==
+                          _customersList[index];
+                    },
+                  );
                   return CustomerListItem(
-                    customer: _customersList[index],
-                    onTap: (customer) => _showCustomer(context, customer),
-                    onLongPress: (customer) =>
-                        _deleteCustomer(context, customer),
+                    visitHistoriesByCustomer: visitHistoriesByCustomer,
+                    onTap: (customer) => _showCustomer(
+                        context, visitHistoriesByCustomer.customer),
+                    onLongPress: (customer) => _deleteCustomer(
+                        context, visitHistoriesByCustomer.customer),
                   );
                 },
               ),

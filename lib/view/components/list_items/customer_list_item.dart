@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/polymorphism/basic_list_view_item.dart';
 import 'package:flutter/material.dart';
@@ -6,10 +7,16 @@ import '../customer_name_panel.dart';
 
 class CustomerListItem extends BasicListViewItem<Customer> {
   CustomerListItem({
-    @required Customer customer,
+    @required VisitHistoriesByCustomer visitHistoriesByCustomer,
     ValueChanged onTap,
     ValueChanged onLongPress,
-  }) : super(item: customer, onTap: onTap, onLongPress: onLongPress);
+  })  : this.visitHistories = visitHistoriesByCustomer.histories,
+        super(
+            item: visitHistoriesByCustomer.customer,
+            onTap: onTap,
+            onLongPress: onLongPress);
+
+  final List<VisitHistory> visitHistories;
 
   @override
   Widget build(BuildContext context) {
@@ -26,9 +33,9 @@ class CustomerListItem extends BasicListViewItem<Customer> {
                 CustomerNamePanel(customer: item),
                 Divider(),
                 CustomerInformationPanel(
-                  numberOfVisits: 1,
-                  lastVisitDate: DateTime.now(),
-                  personInCharge: Employee(id: null, name: 'うっき'),
+                  numberOfVisits: visitHistories.length,
+                  lastVisitDate: DateTime.now(), //TODO
+                  personInCharge: Employee(id: null, name: 'うっき'), //TODO
                 ),
               ],
             ),
