@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/data/input_field_style.dart';
-import 'package:customermanagementapp/util/abstract_classes.dart';
+import 'package:customermanagementapp/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 
 class InputField extends InputWidget {

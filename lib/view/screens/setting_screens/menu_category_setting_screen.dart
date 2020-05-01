@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_category_edit_dialog.dart';
+import 'package:customermanagementapp/view/components/list_items/menu_category_list_item.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -51,23 +52,10 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
       body: ListView.builder(
         itemCount: _menuCategoriesList.length,
         itemBuilder: (context, index) {
-          return Column(
-            children: <Widget>[
-              Divider(height: 1),
-              ListTile(
-                title: Text(
-                  '${_menuCategoriesList[index].name}',
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                ),
-                leading: Icon(
-                  Icons.category,
-                  color: Color(_menuCategoriesList[index].color),
-                ),
-                onTap: () => _showEditDialog(_menuCategoriesList[index]),
-                onLongPress: () => _deleteMenuCategory(index),
-              ),
-              Divider(height: 1),
-            ],
+          return MenuCategoryListViewItem(
+            menuCategory: _menuCategoriesList[index],
+            onTap: (category) => _showEditDialog(category),
+            onLongPress: (category) => _deleteMenuCategory(index),
           );
         },
       ),
