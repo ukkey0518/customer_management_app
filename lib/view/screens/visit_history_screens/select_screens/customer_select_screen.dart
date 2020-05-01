@@ -2,7 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/view/components/list_items/customer_list_card.dart';
+import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
 import 'package:flutter/material.dart';
 
 enum NarrowState { ALL, FEMALE, MALE }
@@ -226,10 +226,9 @@ class _CustomersSelectScreenState extends State<CustomerSelectScreen> {
 
   // [ウィジェット：各リストアイテム]
   Widget _customersListItemPart(int index) {
-    var customer = _customersList[index];
-    return CustomerListCard(
-      customer: customer,
-      onTap: () => _selectCustomer(customer),
+    return CustomerListItem(
+      customer: _customersList[index],
+      onTap: (customer) => _selectCustomer(customer),
       onLongPress: null,
     );
   }

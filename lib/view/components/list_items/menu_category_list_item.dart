@@ -2,8 +2,8 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/polymorphism/basic_list_view_item.dart';
 import 'package:flutter/material.dart';
 
-class MenuCategoryListViewItem extends BasicListViewItem<MenuCategory> {
-  MenuCategoryListViewItem({
+class MenuCategoryListItem extends BasicListViewItem<MenuCategory> {
+  MenuCategoryListItem({
     @required MenuCategory menuCategory,
     ValueChanged onTap,
     ValueChanged onLongPress,

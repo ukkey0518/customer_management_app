@@ -52,7 +52,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
       body: ListView.builder(
         itemCount: _menuCategoriesList.length,
         itemBuilder: (context, index) {
-          return MenuCategoryListViewItem(
+          return MenuCategoryListItem(
             menuCategory: _menuCategoriesList[index],
             onTap: (category) => _showEditDialog(category),
             onLongPress: (category) => _deleteMenuCategory(index),
