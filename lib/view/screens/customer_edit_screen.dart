@@ -205,13 +205,15 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
   // [コールバック：画面終了時]
   Future<bool> _finishEditScreen(
       BuildContext context, bool dialogShowFlag) async {
+    final visitHistoriesByCustomer =
+        await dao.getVisitHistoriesByCustomer(_editedCustomer);
     var widgetBuilder;
     if (widget.customer == null) {
       widgetBuilder = (context) => CustomersListScreen(pref: widget.pref);
     } else {
       widgetBuilder = (context) => CustomerInformationScreen(
             widget.pref,
-            customer: _editedCustomer,
+            historiesByCustomer: visitHistoriesByCustomer,
           );
     }
     if (dialogShowFlag) {

@@ -153,7 +153,9 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
 
   // [コールバック：リストアイテムタップ]
   // →選択した顧客情報の詳細ページへ遷移する
-  _showCustomer(BuildContext context, Customer customer) {
+  _showCustomer(BuildContext context, Customer customer) async {
+    final visitHistoriesByCustomer =
+        await dao.getVisitHistoriesByCustomer(customer);
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -163,7 +165,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
             sortState: _sortState,
             searchWord: _searchNameFieldController.text,
           ),
-          customer: customer,
+          historiesByCustomer: visitHistoriesByCustomer,
         ),
       ),
     );

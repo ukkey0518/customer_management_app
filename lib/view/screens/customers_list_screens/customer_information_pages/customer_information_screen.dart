@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
@@ -11,10 +12,10 @@ import 'basic_information_page.dart';
 import 'visit_record_page.dart';
 
 class CustomerInformationScreen extends StatefulWidget {
-  final customer;
+  final VisitHistoriesByCustomer historiesByCustomer;
   final CustomerListScreenPreferences pref;
 
-  CustomerInformationScreen(this.pref, {this.customer});
+  CustomerInformationScreen(this.pref, {this.historiesByCustomer});
 
   @override
   _CustomerInformationScreenState createState() =>
@@ -35,7 +36,8 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   @override
   void initState() {
     super.initState();
-    _customer = widget.customer;
+    print(widget.historiesByCustomer);
+    _customer = widget.historiesByCustomer.customer;
     _pref = widget.pref;
     _initVisitHistories();
   }
