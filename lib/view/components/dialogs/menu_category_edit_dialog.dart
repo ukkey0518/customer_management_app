@@ -2,6 +2,7 @@ import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/color_select_button.dart';
+import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/input_field.dart';
 import 'package:flutter/material.dart';
 
@@ -33,14 +34,12 @@ class MenuCategoryEditDialog extends StatelessWidget {
     return StatefulBuilder(
       builder: (context, setState) {
         return AlertDialog(
-          title: Text(title),
+          title: DialogTitleText(title),
           content: SingleChildScrollView(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                SizedBox(
-                  width: double.infinity,
-                  child: Text('カテゴリ名：', textAlign: TextAlign.left),
-                ),
+                Text('カテゴリ名：', textAlign: TextAlign.left),
                 InputField(
                   controller: categoryController,
                   errorText: errorText,
@@ -49,14 +48,14 @@ class MenuCategoryEditDialog extends StatelessWidget {
                   isClearable: true,
                 ),
                 SizedBox(height: 24),
-                SizedBox(
-                  width: double.infinity,
-                  child: Text('カテゴリカラー：', textAlign: TextAlign.left),
-                ),
+                Text('カテゴリカラー：', textAlign: TextAlign.left),
                 ColorSelectButton(
                   color: currentColor,
-                  onColorConfirm: (color) =>
-                      setState(() => currentColor = color),
+                  onColorConfirm: (color) {
+                    setState(() {
+                      currentColor = color;
+                    });
+                  },
                 ),
               ],
             ),
