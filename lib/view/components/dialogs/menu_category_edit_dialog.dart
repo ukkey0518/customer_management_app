@@ -7,7 +7,7 @@ import 'package:customermanagementapp/view/components/input_form_widgets/input_f
 import 'package:flutter/material.dart';
 
 class MenuCategoryEditDialog extends StatelessWidget {
-  MenuCategoryEditDialog({this.category});
+  const MenuCategoryEditDialog({this.category});
   final MenuCategory category;
 
   @override
@@ -39,7 +39,7 @@ class MenuCategoryEditDialog extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('カテゴリ名：', textAlign: TextAlign.left),
+                const Text('カテゴリ名：', textAlign: TextAlign.left),
                 InputField(
                   controller: categoryController,
                   errorText: errorText,
@@ -47,8 +47,8 @@ class MenuCategoryEditDialog extends StatelessWidget {
                   style: InputFieldStyle.UNDER_LINE,
                   isClearable: true,
                 ),
-                SizedBox(height: 24),
-                Text('カテゴリカラー：', textAlign: TextAlign.left),
+                const SizedBox(height: 24),
+                const Text('カテゴリカラー：', textAlign: TextAlign.left),
                 ColorSelectButton(
                   color: currentColor,
                   onColorConfirm: (color) {
@@ -62,7 +62,7 @@ class MenuCategoryEditDialog extends StatelessWidget {
           ),
           actions: <Widget>[
             FlatButton(
-              child: Text('キャンセル'),
+              child: const Text('キャンセル'),
               onPressed: () => Navigator.of(context).pop(),
             ),
             FlatButton(

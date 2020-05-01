@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
@@ -10,7 +11,7 @@ class ColorPickerDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     var changedColor = currentColor;
     return AlertDialog(
-      title: const Text('カラーを選択してください'),
+      title: const DialogTitleText('カラーを選択してください'),
       content: SingleChildScrollView(
         child: ColorPicker(
           pickerColor: currentColor,

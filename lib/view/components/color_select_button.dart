@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
-import 'color_picker_dialog.dart';
+import 'dialogs/color_picker_dialog.dart';
 
 class ColorSelectButton extends StatelessWidget {
   ColorSelectButton({
