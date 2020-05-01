@@ -17,7 +17,7 @@ class VisitHistoriesByCustomer {
     historyList.sort((a, b) {
       var aDate = a.date;
       var bDate = b.date;
-      return aDate.isAfter(bDate) ? 1 : -1;
+      return aDate.isBefore(bDate) ? 1 : -1;
     });
     return historyList.first;
   }

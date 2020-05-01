@@ -111,7 +111,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
               child: ListView.builder(
                 itemCount: _customersList.length,
                 itemBuilder: (context, index) {
-                  var visitHistoriesByCustomer =
+                  final visitHistoriesByCustomer =
                       _visitHistoriesByCustomers.singleWhere(
                     (historiesByCustomer) {
                       return historiesByCustomer.customer ==
