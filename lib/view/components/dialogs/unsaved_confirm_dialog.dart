@@ -1,10 +1,14 @@
+import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
 import 'package:flutter/material.dart';
 
 class UnsavedConfirmDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('ご注意ください'),
+      title: const DialogTitleText(
+        'ご注意ください',
+        isConfirmDialog: true,
+      ),
       content: SingleChildScrollView(
         child: Column(
           children: <Widget>[

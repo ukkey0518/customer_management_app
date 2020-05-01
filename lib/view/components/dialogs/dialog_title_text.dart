@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class DialogTitleText extends StatelessWidget {
-  DialogTitleText(
+  const DialogTitleText(
     this.text, {
     this.isConfirmDialog = false,
   });
