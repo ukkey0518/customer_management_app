@@ -1,6 +1,8 @@
+import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/color_select_button.dart';
+import 'package:customermanagementapp/view/components/input_form_widgets/input_field.dart';
 import 'package:flutter/material.dart';
 
 class MenuCategoryEditDialog extends StatelessWidget {
@@ -39,22 +41,12 @@ class MenuCategoryEditDialog extends StatelessWidget {
                   width: double.infinity,
                   child: Text('カテゴリ名：', textAlign: TextAlign.left),
                 ),
-                TextField(
+                InputField(
                   controller: categoryController,
-                  decoration: InputDecoration(
-                    hintText: 'カテゴリ名を入力',
-                    suffixIcon: IconButton(
-                      icon: Icon(Icons.clear),
-                      onPressed: () =>
-                          WidgetsBinding.instance.addPostFrameCallback(
-                        (_) => categoryController.clear(),
-                      ),
-                    ),
-                    errorText: errorText,
-                    errorBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.red),
-                    ),
-                  ),
+                  errorText: errorText,
+                  hintText: 'カテゴリ名を入力',
+                  style: InputFieldStyle.UNDER_LINE,
+                  isClearable: true,
                 ),
                 SizedBox(height: 24),
                 SizedBox(

@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
@@ -5,7 +6,7 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/util/abstract_classes.dart';
 import 'package:customermanagementapp/view/components/basic_input_form.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/date_select_form.dart';
-import 'package:customermanagementapp/view/components/input_form_widgets/rounded_rectangle_input_field.dart';
+import 'package:customermanagementapp/view/components/input_form_widgets/input_field.dart';
 import 'package:customermanagementapp/view/components/input_form_widgets/select_buttons.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
@@ -128,15 +129,19 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
                 BasicInputForm(
                   formTitle: '基本情報',
                   items: <String, InputWidget>{
-                    '氏名*': RoundedRectangleInputField(
+                    '氏名*': InputField(
                       controller: _nameController,
                       inputType: TextInputType.text,
                       errorText: _nameFieldErrorText,
+                      hintText: '顧客 太郎',
+                      style: InputFieldStyle.ROUNDED_RECTANGLE,
                     ),
-                    'よみがな*': RoundedRectangleInputField(
+                    'よみがな*': InputField(
                       controller: _nameReadingController,
                       inputType: TextInputType.text,
                       errorText: _nameReadingFieldErrorText,
+                      hintText: 'こきゃく たろう',
+                      style: InputFieldStyle.ROUNDED_RECTANGLE,
                     ),
                     '性別*': SelectButtons(
                       values: genderEntry.values.toList(),
