@@ -245,19 +245,18 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   }
 
   // [取得：顧客別の来店履歴をすべて取得]
-  Future<Map<int, List<VisitHistory>>> getAllVisitHistoriesByCustomers() {
+  Future<Map<Customer, List<VisitHistory>>> getAllVisitHistoriesByCustomers() {
     return transaction(() async {
       final customers = await getCustomers();
       final visitHistories = await allVisitHistories;
-      Map<int, List<VisitHistory>> visitHistoriesByCustomers = Map();
+      Map<Customer, List<VisitHistory>> visitHistoriesByCustomers = Map();
 
       customers.forEach((customer) {
-        final customerId = customer.id;
         final historiesByCustomer = visitHistories.where((history) {
           final customerOfVisitHistory = history.customerJson.toCustomer();
           return customerOfVisitHistory.id == customer.id;
         }).toList();
-        visitHistoriesByCustomers[customerId] = historiesByCustomer;
+        visitHistoriesByCustomers[customer] = historiesByCustomer;
       });
 
       return Future.value(visitHistoriesByCustomers);
