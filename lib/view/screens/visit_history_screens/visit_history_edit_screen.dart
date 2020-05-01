@@ -47,7 +47,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   // [初期化：担当選択ドロップダウン用フィールド初期化]
   _initScreenState() async {
     if (widget.visitHistory == null) {
-      _date = DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now()));
+      _date = DateTime.now();
       _selectedCustomer = null;
       _selectedEmployee = null;
       _menus = List();
@@ -117,6 +117,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       Toast.show('メニューが選択されていません。', context);
       return;
     }
+    print(_date);
     // 新しい来店履歴データ作成
     var visitHistory = VisitHistory(
       id: widget.visitHistory?.id,
