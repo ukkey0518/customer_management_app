@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:customermanagementapp/db/database.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-// JSONを各オブジェクトへ変換する
+// String拡張：JSON文字列をオブジェクトに変換
 extension ConvertFromJson on String {
   // [変換：JSON文字列 -> Customer]
   Customer toCustomer() {
@@ -34,6 +35,7 @@ extension ConvertFromJson on String {
   }
 }
 
+// List<Menu>拡張
 extension ConvertFromMenuList on List<Menu> {
   // [変換：List<Menu> -> JSON文字列]
   String toJsonString() {
@@ -45,7 +47,7 @@ extension ConvertFromMenuList on List<Menu> {
   }
 }
 
-// Stringをオブジェクトへ変換する
+// String拡張
 extension ConvertFromString on String {
   // [変換：表示用日付文字列 -> DateTime]
   DateTime toDateTime() {
@@ -64,6 +66,7 @@ extension ConvertFromString on String {
   }
 }
 
+// DateTime拡張
 extension ConvertFromDateTime on DateTime {
   // [変換：DateTime -> 表示用日付文字列]
   // 例：2020/4/20(月)
@@ -88,10 +91,21 @@ extension ConvertFromDateTime on DateTime {
   }
 }
 
+// int拡張
 extension ConvertFromInteger on int {
   // [変換：数値を金額文字列へ]
   String toPriceString() {
     final formatStr = NumberFormat('#,###,###').format(this);
     return '\¥ $formatStr';
+  }
+}
+
+// Color拡張
+extension ConvertFromColor on Color {
+  // [変換：Colorから色番号をintで抽出するメソッド]
+  int getColorNumber() {
+    var colorStr = this.toString();
+    var numStr = colorStr.substring(6, colorStr.length - 1);
+    return int.parse(numStr);
   }
 }
