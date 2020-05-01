@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
 
-import 'customer_list_card.dart';
+import '../list_items/customer_list_card.dart';
 
 class CustomersListView extends StatelessWidget {
   CustomersListView({this.customers, this.onItemTap, this.onItemLongPress});

@@ -3,7 +3,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/view/components/customers_list_view.dart';
+import 'package:customermanagementapp/view/components/list_views/customers_list_view.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/screens/customer_edit_screen.dart';
