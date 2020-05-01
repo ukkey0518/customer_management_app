@@ -1,11 +1,13 @@
+import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 class BasicInformationPage extends StatefulWidget {
-  final Customer customer;
+  BasicInformationPage({this.customer, this.histories});
 
-  BasicInformationPage({this.customer});
+  final Customer customer;
+  final VisitHistoriesByCustomer histories;
 
   @override
   _BasicInformationPageState createState() => _BasicInformationPageState();

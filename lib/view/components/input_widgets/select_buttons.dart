@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/polymorphism/input_widget.dart';
+import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 
 class SelectButtons extends InputWidget {
