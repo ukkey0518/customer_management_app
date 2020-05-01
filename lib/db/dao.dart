@@ -235,14 +235,18 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
       select(visitHistories).get();
 
   // [取得：指定した顧客の来店履歴を取得]
-  Future<List<VisitHistory>> getVisitHistoriesByCustomer(Customer customer) {
-    return (select(visitHistories)
-          ..where(
-            (t) => t.customerJson.equals(
-              customer.toJsonString(),
-            ),
-          ))
-        .get();
+  Future<VisitHistoriesByCustomer> getVisitHistoriesByCustomer(
+      Customer customer) {
+    return transaction(() async {
+      final histories = await (select(visitHistories)
+            ..where(
+              (t) => t.customerJson.equals(
+                customer.toJsonString(),
+              ),
+            ))
+          .get();
+      return VisitHistoriesByCustomer(customer: customer, histories: histories);
+    });
   }
 
   // [取得：顧客別の来店履歴をすべて取得]

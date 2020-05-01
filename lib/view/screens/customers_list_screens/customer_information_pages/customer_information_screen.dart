@@ -42,7 +42,8 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
 
   // [初期化：対象顧客の来店データを取得]
   _initVisitHistories() async {
-    _visitHistories = await dao.getVisitHistoriesByCustomer(_customer);
+    _visitHistories =
+        (await dao.getVisitHistoriesByCustomer(_customer)).histories;
     print(_visitHistories);
   }
 
