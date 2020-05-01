@@ -46,7 +46,6 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   _initVisitHistories() async {
     _visitHistories =
         (await dao.getVisitHistoriesByCustomer(_customer)).histories;
-    print(_visitHistories);
   }
 
   @override
