@@ -1,9 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/view/components/color_select_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-
-import '../color_picker_dialog.dart';
 
 class MenuCategoryEditDialog extends StatelessWidget {
   MenuCategoryEditDialog({this.category});
@@ -65,32 +63,11 @@ class MenuCategoryEditDialog extends StatelessWidget {
                   width: double.infinity,
                   child: Text('カテゴリカラー：', textAlign: TextAlign.left),
                 ),
-                SizedBox(
-                  width: double.infinity,
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.black),
-                      borderRadius: BorderRadius.circular(8),
-                      color: currentColor,
-                    ),
-                    child: FlatButton(
-                      child: Text('タップしてカラーを選択'),
-                      textColor: useWhiteForeground(currentColor)
-                          ? const Color(0xffffffff)
-                          : const Color(0xff000000),
-                      onPressed: () => showDialog(
-                        context: context,
-                        builder: (_) {
-                          return ColorPickerDialog(currentColor);
-                        },
-                      ).then(
-                        (newColor) {
-                          setState(() => currentColor = newColor);
-                        },
-                      ),
-                    ),
-                  ),
-                )
+                ColorSelectButton(
+                  color: currentColor,
+                  onColorConfirm: (color) =>
+                      setState(() => currentColor = color),
+                ),
               ],
             ),
           ),
