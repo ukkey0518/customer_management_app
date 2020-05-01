@@ -3,7 +3,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/color_select_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
-import 'package:customermanagementapp/view/components/input_form_widgets/input_field.dart';
+import 'package:customermanagementapp/view/components/input_widgets/input_field.dart';
 import 'package:flutter/material.dart';
 
 class MenuCategoryEditDialog extends StatelessWidget {
