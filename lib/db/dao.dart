@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:moor/moor.dart';
 
 import 'package:customermanagementapp/util/extensions.dart';
@@ -245,18 +246,21 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   }
 
   // [取得：顧客別の来店履歴をすべて取得]
-  Future<Map<Customer, List<VisitHistory>>> getAllVisitHistoriesByCustomers() {
+  Future<List<VisitHistoriesByCustomer>> getAllVisitHistoriesByCustomers() {
     return transaction(() async {
       final customers = await getCustomers();
       final visitHistories = await allVisitHistories;
-      Map<Customer, List<VisitHistory>> visitHistoriesByCustomers = Map();
+      List<VisitHistoriesByCustomer> visitHistoriesByCustomers = List();
 
       customers.forEach((customer) {
         final historiesByCustomer = visitHistories.where((history) {
           final customerOfVisitHistory = history.customerJson.toCustomer();
           return customerOfVisitHistory.id == customer.id;
         }).toList();
-        visitHistoriesByCustomers[customer] = historiesByCustomer;
+        visitHistoriesByCustomers.add(VisitHistoriesByCustomer(
+          customer: customer,
+          histories: historiesByCustomer,
+        ));
       });
 
       return Future.value(visitHistoriesByCustomers);
