@@ -26,11 +26,12 @@ class CustomerInformationPanel extends StatelessWidget {
             ),
             SimpleTableItem(
               titleText: '最終来店日',
-              contentText: lastVisitDate.toFormatString(),
+              contentText:
+                  lastVisitDate == null ? '--' : lastVisitDate.toFormatString(),
             ),
             SimpleTableItem(
               titleText: '担当',
-              contentText: personInCharge.name,
+              contentText: personInCharge == null ? '--' : personInCharge.name,
             ),
           ],
         ),
