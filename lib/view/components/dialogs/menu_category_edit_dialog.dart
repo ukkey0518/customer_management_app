@@ -2,7 +2,6 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:toast/toast.dart';
 
 import '../color_picker_dialog.dart';
 
@@ -16,6 +15,8 @@ class MenuCategoryEditDialog extends StatelessWidget {
     Color currentColor;
     var categoryController = TextEditingController();
     var positiveButtonText;
+
+    var errorText;
 
     if (category == null) {
       title = 'カテゴリの追加';
@@ -50,6 +51,10 @@ class MenuCategoryEditDialog extends StatelessWidget {
                           WidgetsBinding.instance.addPostFrameCallback(
                         (_) => categoryController.clear(),
                       ),
+                    ),
+                    errorText: errorText,
+                    errorBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
                     ),
                   ),
                 ),
@@ -99,8 +104,10 @@ class MenuCategoryEditDialog extends StatelessWidget {
               onPressed: () {
                 // 未入力チェック
                 if (categoryController.text.isEmpty) {
-                  Toast.show('カテゴリ名が未入力です', context);
+                  setState(() => errorText = 'カテゴリ名が未入力です');
                   return;
+                } else {
+                  setState(() => errorText = null);
                 }
                 var newCategory = MenuCategory(
                   id: category?.id,

@@ -190,8 +190,7 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
 
   // [削除：１件分のメニューカテゴリを削除]
   Future deleteMenuCategory(MenuCategory menuCategory) =>
-      (delete(menuCategories)..where((t) => t.name.equals(menuCategory.name)))
-          .go();
+      (delete(menuCategories)..where((t) => t.id.equals(menuCategory.id))).go();
 
   //
   //

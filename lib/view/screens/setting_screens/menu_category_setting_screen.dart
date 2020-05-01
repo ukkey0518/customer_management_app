@@ -29,6 +29,10 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   // [更新：DBからメニューカテゴリを取得してリストに反映する処理]
   _reloadMenuCategories() async {
     _menuCategoriesList = await dao.allMenuCategories;
+    _menuCategoriesList.forEach(
+      (category) => print('${category.id} : ${category.name}'),
+    );
+    print('');
     _menus = await dao.allMenus;
     setState(() {});
   }
@@ -96,6 +100,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   // [コールバック：リストアイテム長押し時]
   _deleteMenuCategory(int index) async {
     var deleteMenuCategory = _menuCategoriesList[index];
+    print('delete: ${deleteMenuCategory.id} : ${deleteMenuCategory.name}');
     // カテゴリ内にメニューがある場合は削除できない
     if (_menus.any((menu) =>
         menu.menuCategoryJson.toMenuCategory().id == deleteMenuCategory.id)) {
