@@ -13,12 +13,14 @@ class Customer extends DataClass implements Insertable<Customer> {
   final String nameReading;
   final bool isGenderFemale;
   final DateTime birth;
+  final String visitHistories;
   Customer(
       {@required this.id,
       @required this.name,
       @required this.nameReading,
       @required this.isGenderFemale,
-      this.birth});
+      this.birth,
+      this.visitHistories});
   factory Customer.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -35,6 +37,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           .mapFromDatabaseResponse(data['${effectivePrefix}is_gender_female']),
       birth:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}birth']),
+      visitHistories: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}visit_histories']),
     );
   }
   factory Customer.fromJson(Map<String, dynamic> json,
@@ -46,6 +50,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       nameReading: serializer.fromJson<String>(json['nameReading']),
       isGenderFemale: serializer.fromJson<bool>(json['isGenderFemale']),
       birth: serializer.fromJson<DateTime>(json['birth']),
+      visitHistories: serializer.fromJson<String>(json['visitHistories']),
     );
   }
   @override
@@ -57,6 +62,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       'nameReading': serializer.toJson<String>(nameReading),
       'isGenderFemale': serializer.toJson<bool>(isGenderFemale),
       'birth': serializer.toJson<DateTime>(birth),
+      'visitHistories': serializer.toJson<String>(visitHistories),
     };
   }
 
@@ -73,6 +79,9 @@ class Customer extends DataClass implements Insertable<Customer> {
           : Value(isGenderFemale),
       birth:
           birth == null && nullToAbsent ? const Value.absent() : Value(birth),
+      visitHistories: visitHistories == null && nullToAbsent
+          ? const Value.absent()
+          : Value(visitHistories),
     );
   }
 
@@ -81,13 +90,15 @@ class Customer extends DataClass implements Insertable<Customer> {
           String name,
           String nameReading,
           bool isGenderFemale,
-          DateTime birth}) =>
+          DateTime birth,
+          String visitHistories}) =>
       Customer(
         id: id ?? this.id,
         name: name ?? this.name,
         nameReading: nameReading ?? this.nameReading,
         isGenderFemale: isGenderFemale ?? this.isGenderFemale,
         birth: birth ?? this.birth,
+        visitHistories: visitHistories ?? this.visitHistories,
       );
   @override
   String toString() {
@@ -96,7 +107,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           ..write('name: $name, ')
           ..write('nameReading: $nameReading, ')
           ..write('isGenderFemale: $isGenderFemale, ')
-          ..write('birth: $birth')
+          ..write('birth: $birth, ')
+          ..write('visitHistories: $visitHistories')
           ..write(')'))
         .toString();
   }
@@ -106,8 +118,10 @@ class Customer extends DataClass implements Insertable<Customer> {
       id.hashCode,
       $mrjc(
           name.hashCode,
-          $mrjc(nameReading.hashCode,
-              $mrjc(isGenderFemale.hashCode, birth.hashCode)))));
+          $mrjc(
+              nameReading.hashCode,
+              $mrjc(isGenderFemale.hashCode,
+                  $mrjc(birth.hashCode, visitHistories.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -116,7 +130,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           other.name == this.name &&
           other.nameReading == this.nameReading &&
           other.isGenderFemale == this.isGenderFemale &&
-          other.birth == this.birth);
+          other.birth == this.birth &&
+          other.visitHistories == this.visitHistories);
 }
 
 class CustomersCompanion extends UpdateCompanion<Customer> {
@@ -125,12 +140,14 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
   final Value<String> nameReading;
   final Value<bool> isGenderFemale;
   final Value<DateTime> birth;
+  final Value<String> visitHistories;
   const CustomersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.nameReading = const Value.absent(),
     this.isGenderFemale = const Value.absent(),
     this.birth = const Value.absent(),
+    this.visitHistories = const Value.absent(),
   });
   CustomersCompanion.insert({
     this.id = const Value.absent(),
@@ -138,6 +155,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     @required String nameReading,
     @required bool isGenderFemale,
     this.birth = const Value.absent(),
+    this.visitHistories = const Value.absent(),
   })  : name = Value(name),
         nameReading = Value(nameReading),
         isGenderFemale = Value(isGenderFemale);
@@ -146,13 +164,15 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       Value<String> name,
       Value<String> nameReading,
       Value<bool> isGenderFemale,
-      Value<DateTime> birth}) {
+      Value<DateTime> birth,
+      Value<String> visitHistories}) {
     return CustomersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       nameReading: nameReading ?? this.nameReading,
       isGenderFemale: isGenderFemale ?? this.isGenderFemale,
       birth: birth ?? this.birth,
+      visitHistories: visitHistories ?? this.visitHistories,
     );
   }
 }
@@ -223,9 +243,23 @@ class $CustomersTable extends Customers
     );
   }
 
+  final VerificationMeta _visitHistoriesMeta =
+      const VerificationMeta('visitHistories');
+  GeneratedTextColumn _visitHistories;
+  @override
+  GeneratedTextColumn get visitHistories =>
+      _visitHistories ??= _constructVisitHistories();
+  GeneratedTextColumn _constructVisitHistories() {
+    return GeneratedTextColumn(
+      'visit_histories',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, nameReading, isGenderFemale, birth];
+      [id, name, nameReading, isGenderFemale, birth, visitHistories];
   @override
   $CustomersTable get asDslTable => this;
   @override
@@ -263,6 +297,12 @@ class $CustomersTable extends Customers
       context.handle(
           _birthMeta, birth.isAcceptableValue(d.birth.value, _birthMeta));
     }
+    if (d.visitHistories.present) {
+      context.handle(
+          _visitHistoriesMeta,
+          visitHistories.isAcceptableValue(
+              d.visitHistories.value, _visitHistoriesMeta));
+    }
     return context;
   }
 
@@ -292,6 +332,10 @@ class $CustomersTable extends Customers
     }
     if (d.birth.present) {
       map['birth'] = Variable<DateTime, DateTimeType>(d.birth.value);
+    }
+    if (d.visitHistories.present) {
+      map['visit_histories'] =
+          Variable<String, StringType>(d.visitHistories.value);
     }
     return map;
   }
