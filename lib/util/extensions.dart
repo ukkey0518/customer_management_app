@@ -47,7 +47,7 @@ extension ConvertFromMenuList on List<Menu> {
   }
 }
 
-// ListVisitHistory>拡張
+// List<VisitHistory>拡張
 extension ConvertFromVisitHistoryList on List<VisitHistory> {
   // [取得：直近の来店履歴を取得]
   VisitHistory getFirstVisitHistory() {
@@ -73,6 +73,16 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       return aDate.isBefore(bDate) ? 1 : -1;
     });
     return this.first;
+  }
+
+  // [取得：お支払い総額]
+  int getTotalPayment() {
+    final sumPriceList = this.map<int>((visitHistory) {
+      final menuList = visitHistory.menuListJson.toMenuList();
+      final priceList = menuList.map<int>((menu) => menu.price);
+      return priceList.reduce((a, b) => a + b);
+    });
+    return sumPriceList.reduce((aSum, bSum) => aSum + bSum);
   }
 }
 

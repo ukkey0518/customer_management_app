@@ -50,7 +50,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
             ),
             SizedBox(height: 30),
             PriceAnalysisCardWidget(
-              totalPayment: null, //TODO
+              totalPayment: _histories?.getTotalPayment(),
               averagePrice: null, //TODO
             ),
             SizedBox(height: 30),
