@@ -20,7 +20,7 @@ class CustomerListItem extends BasicListViewItem<VisitHistoriesByCustomer> {
   Widget build(BuildContext context) {
     var customer = item.customer;
     var histories = item.histories;
-    var lastVisitHistory = item.getLastVisitHistory();
+    var lastVisitHistory = histories.getLastVisitHistory();
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Card(

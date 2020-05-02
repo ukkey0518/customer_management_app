@@ -47,6 +47,35 @@ extension ConvertFromMenuList on List<Menu> {
   }
 }
 
+// ListVisitHistory>拡張
+extension ConvertFromVisitHistoryList on List<VisitHistory> {
+  // [取得：直近の来店履歴を取得]
+  VisitHistory getFirstVisitHistory() {
+    if (this.isEmpty) {
+      return null;
+    }
+    this.sort((a, b) {
+      var aDate = a.date;
+      var bDate = b.date;
+      return aDate.isAfter(bDate) ? 1 : -1;
+    });
+    return this.first;
+  }
+
+  // [取得：直近の来店履歴を取得]
+  VisitHistory getLastVisitHistory() {
+    if (this.isEmpty) {
+      return null;
+    }
+    this.sort((a, b) {
+      var aDate = a.date;
+      var bDate = b.date;
+      return aDate.isBefore(bDate) ? 1 : -1;
+    });
+    return this.first;
+  }
+}
+
 // String拡張
 extension ConvertFromString on String {
   // [変換：表示用日付文字列 -> DateTime]
