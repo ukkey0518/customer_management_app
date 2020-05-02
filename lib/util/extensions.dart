@@ -52,9 +52,8 @@ extension ConvertFromMenuList on List<Menu> {
 extension ConvertFromVisitHistoryList on List<VisitHistory> {
   // [取得：直近の来店履歴を取得]
   VisitHistory getFirstVisitHistory() {
-    if (this.isEmpty) {
-      return null;
-    }
+    if (this.isEmpty) return null;
+
     this.sort((a, b) {
       var aDate = a.date;
       var bDate = b.date;
@@ -65,9 +64,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [取得：直近の来店履歴を取得]
   VisitHistory getLastVisitHistory() {
-    if (this.isEmpty) {
-      return null;
-    }
+    if (this.isEmpty) return null;
     this.sort((a, b) {
       var aDate = a.date;
       var bDate = b.date;
@@ -78,6 +75,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [取得：支払い金額リスト]
   List<int> toSumPriceList() {
+    if (this.isEmpty) return null;
     final sumPriceList = this.map<int>((visitHistory) {
       final menuList = visitHistory.menuListJson.toMenuList();
       final priceList = menuList.map<int>((menu) => menu.price);
@@ -88,6 +86,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [取得：指定期間以内に再来店した回数を取得]
   int getNumOfRepeatDuringPeriodByMonths({int minMonth = 0, int maxMonth = 0}) {
+    if (this.isEmpty) return null;
     var count = 0;
     final dateList =
         this.map<DateTime>((visitHistory) => visitHistory.date).toList();
@@ -131,11 +130,11 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [取得：リピートサイクル平均(日)]
   int getRepeatCycle() {
+    if (this.isEmpty) return null;
     var repeatCycle = 0.0;
     final dateList =
         this.map<DateTime>((visitHistory) => visitHistory.date).toList();
     dateList.sort((a, b) => a.isAfter(b) ? 1 : -1);
-    print(dateList);
     List<Duration> periodList = List();
     dateList.reduce((before, after) {
       var period;
@@ -143,7 +142,6 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       periodList.add(period);
       return after;
     });
-    print(periodList);
     final periodDaysList =
         periodList.map<int>((duration) => duration.inDays).toList();
     final sumDays = periodDaysList.reduce((a, b) => a + b);
@@ -153,17 +151,28 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
     return repeatCycle.floor();
   }
+
+  // [取得：次回来店予想を取得]
+  DateTime expectedNextVisit() {
+    if (this.isEmpty) return null;
+    final lastVisit = this.getLastVisitHistory().date;
+    final repeatCycle = Duration(days: this.getRepeatCycle());
+
+    return lastVisit.add(repeatCycle);
+  }
 }
 
 // List<int>拡張
 extension ConvertFromIntList on List<int> {
   // [取得：合計値を取得]
   int getSum() {
+    if (this.isEmpty) return null;
     return this.reduce((a, b) => a + b);
   }
 
   // [取得：平均値を取得]
   double getAverage() {
+    if (this.isEmpty) return null;
     final length = this.length;
     final sum = this.getSum();
     return sum / length;

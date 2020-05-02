@@ -18,7 +18,7 @@ class BasicInformationPage extends StatefulWidget {
 
 class _BasicInformationPageState extends State<BasicInformationPage> {
   Customer _customer;
-  List<VisitHistory> _histories;
+  List<VisitHistory> _histories = List();
 
   @override
   void initState() {
@@ -70,7 +70,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                 minMonth: 3,
               ),
               repeatCycle: _histories?.getRepeatCycle(),
-              expectedNextVisit: null, //TODO
+              expectedNextVisit: _histories?.expectedNextVisit(),
             ),
           ],
         ),
