@@ -28,7 +28,7 @@ abstract class ListCardWidget extends StatelessWidget {
                       children: <Widget>[
                         Expanded(child: Text(entry.key)),
                         Expanded(
-                          child: Text(entry.value),
+                          child: Text(entry.value ?? '(未データ)'),
                         ),
                       ],
                     ),
