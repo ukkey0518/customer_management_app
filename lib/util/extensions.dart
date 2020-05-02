@@ -84,6 +84,31 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     }).toList();
     return sumPriceList;
   }
+
+  // [取得：指定期間以内に再来店した回数を取得]
+  int getNumberOfRepeatWithin({int years = 0, int months = 0, int days = 0}) {
+    var count = 0;
+    final dateList =
+        this.map<DateTime>((visitHistory) => visitHistory.date).toList();
+    dateList.sort((a, b) => a.isAfter(b) ? 1 : -1);
+    dateList.reduce((before, after) {
+      final referenceDate = DateTime(
+        before.year + years,
+        before.month + months,
+        before.day + days,
+        before.hour,
+        before.minute,
+        before.second,
+        before.millisecond,
+        before.microsecond,
+      );
+
+      if (referenceDate.compareTo(after) == 1) count++;
+
+      return after;
+    });
+    return count;
+  }
 }
 
 // List<int>拡張

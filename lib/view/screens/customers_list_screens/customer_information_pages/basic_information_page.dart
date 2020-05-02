@@ -55,8 +55,10 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
             ),
             SizedBox(height: 30),
             RepeatAnalysisCardWidget(
-              numberOfRepeatWithinAMonth: null, //TODO
-              numberOfRepeatWithinThreeMonth: null, //TODO
+              numberOfRepeatWithinAMonth:
+                  _histories?.getNumberOfRepeatWithin(months: 1),
+              numberOfRepeatWithinThreeMonth:
+                  _histories?.getNumberOfRepeatWithin(months: 3),
               numberOfRepeatMore: null, //TODO
               repeatCycle: null, //TODO
               expectedNextVisit: null, //TODO
