@@ -1,6 +1,8 @@
 import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/list_card_widgets/profile_card_widget.dart';
+import 'package:customermanagementapp/view/components/list_card_widgets/visit_information_card_widgt.dart';
 import 'package:flutter/material.dart';
 
 class BasicInformationPage extends StatefulWidget {
@@ -38,7 +40,12 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
               birth: _customer.birth,
             ),
             SizedBox(height: 30),
-            _recordPart(),
+            VisitInformationCardWidget(
+              numberOfVisit: _histories?.length,
+              firstVisitDate: _histories?.getFirstVisitHistory()?.date,
+              lastVisitDate: _histories?.getLastVisitHistory()?.date,
+              reasonForVisit: null, //TODO
+            ),
             SizedBox(height: 30),
             _priceAnalysisPart(),
             SizedBox(height: 30),
@@ -46,56 +53,6 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
           ],
         ),
       ),
-    );
-  }
-
-  // [ウィジェット：記録部分]
-  Widget _recordPart() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          '来店情報',
-          style: TextStyle(fontSize: 20),
-          textAlign: TextAlign.left,
-        ),
-        Card(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text('来店回数')),
-                    Expanded(child: Text('(未データ)')),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text('初回来店日')),
-                    Expanded(child: Text('(未データ)')),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text('最終来店日')),
-                    Expanded(child: Text('(未データ)')),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text('初回来店理由')),
-                    Expanded(child: Text('(未データ)')),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 

@@ -12,9 +12,9 @@ class VisitInformationCardWidget extends ListCardWidget {
   }) : super(
           title: '来店情報',
           contentsMap: {
-            '来店回数': numberOfVisit.toString(),
-            '初回来店': firstVisitDate.toFormatString(),
-            '最終来店': lastVisitDate.toFormatString(),
+            '来店回数': numberOfVisit?.toString(),
+            '初回来店': firstVisitDate?.toFormatString(),
+            '最終来店': lastVisitDate?.toFormatString(),
             '初回来店理由': reasonForVisit,
           },
         );

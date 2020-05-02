@@ -32,7 +32,7 @@ abstract class ListCardWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    Divider(),
+                    getDivider(entries.length - 1 == index),
                   ],
                 );
               }),
@@ -41,5 +41,9 @@ abstract class ListCardWidget extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  Widget getDivider(bool isEnd) {
+    return isEnd ? Container() : Divider();
   }
 }
