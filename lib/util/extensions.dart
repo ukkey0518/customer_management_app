@@ -87,8 +87,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   }
 
   // [取得：指定期間以内に再来店した回数を取得]
-  int getNumOfRepeatDuringPeriodByMonths(
-      final int minMonth, final int maxMonth) {
+  int getNumOfRepeatDuringPeriodByMonths({int minMonth = 0, int maxMonth = 0}) {
     var count = 0;
     final dateList =
         this.map<DateTime>((visitHistory) => visitHistory.date).toList();
@@ -106,16 +105,21 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         before.microsecond,
       );
 
-      final maxDate = DateTime(
-        before.year,
-        before.month + maxMonth,
-        before.day,
-        before.hour,
-        before.minute,
-        before.second,
-        before.millisecond,
-        before.microsecond,
-      );
+      var maxDate;
+      if (maxMonth == 0) {
+        maxDate = DateTime.now();
+      } else {
+        maxDate = DateTime(
+          before.year,
+          before.month + maxMonth,
+          before.day,
+          before.hour,
+          before.minute,
+          before.second,
+          before.millisecond,
+          before.microsecond,
+        );
+      }
 
       if (after.isAfter(minDate) && after.isBefore(maxDate)) {
         count++;
