@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/view/components/list_card_widgets/profile_card_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class BasicInformationPage extends StatefulWidget {
   BasicInformationPage({this.customer, this.histories});
@@ -30,7 +30,12 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            _profilePart(),
+            ProfileCardWidget(
+              name: _customer.name,
+              nameReading: _customer.nameReading,
+              isGenderFemale: _customer.isGenderFemale,
+              birth: _customer.birth,
+            ),
             SizedBox(height: 30),
             _recordPart(),
             SizedBox(height: 30),
@@ -40,65 +45,6 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
           ],
         ),
       ),
-    );
-  }
-
-  // [ウィジェット：プロフィール部分]
-  Widget _profilePart() {
-    var birth = _customer.birth == null
-        ? '未登録'
-        : DateFormat('yyyy/M/d').format(_customer.birth);
-    var age = _customer.birth == null
-        ? ''
-        : ' (${(DateTime.now().difference(_customer.birth).inDays / 365).floor().toString()}歳)';
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          'プロフィール',
-          style: TextStyle(fontSize: 20),
-          textAlign: TextAlign.left,
-        ),
-        Card(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text('お名前')),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text('${_customer.nameReading}'),
-                          Text('${_customer.name} 様'),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text('性別')),
-                    Expanded(
-                        child:
-                            Text('${_customer.isGenderFemale ? '女性' : '男性'}')),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text('生年月日')),
-                    Expanded(child: Text('${birth + age}')),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 
