@@ -144,6 +144,9 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     });
     final periodDaysList =
         periodList.map<int>((duration) => duration.inDays).toList();
+
+    if (periodDaysList.isEmpty) return 0;
+
     final sumDays = periodDaysList.reduce((a, b) => a + b);
     final length = periodList.length;
 
@@ -154,7 +157,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [取得：次回来店予想を取得]
   DateTime expectedNextVisit() {
-    if (this.isEmpty) return null;
+    if (this.isEmpty || this.getRepeatCycle() == 0) return null;
     final lastVisit = this.getLastVisitHistory().date;
     final repeatCycle = Duration(days: this.getRepeatCycle());
 
