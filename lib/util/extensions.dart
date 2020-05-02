@@ -75,14 +75,29 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     return this.first;
   }
 
-  // [取得：お支払い総額]
-  int getTotalPayment() {
+  // [取得：支払い金額リスト]
+  List<int> toSumPriceList() {
     final sumPriceList = this.map<int>((visitHistory) {
       final menuList = visitHistory.menuListJson.toMenuList();
       final priceList = menuList.map<int>((menu) => menu.price);
       return priceList.reduce((a, b) => a + b);
-    });
-    return sumPriceList.reduce((aSum, bSum) => aSum + bSum);
+    }).toList();
+    return sumPriceList;
+  }
+}
+
+// List<int>拡張
+extension ConvertFromIntList on List<int> {
+  // [取得：合計値を取得]
+  int getSum() {
+    return this.reduce((a, b) => a + b);
+  }
+
+  // [取得：平均値を取得]
+  double getAverage() {
+    final length = this.length;
+    final sum = this.getSum();
+    return sum / length;
   }
 }
 
@@ -135,7 +150,17 @@ extension ConvertFromInteger on int {
   // [変換：数値を金額文字列へ]
   String toPriceString() {
     final formatStr = NumberFormat('#,###,###').format(this);
-    return '\¥ $formatStr';
+    return '\¥$formatStr';
+  }
+}
+
+// double拡張
+extension ConvertFromDouble on double {
+  // [変換：数値を金額文字列へ]
+  String toPriceString(int asFixed) {
+    final num = double.parse(this.toStringAsFixed(asFixed));
+    final formatStr = NumberFormat('#,###,###.######').format(num);
+    return '\¥$formatStr';
   }
 }
 

@@ -6,12 +6,12 @@ import 'package:flutter/material.dart';
 class PriceAnalysisCardWidget extends ListCardWidget {
   PriceAnalysisCardWidget({
     @required int totalPayment,
-    @required int averagePrice,
+    @required double averagePrice,
   }) : super(
           title: '単価分析',
           contentsMap: {
             'お支払い総額': totalPayment?.toPriceString(),
-            '平均単価': averagePrice?.toPriceString(),
+            '平均単価': averagePrice?.toPriceString(2),
           },
         );
 }
