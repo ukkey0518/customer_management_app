@@ -91,7 +91,6 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     var count = 0;
     final dateList =
         this.map<DateTime>((visitHistory) => visitHistory.date).toList();
-    print(dateList);
     dateList.sort((a, b) => a.isAfter(b) ? 1 : -1);
     dateList.reduce((before, after) {
       final minDate = DateTime(
@@ -128,6 +127,31 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       return after;
     });
     return count;
+  }
+
+  // [取得：リピートサイクル平均(日)]
+  int getRepeatCycle() {
+    var repeatCycle = 0.0;
+    final dateList =
+        this.map<DateTime>((visitHistory) => visitHistory.date).toList();
+    dateList.sort((a, b) => a.isAfter(b) ? 1 : -1);
+    print(dateList);
+    List<Duration> periodList = List();
+    dateList.reduce((before, after) {
+      var period;
+      period = after.difference(before);
+      periodList.add(period);
+      return after;
+    });
+    print(periodList);
+    final periodDaysList =
+        periodList.map<int>((duration) => duration.inDays).toList();
+    final sumDays = periodDaysList.reduce((a, b) => a + b);
+    final length = periodList.length;
+
+    repeatCycle = sumDays / length;
+
+    return repeatCycle.floor();
   }
 }
 

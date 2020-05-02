@@ -69,7 +69,7 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                   _histories?.getNumOfRepeatDuringPeriodByMonths(
                 minMonth: 3,
               ),
-              repeatCycle: null, //TODO
+              repeatCycle: _histories?.getRepeatCycle(),
               expectedNextVisit: null, //TODO
             ),
           ],
