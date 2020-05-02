@@ -87,7 +87,8 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   }
 
   // [取得：指定期間以内に再来店した回数を取得]
-  int getNumOfRepeatDuringPeriodByMonths(final int minMonth, final int maxMonth) {
+  int getNumOfRepeatDuringPeriodByMonths(
+      final int minMonth, final int maxMonth) {
     var count = 0;
     final dateList =
         this.map<DateTime>((visitHistory) => visitHistory.date).toList();
