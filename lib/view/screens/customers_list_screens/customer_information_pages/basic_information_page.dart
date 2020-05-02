@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/view/components/list_card_widgets/price_analysis_card_widget.dart';
 import 'package:customermanagementapp/view/components/list_card_widgets/profile_card_widget.dart';
 import 'package:customermanagementapp/view/components/list_card_widgets/visit_information_card_widgt.dart';
 import 'package:flutter/material.dart';
@@ -47,7 +48,10 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
               reasonForVisit: null, //TODO
             ),
             SizedBox(height: 30),
-            _priceAnalysisPart(),
+            PriceAnalysisCardWidget(
+              totalPayment: null, //TODO
+              averagePrice: null, //TODO
+            ),
             SizedBox(height: 30),
             _repeatAnalysisPart(),
           ],
@@ -101,41 +105,6 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
                 Row(
                   children: <Widget>[
                     Expanded(child: Text('次回来店予想')),
-                    Expanded(child: Text('(未データ)')),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _priceAnalysisPart() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          '単価分析',
-          style: TextStyle(fontSize: 20),
-          textAlign: TextAlign.left,
-        ),
-        Card(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text('お支払い総額')),
-                    Expanded(child: Text('(未データ)')),
-                  ],
-                ),
-                Divider(),
-                Row(
-                  children: <Widget>[
-                    Expanded(child: Text('平均単価')),
                     Expanded(child: Text('(未データ)')),
                   ],
                 ),
