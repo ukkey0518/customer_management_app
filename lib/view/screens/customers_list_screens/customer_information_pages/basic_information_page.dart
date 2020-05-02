@@ -4,10 +4,9 @@ import 'package:customermanagementapp/view/components/list_card_widgets/profile_
 import 'package:flutter/material.dart';
 
 class BasicInformationPage extends StatefulWidget {
-  BasicInformationPage({this.customer, this.histories});
+  BasicInformationPage({@required this.historiesByCustomer});
 
-  final Customer customer;
-  final VisitHistoriesByCustomer histories;
+  final VisitHistoriesByCustomer historiesByCustomer;
 
   @override
   _BasicInformationPageState createState() => _BasicInformationPageState();
@@ -15,11 +14,13 @@ class BasicInformationPage extends StatefulWidget {
 
 class _BasicInformationPageState extends State<BasicInformationPage> {
   Customer _customer;
+  List<VisitHistory> _histories;
 
   @override
   void initState() {
     super.initState();
-    _customer = widget.customer;
+    _customer = widget.historiesByCustomer.customer;
+    _histories = widget.historiesByCustomer.histories;
   }
 
   @override

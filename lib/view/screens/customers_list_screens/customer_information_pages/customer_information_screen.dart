@@ -23,9 +23,9 @@ class CustomerInformationScreen extends StatefulWidget {
 }
 
 class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
-  Customer _customer;
-  List<VisitHistory> _visitHistories;
+  VisitHistoriesByCustomer _visitHistoriesByCustomer;
   CustomerListScreenPreferences _pref;
+
   final _tabs = <Tab>[
     Tab(text: '基本情報', icon: Icon(Icons.account_circle)),
     Tab(text: '来店履歴', icon: Icon(Icons.shopping_cart)),
@@ -36,16 +36,8 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   @override
   void initState() {
     super.initState();
-    print(widget.historiesByCustomer);
-    _customer = widget.historiesByCustomer.customer;
+    _visitHistoriesByCustomer = widget.historiesByCustomer;
     _pref = widget.pref;
-    _initVisitHistories();
-  }
-
-  // [初期化：対象顧客の来店データを取得]
-  _initVisitHistories() async {
-    _visitHistories =
-        (await dao.getVisitHistoriesByCustomer(_customer)).histories;
   }
 
   @override
@@ -65,14 +57,15 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
             actions: <Widget>[
               IconButton(
                 icon: Icon(Icons.edit),
-                onPressed: () => _editCustomer(_customer),
+                onPressed: () =>
+                    _editCustomer(_visitHistoriesByCustomer.customer),
               )
             ],
           ),
           body: TabBarView(
             children: <Widget>[
               BasicInformationPage(
-                customer: _customer,
+                historiesByCustomer: _visitHistoriesByCustomer,
               ),
               VisitRecordPage(),
             ],
@@ -85,6 +78,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   // [コールバック：編集ボタンタップ]
   // →表示中の顧客情報を編集する
   _editCustomer(Customer customer) {
+    final customer = widget.historiesByCustomer.customer;
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
