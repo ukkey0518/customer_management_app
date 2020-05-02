@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:customermanagementapp/db/database.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -86,16 +87,17 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   }
 
   // [取得：指定期間以内に再来店した回数を取得]
-  int getNumberOfRepeatWithin({int years = 0, int months = 0, int days = 0}) {
+  int getNumOfRepeatDuringPeriodByMonths(final int minMonth, final int maxMonth) {
     var count = 0;
     final dateList =
         this.map<DateTime>((visitHistory) => visitHistory.date).toList();
+    print(dateList);
     dateList.sort((a, b) => a.isAfter(b) ? 1 : -1);
     dateList.reduce((before, after) {
-      final referenceDate = DateTime(
-        before.year + years,
-        before.month + months,
-        before.day + days,
+      final minDate = DateTime(
+        before.year,
+        before.month + minMonth,
+        before.day,
         before.hour,
         before.minute,
         before.second,
@@ -103,7 +105,20 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         before.microsecond,
       );
 
-      if (referenceDate.compareTo(after) == 1) count++;
+      final maxDate = DateTime(
+        before.year,
+        before.month + maxMonth,
+        before.day,
+        before.hour,
+        before.minute,
+        before.second,
+        before.millisecond,
+        before.microsecond,
+      );
+
+      if (after.isAfter(minDate) && after.isBefore(maxDate)) {
+        count++;
+      }
 
       return after;
     });
