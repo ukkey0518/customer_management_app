@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_edit_dialog.dart';
+import 'package:customermanagementapp/view/components/expantion_panels/expansion_panel_title_menu_category.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/cupertino.dart';
@@ -128,7 +129,9 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
         return ExpansionPanel(
           // カテゴリタイトル部分の生成
           headerBuilder: (BuildContext context, bool isExpanded) =>
-              _titleCategoryPart(menusByCategory.menuCategory),
+              ExpansionPanelTitleMenuCategory(
+            menuCategory: menusByCategory.menuCategory,
+          ),
           // メニュー部分の生成
           body: SingleChildScrollView(
             child: Column(
@@ -140,23 +143,6 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           canTapOnHeader: true,
         );
       }).toList(),
-    );
-  }
-
-  // [ウィジェット：カテゴリタイトル部分]
-  Widget _titleCategoryPart(MenuCategory menuCategory) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: ListTile(
-        title: Text(
-          menuCategory.name,
-          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-        ),
-        leading: Icon(
-          Icons.category,
-          color: Color(menuCategory.color),
-        ),
-      ),
     );
   }
 
