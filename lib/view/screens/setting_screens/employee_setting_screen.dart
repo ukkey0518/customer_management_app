@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/dialogs/employee_edit_dialog.dart';
+import 'package:customermanagementapp/view/components/list_items/employee_list_item.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -67,16 +68,10 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
       body: ListView.builder(
         itemCount: _employees.length,
         itemBuilder: (context, index) {
-          return Column(
-            children: <Widget>[
-              ListTile(
-                leading: const Icon(Icons.supervisor_account),
-                title: Text(_employees[index].name),
-                onTap: () => _showEditEmployeeDialog(_employees[index]),
-                onLongPress: () => _deleteEmployee(_employees[index]),
-              ),
-              Divider(height: 1),
-            ],
+          return EmployeeListItem(
+            employee: _employees[index],
+            onTap: (employee) => _showEditEmployeeDialog(employee),
+            onLongPress: (employee) => _deleteEmployee(employee),
           );
         },
       ),
