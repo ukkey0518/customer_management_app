@@ -2,7 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_edit_dialog.dart';
-import 'package:customermanagementapp/view/components/expantion_panels/expansion_panel_title.dart';
+import 'package:customermanagementapp/view/components/menu_expansion_panel_list.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/cupertino.dart';
@@ -69,6 +69,38 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     setState(() {});
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('メニュー管理'),
+        centerTitle: true,
+      ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () => _startMenuCategorySettingScreen(),
+        icon: Icon(Icons.category),
+        label: const Text('カテゴリの編集'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      body: SingleChildScrollView(
+        child: Container(
+          child: MenuExpansionPanelList(
+            menuByCategories: _menusByCategories,
+            expansionCallback: (index, isExpanded) {
+              setState(() {
+                _menusByCategories[index].isExpanded = !isExpanded;
+              });
+            },
+            onItemPanelTap: (category, menu) =>
+                _showEditMenuDialog(category, menu),
+            onItemPanelLongPress: (menu) => _deleteMenuTile(menu),
+            onAddPanelTap: (category) => _showEditMenuDialog(category),
+          ),
+        ),
+      ),
+    );
+  }
+
   // [コールバック：メニューリストパネルタップ時]
   _showEditMenuDialog(MenuCategory category, [Menu menu]) {
     showDialog(
@@ -93,129 +125,6 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   _deleteMenuTile(Menu menu) async {
     await dao.deleteMenu(menu);
     _reloadMenusByCategoriesList();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('メニュー管理'),
-        centerTitle: true,
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _startMenuCategorySettingScreen(),
-        icon: Icon(Icons.category),
-        label: const Text('カテゴリの編集'),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: SingleChildScrollView(
-        child: Container(
-          child: _buildPanel(),
-        ),
-      ),
-    );
-  }
-
-  // [ウィジェット：カテゴリ別メニューの展開パネルリスト]
-  Widget _buildPanel() {
-    return ExpansionPanelList(
-      // 展開ボタンが押されたときのコールバック
-      expansionCallback: (index, isExpanded) {
-        setState(() {
-          _menusByCategories[index].isExpanded = !isExpanded;
-        });
-      },
-      children: _menusByCategories.map<ExpansionPanel>((menusByCategory) {
-        return ExpansionPanel(
-          // カテゴリタイトル部分の生成
-          headerBuilder: (BuildContext context, bool isExpanded) {
-            return ExpansionPanelTitle(
-              title: menusByCategory.menuCategory.name,
-              leading: Icon(
-                Icons.category,
-                color: Color(menusByCategory.menuCategory.color),
-              ),
-            );
-          },
-          // メニュー部分の生成
-          body: SingleChildScrollView(
-            child: Column(
-              children: _menuTilesList(menusByCategory),
-            ),
-          ),
-          // 展開ステータスの設定
-          isExpanded: menusByCategory.isExpanded,
-          canTapOnHeader: true,
-        );
-      }).toList(),
-    );
-  }
-
-  // [ウィジェット：カテゴリ内のメニューリスト]
-  List<Widget> _menuTilesList(MenusByCategory menusByCategory) {
-    // メニューリスト
-    var menus = menusByCategory.menus;
-
-    // カテゴリ別メニュータイルのリスト
-    var menuTilesList = List<Widget>();
-
-    // メインコンテンツであるメニューリストを追加
-    menuTilesList.addAll(
-      List.generate(
-        menus.length,
-        (index) {
-          return Column(
-            children: <Widget>[
-              Divider(height: 1),
-              InkWell(
-                child: Padding(
-                  padding: const EdgeInsets.all(24),
-                  child: Row(
-                    children: <Widget>[
-                      Expanded(
-                        child: Text(
-                          menus[index].name,
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      Text(
-                        '${menus[index].price.toPriceString()}',
-                        style: TextStyle(
-                          fontSize: 16,
-                        ),
-                      )
-                    ],
-                  ),
-                ),
-                onTap: () => _showEditMenuDialog(
-                  menusByCategory.menuCategory,
-                  menus[index],
-                ),
-                onLongPress: () => _deleteMenuTile(menus[index]),
-              ),
-            ],
-          );
-        },
-      ),
-    );
-
-    // リスト末尾に付く、メニュー追加用リストタイルを追加
-    menuTilesList.add(
-      Column(
-        children: <Widget>[
-          Divider(height: 1),
-          ListTile(
-            title: const Text('メニューを追加'),
-            leading: Icon(Icons.add),
-            onTap: () => _showEditMenuDialog(menusByCategory.menuCategory),
-          ),
-        ],
-      ),
-    );
-
-    return menuTilesList;
   }
 
   // [コールバック：FABタップ時]
