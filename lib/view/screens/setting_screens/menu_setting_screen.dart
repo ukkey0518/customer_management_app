@@ -1,11 +1,11 @@
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/view/components/dialogs/menu_edit_dialog.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 
 class MenuSettingScreen extends StatefulWidget {
   @override
@@ -68,24 +68,24 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     setState(() {});
   }
 
-  // [コールバック：メニュー追加パネルタップ時]
-  _showAddMenuDialog(MenuCategory menuCategory) {
-    showDialog(
-      context: context,
-      builder: (_) {
-        return _menuEditDialog(menuCategory);
-      },
-    ).then((_) => _reloadMenusByCategoriesList());
-  }
-
   // [コールバック：メニューリストパネルタップ時]
-  _showEditMenuDialog(MenuCategory menuCategory, Menu menu) {
+  _showEditMenuDialog(MenuCategory category, [Menu menu]) {
     showDialog(
       context: context,
       builder: (_) {
-        return _menuEditDialog(menuCategory, menu);
+        return MenuEditDialog(
+          category: category,
+          menu: menu,
+        );
       },
-    ).then((_) => _reloadMenusByCategoriesList());
+    ).then(
+      (menu) async {
+        if (menu != null) {
+          await dao.addMenu(menu);
+        }
+        _reloadMenusByCategoriesList();
+      },
+    );
   }
 
   // [コールバック：メニューリストパネル長押し時]
@@ -218,165 +218,13 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
           ListTile(
             title: const Text('メニューを追加'),
             leading: Icon(Icons.add),
-            onTap: () => _showAddMenuDialog(menusByCategory.menuCategory),
+            onTap: () => _showEditMenuDialog(menusByCategory.menuCategory),
           ),
         ],
       ),
     );
 
     return menuTilesList;
-  }
-
-  // [ウィジェット：メニュー編集ダイアログ]
-  Widget _menuEditDialog(MenuCategory menuCategory, [Menu menu]) {
-    var titleText;
-    var nameController = TextEditingController();
-    var priceController = TextEditingController();
-    var positiveButtonPressed;
-
-    if (menu == null) {
-      titleText = 'メニューの追加';
-      nameController.text = '';
-      priceController.text = '';
-      positiveButtonPressed = () async {
-        // 未入力チェック
-        if (nameController.text.isEmpty || priceController.text.isEmpty) {
-          Toast.show('未入力項目があります', context);
-          return;
-        }
-        // 数値チェック
-        try {
-          int.parse(priceController.text);
-        } on FormatException catch (e) {
-          Toast.show('価格は数字のみ入力可能です。', context);
-          print(e);
-          return;
-        }
-        var newMenu = Menu(
-          id: null,
-          menuCategoryJson: menuCategory.toJsonString(),
-          name: nameController.text,
-          price: int.parse(priceController.text),
-        );
-        await dao.addMenu(newMenu);
-        Navigator.of(context).pop();
-      };
-    } else {
-      titleText = 'メニューの編集';
-      nameController.text = menu.name;
-      priceController.text = menu.price.toString();
-      positiveButtonPressed = () async {
-        // 未入力チェック
-        if (nameController.text.isEmpty || priceController.text.isEmpty) {
-          Toast.show('未入力項目があります', context);
-          return;
-        }
-        // 数値チェック
-        try {
-          int.parse(priceController.text);
-        } on FormatException catch (e) {
-          Toast.show('価格は数字のみ入力可能です。', context);
-          print(e);
-          return;
-        }
-        var newMenu = Menu(
-          id: menu.id,
-          menuCategoryJson: menuCategory.toJsonString(),
-          name: nameController.text,
-          price: int.parse(priceController.text),
-        );
-        await dao.updateMenu(newMenu);
-        Navigator.of(context).pop();
-      };
-    }
-
-    return AlertDialog(
-      title: Text(titleText),
-      content: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text('カテゴリ：'),
-            Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
-              decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).primaryColor),
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: TextField(
-                controller: TextEditingController(text: menuCategory.name),
-                readOnly: true,
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  prefixIcon: Icon(
-                    Icons.category,
-                    color: Color(menuCategory.color),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
-            Text('メニュー名：'),
-            Container(
-              padding: EdgeInsets.only(left: 16),
-              decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).primaryColor),
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: TextField(
-                controller: nameController,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  hintText: 'メニュー名を入力',
-                  border: InputBorder.none,
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: () =>
-                        WidgetsBinding.instance.addPostFrameCallback(
-                      (_) => nameController.clear(),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(height: 30),
-            Text('価格：'),
-            Container(
-              padding: EdgeInsets.only(left: 16),
-              decoration: BoxDecoration(
-                border: Border.all(color: Theme.of(context).primaryColor),
-                borderRadius: BorderRadius.all(Radius.circular(8)),
-              ),
-              child: TextField(
-                controller: priceController,
-                keyboardType: TextInputType.number,
-                decoration: InputDecoration(
-                  hintText: '価格を入力',
-                  border: InputBorder.none,
-                  suffixIcon: IconButton(
-                    icon: Icon(Icons.clear),
-                    onPressed: () =>
-                        WidgetsBinding.instance.addPostFrameCallback(
-                      (_) => priceController.clear(),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      actions: <Widget>[
-        FlatButton(
-          child: const Text('キャンセル'),
-          onPressed: () => Navigator.of(context).pop(),
-        ),
-        FlatButton(
-          child: const Text('追加'),
-          onPressed: positiveButtonPressed,
-        ),
-      ],
-    );
   }
 
   // [コールバック：FABタップ時]

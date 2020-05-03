@@ -201,7 +201,8 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   //
 
   // [追加：１件分のメニューを追加]
-  Future<int> addMenu(Menu menu) => into(menus).insert(menu);
+  Future<int> addMenu(Menu menu) =>
+      into(menus).insert(menu, mode: InsertMode.replace);
 
   // [追加：渡されたデータをすべて追加]
   Future<void> addAllMenus(List<Menu> menusList) async {
