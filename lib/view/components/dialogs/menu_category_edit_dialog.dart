@@ -14,7 +14,7 @@ class MenuCategoryEditDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     var title;
     Color currentColor;
-    var categoryController = TextEditingController();
+    var controller = TextEditingController();
     var positiveButtonText;
 
     var errorText;
@@ -22,12 +22,12 @@ class MenuCategoryEditDialog extends StatelessWidget {
     if (category == null) {
       title = 'カテゴリの追加';
       currentColor = Colors.white;
-      categoryController.text = '';
+      controller.text = '';
       positiveButtonText = '追加';
     } else {
       title = 'カテゴリの編集';
       currentColor = Color(category.color);
-      categoryController.text = category.name;
+      controller.text = category.name;
       positiveButtonText = '更新';
     }
 
@@ -41,7 +41,7 @@ class MenuCategoryEditDialog extends StatelessWidget {
               children: <Widget>[
                 const Text('カテゴリ名：', textAlign: TextAlign.left),
                 InputField(
-                  controller: categoryController,
+                  controller: controller,
                   errorText: errorText,
                   hintText: 'カテゴリ名を入力',
                   style: InputFieldStyle.UNDER_LINE,
@@ -69,15 +69,13 @@ class MenuCategoryEditDialog extends StatelessWidget {
               child: Text(positiveButtonText),
               onPressed: () {
                 // 未入力チェック
-                if (categoryController.text.isEmpty) {
-                  setState(() => errorText = 'カテゴリ名が未入力です');
-                  return;
-                } else {
-                  setState(() => errorText = null);
-                }
+                errorText = controller.text.isEmpty ? 'カテゴリ名が未入力です' : null;
+                setState(() {});
+                if (errorText != null) return;
+
                 var newCategory = MenuCategory(
                   id: category?.id,
-                  name: categoryController.text,
+                  name: controller.text,
                   color: currentColor.getColorNumber(),
                 );
                 Navigator.of(context).pop(newCategory);

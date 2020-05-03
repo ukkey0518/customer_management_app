@@ -31,29 +31,6 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
     setState(() {});
   }
 
-  // [コールバック：FAB・リストアイテムタップ時]
-  _showEditEmployeeDialog([Employee employee]) {
-    showDialog(
-      context: context,
-      builder: (_) => EmployeeEditDialog(employee: employee),
-    ).then(
-      (employee) async {
-        if (employee != null) {
-          await dao.addEmployee(employee);
-        }
-        _reloadEmployeesList();
-      },
-    );
-  }
-
-  // [コールバック：リストアイテム長押し時]
-  // ・従業員データを削除する
-  _deleteEmployee(Employee employee) async {
-    await dao.deleteEmployee(employee);
-    _reloadEmployeesList();
-    Toast.show('削除しました。', context);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -76,5 +53,28 @@ class _EmployeeSettingScreenState extends State<EmployeeSettingScreen> {
         },
       ),
     );
+  }
+
+  // [コールバック：FAB・リストアイテムタップ時]
+  _showEditEmployeeDialog([Employee employee]) {
+    showDialog(
+      context: context,
+      builder: (_) => EmployeeEditDialog(employee: employee),
+    ).then(
+      (employee) async {
+        if (employee != null) {
+          await dao.addEmployee(employee);
+        }
+        _reloadEmployeesList();
+      },
+    );
+  }
+
+  // [コールバック：リストアイテム長押し時]
+  // ・従業員データを削除する
+  _deleteEmployee(Employee employee) async {
+    await dao.deleteEmployee(employee);
+    _reloadEmployeesList();
+    Toast.show('削除しました。', context);
   }
 }
