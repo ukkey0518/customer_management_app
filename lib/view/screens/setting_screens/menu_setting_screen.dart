@@ -2,7 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_edit_dialog.dart';
-import 'package:customermanagementapp/view/components/expantion_panels/expansion_panel_title_menu_category.dart';
+import 'package:customermanagementapp/view/components/expantion_panels/expansion_panel_title.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/cupertino.dart';
@@ -128,10 +128,15 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
       children: _menusByCategories.map<ExpansionPanel>((menusByCategory) {
         return ExpansionPanel(
           // カテゴリタイトル部分の生成
-          headerBuilder: (BuildContext context, bool isExpanded) =>
-              ExpansionPanelTitleMenuCategory(
-            menuCategory: menusByCategory.menuCategory,
-          ),
+          headerBuilder: (BuildContext context, bool isExpanded) {
+            return ExpansionPanelTitle(
+              title: menusByCategory.menuCategory.name,
+              leading: Icon(
+                Icons.category,
+                color: Color(menusByCategory.menuCategory.color),
+              ),
+            );
+          },
           // メニュー部分の生成
           body: SingleChildScrollView(
             child: Column(
