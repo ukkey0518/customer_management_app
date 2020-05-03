@@ -138,7 +138,7 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
 
   // [追加：１件分のスタッフデータを追加]
   Future<int> addEmployee(Employee employee) =>
-      into(employees).insert(employee);
+      into(employees).insert(employee, mode: InsertMode.replace);
 
   // [追加：渡されたデータをすべて追加]
   Future<void> addAllEmployees(List<Employee> employeesList) async {
