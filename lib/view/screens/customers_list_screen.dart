@@ -88,7 +88,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
       body: Column(
         children: <Widget>[
           SearchBar(
-            numberOfCustomers: _customersList.length,
+            numberOfItems: _customersList.length,
             narrowMenu: NarrowDropDownMenu(
               items: customerNarrowStateMap.values.toList(),
               selectedValue: _narrowDropdownSelectedValue,

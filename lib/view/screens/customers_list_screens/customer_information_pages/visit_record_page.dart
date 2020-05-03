@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:flutter/material.dart';
 
 class VisitRecordPage extends StatefulWidget {
@@ -8,8 +9,10 @@ class VisitRecordPage extends StatefulWidget {
 class _VisitRecordPageState extends State<VisitRecordPage> {
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Text('来店情報ページ'),
+    return Column(
+      children: <Widget>[
+        SearchBar(),
+      ],
     );
   }
 }

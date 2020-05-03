@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class SearchBar extends StatelessWidget {
   SearchBar({
-    @required this.numberOfCustomers,
+    @required this.numberOfItems,
     this.narrowMenu,
     this.sortMenu,
     this.searchMenu,
   });
 
-  final int numberOfCustomers;
+  final int numberOfItems;
   final Widget narrowMenu;
   final Widget sortMenu;
   final Widget searchMenu;
@@ -26,7 +26,7 @@ class SearchBar extends StatelessWidget {
                   children: <TextSpan>[
                     TextSpan(text: '検索結果：'),
                     TextSpan(
-                      text: '$numberOfCustomers',
+                      text: '$numberOfItems',
                       style: TextStyle(
                         fontSize: 20,
                         color: Colors.red,
