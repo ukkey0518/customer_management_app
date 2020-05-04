@@ -2,8 +2,10 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/view/components/customer_selected_card.dart';
+import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
+import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
+import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
@@ -12,7 +14,6 @@ import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
-import 'select_screens/customer_select_screen.dart';
 import 'visit_history_list_screen.dart';
 
 class VisitHistoryEditScreen extends StatefulWidget {
@@ -185,7 +186,24 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 child: const Text('お客様情報', style: TextStyle(fontSize: 20)),
               ),
               _divider(),
-              _customerInputPart(),
+              RowWithIcon(
+                icon: Icon(Icons.account_circle),
+                title: '顧客',
+                content: _selectedCustomer != null
+                    ? CustomerSelectedCard(
+                        customer: _selectedCustomer,
+                        onSelected: (customer) {
+                          setState(() => _selectedCustomer =
+                              customer ?? _selectedCustomer);
+                        },
+                      )
+                    : CustomerNotSelectedCard(
+                        onSelected: (customer) {
+                          setState(() => _selectedCustomer =
+                              customer ?? _selectedCustomer);
+                        },
+                      ),
+              ),
               _divider(),
               SizedBox(height: 30),
               Padding(
@@ -289,35 +307,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             child: content,
           ),
         ],
-      ),
-    );
-  }
-
-  // [ウィジェット：顧客選択欄]
-  Widget _customerInputPart() {
-    return _inputPartBuilder(
-      icon: Icon(Icons.account_circle),
-      title: '顧客',
-      content: CustomerSelectedCard(
-        customer: _selectedCustomer,
-        onTap: _screenAbsorbing
-            ? null
-            : () {
-                Navigator.of(context)
-                    .push(
-                      MaterialPageRoute(
-                        builder: (context) => CustomerSelectScreen(),
-                        fullscreenDialog: true,
-                      ),
-                    )
-                    .then(
-                      (newCustomer) => setState(
-                        () => _selectedCustomer =
-                            newCustomer ?? _selectedCustomer,
-                      ),
-                    );
-              },
-        onLongPress: null,
       ),
     );
   }
