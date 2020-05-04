@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/view/components/current_mode_display_banner.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
@@ -85,7 +86,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     setState(() {});
   }
 
-  // [ウィジェット：メニュー表示欄タップ時]
+  // [コールバック：メニュー欄タップ時]
   _startMenuSelectScreen() {
     Navigator.of(context)
         .push(
@@ -180,7 +181,12 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              _showModePart(),
+              CurrentModeDisplayBanner(
+                modeText: _screenAbsorbing ? '閲覧モード' : '編集モード',
+                color: _screenAbsorbing
+                    ? Theme.of(context).primaryColorLight
+                    : Colors.amber,
+              ),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: const Text('お客様情報', style: TextStyle(fontSize: 20)),
@@ -227,31 +233,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  // [ウィジェット：閲覧、編集アイコンテキスト部分]
-  Widget _showModePart() {
-    var text;
-    var color;
-    if (_screenAbsorbing) {
-      text = '閲覧モード';
-      color = Theme.of(context).primaryColorLight;
-    } else {
-      text = '編集モード';
-      color = Colors.amber;
-    }
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Container(
-        alignment: Alignment.center,
-        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(30)),
-          color: color,
-        ),
-        child: Text(text),
       ),
     );
   }
