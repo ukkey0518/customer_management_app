@@ -6,6 +6,7 @@ import 'package:customermanagementapp/view/components/current_mode_display_banne
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
+import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/util/extensions.dart';
@@ -191,7 +192,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 padding: const EdgeInsets.only(left: 16.0),
                 child: const Text('お客様情報', style: TextStyle(fontSize: 20)),
               ),
-              _divider(),
+              MyDivider(),
               RowWithIcon(
                 icon: Icon(Icons.account_circle),
                 title: '顧客',
@@ -210,23 +211,23 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                         },
                       ),
               ),
-              _divider(),
+              MyDivider(),
               SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: const Text('詳細情報', style: TextStyle(fontSize: 20)),
               ),
-              _divider(),
+              MyDivider(),
               _dateInputPart(),
-              _divider(indent: 8),
+              MyDivider(indent: 8),
               _employeeInputPart(),
-              _divider(),
+              MyDivider(),
               SizedBox(height: 30),
               Padding(
                 padding: const EdgeInsets.only(left: 16.0),
                 child: const Text('提供メニュー', style: TextStyle(fontSize: 20)),
               ),
-              _divider(),
+              MyDivider(),
               Expanded(
                 child: _menuInputPart(),
               ),
@@ -250,15 +251,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         onPressed: () => _saveSingleVisitHistory(),
       );
     }
-  }
-
-  // [ウィジェット：区切り線スタイル]
-  Widget _divider({double indent = 0.0}) {
-    return Divider(
-      height: 8,
-      indent: indent,
-      endIndent: indent,
-    );
   }
 
   // [ウィジェットビルダー：各入力欄のフォーマッタ]
@@ -385,7 +377,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
               ],
             ),
           ),
-          _divider(indent: 8),
+          MyDivider(indent: 8),
           Expanded(
             child: Scrollbar(
               child: ListView.builder(
