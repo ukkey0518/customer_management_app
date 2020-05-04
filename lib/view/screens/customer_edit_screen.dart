@@ -151,6 +151,10 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
                     '生年月日': DateSelectForm(
                       selectedDate: _birthDay,
                       onConfirm: _setBirthDay,
+                      isClearable: true,
+                      paddingVertical: 8,
+                      paddingHorizontal: 8,
+                      color: Colors.white,
                     ),
                   },
                 ),
@@ -205,12 +209,12 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
   // [コールバック：画面終了時]
   Future<bool> _finishEditScreen(
       BuildContext context, bool dialogShowFlag) async {
-    final visitHistoriesByCustomer =
-        await dao.getVisitHistoriesByCustomer(_editedCustomer);
     var widgetBuilder;
     if (widget.customer == null) {
       widgetBuilder = (context) => CustomersListScreen(pref: widget.pref);
     } else {
+      final visitHistoriesByCustomer =
+          await dao.getVisitHistoriesByCustomer(_editedCustomer);
       widgetBuilder = (context) => CustomerInformationScreen(
             widget.pref,
             historiesByCustomer: visitHistoriesByCustomer,

@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/styles.dart';
@@ -78,7 +79,7 @@ class VisitHistoryListItem extends StatelessWidget {
 
   // [ウィジェット：日付欄]
   Widget _datePart(DateTime dateTime) {
-    var dateStr = dateTime.toFormatString();
+    var dateStr = dateTime.toFormatString(DateFormatMode.FULL);
     return Container(
       decoration: BoxDecoration(
           color: Colors.grey,

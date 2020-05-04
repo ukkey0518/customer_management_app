@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -7,19 +8,27 @@ class DateSelectForm extends InputWidget {
   DateSelectForm({
     @required this.selectedDate,
     @required this.onConfirm,
+    this.isClearable = false,
+    this.paddingHorizontal = 0,
+    this.paddingVertical = 0,
+    this.color,
   });
 
   final DateTime selectedDate;
   final ValueChanged<DateTime> onConfirm;
+  final bool isClearable;
+  final double paddingVertical;
+  final double paddingHorizontal;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(
-          color: Colors.white,
-          height: 50,
-          padding: EdgeInsets.symmetric(horizontal: 8),
+          color: color,
+          padding: EdgeInsets.symmetric(
+              horizontal: paddingHorizontal, vertical: paddingVertical),
           child: InkWell(
             onTap: () => _showDateSelectPicker(context),
             child: Row(
@@ -28,7 +37,7 @@ class DateSelectForm extends InputWidget {
                   child: Text(
                     selectedDate == null
                         ? '未登録'
-                        : '${selectedDate.toBirthDayString()}',
+                        : selectedDate.toFormatString(DateFormatMode.FULL),
                     style: TextStyle(fontSize: 16),
                   ),
                 ),
@@ -37,17 +46,23 @@ class DateSelectForm extends InputWidget {
             ),
           ),
         ),
-        Container(
-          width: double.infinity,
-          alignment: Alignment.centerRight,
-          child: RaisedButton(
-            disabledColor: Color(0xe5e5e5e5),
-            child: Text('クリア'),
-            onPressed: selectedDate != null ? () => onConfirm(null) : null,
-          ),
-        ),
+        _clearButtonPart(isClearable),
       ],
     );
+  }
+
+  Widget _clearButtonPart(bool flag) {
+    return flag
+        ? Container(
+            width: double.infinity,
+            alignment: Alignment.centerRight,
+            child: RaisedButton(
+              disabledColor: Color(0xe5e5e5e5),
+              child: Text('クリア'),
+              onPressed: selectedDate != null ? () => onConfirm(null) : null,
+            ),
+          )
+        : Container();
   }
 
   // [コールバック：誕生日欄タップ時]

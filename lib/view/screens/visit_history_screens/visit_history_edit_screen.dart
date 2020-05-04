@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
@@ -6,14 +7,13 @@ import 'package:customermanagementapp/view/components/current_mode_display_banne
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
+import 'package:customermanagementapp/view/components/input_widgets/date_select_form.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 import 'visit_history_list_screen.dart';
@@ -29,7 +29,6 @@ class VisitHistoryEditScreen extends StatefulWidget {
 }
 
 class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
-  final DateFormat _dateFormatter = DateFormat('yyyy/M/d');
   DateTime _date;
   Customer _selectedCustomer;
   List<Employee> _employees = List();
@@ -71,20 +70,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     setState(() {
       _screenAbsorbing = flag;
     });
-  }
-
-  // [コールバック：日付欄タップ時]
-  _showDateSelectPicker() {
-    DatePicker.showDatePicker(
-      context,
-      showTitleActions: true,
-      minTime: DateTime(1970, 1, 1),
-      maxTime: DateTime.now(),
-      onConfirm: (date) => setState(() => _date = date),
-      currentTime: _date,
-      locale: LocaleType.jp,
-    );
-    setState(() {});
   }
 
   // [コールバック：メニュー欄タップ時]
@@ -218,7 +203,19 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 child: const Text('詳細情報', style: TextStyle(fontSize: 20)),
               ),
               MyDivider(),
-              _dateInputPart(),
+              RowWithIcon(
+                icon: Icon(Icons.calendar_today),
+                title: '日付',
+                content: _screenAbsorbing
+                    ? Text(
+                        _date.toFormatString(DateFormatMode.FULL),
+                        style: TextStyle(fontSize: 16),
+                      )
+                    : DateSelectForm(
+                        selectedDate: _date,
+                        onConfirm: (date) => setState(() => _date = date),
+                      ),
+              ),
               MyDivider(indent: 8),
               _employeeInputPart(),
               MyDivider(),
@@ -281,37 +278,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
           ),
         ],
       ),
-    );
-  }
-
-  // [ウィジェット：日付入力欄]
-  Widget _dateInputPart() {
-    var content;
-    if (_screenAbsorbing) {
-      content = Text(
-        '${_dateFormatter.format(_date)}',
-        style: TextStyle(fontSize: 16),
-      );
-    } else {
-      content = InkWell(
-        onTap: _showDateSelectPicker,
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: Text(
-                '${_dateFormatter.format(_date)}',
-                style: TextStyle(fontSize: 16),
-              ),
-            ),
-            Icon(Icons.chevron_right),
-          ],
-        ),
-      );
-    }
-    return _inputPartBuilder(
-      icon: Icon(Icons.calendar_today),
-      title: '日付',
-      content: content,
     );
   }
 

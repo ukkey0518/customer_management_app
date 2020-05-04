@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/view/components/polymorphism/list_card_view.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 
@@ -13,8 +14,8 @@ class VisitInformationCardWidget extends ListCardWidget {
           title: '来店情報',
           contentsMap: {
             '来店回数': numberOfVisit?.toString(),
-            '初回来店': firstVisitDate?.toFormatString(),
-            '最終来店': lastVisitDate?.toFormatString(),
+            '初回来店': firstVisitDate?.toFormatString(DateFormatMode.FULL),
+            '最終来店': lastVisitDate?.toFormatString(DateFormatMode.FULL),
             '初回来店理由': reasonForVisit,
           },
         );

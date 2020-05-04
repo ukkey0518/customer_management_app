@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/simple_table_item.dart';
@@ -26,8 +27,9 @@ class CustomerInformationPanel extends StatelessWidget {
             ),
             SimpleTableItem(
               titleText: '最終来店日',
-              contentText:
-                  lastVisitDate == null ? '--' : lastVisitDate.toFormatString(),
+              contentText: lastVisitDate == null
+                  ? '--'
+                  : lastVisitDate.toFormatString(DateFormatMode.FULL),
             ),
             SimpleTableItem(
               titleText: '担当',

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -204,16 +205,29 @@ extension ConvertFromString on String {
 // DateTime拡張
 extension ConvertFromDateTime on DateTime {
   // [変換：DateTime -> 表示用日付文字列]
-  // 例：2020/4/20(月)
-  String toFormatString() {
-    var dateStr = DateFormat('yyyy/M/d(E)').format(this);
+  String toFormatString(DateFormatMode mode) {
+    var dateStr;
+    switch (mode) {
+      case DateFormatMode.FULL:
+        dateStr = DateFormat('yyyy年 M月 d日').format(this);
+        break;
+      case DateFormatMode.FULL_WITH_DAY_OF_WEEK:
+        dateStr = DateFormat('yyyy年 M月 d日 (E)').format(this);
+        break;
+      case DateFormatMode.MEDIUM:
+        dateStr = DateFormat('yyyy/M/d').format(this);
+        break;
+      case DateFormatMode.MEDIUM_WITH_DAY_OF_WEEK:
+        dateStr = DateFormat('yyyy/M/d(E)').format(this);
+        break;
+      case DateFormatMode.SHORT:
+        dateStr = DateFormat('M月 d日').format(this);
+        break;
+      case DateFormatMode.SHORT_WITH_DAY_OF_WEEK:
+        dateStr = DateFormat('M月 d日 (E)').format(this);
+        break;
+    }
     return dateStr;
-  }
-
-  // [変換：DateTime -> 生年月日文字列（日本語表記）]
-  String toBirthDayString() {
-    var birthStr = DateFormat('yyyy年 M月 d日').format(this);
-    return birthStr;
   }
 
   // [変換：誕生日から年齢を取得する]

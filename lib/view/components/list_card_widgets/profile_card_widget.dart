@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/view/components/polymorphism/list_card_view.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class ProfileCardWidget extends ListCardWidget {
   @override
   Widget build(BuildContext context) {
     final genderStr = isGenderFemale ? '女性' : '男性';
-    final birthStr = birth.toBirthDayString();
+    final birthStr = birth.toFormatString(DateFormatMode.FULL);
     final ageStr = birth.toAge();
 
     return Column(

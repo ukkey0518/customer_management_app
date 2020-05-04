@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/view/components/polymorphism/list_card_view.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 
@@ -17,7 +18,7 @@ class RepeatAnalysisCardWidget extends ListCardWidget {
             '３ヶ月以内リピ': numberOfRepeatWithinThreeMonth?.toString(),
             'それ以降リピ': numberOfRepeatMore?.toString(),
             'リピートサイクル': repeatCycle?.toString(),
-            '次回来店予想': expectedNextVisit?.toFormatString(),
+            '次回来店予想': expectedNextVisit?.toFormatString(DateFormatMode.FULL),
           },
         );
 }
