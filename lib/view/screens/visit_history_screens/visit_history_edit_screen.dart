@@ -1,4 +1,3 @@
-import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
@@ -206,15 +205,11 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
               RowWithIcon(
                 icon: Icon(Icons.calendar_today),
                 title: '日付',
-                content: _screenAbsorbing
-                    ? Text(
-                        _date.toFormatString(DateFormatMode.FULL),
-                        style: TextStyle(fontSize: 16),
-                      )
-                    : DateSelectForm(
-                        selectedDate: _date,
-                        onConfirm: (date) => setState(() => _date = date),
-                      ),
+                content: DateSelectForm(
+                  selectedDate: _date,
+                  onConfirm: (date) => setState(() => _date = date),
+                  isDisabled: _screenAbsorbing,
+                ),
               ),
               MyDivider(indent: 8),
               _employeeInputPart(),

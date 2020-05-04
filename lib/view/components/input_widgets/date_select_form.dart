@@ -8,6 +8,7 @@ class DateSelectForm extends InputWidget {
   DateSelectForm({
     @required this.selectedDate,
     @required this.onConfirm,
+    this.isDisabled = false,
     this.isClearable = false,
     this.paddingHorizontal = 0,
     this.paddingVertical = 0,
@@ -16,6 +17,7 @@ class DateSelectForm extends InputWidget {
 
   final DateTime selectedDate;
   final ValueChanged<DateTime> onConfirm;
+  final bool isDisabled;
   final bool isClearable;
   final double paddingVertical;
   final double paddingHorizontal;
@@ -23,6 +25,12 @@ class DateSelectForm extends InputWidget {
 
   @override
   Widget build(BuildContext context) {
+    if (isDisabled) {
+      return Text(
+        selectedDate.toFormatString(DateFormatMode.FULL),
+        style: TextStyle(fontSize: 16),
+      );
+    }
     return Column(
       children: <Widget>[
         Container(
