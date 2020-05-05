@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
+import 'package:customermanagementapp/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';

@@ -1,3 +1,5 @@
+import 'package:customermanagementapp/data/visit_history_sort_state.dart';
+import 'package:customermanagementapp/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/data/list_status.dart';

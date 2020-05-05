@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:customermanagementapp/data/date_format_mode.dart';
+import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 import 'package:customermanagementapp/data_classes/visit_history_narrow_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/cupertino.dart';
@@ -180,9 +181,9 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     return lastVisit.add(repeatCycle);
   }
 
-  // [取得：絞り込みステータスを反映させる]
-  List<VisitHistory> applyNarrowData(VisitHistoryNarrowData narrowData) {
-    if (this.isEmpty) return this;
+  // [反映：絞り込みステータスを反映させる]
+  void applyNarrowData(VisitHistoryNarrowData narrowData) {
+    if (this.isEmpty) return;
 
     final sinceDate = narrowData.sinceDate;
     final untilDate = narrowData.untilDate;
@@ -190,7 +191,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     final employee = narrowData.employee;
     final menuCategory = narrowData.menuCategory;
 
-    List<VisitHistory> visitHistories = this;
+    List<VisitHistory> visitHistories = List.from(this);
 
     if (sinceDate != null) {
       print('since : $sinceDate');
@@ -229,7 +230,21 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       }).toList();
     }
 
-    return visitHistories;
+    this
+      ..clear()
+      ..addAll(visitHistories);
+  }
+
+  // [反映：ソートを反映させる]
+  void applySortState(VisitHistorySortState sortState) {
+    switch (sortState) {
+      case VisitHistorySortState.REGISTER_NEW:
+        this.sort((a, b) => a.date.isAfter(b.date) ? 1 : -1);
+        break;
+      case VisitHistorySortState.REGISTER_OLD:
+        this.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
+        break;
+    }
   }
 }
 
