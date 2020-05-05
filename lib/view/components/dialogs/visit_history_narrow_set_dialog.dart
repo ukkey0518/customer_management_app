@@ -28,7 +28,7 @@ class VisitHistoryNarrowSetDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // 日付指定
-                Text('日付指定：'),
+                Text('絞り込み期間：'),
                 PeriodInputTile(
                   sinceDate: selectedSinceDate,
                   untilDate: selectedUntilDate,
@@ -37,6 +37,7 @@ class VisitHistoryNarrowSetDialog extends StatelessWidget {
                   onUntilDateConfirm: (date) =>
                       setState(() => selectedUntilDate = date),
                 ),
+                SizedBox(height: 8),
                 // TODO 顧客指定
                 // TODO スタッフ指定
                 // TODO メニューカテゴリ指定
