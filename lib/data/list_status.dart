@@ -1,10 +1,3 @@
-enum VisitHistoryNarrowState {
-  ALL,
-  TODAY,
-  FEMALE,
-  MALE,
-}
-
 enum CustomerNarrowState {
   ALL,
   FEMALE,

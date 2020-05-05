@@ -1,14 +1,14 @@
+import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 import 'package:customermanagementapp/data_classes/screen_preferences.dart';
+import 'package:customermanagementapp/data_classes/visit_history_narrow_state.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:toast/toast.dart';
 
 import 'visit_history_edit_screen.dart';
@@ -24,11 +24,8 @@ class VisitHistoryListScreen extends StatefulWidget {
 
 class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   List<VisitHistory> _visitHistoriesList = List();
-  VisitHistoryNarrowState _narrowState = VisitHistoryNarrowState.ALL;
+  VisitHistoryNarrowData _narrowData = VisitHistoryNarrowData();
   VisitHistorySortState _sortState = VisitHistorySortState.REGISTER_OLD;
-  List<String> _narrowDropdownMenuItems = List();
-  List<String> _sortDropdownMenuItems = List();
-  String _narrowDropdownSelectedValue = '';
   String _sortDropdownSelectedValue = '';
 
   final dao = MyDao(database);
@@ -36,13 +33,10 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   @override
   void initState() {
     super.initState();
-    _narrowDropdownMenuItems = ['すべて', '今日'];
-    _sortDropdownMenuItems = ['登録順(古)', '登録順(新)'];
-    _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-    _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
+    _sortDropdownSelectedValue = visitHistorySortStateMap[_sortState];
     // 環境設定がある場合はそれを反映
     if (widget.pref != null) {
-      _narrowState = widget.pref.narrowState;
+      _narrowData = widget.pref.narrowData;
       _sortState = widget.pref.sortState;
     }
     _reloadVisitHistoryList();
@@ -50,49 +44,17 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
 
   // [リスト更新処理：指定の条件でリストを更新する]
   _reloadVisitHistoryList() async {
-    // 絞り込み条件
-    switch (_narrowState) {
-      case VisitHistoryNarrowState.ALL:
-        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _visitHistoriesList = await dao.allVisitHistories;
-        break;
-      case VisitHistoryNarrowState.TODAY:
-        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[1];
-        _visitHistoriesList = await dao.getVisitHistoriesByDay(
-            DateTime.parse(DateFormat('yyyyMMdd').format(DateTime.now())));
-        break;
-      default:
-        _narrowDropdownSelectedValue = _narrowDropdownMenuItems[0];
-        _visitHistoriesList = await dao.allVisitHistories;
-    }
+    // 絞り込み状態表示
+    // TODO
 
-    // 並べ替え条件
-    switch (_sortState) {
-      case VisitHistorySortState.REGISTER_OLD:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
-        _visitHistoriesList.sort((a, b) => a.id - b.id);
-        break;
-      case VisitHistorySortState.REGISTER_NEW:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[1];
-        _visitHistoriesList.sort((a, b) => b.id - a.id);
-        break;
-      default:
-        _sortDropdownSelectedValue = _sortDropdownMenuItems[0];
-        _visitHistoriesList.sort((a, b) => a.id - b.id);
-    }
+    // 並べ替え状態表示
+    _sortDropdownSelectedValue = visitHistorySortStateMap[_sortState];
+
+    // 条件を反映させた来店履歴リストをDBから取得
+    _visitHistoriesList = await dao.getVisitHistories(
+        narrowData: _narrowData, sortState: _sortState);
+
     setState(() {});
-  }
-
-  // [絞り込み状態変更：現在の絞り込みステータスを変更して更新する]
-  _setNarrowState(VisitHistoryNarrowState narrowState) {
-    _narrowState = narrowState;
-    _reloadVisitHistoryList();
-  }
-
-  // [ソート状態変更：現在のソートステータスを変更して更新する]
-  _setSortState(VisitHistorySortState sortState) {
-    _sortState = sortState;
-    _reloadVisitHistoryList();
   }
 
   // [コールバック：FABタップ]
@@ -103,7 +65,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       MyCustomRoute(
         builder: (context) => VisitHistoryEditScreen(
           VisitHistoryListScreenPreferences(
-            narrowState: _narrowState,
+            narrowData: _narrowData,
             sortState: _sortState,
           ),
         ),
@@ -111,34 +73,17 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     );
   }
 
-  // [コールバック：絞り込みメニューアイテム選択時]
-  // →各項目ごとに絞り込み
-  _narrowMenuSelected(String value) async {
-    switch (value) {
-      case '今日':
-        // 今日の売上データを抽出
-        _setNarrowState(VisitHistoryNarrowState.TODAY);
-        break;
-      default:
-        // すべての売上データを抽出して更新
-        _setNarrowState(VisitHistoryNarrowState.ALL);
-        break;
-    }
-  }
-
   // [コールバック：ソートメニュー選択肢タップ時]
-  // →各項目ごとにソート
   _sortMenuSelected(String value) async {
-    switch (value) {
-      case '登録順(新)':
-        // 新規登録が新しい順に並び替え
-        _setSortState(VisitHistorySortState.REGISTER_NEW);
-        break;
-      case '登録順(古)':
-        // 新規登録が新しい順に並び替え
-        _setSortState(VisitHistorySortState.REGISTER_OLD);
-        break;
-    }
+    // 選択中のメニューアイテム文字列と一致するEntryを取得
+    final sortState = visitHistorySortStateMap.entries
+        .singleWhere((entry) => entry.value == value);
+
+    // EntryのNarrowStatusをフィールドへ代入
+    _sortState = sortState.key;
+
+    // リストを更新
+    _reloadVisitHistoryList();
   }
 
   // [コールバック：リストアイテムタップ時]
@@ -149,7 +94,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       MyCustomRoute(
         builder: (context) => VisitHistoryEditScreen(
           VisitHistoryListScreenPreferences(
-            narrowState: _narrowState,
+            narrowData: _narrowData,
             sortState: _sortState,
           ),
           visitHistory: visitHistory,
@@ -209,45 +154,15 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
               ],
             ),
           ),
-          Expanded(child: _narrowMenuPart()),
           Expanded(child: _sortMenuPart()),
         ],
       ),
     );
   }
 
-  // [ウィジェット：絞り込みメニュー部分]
-  Widget _narrowMenuPart() {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-      child: SizedBox(
-        width: double.infinity,
-        child: DropdownButton(
-          value: _narrowDropdownSelectedValue,
-          icon: Icon(Icons.arrow_drop_down),
-          onChanged: (newValue) => _narrowMenuSelected(newValue),
-          style: TextStyle(fontSize: 14, color: Colors.black),
-          items: _narrowDropdownMenuItems.map<DropdownMenuItem<String>>(
-            (value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: SizedBox(
-                  width: 80,
-                  child: Text(
-                    value,
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              );
-            },
-          ).toList(),
-        ),
-      ),
-    );
-  }
-
   // [ウィジェット：ソートメニュー部分]
   Widget _sortMenuPart() {
+    var entries = visitHistorySortStateMap.entries.toList();
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: SizedBox(
@@ -257,14 +172,14 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
           icon: Icon(Icons.arrow_drop_down),
           onChanged: (newValue) => _sortMenuSelected(newValue),
           style: TextStyle(fontSize: 14, color: Colors.black),
-          items: _sortDropdownMenuItems.map<DropdownMenuItem<String>>(
+          items: entries.map<DropdownMenuItem<String>>(
             (value) {
               return DropdownMenuItem<String>(
-                value: value,
+                value: value.value,
                 child: SizedBox(
                   width: 80,
                   child: Text(
-                    value,
+                    value.value,
                     textAlign: TextAlign.center,
                   ),
                 ),

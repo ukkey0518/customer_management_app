@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 
 class VisitHistoryNarrowData {
-  VisitHistoryNarrowData({
+  const VisitHistoryNarrowData({
     this.sinceDate,
     this.untilDate,
     this.customer,

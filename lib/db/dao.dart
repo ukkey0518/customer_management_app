@@ -1,4 +1,6 @@
+import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
+import 'package:customermanagementapp/data_classes/visit_history_narrow_state.dart';
 import 'package:moor/moor.dart';
 
 import 'package:customermanagementapp/util/extensions.dart';
@@ -230,10 +232,24 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   // [追加：１件分の来店履歴]
   Future<int> addVisitHistory(VisitHistory visitHistory) =>
       into(visitHistories).insert(visitHistory, orReplace: true);
+//
+//  // [取得：すべての来店履歴を取得]
+//  Future<List<VisitHistory>> get allVisitHistories =>
+//      select(visitHistories).get();
 
-  // [取得：すべての来店履歴を取得]
-  Future<List<VisitHistory>> get allVisitHistories =>
-      select(visitHistories).get();
+  // [取得：条件に一致した来店履歴を取得]
+  Future<List<VisitHistory>> getVisitHistories({
+    VisitHistoryNarrowData narrowData = const VisitHistoryNarrowData(),
+    VisitHistorySortState sortState = VisitHistorySortState.REGISTER_NEW,
+  }) {
+    return transaction(() async {
+      var allVisitHistory = await select(visitHistories).get();
+      var result = allVisitHistory
+        ..applyNarrowData(narrowData)
+        ..applySortState(sortState);
+      return result;
+    });
+  }
 
   // [取得：指定した顧客の来店履歴を取得]
   Future<VisitHistoriesByCustomer> getVisitHistoriesByCustomer(
@@ -254,7 +270,7 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   Future<List<VisitHistoriesByCustomer>> getAllVisitHistoriesByCustomers() {
     return transaction(() async {
       final customers = await getCustomers();
-      final visitHistories = await allVisitHistories;
+      final visitHistories = await getVisitHistories();
       List<VisitHistoriesByCustomer> visitHistoriesByCustomers = List();
 
       customers.forEach((customer) {
