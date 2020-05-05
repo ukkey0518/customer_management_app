@@ -47,6 +47,28 @@ extension ConvertFromMenuList on List<Menu> {
     var menuIdsStr = menuIds.join('%');
     return menuIdsStr;
   }
+
+  // [集約：合計金額を取得]
+  int toSumPrice() {
+    if (this.isEmpty) return 0;
+    return this
+        .reduce(
+          (a, b) => Menu(
+              id: null,
+              name: null,
+              price: a.price + b.price,
+              menuCategoryJson: null),
+        )
+        .price;
+  }
+
+  // [集約：平均単価を取得]
+  double toAveragePrice() {
+    if (this.isEmpty) return 0.0;
+    var sum = this.toSumPrice();
+    var ave = sum / this.length;
+    return ave;
+  }
 }
 
 // List<VisitHistory>拡張

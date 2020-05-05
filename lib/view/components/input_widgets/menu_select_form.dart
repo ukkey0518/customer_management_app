@@ -29,18 +29,7 @@ class MenuSelectForm extends InputWidget {
               children: <Widget>[
                 Text('合計：', style: TextStyle(fontSize: 16)),
                 Text(
-                  menus.isEmpty
-                      ? '0'
-                      : menus
-                          .reduce(
-                            (a, b) => Menu(
-                                id: null,
-                                name: null,
-                                price: a.price + b.price,
-                                menuCategoryJson: null),
-                          )
-                          .price
-                          .toPriceString(),
+                  menus.toSumPrice().toPriceString(),
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
                 ),
               ],
