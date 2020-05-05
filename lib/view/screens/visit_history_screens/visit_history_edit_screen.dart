@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/view/components/button_to_switch.dart';
 import 'package:customermanagementapp/view/components/current_mode_display_banner.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
@@ -159,7 +160,17 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             onPressed: () => _finishEditScreen(context),
           ),
           actions: <Widget>[
-            _actionButtonPart(),
+            ButtonToSwitch(
+              switchFlag: _screenAbsorbing,
+              trueButton: IconButton(
+                icon: Icon(Icons.edit),
+                onPressed: () => _setAbsorbing(false),
+              ),
+              falseButton: IconButton(
+                icon: Icon(Icons.save),
+                onPressed: () => _saveSingleVisitHistory(),
+              ),
+            ),
           ],
         ),
         body: Center(
@@ -228,21 +239,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         ),
       ),
     );
-  }
-
-  // [ウィジェット：アクションボタン]
-  Widget _actionButtonPart() {
-    if (_screenAbsorbing) {
-      return IconButton(
-        icon: Icon(Icons.edit),
-        onPressed: () => _setAbsorbing(false),
-      );
-    } else {
-      return IconButton(
-        icon: Icon(Icons.save),
-        onPressed: () => _saveSingleVisitHistory(),
-      );
-    }
   }
 
   // [ウィジェットビルダー：各入力欄のフォーマッタ]
