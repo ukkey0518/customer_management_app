@@ -8,6 +8,7 @@ import 'package:customermanagementapp/view/components/cusotmer_selected_card/cus
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/input_widgets/date_select_form.dart';
+import 'package:customermanagementapp/view/components/input_widgets/employee_select_button.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
@@ -223,7 +224,20 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 ),
               ),
               MyDivider(indent: 8),
-              _employeeInputPart(),
+              RowWithIcon(
+                icon: Icon(Icons.supervisor_account),
+                title: '担当',
+                content: EmployeeSelectButton(
+                  selectedEmployee: _selectedEmployee,
+                  employees: _employees,
+                  onChanged: (selectedEmployee) {
+                    setState(() {
+                      _selectedEmployee = selectedEmployee;
+                    });
+                  },
+                  isDisabled: _screenAbsorbing,
+                ),
+              ),
               MyDivider(),
               SizedBox(height: 30),
               Padding(
@@ -239,72 +253,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         ),
       ),
     );
-  }
-
-  // [ウィジェットビルダー：各入力欄のフォーマッタ]
-  Widget _inputPartBuilder({Icon icon, String title, Widget content}) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Row(
-        children: <Widget>[
-          Expanded(
-            flex: 2,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 4.0),
-                  child: icon,
-                ),
-                Text(title, style: TextStyle(fontSize: 16)),
-              ],
-            ),
-          ),
-          SizedBox(
-            width: 16,
-          ),
-          Expanded(
-            flex: 8,
-            child: content,
-          ),
-        ],
-      ),
-    );
-  }
-
-  // [ウィジェット：担当入力欄]
-  Widget _employeeInputPart() {
-    var content;
-    if (_screenAbsorbing) {
-      content = Text(
-        _selectedEmployee?.name ?? '',
-        style: TextStyle(fontSize: 16),
-      );
-    } else {
-      content = DropdownButton<Employee>(
-        isDense: true,
-        isExpanded: true,
-        value: _selectedEmployee,
-        onChanged: (selectedEmployee) {
-          setState(() {
-            _selectedEmployee = selectedEmployee;
-          });
-        },
-        selectedItemBuilder: (context) {
-          return _employees.map<Widget>((employee) {
-            return Text(employee.name);
-          }).toList();
-        },
-        items: _employees.map<DropdownMenuItem<Employee>>((employee) {
-          return DropdownMenuItem(
-            value: employee,
-            child: Text(employee.name),
-          );
-        }).toList(),
-      );
-    }
-    return _inputPartBuilder(
-        icon: Icon(Icons.supervisor_account), title: '担当', content: content);
   }
 
   // [ウィジェット：メニュー選択部分]
