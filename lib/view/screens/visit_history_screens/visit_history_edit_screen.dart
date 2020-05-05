@@ -3,6 +3,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/button_to_switch.dart';
+import 'package:customermanagementapp/view/components/contents_column_with_title.dart';
 import 'package:customermanagementapp/view/components/current_mode_display_banner.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
@@ -183,67 +184,65 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                     ? Theme.of(context).primaryColorLight
                     : Colors.amber,
               ),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: const Text('お客様情報', style: TextStyle(fontSize: 20)),
-              ),
-              MyDivider(),
-              RowWithIcon(
-                icon: Icon(Icons.account_circle),
-                title: '顧客',
-                content: _selectedCustomer != null
-                    ? CustomerSelectedCard(
-                        customer: _selectedCustomer,
-                        onSelected: (customer) {
-                          setState(() => _selectedCustomer =
-                              customer ?? _selectedCustomer);
-                        },
-                      )
-                    : CustomerNotSelectedCard(
-                        onSelected: (customer) {
-                          setState(() => _selectedCustomer =
-                              customer ?? _selectedCustomer);
-                        },
-                      ),
-              ),
-              MyDivider(),
-              SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: const Text('詳細情報', style: TextStyle(fontSize: 20)),
-              ),
-              MyDivider(),
-              RowWithIcon(
-                icon: Icon(Icons.calendar_today),
-                title: '日付',
-                content: DateSelectForm(
-                  selectedDate: _date,
-                  onConfirm: (date) => setState(() => _date = date),
-                  isDisabled: _screenAbsorbing,
-                ),
-              ),
-              MyDivider(indent: 8),
-              RowWithIcon(
-                icon: Icon(Icons.supervisor_account),
-                title: '担当',
-                content: EmployeeSelectButton(
-                  selectedEmployee: _selectedEmployee,
-                  employees: _employees,
-                  onChanged: (selectedEmployee) {
-                    setState(() {
-                      _selectedEmployee = selectedEmployee;
-                    });
-                  },
-                  isDisabled: _screenAbsorbing,
-                ),
+              ContentsColumnWithTitle(
+                title: 'お客様情報',
+                children: <Widget>[
+                  RowWithIcon(
+                    icon: Icon(Icons.account_circle),
+                    title: '顧客',
+                    content: _selectedCustomer != null
+                        ? CustomerSelectedCard(
+                            customer: _selectedCustomer,
+                            onSelected: (customer) {
+                              setState(() => _selectedCustomer =
+                                  customer ?? _selectedCustomer);
+                            },
+                          )
+                        : CustomerNotSelectedCard(
+                            onSelected: (customer) {
+                              setState(() => _selectedCustomer =
+                                  customer ?? _selectedCustomer);
+                            },
+                          ),
+                  ),
+                ],
               ),
               MyDivider(),
               SizedBox(height: 30),
-              Padding(
-                padding: const EdgeInsets.only(left: 16.0),
-                child: const Text('提供メニュー', style: TextStyle(fontSize: 20)),
+              ContentsColumnWithTitle(
+                title: '詳細情報',
+                children: <Widget>[
+                  RowWithIcon(
+                    icon: Icon(Icons.calendar_today),
+                    title: '日付',
+                    content: DateSelectForm(
+                      selectedDate: _date,
+                      onConfirm: (date) => setState(() => _date = date),
+                      isDisabled: _screenAbsorbing,
+                    ),
+                  ),
+                  RowWithIcon(
+                    icon: Icon(Icons.supervisor_account),
+                    title: '担当',
+                    content: EmployeeSelectButton(
+                      selectedEmployee: _selectedEmployee,
+                      employees: _employees,
+                      onChanged: (selectedEmployee) {
+                        setState(() {
+                          _selectedEmployee = selectedEmployee;
+                        });
+                      },
+                      isDisabled: _screenAbsorbing,
+                    ),
+                  ),
+                ],
               ),
               MyDivider(),
+              SizedBox(height: 30),
+              ContentsColumnWithTitle(
+                title: '提供メニュー',
+                children: <Widget>[Container()],
+              ),
               Expanded(
                 child: MenuSelectForm(
                   screenAbsorbing: _screenAbsorbing,
