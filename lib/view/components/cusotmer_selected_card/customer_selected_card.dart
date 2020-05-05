@@ -15,16 +15,18 @@ class CustomerSelectedCard extends StatelessWidget {
     return Card(
       color: Color(0xeeeeeeee),
       child: InkWell(
-        onTap: () {
-          Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) => CustomerSelectScreen(),
-                  fullscreenDialog: true,
-                ),
-              )
-              .then((context) => onSelected(context));
-        },
+        onTap: onSelected != null
+            ? () {
+                Navigator.of(context)
+                    .push(
+                      MaterialPageRoute(
+                        builder: (context) => CustomerSelectScreen(),
+                        fullscreenDialog: true,
+                      ),
+                    )
+                    .then((context) => onSelected(context));
+              }
+            : null,
         onLongPress: null,
         child: Padding(
           padding: const EdgeInsets.all(4.0),

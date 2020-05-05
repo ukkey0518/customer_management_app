@@ -207,16 +207,20 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                     content: _selectedCustomer != null
                         ? CustomerSelectedCard(
                             customer: _selectedCustomer,
-                            onSelected: (customer) {
-                              setState(() => _selectedCustomer =
-                                  customer ?? _selectedCustomer);
-                            },
+                            onSelected: _screenAbsorbing
+                                ? null
+                                : (customer) {
+                                    setState(() => _selectedCustomer =
+                                        customer ?? _selectedCustomer);
+                                  },
                           )
                         : CustomerNotSelectedCard(
-                            onSelected: (customer) {
-                              setState(() => _selectedCustomer =
-                                  customer ?? _selectedCustomer);
-                            },
+                            onSelected: _screenAbsorbing
+                                ? null
+                                : (customer) {
+                                    setState(() => _selectedCustomer =
+                                        customer ?? _selectedCustomer);
+                                  },
                           ),
                   ),
                 ],
