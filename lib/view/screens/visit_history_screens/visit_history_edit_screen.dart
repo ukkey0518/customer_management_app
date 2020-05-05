@@ -2,7 +2,7 @@ import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/view/components/button_to_switch.dart';
+import 'package:customermanagementapp/view/components/icon_button_to_switch.dart';
 import 'package:customermanagementapp/view/components/contents_column_with_title.dart';
 import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
@@ -168,7 +168,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             onPressed: () => _finishEditScreen(context),
           ),
           actions: <Widget>[
-            ButtonToSwitch(
+            IconButtonToSwitch(
               switchFlag: _screenAbsorbing,
               trueButton: IconButton(
                 icon: Icon(Icons.edit),
