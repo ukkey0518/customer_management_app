@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/list_status.dart';
+import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
 import 'package:flutter/material.dart';

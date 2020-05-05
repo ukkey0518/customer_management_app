@@ -1,4 +1,4 @@
-import '../list_status.dart';
+import 'list_status.dart';
 
 const Map<CustomerNarrowState, String> customerNarrowStateMap = {
   CustomerNarrowState.ALL: 'すべて',

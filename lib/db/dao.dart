@@ -2,7 +2,7 @@ import 'package:customermanagementapp/data_classes/visit_histories_by_customer.d
 import 'package:moor/moor.dart';
 
 import 'package:customermanagementapp/util/extensions.dart';
-import '../list_status.dart';
+import '../data/list_status.dart';
 import 'database.dart';
 part 'dao.g.dart';
 

@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/list_status.dart';
+import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:customermanagementapp/view/components/basic_input_form.dart';
