@@ -9,6 +9,7 @@ import 'package:customermanagementapp/view/components/cusotmer_selected_card/cus
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/input_widgets/date_select_form.dart';
 import 'package:customermanagementapp/view/components/input_widgets/employee_select_button.dart';
+import 'package:customermanagementapp/view/components/input_widgets/menu_select_form.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
@@ -34,7 +35,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   Customer _selectedCustomer;
   List<Employee> _employees = List();
   Employee _selectedEmployee;
-  List<MenuCategory> _categories = List();
   List<Menu> _menus = List();
 
   bool _screenAbsorbing = true;
@@ -62,7 +62,6 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       _menus = widget.visitHistory.menuListJson.toMenuList();
     }
     _employees = await dao.allEmployees;
-    _categories = await dao.allMenuCategories;
     setState(() {});
   }
 
@@ -246,90 +245,15 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
               ),
               MyDivider(),
               Expanded(
-                child: _menuInputPart(),
+                child: MenuSelectForm(
+                  screenAbsorbing: _screenAbsorbing,
+                  onTap: () => _startMenuSelectScreen(),
+                  menus: _menus,
+                ),
               ),
             ],
           ),
         ),
-      ),
-    );
-  }
-
-  // [ウィジェット：メニュー選択部分]
-  Widget _menuInputPart() {
-    return InkWell(
-      onTap: _screenAbsorbing ? null : () => _startMenuSelectScreen(),
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(vertical: 8.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: <Widget>[
-                Text('合計：', style: TextStyle(fontSize: 16)),
-                Text(
-                  _menus.isEmpty
-                      ? '0'
-                      : '${_menus.reduce(
-                            (a, b) => Menu(
-                                id: null,
-                                name: null,
-                                price: a.price + b.price,
-                                menuCategoryJson: null),
-                          ).price.toPriceString()}',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
-          MyDivider(indent: 8),
-          Expanded(
-            child: Scrollbar(
-              child: ListView.builder(
-                itemCount: _menus.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 16.0, vertical: 8),
-                    child: Row(
-                      children: <Widget>[
-                        Icon(
-                          Icons.import_contacts,
-                          color: _categories.isEmpty
-                              ? null
-                              : Color(_categories
-                                  .where((category) =>
-                                      category.id ==
-                                      _menus[index]
-                                          .menuCategoryJson
-                                          .toMenuCategory()
-                                          .id)
-                                  .single
-                                  .color),
-                        ),
-                        SizedBox(width: 16),
-                        Expanded(
-                          child: Text(
-                            _menus[index].name,
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
-                        ),
-                        Text(
-                          '${_menus[index].price.toPriceString()}',
-                          style: TextStyle(
-                            fontSize: 16,
-                          ),
-                        )
-                      ],
-                    ),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
       ),
     );
   }
