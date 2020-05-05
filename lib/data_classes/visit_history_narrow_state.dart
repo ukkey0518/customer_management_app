@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 
 class VisitHistoryNarrowData {
-  const VisitHistoryNarrowData({
+  VisitHistoryNarrowData({
     this.sinceDate,
     this.untilDate,
     this.customer,
@@ -9,9 +9,27 @@ class VisitHistoryNarrowData {
     this.menuCategory,
   });
 
-  final DateTime sinceDate;
-  final DateTime untilDate;
-  final Employee employee;
-  final Customer customer;
-  final MenuCategory menuCategory;
+  DateTime sinceDate;
+  DateTime untilDate;
+  Employee employee;
+  Customer customer;
+  MenuCategory menuCategory;
+
+  // [判定：何かしらの絞り込み条件が設定されているか]
+  bool isSetAny() {
+    return sinceDate != null ||
+        untilDate != null ||
+        customer != null ||
+        employee != null ||
+        menuCategory != null;
+  }
+
+  // [変更：条件をすべてクリアする]
+  void clear() {
+    sinceDate = null;
+    untilDate = null;
+    employee = null;
+    customer = null;
+    menuCategory = null;
+  }
 }

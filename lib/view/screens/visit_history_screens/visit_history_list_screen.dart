@@ -8,6 +8,7 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
+import 'package:customermanagementapp/view/components/narrow_switch_button.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
@@ -128,8 +129,8 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         children: <Widget>[
           SearchBar(
             numberOfItems: _visitHistoriesList.length,
-            narrowMenu: RaisedButton(
-              child: Text('絞り込み：OFF'),
+            narrowMenu: NarrowSwitchButton(
+              isSetAnyNarrowData: _narrowData.isSetAny(),
               onPressed: () => _showNarrowSetDialog(),
             ),
             sortMenu: _sortMenuPart(),
@@ -192,5 +193,11 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
 
   _showNarrowSetDialog() {
     //TODO
+//    if (_narrowData.isSetAny()) {
+//      _narrowData.clear();
+//    } else {
+//      _narrowData.employee = Employee(id: 2, name: '');
+//    }
+//    _reloadVisitHistoryList();
   }
 }

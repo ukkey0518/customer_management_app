@@ -239,14 +239,17 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
 
   // [取得：条件に一致した来店履歴を取得]
   Future<List<VisitHistory>> getVisitHistories({
-    VisitHistoryNarrowData narrowData = const VisitHistoryNarrowData(),
-    VisitHistorySortState sortState = VisitHistorySortState.REGISTER_NEW,
+    VisitHistoryNarrowData narrowData,
+    VisitHistorySortState sortState,
   }) {
+    final narrow = narrowData ?? VisitHistoryNarrowData();
+    final sort = sortState ?? VisitHistorySortState.REGISTER_NEW;
+
     return transaction(() async {
       var allVisitHistory = await select(visitHistories).get();
       var result = allVisitHistory
-        ..applyNarrowData(narrowData)
-        ..applySortState(sortState);
+        ..applyNarrowData(narrow)
+        ..applySortState(sort);
       return result;
     });
   }
