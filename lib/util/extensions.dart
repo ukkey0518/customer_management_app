@@ -182,6 +182,8 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [取得：絞り込みステータスを反映させる]
   List<VisitHistory> applyNarrowData(VisitHistoryNarrowData narrowData) {
+    if (this.isEmpty) return this;
+
     final sinceDate = narrowData.sinceDate;
     final untilDate = narrowData.untilDate;
     final customer = narrowData.customer;
