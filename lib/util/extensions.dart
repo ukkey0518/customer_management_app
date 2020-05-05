@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:customermanagementapp/data/date_format_mode.dart';
+import 'package:customermanagementapp/data_classes/visit_history_narrow_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -178,6 +179,56 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
     return lastVisit.add(repeatCycle);
   }
+
+  // [取得：絞り込みステータスを反映させる]
+  List<VisitHistory> applyNarrowData(VisitHistoryNarrowData narrowData) {
+    final sinceDate = narrowData.sinceDate;
+    final untilDate = narrowData.untilDate;
+    final customer = narrowData.customer;
+    final employee = narrowData.employee;
+    final menuCategory = narrowData.menuCategory;
+
+    List<VisitHistory> visitHistories = this;
+
+    if (sinceDate != null) {
+      print('since : $sinceDate');
+      visitHistories = visitHistories.where((vh) {
+        return vh.date.isAfter(sinceDate);
+      }).toList();
+    }
+
+    if (untilDate != null) {
+      print('until : $untilDate');
+      visitHistories = visitHistories.where((vh) {
+        return vh.date.isBefore(untilDate);
+      }).toList();
+    }
+
+    if (customer != null) {
+      print('customer : ${customer.id}');
+      visitHistories = visitHistories.where((vh) {
+        return vh.customerJson.toCustomer().id == customer.id;
+      }).toList();
+    }
+
+    if (employee != null) {
+      print('employee : ${employee.id}');
+      visitHistories = visitHistories.where((vh) {
+        return vh.employeeJson.toEmployee().id == employee.id;
+      }).toList();
+    }
+
+    if (menuCategory != null) {
+      print('menuCategory : ${menuCategory.id}');
+      visitHistories = visitHistories.where((vh) {
+        var list = vh.toMenuCategoriesList();
+        var idList = list.map<int>((category) => category.id).toList();
+        return idList.contains(menuCategory.id);
+      }).toList();
+    }
+
+    return visitHistories;
+  }
 }
 
 // List<int>拡張
@@ -213,6 +264,20 @@ extension ConvertFromString on String {
     var parseStr = list.join();
     // DataTime解析後オブジェクト化して返す
     return DateTime.parse(parseStr);
+  }
+}
+
+extension ConvertFromVisitHistory on VisitHistory {
+  // [変換：メニューカテゴリのリストとして返す(重複の許容を指定)]
+  List<MenuCategory> toMenuCategoriesList([bool allowDuplicate = false]) {
+    final menuList = this.menuListJson.toMenuList();
+    var categoryList = menuList
+        .map<MenuCategory>((menu) => menu.menuCategoryJson.toMenuCategory())
+        .toList();
+    if (!allowDuplicate) {
+      categoryList = categoryList.toSet().toList();
+    }
+    return categoryList;
   }
 }
 
