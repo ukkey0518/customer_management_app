@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
-import 'package:customermanagementapp/view/components/input_widgets/input_field.dart';
+import 'package:customermanagementapp/view/components/input_widgets/text_input_field.dart';
 import 'package:flutter/material.dart';
 
 class EmployeeEditDialog extends StatelessWidget {
@@ -36,7 +36,7 @@ class EmployeeEditDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text('名前：'),
-                InputField(
+                TextInputField(
                   controller: controller,
                   errorText: errorText,
                   hintText: 'スタッフ名を入力',

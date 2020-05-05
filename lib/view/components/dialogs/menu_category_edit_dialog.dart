@@ -3,7 +3,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/color_select_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
-import 'package:customermanagementapp/view/components/input_widgets/input_field.dart';
+import 'package:customermanagementapp/view/components/input_widgets/text_input_field.dart';
 import 'package:flutter/material.dart';
 
 class MenuCategoryEditDialog extends StatelessWidget {
@@ -40,7 +40,7 @@ class MenuCategoryEditDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 const Text('カテゴリ名：', textAlign: TextAlign.left),
-                InputField(
+                TextInputField(
                   controller: controller,
                   errorText: errorText,
                   hintText: 'カテゴリ名を入力',

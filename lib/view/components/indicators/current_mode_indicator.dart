@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class CurrentModeDisplayBanner extends StatelessWidget {
-  CurrentModeDisplayBanner({this.modeText, this.color});
+class CurrentModeIndicator extends StatelessWidget {
+  CurrentModeIndicator({this.modeText, this.color});
 
   final String modeText;
   final Color color;

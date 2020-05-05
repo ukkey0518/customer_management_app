@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/input_widgets/input_field.dart';
+import 'package:customermanagementapp/view/components/input_widgets/text_input_field.dart';
 
 import 'package:flutter/material.dart';
 
@@ -39,7 +39,7 @@ class MenuEditDialog extends StatelessWidget {
                 Text('カテゴリ：'),
                 AbsorbPointer(
                   absorbing: true,
-                  child: InputField(
+                  child: TextInputField(
                     controller: TextEditingController(text: category.name),
                     style: InputFieldStyle.ROUNDED_RECTANGLE,
                     errorText: null,
@@ -47,7 +47,7 @@ class MenuEditDialog extends StatelessWidget {
                 ),
                 SizedBox(height: 30),
                 Text('メニュー名：'),
-                InputField(
+                TextInputField(
                   controller: nameController,
                   errorText: nameErrorText,
                   style: InputFieldStyle.ROUNDED_RECTANGLE,
@@ -56,7 +56,7 @@ class MenuEditDialog extends StatelessWidget {
                 ),
                 SizedBox(height: 30),
                 Text('価格：'),
-                InputField(
+                TextInputField(
                   controller: priceController,
                   errorText: priceErrorText,
                   style: InputFieldStyle.ROUNDED_RECTANGLE,

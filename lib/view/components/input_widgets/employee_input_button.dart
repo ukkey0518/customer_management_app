@@ -2,8 +2,8 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 
-class EmployeeSelectButton extends InputWidget {
-  EmployeeSelectButton({
+class EmployeeInputButton extends InputWidget {
+  EmployeeInputButton({
     @required this.selectedEmployee,
     @required this.employees,
     @required this.onChanged,

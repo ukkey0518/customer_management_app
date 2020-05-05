@@ -5,9 +5,9 @@ import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:customermanagementapp/view/components/basic_input_form.dart';
-import 'package:customermanagementapp/view/components/input_widgets/date_select_form.dart';
-import 'package:customermanagementapp/view/components/input_widgets/input_field.dart';
-import 'package:customermanagementapp/view/components/input_widgets/select_buttons.dart';
+import 'package:customermanagementapp/view/components/input_widgets/date_input_tile.dart';
+import 'package:customermanagementapp/view/components/input_widgets/text_input_field.dart';
+import 'package:customermanagementapp/view/components/input_widgets/select_switch_buttons.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
@@ -129,26 +129,26 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
                 BasicInputForm(
                   formTitle: '基本情報',
                   items: <String, InputWidget>{
-                    '氏名*': InputField(
+                    '氏名*': TextInputField(
                       controller: _nameController,
                       inputType: TextInputType.text,
                       errorText: _nameFieldErrorText,
                       hintText: '顧客 太郎',
                       style: InputFieldStyle.ROUNDED_RECTANGLE,
                     ),
-                    'よみがな*': InputField(
+                    'よみがな*': TextInputField(
                       controller: _nameReadingController,
                       inputType: TextInputType.text,
                       errorText: _nameReadingFieldErrorText,
                       hintText: 'こきゃく たろう',
                       style: InputFieldStyle.ROUNDED_RECTANGLE,
                     ),
-                    '性別*': SelectButtons(
+                    '性別*': SelectSwitchButtons(
                       values: genderEntry.values.toList(),
                       selectedValue: genderEntry[_isGenderFemale],
                       onChanged: _setGender,
                     ),
-                    '生年月日': DateSelectForm(
+                    '生年月日': DateInputTile(
                       selectedDate: _birthDay,
                       onConfirm: _setBirthDay,
                       isClearable: true,

@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 
-class DateSelectForm extends InputWidget {
-  DateSelectForm({
+class DateInputTile extends InputWidget {
+  DateInputTile({
     @required this.selectedDate,
     @required this.onConfirm,
     this.isDisabled = false,

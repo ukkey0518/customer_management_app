@@ -4,14 +4,14 @@ import 'package:customermanagementapp/list_status.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/button_to_switch.dart';
 import 'package:customermanagementapp/view/components/contents_column_with_title.dart';
-import 'package:customermanagementapp/view/components/current_mode_display_banner.dart';
+import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
-import 'package:customermanagementapp/view/components/error_indicator.dart';
-import 'package:customermanagementapp/view/components/input_widgets/date_select_form.dart';
-import 'package:customermanagementapp/view/components/input_widgets/employee_select_button.dart';
-import 'package:customermanagementapp/view/components/input_widgets/menu_select_form.dart';
+import 'package:customermanagementapp/view/components/indicators/error_indicator.dart';
+import 'package:customermanagementapp/view/components/input_widgets/date_input_tile.dart';
+import 'package:customermanagementapp/view/components/input_widgets/employee_input_button.dart';
+import 'package:customermanagementapp/view/components/input_widgets/menu_input_tile.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
@@ -185,7 +185,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              CurrentModeDisplayBanner(
+              CurrentModeIndicator(
                 modeText: _screenAbsorbing ? '閲覧モード' : '編集モード',
                 color: _screenAbsorbing
                     ? Theme.of(context).primaryColorLight
@@ -229,7 +229,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                   RowWithIcon(
                     icon: Icon(Icons.calendar_today),
                     title: '日付',
-                    content: DateSelectForm(
+                    content: DateInputTile(
                       selectedDate: _date,
                       onConfirm: (date) => setState(() => _date = date),
                       isDisabled: _screenAbsorbing,
@@ -238,7 +238,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                   RowWithIcon(
                     icon: Icon(Icons.supervisor_account),
                     title: '担当',
-                    content: EmployeeSelectButton(
+                    content: EmployeeInputButton(
                       selectedEmployee: _selectedEmployee,
                       employees: _employees,
                       onChanged: (selectedEmployee) {
@@ -258,7 +258,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 children: <Widget>[Container()],
               ),
               Expanded(
-                child: MenuSelectForm(
+                child: MenuInputTile(
                   screenAbsorbing: _screenAbsorbing,
                   onTap: () => _startMenuSelectScreen(),
                   menus: _menus,

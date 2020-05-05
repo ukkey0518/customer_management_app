@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 
 import '../my_divider.dart';
 
-class MenuSelectForm extends InputWidget {
-  MenuSelectForm({
+class MenuInputTile extends InputWidget {
+  MenuInputTile({
     this.screenAbsorbing,
     this.onTap,
     this.menus,
