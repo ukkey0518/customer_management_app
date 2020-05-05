@@ -8,20 +8,32 @@ class DateInputTile extends InputWidget {
   DateInputTile({
     @required this.selectedDate,
     @required this.onConfirm,
+    this.onLongPress,
     this.isDisabled = false,
     this.isClearable = false,
     this.paddingHorizontal = 0,
     this.paddingVertical = 0,
     this.color,
-  });
+    this.compactMode = false,
+    DateTime minTime,
+    DateTime maxTime,
+    DateTime currentTime,
+  })  : _minTime = minTime ?? DateTime(1990, 1, 1),
+        _maxTime = maxTime ?? DateTime.now(),
+        _currentTime = selectedDate == null ? DateTime.now() : selectedDate;
 
   final DateTime selectedDate;
   final ValueChanged<DateTime> onConfirm;
+  final ValueChanged<DateTime> onLongPress;
   final bool isDisabled;
   final bool isClearable;
   final double paddingVertical;
   final double paddingHorizontal;
   final Color color;
+  final bool compactMode;
+  final DateTime _minTime;
+  final DateTime _maxTime;
+  final DateTime _currentTime;
 
   @override
   Widget build(BuildContext context) {
@@ -31,27 +43,43 @@ class DateInputTile extends InputWidget {
         style: TextStyle(fontSize: 16),
       );
     }
+
+    var content;
+
+    if (compactMode) {
+      content = Text(
+        selectedDate == null
+            ? '未設定'
+            : selectedDate.toFormatString(DateFormatMode.MEDIUM),
+        style: TextStyle(fontSize: 16),
+      );
+    } else {
+      content = Row(
+        children: <Widget>[
+          Expanded(
+            child: Text(
+              selectedDate == null
+                  ? '未設定'
+                  : selectedDate.toFormatString(DateFormatMode.FULL),
+              style: TextStyle(fontSize: 16),
+            ),
+          ),
+          Icon(Icons.chevron_right),
+        ],
+      );
+    }
+
     return Column(
       children: <Widget>[
-        Container(
-          color: color,
-          padding: EdgeInsets.symmetric(
-              horizontal: paddingHorizontal, vertical: paddingVertical),
-          child: InkWell(
-            onTap: () => _showDateSelectPicker(context),
-            child: Row(
-              children: <Widget>[
-                Expanded(
-                  child: Text(
-                    selectedDate == null
-                        ? '未登録'
-                        : selectedDate.toFormatString(DateFormatMode.FULL),
-                    style: TextStyle(fontSize: 16),
-                  ),
-                ),
-                Icon(Icons.chevron_right),
-              ],
-            ),
+        InkWell(
+          onTap: () => _showDateSelectPicker(context),
+          onLongPress:
+              onLongPress != null ? () => onLongPress(selectedDate) : null,
+          child: Container(
+            color: color,
+            padding: EdgeInsets.symmetric(
+                horizontal: paddingHorizontal, vertical: paddingVertical),
+            child: content,
           ),
         ),
         _clearButtonPart(isClearable),
@@ -78,10 +106,10 @@ class DateInputTile extends InputWidget {
     DatePicker.showDatePicker(
       context,
       showTitleActions: true,
-      minTime: DateTime(1970, 1, 1),
-      maxTime: DateTime.now(),
+      minTime: _minTime,
+      maxTime: _maxTime,
       onConfirm: onConfirm,
-      currentTime: selectedDate == null ? DateTime(1990, 1, 1) : selectedDate,
+      currentTime: _currentTime,
       locale: LocaleType.jp,
     );
   }

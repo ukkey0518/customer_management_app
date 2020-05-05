@@ -5,6 +5,7 @@ import 'package:customermanagementapp/data_classes/visit_history_narrow_state.da
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
@@ -131,7 +132,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
             numberOfItems: _visitHistoriesList.length,
             narrowMenu: NarrowSwitchButton(
               isSetAnyNarrowData: _narrowData.isSetAny(),
-              onPressed: () => _showNarrowSetDialog(),
+              onPressed: () => _showNarrowSetDialog(context, _narrowData),
             ),
             sortMenu: _sortMenuPart(),
           ),
@@ -191,13 +192,18 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     );
   }
 
-  _showNarrowSetDialog() {
-    //TODO
-//    if (_narrowData.isSetAny()) {
-//      _narrowData.clear();
-//    } else {
-//      _narrowData.employee = Employee(id: 2, name: '');
-//    }
-//    _reloadVisitHistoryList();
+  _showNarrowSetDialog(
+      BuildContext context, VisitHistoryNarrowData narrowData) {
+    showDialog(
+      context: context,
+      builder: (_) {
+        return VisitHistoryNarrowSetDialog(
+          narrowData: _narrowData,
+        );
+      },
+    ).then((narrowData) {
+      _narrowData = narrowData;
+      _reloadVisitHistoryList();
+    });
   }
 }
