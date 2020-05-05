@@ -51,15 +51,8 @@ extension ConvertFromMenuList on List<Menu> {
   // [集約：合計金額を取得]
   int toSumPrice() {
     if (this.isEmpty) return 0;
-    return this
-        .reduce(
-          (a, b) => Menu(
-              id: null,
-              name: null,
-              price: a.price + b.price,
-              menuCategoryJson: null),
-        )
-        .price;
+    var prices = this.map<int>((menu) => menu.price);
+    return prices.reduce((a, b) => a + b);
   }
 
   // [集約：平均単価を取得]
@@ -101,8 +94,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     if (this.isEmpty) return null;
     final sumPriceList = this.map<int>((visitHistory) {
       final menuList = visitHistory.menuListJson.toMenuList();
-      final priceList = menuList.map<int>((menu) => menu.price);
-      return priceList.reduce((a, b) => a + b);
+      return menuList.toSumPrice();
     }).toList();
     return sumPriceList;
   }
