@@ -8,6 +8,7 @@ import 'package:customermanagementapp/view/components/current_mode_display_banne
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
+import 'package:customermanagementapp/view/components/error_indicator.dart';
 import 'package:customermanagementapp/view/components/input_widgets/date_select_form.dart';
 import 'package:customermanagementapp/view/components/input_widgets/employee_select_button.dart';
 import 'package:customermanagementapp/view/components/input_widgets/menu_select_form.dart';
@@ -39,6 +40,10 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   List<Menu> _menus = List();
 
   bool _screenAbsorbing = true;
+
+  String _customerErrorText;
+  String _employeeErrorText;
+  String _menuErrorText;
 
   final dao = MyDao(database);
 
@@ -92,20 +97,22 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   // [コールバック：保存ボタン押下時]
   _saveSingleVisitHistory() async {
     // 未入力チェック：顧客選択欄
-    if (_selectedCustomer == null) {
-      Toast.show('顧客が選択されていません。', context);
-      return;
-    }
+    _customerErrorText = _selectedCustomer == null ? '顧客が選択されていません' : null;
+
     // 未入力チェック：担当選択欄
-    if (_selectedEmployee == null) {
-      Toast.show('担当が選択されていません。', context);
-      return;
-    }
+    _employeeErrorText = _selectedEmployee == null ? '担当が選択されていません' : null;
+
     // 未入力チェック：メニュー欄
-    if (_menus == null || _menus.isEmpty) {
-      Toast.show('メニューが選択されていません。', context);
+    _menuErrorText = _menus == null || _menus.isEmpty ? 'メニューが選択されていません' : null;
+
+    setState(() {});
+
+    if (_customerErrorText != null ||
+        _employeeErrorText != null ||
+        _menuErrorText != null) {
       return;
     }
+
     print(_date);
     // 新しい来店履歴データ作成
     var visitHistory = VisitHistory(
@@ -183,6 +190,13 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
                 color: _screenAbsorbing
                     ? Theme.of(context).primaryColorLight
                     : Colors.amber,
+              ),
+              ErrorIndicator(
+                errorTexts: [
+                  _customerErrorText,
+                  _employeeErrorText,
+                  _menuErrorText,
+                ],
               ),
               ContentsColumnWithTitle(
                 title: 'お客様情報',
