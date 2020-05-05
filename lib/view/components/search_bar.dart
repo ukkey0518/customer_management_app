@@ -36,6 +36,7 @@ class SearchBar extends StatelessWidget {
                   ],
                 ),
               ),
+              SizedBox(width: 8),
               Expanded(child: narrowMenu ?? Container()),
               Expanded(child: sortMenu ?? Container()),
             ],

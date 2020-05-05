@@ -8,6 +8,7 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
+import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -125,36 +126,16 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
       drawer: MyDrawer(),
       body: Column(
         children: <Widget>[
-          _menuBarPart(),
+          SearchBar(
+            numberOfItems: _visitHistoriesList.length,
+            narrowMenu: RaisedButton(
+              child: Text('絞り込み：OFF'),
+              onPressed: () => _showNarrowSetDialog(),
+            ),
+            sortMenu: _sortMenuPart(),
+          ),
           Divider(),
           _listPart(),
-        ],
-      ),
-    );
-  }
-
-  // [ウィジェット：上部メニュー部分]
-  Widget _menuBarPart() {
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 8),
-      child: Row(
-        children: <Widget>[
-          Text.rich(
-            TextSpan(
-              children: <TextSpan>[
-                TextSpan(text: '検索結果：'),
-                TextSpan(
-                  text: '${_visitHistoriesList.length}',
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.red,
-                  ),
-                ),
-                TextSpan(text: '件'),
-              ],
-            ),
-          ),
-          Expanded(child: _sortMenuPart()),
         ],
       ),
     );
@@ -207,5 +188,9 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
         itemCount: _visitHistoriesList.length,
       ),
     );
+  }
+
+  _showNarrowSetDialog() {
+    //TODO
   }
 }
