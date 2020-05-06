@@ -138,6 +138,31 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   //
   //
 
+  // [一括処理：１件追加＆全取得]
+  Future<List<Employee>> addAndGetAllEmployees(Employee employee) {
+    return transaction(() async {
+      await addEmployee(employee);
+      return await allEmployees;
+    });
+  }
+
+  // [一括処理：複数追加＆全取得]
+  Future<List<Employee>> addAllAndGetAllEmployees(
+      List<Employee> employeesList) {
+    return transaction(() async {
+      await addAllEmployees(employeesList);
+      return await allEmployees;
+    });
+  }
+
+  // [一括処理：１件削除＆全取得]
+  Future<List<Employee>> deleteAndGetAllEmployees(Employee employee) {
+    return transaction(() async {
+      await deleteEmployee(employee);
+      return await allEmployees;
+    });
+  }
+
   // [追加：１件分のスタッフデータを追加]
   Future<int> addEmployee(Employee employee) =>
       into(employees).insert(employee, mode: InsertMode.replace);
