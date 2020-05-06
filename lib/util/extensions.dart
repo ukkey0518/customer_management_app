@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
-import 'package:customermanagementapp/data_classes/visit_history_narrow_state.dart';
+import 'package:customermanagementapp/data/data_classes/visit_history_narrow_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

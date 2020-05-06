@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
-import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/data_classes/visit_history_narrow_state.dart';
+import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
+import 'package:customermanagementapp/data/data_classes/visit_history_narrow_state.dart';
 import 'package:moor/moor.dart';
 
 import 'package:customermanagementapp/util/extensions.dart';

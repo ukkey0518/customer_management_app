@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/data/input_field_style.dart';
-import 'package:customermanagementapp/data_classes/screen_preferences.dart';
+import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';

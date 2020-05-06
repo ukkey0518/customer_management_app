@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/data_classes/visit_histories_by_customer.dart';
+import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/polymorphism/basic_list_view_item.dart';
 import 'package:flutter/material.dart';
