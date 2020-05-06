@@ -8,32 +8,30 @@ import 'package:path/path.dart' as p;
 part 'database.g.dart';
 
 // [テーブル：顧客データ]
+// (依存：なし)
 class Customers extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   TextColumn get nameReading => text()();
   BoolColumn get isGenderFemale => boolean()();
   DateTimeColumn get birth => dateTime().nullable()();
-  TextColumn get visitHistories => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
 }
 
-// [テーブル：来店履歴(１件毎)]
-@DataClassName('VisitHistory')
-class VisitHistories extends Table {
+// [テーブル：スタッフデータ]
+// (依存：なし)
+class Employees extends Table {
   IntColumn get id => integer().autoIncrement()();
-  DateTimeColumn get date => dateTime()();
-  TextColumn get customerJson => text()();
-  TextColumn get employeeJson => text()();
-  TextColumn get menuListJson => text()();
+  TextColumn get name => text()();
 
   @override
   Set<Column> get primaryKey => {id};
 }
 
 // [テーブル：メニューカテゴリデータ]
+// (依存：なし)
 @DataClassName('MenuCategory')
 class MenuCategories extends Table {
   IntColumn get id => integer().autoIncrement()();
@@ -45,6 +43,7 @@ class MenuCategories extends Table {
 }
 
 // [テーブル：メニューデータ]
+// (依存：MenuCategories)
 class Menus extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get menuCategoryJson => text()();
@@ -55,10 +54,15 @@ class Menus extends Table {
   Set<Column> get primaryKey => {id};
 }
 
-// [テーブル：スタッフデータ]
-class Employees extends Table {
+// [テーブル：来店履歴(１件毎)]
+// (依存：Customers, Employees, MenuCategories, Menus)
+@DataClassName('VisitHistory')
+class VisitHistories extends Table {
   IntColumn get id => integer().autoIncrement()();
-  TextColumn get name => text()();
+  DateTimeColumn get date => dateTime()();
+  TextColumn get customerJson => text()();
+  TextColumn get employeeJson => text()();
+  TextColumn get menuListJson => text()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -74,10 +78,10 @@ LazyDatabase _openConnection() {
 
 @UseMoor(tables: [
   Customers,
-  VisitHistories,
+  Employees,
   MenuCategories,
   Menus,
-  Employees,
+  VisitHistories,
 ])
 class MyDatabase extends _$MyDatabase {
   MyDatabase() : super(_openConnection());

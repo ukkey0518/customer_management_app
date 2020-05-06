@@ -13,14 +13,12 @@ class Customer extends DataClass implements Insertable<Customer> {
   final String nameReading;
   final bool isGenderFemale;
   final DateTime birth;
-  final String visitHistories;
   Customer(
       {@required this.id,
       @required this.name,
       @required this.nameReading,
       @required this.isGenderFemale,
-      this.birth,
-      this.visitHistories});
+      this.birth});
   factory Customer.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -37,8 +35,6 @@ class Customer extends DataClass implements Insertable<Customer> {
           .mapFromDatabaseResponse(data['${effectivePrefix}is_gender_female']),
       birth:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}birth']),
-      visitHistories: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}visit_histories']),
     );
   }
   factory Customer.fromJson(Map<String, dynamic> json,
@@ -50,7 +46,6 @@ class Customer extends DataClass implements Insertable<Customer> {
       nameReading: serializer.fromJson<String>(json['nameReading']),
       isGenderFemale: serializer.fromJson<bool>(json['isGenderFemale']),
       birth: serializer.fromJson<DateTime>(json['birth']),
-      visitHistories: serializer.fromJson<String>(json['visitHistories']),
     );
   }
   @override
@@ -62,7 +57,6 @@ class Customer extends DataClass implements Insertable<Customer> {
       'nameReading': serializer.toJson<String>(nameReading),
       'isGenderFemale': serializer.toJson<bool>(isGenderFemale),
       'birth': serializer.toJson<DateTime>(birth),
-      'visitHistories': serializer.toJson<String>(visitHistories),
     };
   }
 
@@ -79,9 +73,6 @@ class Customer extends DataClass implements Insertable<Customer> {
           : Value(isGenderFemale),
       birth:
           birth == null && nullToAbsent ? const Value.absent() : Value(birth),
-      visitHistories: visitHistories == null && nullToAbsent
-          ? const Value.absent()
-          : Value(visitHistories),
     );
   }
 
@@ -90,15 +81,13 @@ class Customer extends DataClass implements Insertable<Customer> {
           String name,
           String nameReading,
           bool isGenderFemale,
-          DateTime birth,
-          String visitHistories}) =>
+          DateTime birth}) =>
       Customer(
         id: id ?? this.id,
         name: name ?? this.name,
         nameReading: nameReading ?? this.nameReading,
         isGenderFemale: isGenderFemale ?? this.isGenderFemale,
         birth: birth ?? this.birth,
-        visitHistories: visitHistories ?? this.visitHistories,
       );
   @override
   String toString() {
@@ -107,8 +96,7 @@ class Customer extends DataClass implements Insertable<Customer> {
           ..write('name: $name, ')
           ..write('nameReading: $nameReading, ')
           ..write('isGenderFemale: $isGenderFemale, ')
-          ..write('birth: $birth, ')
-          ..write('visitHistories: $visitHistories')
+          ..write('birth: $birth')
           ..write(')'))
         .toString();
   }
@@ -118,10 +106,8 @@ class Customer extends DataClass implements Insertable<Customer> {
       id.hashCode,
       $mrjc(
           name.hashCode,
-          $mrjc(
-              nameReading.hashCode,
-              $mrjc(isGenderFemale.hashCode,
-                  $mrjc(birth.hashCode, visitHistories.hashCode))))));
+          $mrjc(nameReading.hashCode,
+              $mrjc(isGenderFemale.hashCode, birth.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -130,8 +116,7 @@ class Customer extends DataClass implements Insertable<Customer> {
           other.name == this.name &&
           other.nameReading == this.nameReading &&
           other.isGenderFemale == this.isGenderFemale &&
-          other.birth == this.birth &&
-          other.visitHistories == this.visitHistories);
+          other.birth == this.birth);
 }
 
 class CustomersCompanion extends UpdateCompanion<Customer> {
@@ -140,14 +125,12 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
   final Value<String> nameReading;
   final Value<bool> isGenderFemale;
   final Value<DateTime> birth;
-  final Value<String> visitHistories;
   const CustomersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.nameReading = const Value.absent(),
     this.isGenderFemale = const Value.absent(),
     this.birth = const Value.absent(),
-    this.visitHistories = const Value.absent(),
   });
   CustomersCompanion.insert({
     this.id = const Value.absent(),
@@ -155,7 +138,6 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     @required String nameReading,
     @required bool isGenderFemale,
     this.birth = const Value.absent(),
-    this.visitHistories = const Value.absent(),
   })  : name = Value(name),
         nameReading = Value(nameReading),
         isGenderFemale = Value(isGenderFemale);
@@ -164,15 +146,13 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       Value<String> name,
       Value<String> nameReading,
       Value<bool> isGenderFemale,
-      Value<DateTime> birth,
-      Value<String> visitHistories}) {
+      Value<DateTime> birth}) {
     return CustomersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       nameReading: nameReading ?? this.nameReading,
       isGenderFemale: isGenderFemale ?? this.isGenderFemale,
       birth: birth ?? this.birth,
-      visitHistories: visitHistories ?? this.visitHistories,
     );
   }
 }
@@ -243,23 +223,9 @@ class $CustomersTable extends Customers
     );
   }
 
-  final VerificationMeta _visitHistoriesMeta =
-      const VerificationMeta('visitHistories');
-  GeneratedTextColumn _visitHistories;
-  @override
-  GeneratedTextColumn get visitHistories =>
-      _visitHistories ??= _constructVisitHistories();
-  GeneratedTextColumn _constructVisitHistories() {
-    return GeneratedTextColumn(
-      'visit_histories',
-      $tableName,
-      true,
-    );
-  }
-
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, nameReading, isGenderFemale, birth, visitHistories];
+      [id, name, nameReading, isGenderFemale, birth];
   @override
   $CustomersTable get asDslTable => this;
   @override
@@ -297,12 +263,6 @@ class $CustomersTable extends Customers
       context.handle(
           _birthMeta, birth.isAcceptableValue(d.birth.value, _birthMeta));
     }
-    if (d.visitHistories.present) {
-      context.handle(
-          _visitHistoriesMeta,
-          visitHistories.isAcceptableValue(
-              d.visitHistories.value, _visitHistoriesMeta));
-    }
     return context;
   }
 
@@ -333,10 +293,6 @@ class $CustomersTable extends Customers
     if (d.birth.present) {
       map['birth'] = Variable<DateTime, DateTimeType>(d.birth.value);
     }
-    if (d.visitHistories.present) {
-      map['visit_histories'] =
-          Variable<String, StringType>(d.visitHistories.value);
-    }
     return map;
   }
 
@@ -346,45 +302,26 @@ class $CustomersTable extends Customers
   }
 }
 
-class VisitHistory extends DataClass implements Insertable<VisitHistory> {
+class Employee extends DataClass implements Insertable<Employee> {
   final int id;
-  final DateTime date;
-  final String customerJson;
-  final String employeeJson;
-  final String menuListJson;
-  VisitHistory(
-      {@required this.id,
-      @required this.date,
-      @required this.customerJson,
-      @required this.employeeJson,
-      @required this.menuListJson});
-  factory VisitHistory.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+  final String name;
+  Employee({@required this.id, @required this.name});
+  factory Employee.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
-    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    return VisitHistory(
+    return Employee(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      date:
-          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
-      customerJson: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}customer_json']),
-      employeeJson: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}employee_json']),
-      menuListJson: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}menu_list_json']),
+      name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
     );
   }
-  factory VisitHistory.fromJson(Map<String, dynamic> json,
+  factory Employee.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return VisitHistory(
+    return Employee(
       id: serializer.fromJson<int>(json['id']),
-      date: serializer.fromJson<DateTime>(json['date']),
-      customerJson: serializer.fromJson<String>(json['customerJson']),
-      employeeJson: serializer.fromJson<String>(json['employeeJson']),
-      menuListJson: serializer.fromJson<String>(json['menuListJson']),
+      name: serializer.fromJson<String>(json['name']),
     );
   }
   @override
@@ -392,117 +329,63 @@ class VisitHistory extends DataClass implements Insertable<VisitHistory> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'date': serializer.toJson<DateTime>(date),
-      'customerJson': serializer.toJson<String>(customerJson),
-      'employeeJson': serializer.toJson<String>(employeeJson),
-      'menuListJson': serializer.toJson<String>(menuListJson),
+      'name': serializer.toJson<String>(name),
     };
   }
 
   @override
-  VisitHistoriesCompanion createCompanion(bool nullToAbsent) {
-    return VisitHistoriesCompanion(
+  EmployeesCompanion createCompanion(bool nullToAbsent) {
+    return EmployeesCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
-      customerJson: customerJson == null && nullToAbsent
-          ? const Value.absent()
-          : Value(customerJson),
-      employeeJson: employeeJson == null && nullToAbsent
-          ? const Value.absent()
-          : Value(employeeJson),
-      menuListJson: menuListJson == null && nullToAbsent
-          ? const Value.absent()
-          : Value(menuListJson),
+      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
     );
   }
 
-  VisitHistory copyWith(
-          {int id,
-          DateTime date,
-          String customerJson,
-          String employeeJson,
-          String menuListJson}) =>
-      VisitHistory(
+  Employee copyWith({int id, String name}) => Employee(
         id: id ?? this.id,
-        date: date ?? this.date,
-        customerJson: customerJson ?? this.customerJson,
-        employeeJson: employeeJson ?? this.employeeJson,
-        menuListJson: menuListJson ?? this.menuListJson,
+        name: name ?? this.name,
       );
   @override
   String toString() {
-    return (StringBuffer('VisitHistory(')
+    return (StringBuffer('Employee(')
           ..write('id: $id, ')
-          ..write('date: $date, ')
-          ..write('customerJson: $customerJson, ')
-          ..write('employeeJson: $employeeJson, ')
-          ..write('menuListJson: $menuListJson')
+          ..write('name: $name')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(
-      id.hashCode,
-      $mrjc(
-          date.hashCode,
-          $mrjc(customerJson.hashCode,
-              $mrjc(employeeJson.hashCode, menuListJson.hashCode)))));
+  int get hashCode => $mrjf($mrjc(id.hashCode, name.hashCode));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is VisitHistory &&
-          other.id == this.id &&
-          other.date == this.date &&
-          other.customerJson == this.customerJson &&
-          other.employeeJson == this.employeeJson &&
-          other.menuListJson == this.menuListJson);
+      (other is Employee && other.id == this.id && other.name == this.name);
 }
 
-class VisitHistoriesCompanion extends UpdateCompanion<VisitHistory> {
+class EmployeesCompanion extends UpdateCompanion<Employee> {
   final Value<int> id;
-  final Value<DateTime> date;
-  final Value<String> customerJson;
-  final Value<String> employeeJson;
-  final Value<String> menuListJson;
-  const VisitHistoriesCompanion({
+  final Value<String> name;
+  const EmployeesCompanion({
     this.id = const Value.absent(),
-    this.date = const Value.absent(),
-    this.customerJson = const Value.absent(),
-    this.employeeJson = const Value.absent(),
-    this.menuListJson = const Value.absent(),
+    this.name = const Value.absent(),
   });
-  VisitHistoriesCompanion.insert({
+  EmployeesCompanion.insert({
     this.id = const Value.absent(),
-    @required DateTime date,
-    @required String customerJson,
-    @required String employeeJson,
-    @required String menuListJson,
-  })  : date = Value(date),
-        customerJson = Value(customerJson),
-        employeeJson = Value(employeeJson),
-        menuListJson = Value(menuListJson);
-  VisitHistoriesCompanion copyWith(
-      {Value<int> id,
-      Value<DateTime> date,
-      Value<String> customerJson,
-      Value<String> employeeJson,
-      Value<String> menuListJson}) {
-    return VisitHistoriesCompanion(
+    @required String name,
+  }) : name = Value(name);
+  EmployeesCompanion copyWith({Value<int> id, Value<String> name}) {
+    return EmployeesCompanion(
       id: id ?? this.id,
-      date: date ?? this.date,
-      customerJson: customerJson ?? this.customerJson,
-      employeeJson: employeeJson ?? this.employeeJson,
-      menuListJson: menuListJson ?? this.menuListJson,
+      name: name ?? this.name,
     );
   }
 }
 
-class $VisitHistoriesTable extends VisitHistories
-    with TableInfo<$VisitHistoriesTable, VisitHistory> {
+class $EmployeesTable extends Employees
+    with TableInfo<$EmployeesTable, Employee> {
   final GeneratedDatabase _db;
   final String _alias;
-  $VisitHistoriesTable(this._db, [this._alias]);
+  $EmployeesTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
@@ -512,105 +395,38 @@ class $VisitHistoriesTable extends VisitHistories
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
-  final VerificationMeta _dateMeta = const VerificationMeta('date');
-  GeneratedDateTimeColumn _date;
+  final VerificationMeta _nameMeta = const VerificationMeta('name');
+  GeneratedTextColumn _name;
   @override
-  GeneratedDateTimeColumn get date => _date ??= _constructDate();
-  GeneratedDateTimeColumn _constructDate() {
-    return GeneratedDateTimeColumn(
-      'date',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _customerJsonMeta =
-      const VerificationMeta('customerJson');
-  GeneratedTextColumn _customerJson;
-  @override
-  GeneratedTextColumn get customerJson =>
-      _customerJson ??= _constructCustomerJson();
-  GeneratedTextColumn _constructCustomerJson() {
+  GeneratedTextColumn get name => _name ??= _constructName();
+  GeneratedTextColumn _constructName() {
     return GeneratedTextColumn(
-      'customer_json',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _employeeJsonMeta =
-      const VerificationMeta('employeeJson');
-  GeneratedTextColumn _employeeJson;
-  @override
-  GeneratedTextColumn get employeeJson =>
-      _employeeJson ??= _constructEmployeeJson();
-  GeneratedTextColumn _constructEmployeeJson() {
-    return GeneratedTextColumn(
-      'employee_json',
-      $tableName,
-      false,
-    );
-  }
-
-  final VerificationMeta _menuListJsonMeta =
-      const VerificationMeta('menuListJson');
-  GeneratedTextColumn _menuListJson;
-  @override
-  GeneratedTextColumn get menuListJson =>
-      _menuListJson ??= _constructMenuListJson();
-  GeneratedTextColumn _constructMenuListJson() {
-    return GeneratedTextColumn(
-      'menu_list_json',
+      'name',
       $tableName,
       false,
     );
   }
 
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, date, customerJson, employeeJson, menuListJson];
+  List<GeneratedColumn> get $columns => [id, name];
   @override
-  $VisitHistoriesTable get asDslTable => this;
+  $EmployeesTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'visit_histories';
+  String get $tableName => _alias ?? 'employees';
   @override
-  final String actualTableName = 'visit_histories';
+  final String actualTableName = 'employees';
   @override
-  VerificationContext validateIntegrity(VisitHistoriesCompanion d,
+  VerificationContext validateIntegrity(EmployeesCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
     }
-    if (d.date.present) {
+    if (d.name.present) {
       context.handle(
-          _dateMeta, date.isAcceptableValue(d.date.value, _dateMeta));
+          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
     } else if (isInserting) {
-      context.missing(_dateMeta);
-    }
-    if (d.customerJson.present) {
-      context.handle(
-          _customerJsonMeta,
-          customerJson.isAcceptableValue(
-              d.customerJson.value, _customerJsonMeta));
-    } else if (isInserting) {
-      context.missing(_customerJsonMeta);
-    }
-    if (d.employeeJson.present) {
-      context.handle(
-          _employeeJsonMeta,
-          employeeJson.isAcceptableValue(
-              d.employeeJson.value, _employeeJsonMeta));
-    } else if (isInserting) {
-      context.missing(_employeeJsonMeta);
-    }
-    if (d.menuListJson.present) {
-      context.handle(
-          _menuListJsonMeta,
-          menuListJson.isAcceptableValue(
-              d.menuListJson.value, _menuListJsonMeta));
-    } else if (isInserting) {
-      context.missing(_menuListJsonMeta);
+      context.missing(_nameMeta);
     }
     return context;
   }
@@ -618,36 +434,26 @@ class $VisitHistoriesTable extends VisitHistories
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  VisitHistory map(Map<String, dynamic> data, {String tablePrefix}) {
+  Employee map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return VisitHistory.fromData(data, _db, prefix: effectivePrefix);
+    return Employee.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  Map<String, Variable> entityToSql(VisitHistoriesCompanion d) {
+  Map<String, Variable> entityToSql(EmployeesCompanion d) {
     final map = <String, Variable>{};
     if (d.id.present) {
       map['id'] = Variable<int, IntType>(d.id.value);
     }
-    if (d.date.present) {
-      map['date'] = Variable<DateTime, DateTimeType>(d.date.value);
-    }
-    if (d.customerJson.present) {
-      map['customer_json'] = Variable<String, StringType>(d.customerJson.value);
-    }
-    if (d.employeeJson.present) {
-      map['employee_json'] = Variable<String, StringType>(d.employeeJson.value);
-    }
-    if (d.menuListJson.present) {
-      map['menu_list_json'] =
-          Variable<String, StringType>(d.menuListJson.value);
+    if (d.name.present) {
+      map['name'] = Variable<String, StringType>(d.name.value);
     }
     return map;
   }
 
   @override
-  $VisitHistoriesTable createAlias(String alias) {
-    return $VisitHistoriesTable(_db, alias);
+  $EmployeesTable createAlias(String alias) {
+    return $EmployeesTable(_db, alias);
   }
 }
 
@@ -1088,26 +894,45 @@ class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
   }
 }
 
-class Employee extends DataClass implements Insertable<Employee> {
+class VisitHistory extends DataClass implements Insertable<VisitHistory> {
   final int id;
-  final String name;
-  Employee({@required this.id, @required this.name});
-  factory Employee.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+  final DateTime date;
+  final String customerJson;
+  final String employeeJson;
+  final String menuListJson;
+  VisitHistory(
+      {@required this.id,
+      @required this.date,
+      @required this.customerJson,
+      @required this.employeeJson,
+      @required this.menuListJson});
+  factory VisitHistory.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
     final intType = db.typeSystem.forDartType<int>();
+    final dateTimeType = db.typeSystem.forDartType<DateTime>();
     final stringType = db.typeSystem.forDartType<String>();
-    return Employee(
+    return VisitHistory(
       id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
+      date:
+          dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}date']),
+      customerJson: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}customer_json']),
+      employeeJson: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}employee_json']),
+      menuListJson: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}menu_list_json']),
     );
   }
-  factory Employee.fromJson(Map<String, dynamic> json,
+  factory VisitHistory.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
-    return Employee(
+    return VisitHistory(
       id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
+      date: serializer.fromJson<DateTime>(json['date']),
+      customerJson: serializer.fromJson<String>(json['customerJson']),
+      employeeJson: serializer.fromJson<String>(json['employeeJson']),
+      menuListJson: serializer.fromJson<String>(json['menuListJson']),
     );
   }
   @override
@@ -1115,63 +940,117 @@ class Employee extends DataClass implements Insertable<Employee> {
     serializer ??= moorRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
+      'date': serializer.toJson<DateTime>(date),
+      'customerJson': serializer.toJson<String>(customerJson),
+      'employeeJson': serializer.toJson<String>(employeeJson),
+      'menuListJson': serializer.toJson<String>(menuListJson),
     };
   }
 
   @override
-  EmployeesCompanion createCompanion(bool nullToAbsent) {
-    return EmployeesCompanion(
+  VisitHistoriesCompanion createCompanion(bool nullToAbsent) {
+    return VisitHistoriesCompanion(
       id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
+      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
+      customerJson: customerJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customerJson),
+      employeeJson: employeeJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(employeeJson),
+      menuListJson: menuListJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(menuListJson),
     );
   }
 
-  Employee copyWith({int id, String name}) => Employee(
+  VisitHistory copyWith(
+          {int id,
+          DateTime date,
+          String customerJson,
+          String employeeJson,
+          String menuListJson}) =>
+      VisitHistory(
         id: id ?? this.id,
-        name: name ?? this.name,
+        date: date ?? this.date,
+        customerJson: customerJson ?? this.customerJson,
+        employeeJson: employeeJson ?? this.employeeJson,
+        menuListJson: menuListJson ?? this.menuListJson,
       );
   @override
   String toString() {
-    return (StringBuffer('Employee(')
+    return (StringBuffer('VisitHistory(')
           ..write('id: $id, ')
-          ..write('name: $name')
+          ..write('date: $date, ')
+          ..write('customerJson: $customerJson, ')
+          ..write('employeeJson: $employeeJson, ')
+          ..write('menuListJson: $menuListJson')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => $mrjf($mrjc(id.hashCode, name.hashCode));
+  int get hashCode => $mrjf($mrjc(
+      id.hashCode,
+      $mrjc(
+          date.hashCode,
+          $mrjc(customerJson.hashCode,
+              $mrjc(employeeJson.hashCode, menuListJson.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
-      (other is Employee && other.id == this.id && other.name == this.name);
+      (other is VisitHistory &&
+          other.id == this.id &&
+          other.date == this.date &&
+          other.customerJson == this.customerJson &&
+          other.employeeJson == this.employeeJson &&
+          other.menuListJson == this.menuListJson);
 }
 
-class EmployeesCompanion extends UpdateCompanion<Employee> {
+class VisitHistoriesCompanion extends UpdateCompanion<VisitHistory> {
   final Value<int> id;
-  final Value<String> name;
-  const EmployeesCompanion({
+  final Value<DateTime> date;
+  final Value<String> customerJson;
+  final Value<String> employeeJson;
+  final Value<String> menuListJson;
+  const VisitHistoriesCompanion({
     this.id = const Value.absent(),
-    this.name = const Value.absent(),
+    this.date = const Value.absent(),
+    this.customerJson = const Value.absent(),
+    this.employeeJson = const Value.absent(),
+    this.menuListJson = const Value.absent(),
   });
-  EmployeesCompanion.insert({
+  VisitHistoriesCompanion.insert({
     this.id = const Value.absent(),
-    @required String name,
-  }) : name = Value(name);
-  EmployeesCompanion copyWith({Value<int> id, Value<String> name}) {
-    return EmployeesCompanion(
+    @required DateTime date,
+    @required String customerJson,
+    @required String employeeJson,
+    @required String menuListJson,
+  })  : date = Value(date),
+        customerJson = Value(customerJson),
+        employeeJson = Value(employeeJson),
+        menuListJson = Value(menuListJson);
+  VisitHistoriesCompanion copyWith(
+      {Value<int> id,
+      Value<DateTime> date,
+      Value<String> customerJson,
+      Value<String> employeeJson,
+      Value<String> menuListJson}) {
+    return VisitHistoriesCompanion(
       id: id ?? this.id,
-      name: name ?? this.name,
+      date: date ?? this.date,
+      customerJson: customerJson ?? this.customerJson,
+      employeeJson: employeeJson ?? this.employeeJson,
+      menuListJson: menuListJson ?? this.menuListJson,
     );
   }
 }
 
-class $EmployeesTable extends Employees
-    with TableInfo<$EmployeesTable, Employee> {
+class $VisitHistoriesTable extends VisitHistories
+    with TableInfo<$VisitHistoriesTable, VisitHistory> {
   final GeneratedDatabase _db;
   final String _alias;
-  $EmployeesTable(this._db, [this._alias]);
+  $VisitHistoriesTable(this._db, [this._alias]);
   final VerificationMeta _idMeta = const VerificationMeta('id');
   GeneratedIntColumn _id;
   @override
@@ -1181,38 +1060,105 @@ class $EmployeesTable extends Employees
         hasAutoIncrement: true, declaredAsPrimaryKey: true);
   }
 
-  final VerificationMeta _nameMeta = const VerificationMeta('name');
-  GeneratedTextColumn _name;
+  final VerificationMeta _dateMeta = const VerificationMeta('date');
+  GeneratedDateTimeColumn _date;
   @override
-  GeneratedTextColumn get name => _name ??= _constructName();
-  GeneratedTextColumn _constructName() {
+  GeneratedDateTimeColumn get date => _date ??= _constructDate();
+  GeneratedDateTimeColumn _constructDate() {
+    return GeneratedDateTimeColumn(
+      'date',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _customerJsonMeta =
+      const VerificationMeta('customerJson');
+  GeneratedTextColumn _customerJson;
+  @override
+  GeneratedTextColumn get customerJson =>
+      _customerJson ??= _constructCustomerJson();
+  GeneratedTextColumn _constructCustomerJson() {
     return GeneratedTextColumn(
-      'name',
+      'customer_json',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _employeeJsonMeta =
+      const VerificationMeta('employeeJson');
+  GeneratedTextColumn _employeeJson;
+  @override
+  GeneratedTextColumn get employeeJson =>
+      _employeeJson ??= _constructEmployeeJson();
+  GeneratedTextColumn _constructEmployeeJson() {
+    return GeneratedTextColumn(
+      'employee_json',
+      $tableName,
+      false,
+    );
+  }
+
+  final VerificationMeta _menuListJsonMeta =
+      const VerificationMeta('menuListJson');
+  GeneratedTextColumn _menuListJson;
+  @override
+  GeneratedTextColumn get menuListJson =>
+      _menuListJson ??= _constructMenuListJson();
+  GeneratedTextColumn _constructMenuListJson() {
+    return GeneratedTextColumn(
+      'menu_list_json',
       $tableName,
       false,
     );
   }
 
   @override
-  List<GeneratedColumn> get $columns => [id, name];
+  List<GeneratedColumn> get $columns =>
+      [id, date, customerJson, employeeJson, menuListJson];
   @override
-  $EmployeesTable get asDslTable => this;
+  $VisitHistoriesTable get asDslTable => this;
   @override
-  String get $tableName => _alias ?? 'employees';
+  String get $tableName => _alias ?? 'visit_histories';
   @override
-  final String actualTableName = 'employees';
+  final String actualTableName = 'visit_histories';
   @override
-  VerificationContext validateIntegrity(EmployeesCompanion d,
+  VerificationContext validateIntegrity(VisitHistoriesCompanion d,
       {bool isInserting = false}) {
     final context = VerificationContext();
     if (d.id.present) {
       context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
     }
-    if (d.name.present) {
+    if (d.date.present) {
       context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+          _dateMeta, date.isAcceptableValue(d.date.value, _dateMeta));
     } else if (isInserting) {
-      context.missing(_nameMeta);
+      context.missing(_dateMeta);
+    }
+    if (d.customerJson.present) {
+      context.handle(
+          _customerJsonMeta,
+          customerJson.isAcceptableValue(
+              d.customerJson.value, _customerJsonMeta));
+    } else if (isInserting) {
+      context.missing(_customerJsonMeta);
+    }
+    if (d.employeeJson.present) {
+      context.handle(
+          _employeeJsonMeta,
+          employeeJson.isAcceptableValue(
+              d.employeeJson.value, _employeeJsonMeta));
+    } else if (isInserting) {
+      context.missing(_employeeJsonMeta);
+    }
+    if (d.menuListJson.present) {
+      context.handle(
+          _menuListJsonMeta,
+          menuListJson.isAcceptableValue(
+              d.menuListJson.value, _menuListJsonMeta));
+    } else if (isInserting) {
+      context.missing(_menuListJsonMeta);
     }
     return context;
   }
@@ -1220,26 +1166,36 @@ class $EmployeesTable extends Employees
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  Employee map(Map<String, dynamic> data, {String tablePrefix}) {
+  VisitHistory map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return Employee.fromData(data, _db, prefix: effectivePrefix);
+    return VisitHistory.fromData(data, _db, prefix: effectivePrefix);
   }
 
   @override
-  Map<String, Variable> entityToSql(EmployeesCompanion d) {
+  Map<String, Variable> entityToSql(VisitHistoriesCompanion d) {
     final map = <String, Variable>{};
     if (d.id.present) {
       map['id'] = Variable<int, IntType>(d.id.value);
     }
-    if (d.name.present) {
-      map['name'] = Variable<String, StringType>(d.name.value);
+    if (d.date.present) {
+      map['date'] = Variable<DateTime, DateTimeType>(d.date.value);
+    }
+    if (d.customerJson.present) {
+      map['customer_json'] = Variable<String, StringType>(d.customerJson.value);
+    }
+    if (d.employeeJson.present) {
+      map['employee_json'] = Variable<String, StringType>(d.employeeJson.value);
+    }
+    if (d.menuListJson.present) {
+      map['menu_list_json'] =
+          Variable<String, StringType>(d.menuListJson.value);
     }
     return map;
   }
 
   @override
-  $EmployeesTable createAlias(String alias) {
-    return $EmployeesTable(_db, alias);
+  $VisitHistoriesTable createAlias(String alias) {
+    return $VisitHistoriesTable(_db, alias);
   }
 }
 
@@ -1247,19 +1203,19 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   _$MyDatabase(QueryExecutor e) : super(SqlTypeSystem.defaultInstance, e);
   $CustomersTable _customers;
   $CustomersTable get customers => _customers ??= $CustomersTable(this);
-  $VisitHistoriesTable _visitHistories;
-  $VisitHistoriesTable get visitHistories =>
-      _visitHistories ??= $VisitHistoriesTable(this);
+  $EmployeesTable _employees;
+  $EmployeesTable get employees => _employees ??= $EmployeesTable(this);
   $MenuCategoriesTable _menuCategories;
   $MenuCategoriesTable get menuCategories =>
       _menuCategories ??= $MenuCategoriesTable(this);
   $MenusTable _menus;
   $MenusTable get menus => _menus ??= $MenusTable(this);
-  $EmployeesTable _employees;
-  $EmployeesTable get employees => _employees ??= $EmployeesTable(this);
+  $VisitHistoriesTable _visitHistories;
+  $VisitHistoriesTable get visitHistories =>
+      _visitHistories ??= $VisitHistoriesTable(this);
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [customers, visitHistories, menuCategories, menus, employees];
+      [customers, employees, menuCategories, menus, visitHistories];
 }
