@@ -33,6 +33,9 @@ dependencies:
   #dotted_border-package
   dotted_border: ^1.0.5
 
+  #provider-package
+  provider: ^4.0.5
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
