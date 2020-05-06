@@ -19,9 +19,8 @@ class MyRepository extends ChangeNotifier {
   getEmployees() async {
     print('MyRepostory.getEmployees :');
 
-    _employees  = await _dao.allEmployees;
+    _employees = await _dao.allEmployees;
 
     notifyListeners();
   }
-
 }
