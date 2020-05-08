@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/viewmodel/customer_view_model.dart';
 import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
@@ -167,6 +168,8 @@ class SampleDataInitializer {
     }
 
     //TODO 顧客ViewModelの取得
+    final customerViewModel =
+        Provider.of<CustomerViewModel>(context, listen: false);
 
     // 従業員ViewModelの取得
     final employeeViewModel =
@@ -178,6 +181,8 @@ class SampleDataInitializer {
 
     try {
       //TODO [Customersテーブルの初期化]
+      await customerViewModel.addAllCustomers(_initCustomers);
+      print('  ...Customers init ok. : ${_initCustomers.length} data');
 
       // [Employeesテーブルの初期化]
       await employeeViewModel.addAllEmployee(_initEmployees);
@@ -189,7 +194,6 @@ class SampleDataInitializer {
 
       _isInitialized = true;
 
-      print('  [not init] Customers: ${_initCustomers.length} data');
       print('  [not init] MenuCategories: ${_initMenuCategories.length} data');
       print('  [not init] Menus: ${_initMenus.length} data');
       print('--- initialize finished.');
