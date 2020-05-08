@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_state.dart';
@@ -245,6 +246,44 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         this.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
         break;
     }
+  }
+}
+
+// List<VisitHistoriesByCustomers>拡張
+extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
+  // 顧客リストと来店履歴リストから生成
+  static List<VisitHistoriesByCustomer> vhbcListFrom(
+    List<Customer> customers,
+    List<VisitHistory> visitHistories,
+  ) {
+    var customerList = customers ?? List();
+    var visitHistoryList = visitHistories ?? List();
+    final visitHistoriesByCustomers = List<VisitHistoriesByCustomer>();
+
+    customerList.forEach((customer) {
+      final historiesByCustomer = visitHistoryList.where((history) {
+        final customerOfVisitHistory = history.customerJson.toCustomer();
+        return customerOfVisitHistory.id == customer.id;
+      }).toList();
+      visitHistoriesByCustomers.add(
+        VisitHistoriesByCustomer(
+          customer: customer,
+          histories: historiesByCustomer,
+        ),
+      );
+    });
+
+    return visitHistoriesByCustomers;
+  }
+
+  // [取得：指定顧客の顧客別来店履歴を取得]
+  VisitHistoriesByCustomer getVHBC(Customer customer) {
+    final vhbc = this.singleWhere(
+      (vhbc) {
+        return vhbc.customer == customer;
+      },
+    );
+    return vhbc;
   }
 }
 

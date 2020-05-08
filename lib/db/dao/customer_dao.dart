@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:moor/moor.dart';
@@ -26,56 +27,69 @@ class CustomerDao extends DatabaseAccessor<MyDatabase> with _$CustomerDaoMixin {
   }
 
   // [取得：条件付き]
-  Future<List<Customer>> getCustomers({
-    CustomerNarrowState narrowState = CustomerNarrowState.ALL,
-    CustomerSortState sortState = CustomerSortState.REGISTER_OLD,
-  }) async {
-    // 全取得ステートメント
-    var statement = select(customers);
+  Future<List<Customer>> getCustomers(
+      {CustomerListScreenPreferences preferences}) async {
+    return transaction(() async {
+      final narrowState = preferences.narrowState;
+      final sortState = preferences.sortState;
+      final searchWord = preferences.searchWord;
 
-    // 絞り込み条件追加
-    switch (narrowState) {
-      case CustomerNarrowState.FEMALE:
-        statement..where((t) => t.isGenderFemale);
-        break;
-      case CustomerNarrowState.MALE:
-        statement..where((t) => t.isGenderFemale.not());
-        break;
-      case CustomerNarrowState.ALL:
-        break;
-    }
+      // 全取得ステートメント
+      var statement = select(customers);
 
-    // 並べ替え条件追加
-    switch (sortState) {
-      case CustomerSortState.REGISTER_OLD:
-        statement
-          ..orderBy([
-            (t) => OrderingTerm(expression: t.id, mode: OrderingMode.asc),
-          ]);
-        break;
-      case CustomerSortState.REGISTER_NEW:
-        statement
-          ..orderBy([
-            (t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc),
-          ]);
-        break;
-      case CustomerSortState.NAME_FORWARD:
-        statement
-          ..orderBy([
-            (t) =>
-                OrderingTerm(expression: t.nameReading, mode: OrderingMode.asc),
-          ]);
-        break;
-      case CustomerSortState.NAME_REVERSE:
-        statement
-          ..orderBy([
-            (t) => OrderingTerm(
-                expression: t.nameReading, mode: OrderingMode.desc),
-          ]);
-        break;
-    }
-    // 設定された条件で取得
-    return statement.get();
+      // 絞り込み条件追加
+      switch (narrowState) {
+        case CustomerNarrowState.FEMALE:
+          statement..where((t) => t.isGenderFemale);
+          break;
+        case CustomerNarrowState.MALE:
+          statement..where((t) => t.isGenderFemale.not());
+          break;
+        case CustomerNarrowState.ALL:
+          break;
+      }
+
+      // 並べ替え条件追加
+      switch (sortState) {
+        case CustomerSortState.REGISTER_OLD:
+          statement
+            ..orderBy([
+              (t) => OrderingTerm(expression: t.id, mode: OrderingMode.asc),
+            ]);
+          break;
+        case CustomerSortState.REGISTER_NEW:
+          statement
+            ..orderBy([
+              (t) => OrderingTerm(expression: t.id, mode: OrderingMode.desc),
+            ]);
+          break;
+        case CustomerSortState.NAME_FORWARD:
+          statement
+            ..orderBy([
+              (t) => OrderingTerm(
+                  expression: t.nameReading, mode: OrderingMode.asc),
+            ]);
+          break;
+        case CustomerSortState.NAME_REVERSE:
+          statement
+            ..orderBy([
+              (t) => OrderingTerm(
+                  expression: t.nameReading, mode: OrderingMode.desc),
+            ]);
+          break;
+      }
+      // 設定された条件で取得
+      final list = await statement.get();
+
+      if (searchWord != null && searchWord.isNotEmpty) {
+        list.removeWhere((customer) {
+          return !(customer.name.contains(searchWord) ||
+              customer.nameReading.contains(searchWord));
+        });
+      }
+
+      return Future.value(list);
+    });
   }
 
   // [削除：１件]
@@ -90,35 +104,29 @@ class CustomerDao extends DatabaseAccessor<MyDatabase> with _$CustomerDaoMixin {
   //
 
   // [一括処理( 追加 )：１件追加 -> 全取得]
-  Future<List<Customer>> addAndGetAllCustomers(
-    Customer customer, {
-    CustomerNarrowState narrowState,
-    CustomerSortState sortState,
-  }) {
+  Future<List<Customer>> addAndGetAllCustomers(Customer customer,
+      {CustomerListScreenPreferences preferences}) {
     return transaction(() async {
       await addCustomer(customer);
-      return await getCustomers(
-        narrowState: narrowState,
-        sortState: sortState,
-      );
+      return await getCustomers(preferences: preferences);
     });
   }
 
   // [一括処理( 追加 ) : 複数追加 -> 全取得]
   Future<List<Customer>> addAllAndGetAllCustomers(List<Customer> customersList,
-      {CustomerNarrowState narrowState, CustomerSortState sortState}) {
+      {CustomerListScreenPreferences preferences}) {
     return transaction(() async {
       await addAllCustomers(customersList);
-      return await getCustomers(narrowState: narrowState, sortState: sortState);
+      return await getCustomers(preferences: preferences);
     });
   }
 
   // [一括処理( 削除 )：１件削除 -> 全取得]
   Future<List<Customer>> deleteAndGetAllCustomers(Customer customer,
-      {CustomerNarrowState narrowState, CustomerSortState sortState}) {
+      {CustomerListScreenPreferences preferences}) {
     return transaction(() async {
       await deleteCustomer(customer);
-      return await getCustomers(narrowState: narrowState, sortState: sortState);
+      return await getCustomers(preferences: preferences);
     });
   }
 }

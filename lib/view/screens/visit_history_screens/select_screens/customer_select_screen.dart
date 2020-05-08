@@ -1,6 +1,8 @@
+import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
+import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/main.dart';
@@ -75,11 +77,16 @@ class _CustomersSelectScreenState extends State<CustomerSelectScreen> {
 
     // DB取得処理
     _customersList = await customerDao.getCustomers(
-        narrowState: _narrowState, sortState: _sortState);
+        preferences: CustomerListScreenPreferences(
+      narrowState: _narrowState,
+      sortState: _sortState,
+      searchWord: '',
+    ));
 
     // 顧客別来店履歴リスト取得
+    var visitHistories = await visitHistoryDao.getVisitHistories();
     _visitHistoriesByCustomers =
-        await visitHistoryDao.getAllVisitHistoriesByCustomers();
+        ConvertFromVHBCList.vhbcListFrom(_customersList, visitHistories);
 
     // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {

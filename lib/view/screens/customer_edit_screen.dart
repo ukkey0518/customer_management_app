@@ -2,6 +2,7 @@ import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
+import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
@@ -214,8 +215,12 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
     if (widget.customer == null) {
       widgetBuilder = (context) => CustomersListScreen(pref: widget.pref);
     } else {
+      var customers = await customerDao.getCustomers();
+      var visitHistories = await visitHistoryDao.getVisitHistories();
+      final visitHistoriesByCustomers =
+          ConvertFromVHBCList.vhbcListFrom(customers, visitHistories);
       final visitHistoriesByCustomer =
-          await visitHistoryDao.getVisitHistoriesByCustomer(_editedCustomer);
+          visitHistoriesByCustomers.getVHBC(_editedCustomer);
       widgetBuilder = (context) => CustomerInformationScreen(
             widget.pref,
             historiesByCustomer: visitHistoriesByCustomer,

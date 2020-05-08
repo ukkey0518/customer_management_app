@@ -167,6 +167,8 @@ class SampleDataInitializer {
       return;
     }
 
+    _isInitialized = true;
+
     // CustomerDaoの取得
     final customerDao = Provider.of<CustomerDao>(context, listen: false);
 
@@ -185,8 +187,6 @@ class SampleDataInitializer {
       //TODO MenuCategoriesテーブルの初期化
 
       //TODO Menusテーブルの初期化
-
-      _isInitialized = true;
 
       print('  [not init] MenuCategories: ${_initMenuCategories.length} data');
       print('  [not init] Menus: ${_initMenus.length} data');

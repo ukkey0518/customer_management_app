@@ -128,28 +128,31 @@ class SortDropDownMenu extends StatelessWidget {
 
 // [検索欄]
 class SearchMenu extends StatelessWidget {
-  SearchMenu({this.searchNameController, this.onChanged});
+  SearchMenu({this.controller, this.onChanged});
 
-  final TextEditingController searchNameController;
+  final TextEditingController controller;
   final ValueChanged<String> onChanged;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.text,
-      controller: searchNameController,
+      controller: controller,
       decoration: InputDecoration(
         hintText: '名前で検索',
         prefixIcon: Icon(Icons.search),
         suffixIcon: IconButton(
           icon: Icon(Icons.clear),
           onPressed: () => WidgetsBinding.instance.addPostFrameCallback(
-            (_) => searchNameController.clear(),
+            (_) {
+              controller.clear();
+              onChanged('');
+            },
           ),
         ),
       ),
-      onChanged: onChanged,
-      onEditingComplete: () => onChanged(searchNameController.text),
+      onChanged: (name) => onChanged(controller.text),
+      onEditingComplete: () => onChanged(controller.text),
     );
   }
 }

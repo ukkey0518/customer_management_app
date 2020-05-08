@@ -8,6 +8,11 @@ class CustomerListScreenPreferences {
   CustomerNarrowState narrowState;
   CustomerSortState sortState;
   String searchWord;
+
+  @override
+  String toString() {
+    return 'n : $narrowState, s: $sortState, sw: $searchWord';
+  }
 }
 
 class VisitHistoryListScreenPreferences {

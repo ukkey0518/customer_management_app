@@ -8,8 +8,8 @@ import '../customer_name_panel.dart';
 class CustomerListItem extends BasicListViewItem<VisitHistoriesByCustomer> {
   CustomerListItem({
     @required VisitHistoriesByCustomer visitHistoriesByCustomer,
-    ValueChanged onTap,
-    ValueChanged onLongPress,
+    ValueChanged<VisitHistoriesByCustomer> onTap,
+    ValueChanged<VisitHistoriesByCustomer> onLongPress,
   }) : super(
           item: visitHistoriesByCustomer,
           onTap: onTap,
