@@ -36,7 +36,6 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   final menuCategoryDao = MenuCategoryDao(database);
   final menuDao = MenuDao(database);
 
-
   @override
   void initState() {
     super.initState();

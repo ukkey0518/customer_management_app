@@ -64,7 +64,8 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
         narrowState: _narrowState, sortState: _sortState);
 
     // 顧客別来店履歴リスト取得
-    _visitHistoriesByCustomers = await visitHistoryDao.getAllVisitHistoriesByCustomers();
+    _visitHistoriesByCustomers =
+        await visitHistoryDao.getAllVisitHistoriesByCustomers();
 
     // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {
