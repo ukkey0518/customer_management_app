@@ -2,7 +2,6 @@ import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repository/my_repository.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 class CustomerViewModel extends ChangeNotifier {
   CustomerViewModel({repository}) : _repository = repository;
