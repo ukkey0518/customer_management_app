@@ -16,7 +16,7 @@ class MyRepository extends ChangeNotifier {
 
   // [フィールド：顧客リスト]
   List<Customer> _customers = List();
-  List<Customer> get customer => _customers;
+  List<Customer> get customers => _customers;
 
   // [フィールド：従業員リスト]
   List<Employee> _employees = List();

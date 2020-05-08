@@ -27,24 +27,18 @@ class EmployeeViewModel extends ChangeNotifier {
   addEmployee(Employee employee) async {
     print('EmployeeViewModel.addEmployee :');
     _employees = await _repository.addEmployee(employee);
-
-    notifyListeners();
   }
 
   // [追加：複数の従業員データを追加]
   addAllEmployee(List<Employee> employeeList) async {
     print('EmployeeViewModel.addAllEmployee :');
     _employees = await _repository.addAllEmployee(employeeList);
-
-    notifyListeners();
   }
 
   // [削除：１件の従業員データを削除]
   deleteEmployee(Employee employee) async {
     print('EmployeeViewModel.deleteEmployee :');
     _employees = await _repository.deleteEmployee(employee);
-
-    notifyListeners();
   }
 
   // [更新：MyRepositoryの変更があったときに呼ばれる]
@@ -52,6 +46,8 @@ class EmployeeViewModel extends ChangeNotifier {
     print('EmployeeViewModel.onRepositoryUpdated :');
     _employees = repository.employees;
     _isLoading = repository.isLoading;
+
+    notifyListeners();
   }
 
   @override
