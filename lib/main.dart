@@ -8,9 +8,10 @@ import 'package:provider/provider.dart';
 import 'view/screens/home_screen.dart';
 
 MyDatabase database;
+SampleDataInitializer initializer;
 
 void main() {
-//  database = MyDatabase();
+  initializer = SampleDataInitializer();
   runApp(MultiProvider(
     providers: globalProviders,
     child: MyApp(),
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // サンプルデータ初期化
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      SampleDataInitializer().initialize(context);
+      initializer.initialize(context);
       Intl.defaultLocale = 'ja_JP';
       await initializeDateFormatting('ja_JP');
     });

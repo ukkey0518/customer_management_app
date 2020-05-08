@@ -1,14 +1,11 @@
-import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:moor_ffi/database.dart';
 import 'package:provider/provider.dart';
 
-import '../main.dart';
-
 class SampleDataInitializer {
+  static bool _isInitialized = false;
   static SampleDataInitializer _instance;
 
   factory SampleDataInitializer() {
@@ -19,7 +16,7 @@ class SampleDataInitializer {
   SampleDataInitializer._internal();
 
   // [初期データ：顧客]
-  static final List<Customer> _initialCustomers = [
+  static final List<Customer> _initCustomers = [
     Customer(
       id: 1,
       name: 'カスタマーA',
@@ -44,14 +41,14 @@ class SampleDataInitializer {
   ];
 
   // [初期データ：従業員]
-  static final List<Employee> _initialEmployees = [
+  static final List<Employee> _initEmployees = [
     Employee(id: 1, name: 'スタッフA'),
     Employee(id: 2, name: 'スタッフB'),
     Employee(id: 3, name: 'スタッフC'),
   ];
 
   // [初期データ：メニューカテゴリ]
-  static final List<MenuCategory> _initialMenuCategories = [
+  static final List<MenuCategory> _initMenuCategories = [
     MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value),
     MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value),
     MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value),
@@ -61,7 +58,7 @@ class SampleDataInitializer {
   ];
 
   // [初期データ：メニュー]
-  static final List<Menu> _initialMenus = [
+  static final List<Menu> _initMenus = [
     Menu(
       id: 1,
       name: 'メニュー1',
@@ -164,61 +161,38 @@ class SampleDataInitializer {
   initialize(BuildContext context) async {
     print('--- sample data init start ...');
 
+    if (_isInitialized) {
+      print('--- already initialized.');
+      return;
+    }
+
+    //TODO 顧客ViewModelの取得
+
     // 従業員ViewModelの取得
     final employeeViewModel =
         Provider.of<EmployeeViewModel>(context, listen: false);
 
+    //TODO メニューカテゴリViewModelの取得
+
+    //TODO メニューViewModelの取得
+
     try {
-      // [Customersテーブルの初期化]
-//      var nowCustomersData = await dao.getCustomers();
-//      if (nowCustomersData.isEmpty) {
-//        print('  ...Customers is Empty.');
-//        await dao.addAllCustomers(_initialCustomers);
-//        print('  ...Customers init ok.');
-//      } else {
-//        print('  ...Customers is Not Empty.');
-//        print(
-//            '  current Customers state : [${nowCustomersData.length}] data exist.');
-//      }
+      //TODO [Customersテーブルの初期化]
 
       // [Employeesテーブルの初期化]
-      var nowEmployeesData = employeeViewModel.employees;
-      if (nowEmployeesData.isEmpty) {
-        print('  ...Employees is Empty.');
-        await employeeViewModel.addAllEmployee(_initialEmployees);
-        print('  ...Employees init ok.');
-      } else {
-        print('  ...Employees is Not Empty.');
-        print(
-            '  current Employees state : [${nowEmployeesData.length}] data exist.');
-      }
+      await employeeViewModel.addAllEmployee(_initEmployees);
+      print('  ...Employees init ok. : ${_initEmployees.length} data');
 
-      // [MenuCategoriesテーブルの初期化]
-//      var nowMenuCategoriesData = await dao.allMenuCategories;
-//      if (nowMenuCategoriesData.isEmpty) {
-//        print('  ...MenuCategories is Empty.');
-//        await dao.addAllMenuCategories(_initialMenuCategories);
-//        print('  ...MenuCategories init ok.');
-//
-//        // [Menusテーブルの初期化]
-//        // (カテゴリIDの重複を避けるためカテゴリメニュー初期化実行時のみ実行)
-//        var nowMenusData = await dao.allMenus;
-//        if (nowMenusData.isEmpty) {
-//          print('  ...Menus is Empty.');
-//          await dao.addAllMenus(_initialMenus);
-//          print('  ...Menus init ok.');
-//        } else {
-//          print('  ...Menus is Not Empty.');
-//          print('  current Menus state : [${nowMenusData.length}] data exist.');
-//        }
-//      } else {
-//        print('  ...MenuCategories is Not Empty.');
-//        print(
-//            '  current MenuCategories state : [${nowMenuCategoriesData.length}] data exist.');
-//        print('  ...Menus init canceled.');
-//      }
-//
-//      print('--- sample data init completed.');
+      //TODO [MenuCategoriesテーブルの初期化]
+
+      //TODO [Menusテーブルの初期化]
+
+      _isInitialized = true;
+
+      print('  [not init] Customers: ${_initCustomers.length} data');
+      print('  [not init] MenuCategories: ${_initMenuCategories.length} data');
+      print('  [not init] Menus: ${_initMenus.length} data');
+      print('--- initialize finished.');
     } on SqliteException catch (e) {
       print('!!sample data init Exeption：$e');
     }

@@ -26,37 +26,50 @@ class MyRepository extends ChangeNotifier {
     print('MyRepostory.getEmployees :');
 
     _isLoading = true;
-
     notifyListeners();
 
     _employees = await _dao.allEmployees;
 
     _isLoading = false;
-
     notifyListeners();
   }
 
   // [追加：１件の従業員データを追加]
   addEmployee(Employee employee) async {
     print('MyRepostory.addEmployee :');
+
+    _isLoading = true;
+    notifyListeners();
+
     _employees = await _dao.addAndGetAllEmployees(employee);
 
+    _isLoading = false;
     notifyListeners();
   }
 
   // [追加：複数の従業員データを追加]
   addAllEmployee(List<Employee> employeeList) async {
     print('MyRepostory.addAllEmployee :');
+
+    _isLoading = true;
+    notifyListeners();
+
     _employees = await _dao.addAllAndGetAllEmployees(employeeList);
 
+    _isLoading = false;
     notifyListeners();
   }
 
   // [削除：１件の従業員データを削除]
   deleteEmployee(Employee employee) async {
     print('MyRepostory.deleteEmployee :');
+
+    _isLoading = true;
+    notifyListeners();
+
     _employees = await _dao.deleteAndGetAllEmployees(employee);
 
+    _isLoading = false;
     notifyListeners();
   }
 }
