@@ -13,6 +13,10 @@ class EmployeeSettingViewModel extends ChangeNotifier {
   List<Employee> _employees = List();
   List<Employee> get employees => _employees;
 
+  // [フィールド：読み込み状態]
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
+
   // [取得：従業員データの取得]
   Future<void> getEmployees() async {
     print('EmployeeSettingViewModel.getEmployees :');
@@ -23,6 +27,14 @@ class EmployeeSettingViewModel extends ChangeNotifier {
   addEmployee(Employee employee) async {
     print('EmployeeSettingViewModel.addEmployee :');
     _employees = await _repository.addEmployee(employee);
+
+    notifyListeners();
+  }
+
+  // [追加：複数の従業員データを追加]
+  addAllEmployee(List<Employee> employeeList) async {
+    print('EmployeeSettingViewModel.addAllEmployee :');
+    _employees = await _repository.addAllEmployee(employeeList);
 
     notifyListeners();
   }
@@ -39,6 +51,7 @@ class EmployeeSettingViewModel extends ChangeNotifier {
   onRepositoryUpdated(MyRepository repository) {
     print('EmployeeSettingViewModel.onRepositoryUpdated :');
     _employees = repository.employees;
+    _isLoading = repository.isLoading;
   }
 
   @override

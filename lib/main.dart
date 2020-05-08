@@ -10,22 +10,22 @@ import 'view/screens/home_screen.dart';
 MyDatabase database;
 
 void main() {
-  database = MyDatabase();
+//  database = MyDatabase();
   runApp(MultiProvider(
     providers: globalProviders,
     child: MyApp(),
   ));
-  // サンプルデータ初期化
-  WidgetsBinding.instance.addPostFrameCallback((_) async {
-    SampleDataInitializer().initialize();
-    Intl.defaultLocale = 'ja_JP';
-    await initializeDateFormatting('ja_JP');
-  });
 }
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    // サンプルデータ初期化
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      SampleDataInitializer().initialize(context);
+      Intl.defaultLocale = 'ja_JP';
+      await initializeDateFormatting('ja_JP');
+    });
     return MaterialApp(
       title: 'CustomerManagementApp',
       home: HomeScreen(),

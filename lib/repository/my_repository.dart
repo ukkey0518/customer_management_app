@@ -9,17 +9,29 @@ class MyRepository extends ChangeNotifier {
   // [定数フィールド：MyDao]
   final MyDao _dao;
 
-  // [priフィールド：従業員リスト]
-  List<Employee> _employees = List();
+  // [フィールド：読み込みステータス]
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
-  // [getter：_employees]
+  // [フィールド：従業員リスト]
+  List<Employee> _employees = List();
   List<Employee> get employees => _employees;
+
+  //
+  // -- Employees --------------------------------------------------------------
+  //
 
   // [取得：すべての従業員データを取得]
   getEmployees() async {
     print('MyRepostory.getEmployees :');
 
+    _isLoading = true;
+
+    notifyListeners();
+
     _employees = await _dao.allEmployees;
+
+    _isLoading = false;
 
     notifyListeners();
   }
@@ -28,6 +40,14 @@ class MyRepository extends ChangeNotifier {
   addEmployee(Employee employee) async {
     print('MyRepostory.addEmployee :');
     _employees = await _dao.addAndGetAllEmployees(employee);
+
+    notifyListeners();
+  }
+
+  // [追加：複数の従業員データを追加]
+  addAllEmployee(List<Employee> employeeList) async {
+    print('MyRepostory.addAllEmployee :');
+    _employees = await _dao.addAllAndGetAllEmployees(employeeList);
 
     notifyListeners();
   }
