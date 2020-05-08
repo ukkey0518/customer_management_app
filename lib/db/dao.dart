@@ -222,7 +222,7 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   }
 
   // 一括処理( 削除 )：１件削除 -> 全取得]
-  Future<List<MenuCategory>> deleteAndGetAllMenuCategories(
+  Future<List<MenuCategory>> deleteAndGetAllMenuCategory(
       MenuCategory menuCategory) {
     return transaction(() async {
       await deleteMenuCategory(menuCategory);

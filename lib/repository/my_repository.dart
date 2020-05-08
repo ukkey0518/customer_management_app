@@ -22,6 +22,10 @@ class MyRepository extends ChangeNotifier {
   List<Employee> _employees = List();
   List<Employee> get employees => _employees;
 
+  // [フィールド：メニューカテゴリリスト]
+  List<MenuCategory> _menuCategories = List();
+  List<MenuCategory> get menuCategories => _menuCategories;
+
   //
   // --  Customers -------------------------------------------------------------
   //
@@ -144,6 +148,62 @@ class MyRepository extends ChangeNotifier {
     notifyListeners();
 
     _employees = await _dao.deleteAndGetAllEmployees(employee);
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  //
+  // -- MenuCategories ---------------------------------------------------------
+  //
+
+  // [取得：すべてのメニューカテゴリデータを取得]
+  getMenuCategories() async {
+    print('MyRepository.getMenuCategories :');
+
+    _isLoading = true;
+    notifyListeners();
+
+    _menuCategories = await _dao.allMenuCategories;
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  // [追加：１件のメニューカテゴリデータを追加]
+  addMenuCategory(MenuCategory menuCategory) async {
+    print('MyRepository.addMenuCategory :');
+
+    _isLoading = true;
+    notifyListeners();
+
+    _menuCategories = await _dao.addAndGetAllMenuCategories(menuCategory);
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  // [追加：複数のメニューカテゴリデータを追加]
+  addAllMenuCategories(List<MenuCategory> menuCategoryList) async {
+    print('MyRepository.addAllMenuCategories :');
+
+    _isLoading = true;
+    notifyListeners();
+
+    await _dao.addAllAndGetAllMenuCategories(menuCategoryList);
+
+    _isLoading = false;
+    notifyListeners();
+  }
+
+  // [削除：１件のメニューカテゴリデータを削除]
+  deleteMenuCategory(MenuCategory menuCategory) async {
+    print('MyRepository.deleteMenuCategory :');
+
+    _isLoading = true;
+    notifyListeners();
+
+    await _dao.deleteAndGetAllMenuCategory(menuCategory);
 
     _isLoading = false;
     notifyListeners();
