@@ -1,6 +1,5 @@
+import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/viewmodel/customer_view_model.dart';
-import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
 import 'package:provider/provider.dart';
@@ -167,30 +166,21 @@ class SampleDataInitializer {
       return;
     }
 
-    //TODO 顧客ViewModelの取得
-    final customerViewModel =
-        Provider.of<CustomerViewModel>(context, listen: false);
-
-    // 従業員ViewModelの取得
-    final employeeViewModel =
-        Provider.of<EmployeeViewModel>(context, listen: false);
-
-    //TODO メニューカテゴリViewModelの取得
-
-    //TODO メニューViewModelの取得
+    // MyDaoの取得
+    final dao = Provider.of<MyDao>(context,listen: false);
 
     try {
-      //TODO [Customersテーブルの初期化]
-      await customerViewModel.addAllCustomers(_initCustomers);
+      //Customersテーブルの初期化
+      await dao.addAllCustomers(_initCustomers);
       print('  ...Customers init ok. : ${_initCustomers.length} data');
 
-      // [Employeesテーブルの初期化]
-      await employeeViewModel.addAllEmployee(_initEmployees);
+      // Employeesテーブルの初期化
+      await dao.addAllEmployees(_initEmployees);
       print('  ...Employees init ok. : ${_initEmployees.length} data');
 
-      //TODO [MenuCategoriesテーブルの初期化]
+      //TODO MenuCategoriesテーブルの初期化
 
-      //TODO [Menusテーブルの初期化]
+      //TODO Menusテーブルの初期化
 
       _isInitialized = true;
 

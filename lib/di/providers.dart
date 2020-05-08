@@ -1,7 +1,6 @@
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repository/my_repository.dart';
-import 'package:customermanagementapp/viewmodel/customer_view_model.dart';
 import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -34,14 +33,6 @@ List<SingleChildWidget> dependentModels = [
 ];
 
 List<SingleChildWidget> viewModels = [
-  // CustomerViewModel
-  ChangeNotifierProxyProvider<MyRepository, CustomerViewModel>(
-    create: (context) => CustomerViewModel(
-      repository: Provider.of<MyRepository>(context, listen: false),
-    ),
-    update: (_, repository, viewModel) =>
-        viewModel..onRepositoryUpdated(repository),
-  ),
   // EmployeeViewModel
   ChangeNotifierProxyProvider<MyRepository, EmployeeViewModel>(
     create: (context) => EmployeeViewModel(
