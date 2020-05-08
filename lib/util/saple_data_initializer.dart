@@ -167,7 +167,7 @@ class SampleDataInitializer {
     }
 
     // MyDaoの取得
-    final dao = Provider.of<MyDao>(context,listen: false);
+    final dao = Provider.of<MyDao>(context, listen: false);
 
     try {
       //Customersテーブルの初期化
