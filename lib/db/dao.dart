@@ -25,7 +25,7 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   //
 
   // [一括処理( 追加 )：１件追加 -> 全取得]
-  Future<List<Customer>> addOneAndGetAllCustomers(
+  Future<List<Customer>> addAndGetAllCustomers(
     Customer customer, {
     CustomerNarrowState narrowState,
     CustomerSortState sortState,
@@ -49,7 +49,7 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   }
 
   // [一括処理( 削除 )：１件削除 -> 全取得]
-  Future<List<Customer>> deleteOneAndGetAllCustomers(Customer customer,
+  Future<List<Customer>> deleteAndGetAllCustomers(Customer customer,
       {CustomerNarrowState narrowState, CustomerSortState sortState}) {
     return transaction(() async {
       await deleteCustomer(customer);
