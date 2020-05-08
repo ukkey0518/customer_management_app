@@ -2,7 +2,7 @@ import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_state.dart';
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
@@ -31,7 +31,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   VisitHistorySortState _sortState = VisitHistorySortState.REGISTER_OLD;
   String _sortDropdownSelectedValue = '';
 
-  final dao = MyDao(database);
+  final visitHistoryDao = VisitHistoryDao(database);
 
   @override
   void initState() {
@@ -54,7 +54,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
     _sortDropdownSelectedValue = visitHistorySortStateMap[_sortState];
 
     // 条件を反映させた来店履歴リストをDBから取得
-    _visitHistoriesList = await dao.getVisitHistories(
+    _visitHistoriesList = await visitHistoryDao.getVisitHistories(
         narrowData: _narrowData, sortState: _sortState);
 
     setState(() {});
@@ -109,7 +109,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   // [コールバック：リストアイテム長押し時]
   // ・リスト＆DBからデータを削除
   _deleteVisitHistory(VisitHistory visitHistory) async {
-    await dao.deleteVisitHistory(visitHistory);
+    await visitHistoryDao.deleteVisitHistory(visitHistory);
     Toast.show('削除しました。', context);
     _reloadVisitHistoryList();
   }

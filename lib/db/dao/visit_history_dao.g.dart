@@ -1,15 +1,11 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'dao.dart';
+part of 'visit_history_dao.dart';
 
 // **************************************************************************
 // DaoGenerator
 // **************************************************************************
 
-mixin _$MyDaoMixin on DatabaseAccessor<MyDatabase> {
-  $CustomersTable get customers => db.customers;
-  $EmployeesTable get employees => db.employees;
-  $MenuCategoriesTable get menuCategories => db.menuCategories;
-  $MenusTable get menus => db.menus;
+mixin _$VisitHistoryDaoMixin on DatabaseAccessor<MyDatabase> {
   $VisitHistoriesTable get visitHistories => db.visitHistories;
 }

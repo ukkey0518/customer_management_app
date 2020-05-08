@@ -1,7 +1,8 @@
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/customer_dao.dart';
+import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/main.dart';
@@ -33,7 +34,8 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   String _narrowDropdownSelectedValue = '';
   String _sortDropdownSelectedValue = '';
 
-  final dao = MyDao(database);
+  final customerDao = CustomerDao(database);
+  final visitHistoryDao = VisitHistoryDao(database);
 
   @override
   void initState() {
@@ -58,11 +60,11 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
     _sortDropdownSelectedValue = customerSortStateMap[_sortState];
 
     // DB取得処理
-    _customersList = await dao.getCustomers(
+    _customersList = await customerDao.getCustomers(
         narrowState: _narrowState, sortState: _sortState);
 
     // 顧客別来店履歴リスト取得
-    _visitHistoriesByCustomers = await dao.getAllVisitHistoriesByCustomers();
+    _visitHistoriesByCustomers = await visitHistoryDao.getAllVisitHistoriesByCustomers();
 
     // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {
@@ -156,7 +158,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   // →選択した顧客情報の詳細ページへ遷移する
   _showCustomer(BuildContext context, Customer customer) async {
     final visitHistoriesByCustomer =
-        await dao.getVisitHistoriesByCustomer(customer);
+        await visitHistoryDao.getVisitHistoriesByCustomer(customer);
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
@@ -176,7 +178,7 @@ class _CustomersListScreenState extends State<CustomersListScreen> {
   // →長押ししたアイテムを削除する
   _deleteCustomer(BuildContext context, Customer customer) async {
     // DBから指定のCustomerを削除
-    await dao.deleteCustomer(customer);
+    await customerDao.deleteCustomer(customer);
     // 現在の条件でリストを更新
     _reloadCustomersList();
     // トースト表示

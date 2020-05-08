@@ -1,4 +1,5 @@
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
+import 'package:customermanagementapp/db/dao/menu_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_edit_dialog.dart';
@@ -32,7 +33,9 @@ class MenusByCategory {
 class _MenuSettingScreenState extends State<MenuSettingScreen> {
   List<MenusByCategory> _menusByCategories = List();
 
-  final dao = MyDao(database);
+  final menuCategoryDao = MenuCategoryDao(database);
+  final menuDao = MenuDao(database);
+
 
   @override
   void initState() {
@@ -43,9 +46,9 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
   // [更新：カテゴリ別メニュー達のリストを更新]
   _reloadMenusByCategoriesList() async {
     // DBからメニューカテゴリをすべて取得
-    var menuCategoriesList = await dao.allMenuCategories;
+    var menuCategoriesList = await menuCategoryDao.allMenuCategories;
     // DBからメニューをすべて取得
-    var menusList = await dao.allMenus;
+    var menusList = await menuDao.allMenus;
     // メニューカテゴリ別にメニューをまとめてリスト化
     var newMenusByCategoriesList = menuCategoriesList.map<MenusByCategory>(
       (category) {
@@ -114,7 +117,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
     ).then(
       (menu) async {
         if (menu != null) {
-          await dao.addMenu(menu);
+          await menuDao.addMenu(menu);
         }
         _reloadMenusByCategoriesList();
       },
@@ -123,7 +126,7 @@ class _MenuSettingScreenState extends State<MenuSettingScreen> {
 
   // [コールバック：メニューリストパネル長押し時]
   _deleteMenuTile(Menu menu) async {
-    await dao.deleteMenu(menu);
+    await menuDao.deleteMenu(menu);
     _reloadMenusByCategoriesList();
   }
 

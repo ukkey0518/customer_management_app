@@ -1,4 +1,5 @@
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
+import 'package:customermanagementapp/db/dao/menu_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_category_edit_dialog.dart';
@@ -18,7 +19,8 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   List<MenuCategory> _menuCategoriesList;
   List<Menu> _menus;
 
-  final dao = MyDao(database);
+  final menuCategoryDao = MenuCategoryDao(database);
+  final menuDao = MenuDao(database);
 
   @override
   void initState() {
@@ -29,12 +31,12 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
 
   // [更新：DBからメニューカテゴリを取得してリストに反映する処理]
   _reloadMenuCategories() async {
-    _menuCategoriesList = await dao.allMenuCategories;
+    _menuCategoriesList = await menuCategoryDao.allMenuCategories;
     _menuCategoriesList.forEach(
       (category) => print('${category.id} : ${category.name}'),
     );
     print('');
-    _menus = await dao.allMenus;
+    _menus = await menuDao.allMenus;
     setState(() {});
   }
 
@@ -70,7 +72,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
     ).then(
       (category) async {
         if (category != null) {
-          await dao.addMenuCategory(category);
+          await menuCategoryDao.addMenuCategory(category);
           _reloadMenuCategories();
         }
       },
@@ -86,7 +88,7 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
         menu.menuCategoryJson.toMenuCategory().id == deleteMenuCategory.id)) {
       Toast.show('カテゴリ内にメニューが存在するため削除できません。', context);
     } else {
-      await dao.deleteMenuCategory(deleteMenuCategory);
+      await menuCategoryDao.deleteMenuCategory(deleteMenuCategory);
       Toast.show('削除しました', context);
     }
     _reloadMenuCategories();

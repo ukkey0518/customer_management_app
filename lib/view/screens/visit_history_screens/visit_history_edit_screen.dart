@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/employee_dao.dart';
+import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/icon_button_to_switch.dart';
@@ -45,7 +46,8 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
   String _employeeErrorText;
   String _menuErrorText;
 
-  final dao = MyDao(database);
+  final employeeDao = EmployeeDao(database);
+  final visitHistoryDao = VisitHistoryDao(database);
 
   @override
   void initState() {
@@ -67,7 +69,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       _selectedEmployee = widget.visitHistory.employeeJson.toEmployee();
       _menus = widget.visitHistory.menuListJson.toMenuList();
     }
-    _employees = await dao.allEmployees;
+    _employees = await employeeDao.allEmployees;
     setState(() {});
   }
 
@@ -123,7 +125,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       menuListJson: _menus.toJsonString(),
     );
     // DB挿入
-    await dao.addVisitHistory(visitHistory);
+    await visitHistoryDao.addVisitHistory(visitHistory);
     // 完了メッセージ表示
     Toast.show('保存しました。', context);
     // 閲覧モードにする

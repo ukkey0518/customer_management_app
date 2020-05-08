@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/customer_dao.dart';
+import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
@@ -55,7 +56,8 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
   String _nameReadingFieldErrorText;
 
   // [定数フィールド：DAO]
-  final MyDao dao = MyDao(database);
+  final customerDao = CustomerDao(database);
+  final visitHistoryDao = VisitHistoryDao(database);
 
   @override
   void initState() {
@@ -196,7 +198,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
     );
 
     // DBに新規登録
-    await dao.addCustomer(_editedCustomer);
+    await customerDao.addCustomer(_editedCustomer);
 
     // メッセージを表示
     Toast.show(_completeMessage, context);
@@ -213,7 +215,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
       widgetBuilder = (context) => CustomersListScreen(pref: widget.pref);
     } else {
       final visitHistoriesByCustomer =
-          await dao.getVisitHistoriesByCustomer(_editedCustomer);
+          await visitHistoryDao.getVisitHistoriesByCustomer(_editedCustomer);
       widgetBuilder = (context) => CustomerInformationScreen(
             widget.pref,
             historiesByCustomer: visitHistoriesByCustomer,

@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/customer_dao.dart';
+import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/main.dart';
@@ -25,7 +26,8 @@ class _CustomersSelectScreenState extends State<CustomerSelectScreen> {
   String _narrowDropdownSelectedValue = '';
   String _sortDropdownSelectedValue = '';
 
-  final dao = MyDao(database);
+  final customerDao = CustomerDao(database);
+  final visitHistoryDao = VisitHistoryDao(database);
 
   @override
   void initState() {
@@ -72,11 +74,11 @@ class _CustomersSelectScreenState extends State<CustomerSelectScreen> {
     }
 
     // DB取得処理
-    _customersList = await dao.getCustomers(
+    _customersList = await customerDao.getCustomers(
         narrowState: _narrowState, sortState: _sortState);
 
     // 顧客別来店履歴リスト取得
-    _visitHistoriesByCustomers = await dao.getAllVisitHistoriesByCustomers();
+    _visitHistoriesByCustomers = await visitHistoryDao.getAllVisitHistoriesByCustomers();
 
     // 検索条件
     if (_searchNameFieldController.text.isNotEmpty) {

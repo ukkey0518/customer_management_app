@@ -1,4 +1,5 @@
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/customer_dao.dart';
+import 'package:customermanagementapp/db/dao/employee_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
@@ -166,16 +167,19 @@ class SampleDataInitializer {
       return;
     }
 
-    // MyDaoの取得
-    final dao = Provider.of<MyDao>(context, listen: false);
+    // CustomerDaoの取得
+    final customerDao = Provider.of<CustomerDao>(context, listen: false);
+
+    // EmployeeDaoの取得
+    final employeeDao = Provider.of<EmployeeDao>(context,listen: false);
 
     try {
       //Customersテーブルの初期化
-      await dao.addAllCustomers(_initCustomers);
+      await customerDao.addAllCustomers(_initCustomers);
       print('  ...Customers init ok. : ${_initCustomers.length} data');
 
       // Employeesテーブルの初期化
-      await dao.addAllEmployees(_initEmployees);
+      await employeeDao.addAllEmployees(_initEmployees);
       print('  ...Employees init ok. : ${_initEmployees.length} data');
 
       //TODO MenuCategoriesテーブルの初期化

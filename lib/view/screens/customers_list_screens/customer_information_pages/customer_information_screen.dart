@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
@@ -31,7 +31,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
     Tab(text: '来店履歴', icon: Icon(Icons.shopping_cart)),
   ];
 
-  final dao = MyDao(database);
+  final dao = CustomerDao(database);
 
   @override
   void initState() {

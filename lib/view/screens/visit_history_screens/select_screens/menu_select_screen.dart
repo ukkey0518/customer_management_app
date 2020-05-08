@@ -1,4 +1,5 @@
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
+import 'package:customermanagementapp/db/dao/menu_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_setting_screen.dart';
 import 'package:customermanagementapp/util/extensions.dart';
@@ -21,7 +22,8 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
   List<Menu> _selectedMenus = List();
   List<MenuCategory> _categories = List();
 
-  final dao = MyDao(database);
+  final menuCategoryDao = MenuCategoryDao(database);
+  final menuDao = MenuDao(database);
 
   @override
   void initState() {
@@ -33,9 +35,9 @@ class _MenuSelectScreenState extends State<MenuSelectScreen> {
   // [更新：カテゴリ別メニュー達のリストを更新]
   _reloadMenusByCategoriesList() async {
     // DBからメニューカテゴリをすべて取得
-    _categories = await dao.allMenuCategories;
+    _categories = await menuCategoryDao.allMenuCategories;
     // DBからメニューをすべて取得
-    var menusList = await dao.allMenus;
+    var menusList = await menuDao.allMenus;
     // メニューカテゴリ別にメニューをまとめてリスト化
     var newMenusByCategoriesList = _categories.map<MenusByCategory>(
       (category) {

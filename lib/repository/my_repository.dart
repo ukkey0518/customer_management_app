@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/data/list_status.dart';
-import 'package:customermanagementapp/db/dao.dart';
+import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
 
@@ -8,7 +8,7 @@ class MyRepository extends ChangeNotifier {
   MyRepository({dao}) : _dao = dao;
 
   // [定数フィールド：MyDao]
-  final MyDao _dao;
+  final CustomerDao _dao;
 
   // [フィールド：読み込みステータス]
   bool _isLoading = false;
