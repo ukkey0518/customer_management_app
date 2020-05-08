@@ -35,7 +35,7 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
     });
   }
 
-  // [取得：条件付きで取得]
+  // [取得：条件付き]
   Future<List<Customer>> getCustomers({
     CustomerNarrowState narrowState = CustomerNarrowState.ALL,
     CustomerSortState sortState = CustomerSortState.REGISTER_OLD,
@@ -134,7 +134,25 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   //
   //
 
-  // [一括処理：１件追加＆全取得]
+  // [追加：１件]
+  Future<int> addEmployee(Employee employee) =>
+      into(employees).insert(employee, mode: InsertMode.replace);
+
+  // [追加：複数]
+  Future<void> addAllEmployees(List<Employee> employeesList) async {
+    await batch((batch) {
+      batch.insertAll(employees, employeesList);
+    });
+  }
+
+  // [取得：すべて]
+  Future<List<Employee>> get allEmployees => select(employees).get();
+
+  // [削除：１件]
+  Future deleteEmployee(Employee employee) =>
+      (delete(employees)..where((t) => t.id.equals(employee.id))).go();
+
+  // [一括処理( 追加 )：１件追加 -> 全取得]
   Future<List<Employee>> addAndGetAllEmployees(Employee employee) {
     return transaction(() async {
       await addEmployee(employee);
@@ -142,7 +160,7 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
     });
   }
 
-  // [一括処理：複数追加＆全取得]
+  // [一括処理( 追加 )：複数追加 -> 全取得]
   Future<List<Employee>> addAllAndGetAllEmployees(
       List<Employee> employeesList) {
     return transaction(() async {
@@ -151,7 +169,7 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
     });
   }
 
-  // [一括処理：１件削除＆全取得]
+  // [一括処理( 削除 )：１件削除 -> 全取得]
   Future<List<Employee>> deleteAndGetAllEmployees(Employee employee) {
     return transaction(() async {
       await deleteEmployee(employee);
@@ -159,45 +177,17 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
     });
   }
 
-  // [追加：１件分のスタッフデータを追加]
-  Future<int> addEmployee(Employee employee) =>
-      into(employees).insert(employee, mode: InsertMode.replace);
-
-  // [追加：渡されたデータをすべて追加]
-  Future<void> addAllEmployees(List<Employee> employeesList) async {
-    await batch((batch) {
-      batch.insertAll(employees, employeesList);
-    });
-  }
-
-  // [取得：すべてのスタッフデータを取得]
-  Future<List<Employee>> get allEmployees => select(employees).get();
-
-  // 未使用 [取得：IDからスタッフデータを取得]
-  Future<Employee> getEmployeeById(int employeeId) {
-    return (select(employees)..where((t) => t.id.equals(employeeId)))
-        .getSingle();
-  }
-
-  // 未使用 [更新：１件分のスタッフデータを更新]
-  Future updateEmployee(Employee employee) =>
-      update(employees).replace(employee);
-
-  // [削除：１件分のスタッフデータを削除]
-  Future deleteEmployee(Employee employee) =>
-      (delete(employees)..where((t) => t.id.equals(employee.id))).go();
-
   //
   //
   // -- MenuCategories：メニューカテゴリ ------------------------------------------
   //
   //
 
-  // [追加：１件分のメニューカテゴリを追加]
+  // [追加：１件]
   Future<int> addMenuCategory(MenuCategory menuCategory) =>
       into(menuCategories).insert(menuCategory, mode: InsertMode.replace);
 
-  // [追加：渡されたデータをすべて追加]
+  // [追加：複数]
   Future<void> addAllMenuCategories(
       List<MenuCategory> menuCategoriesList) async {
     await batch((batch) {
@@ -205,17 +195,40 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
     });
   }
 
-  // [取得：すべてのメニューカテゴリを取得]
+  // [取得：すべて]
   Future<List<MenuCategory>> get allMenuCategories =>
       select(menuCategories).get();
 
-  // [更新：１件分のメニューカテゴリを更新]
-  Future updateMenuCategory(MenuCategory menuCategory) =>
-      update(menuCategories).replace(menuCategory);
-
-  // [削除：１件分のメニューカテゴリを削除]
+  // [削除：１件]
   Future deleteMenuCategory(MenuCategory menuCategory) =>
       (delete(menuCategories)..where((t) => t.id.equals(menuCategory.id))).go();
+
+  // 一括処理( 追加 )：１件追加 -> 全取得]
+  Future<List<MenuCategory>> addAndGetAllMenuCategories(
+      MenuCategory menuCategory) {
+    return transaction(() async {
+      await addMenuCategory(menuCategory);
+      return await allMenuCategories;
+    });
+  }
+
+  // 一括処理( 追加 )：複数追加 -> 全取得]
+  Future<List<MenuCategory>> addAllAndGetAllMenuCategories(
+      List<MenuCategory> menuCategoryList) {
+    return transaction(() async {
+      await addAllMenuCategories(menuCategoryList);
+      return await allMenuCategories;
+    });
+  }
+
+  // 一括処理( 削除 )：１件削除 -> 全取得]
+  Future<List<MenuCategory>> deleteAndGetAllMenuCategories(
+      MenuCategory menuCategory) {
+    return transaction(() async {
+      await deleteMenuCategory(menuCategory);
+      return await allMenuCategories;
+    });
+  }
 
   //
   //
