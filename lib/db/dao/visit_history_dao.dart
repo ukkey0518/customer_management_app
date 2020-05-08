@@ -12,9 +12,20 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
     with _$VisitHistoryDaoMixin {
   VisitHistoryDao(MyDatabase db) : super(db);
 
+  //
+  // -- アセンブリ処理 -----------------------------------------------------------
+  //
+
   // [追加：１件分の来店履歴]
   Future<int> addVisitHistory(VisitHistory visitHistory) =>
       into(visitHistories).insert(visitHistory, orReplace: true);
+
+  // [追加：複数の来店履歴]
+  Future<int> addAllVisitHistory(List<VisitHistory> visitHistoryList) {
+    return batch((batch) {
+      batch.insertAll(visitHistories, visitHistoryList);
+    });
+  }
 
   // [取得：条件に一致した来店履歴を取得]
   Future<List<VisitHistory>> getVisitHistories({
@@ -33,52 +44,54 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
     });
   }
 
-  // [取得：指定した顧客の来店履歴を取得]
-  Future<VisitHistoriesByCustomer> getVisitHistoriesByCustomer(
-      Customer customer) {
-    return transaction(() async {
-      final histories = await (select(visitHistories)
-            ..where(
-              (t) => t.customerJson.equals(
-                customer.toJsonString(),
-              ),
-            ))
-          .get();
-      return VisitHistoriesByCustomer(customer: customer, histories: histories);
-    });
-  }
-
-  // [取得：顧客別の来店履歴をすべて取得]
-  Future<List<VisitHistoriesByCustomer>> getAllVisitHistoriesByCustomers() {
-//    return transaction(() async {
-//      final customers = await getCustomers();
-//      final visitHistories = await getVisitHistories();
-//      List<VisitHistoriesByCustomer> visitHistoriesByCustomers = List();
-//
-//      customers.forEach((customer) {
-//        final historiesByCustomer = visitHistories.where((history) {
-//          final customerOfVisitHistory = history.customerJson.toCustomer();
-//          return customerOfVisitHistory.id == customer.id;
-//        }).toList();
-//        visitHistoriesByCustomers.add(VisitHistoriesByCustomer(
-//          customer: customer,
-//          histories: historiesByCustomer,
-//        ));
-//      });
-//
-//      return Future.value(visitHistoriesByCustomers);
-//    });
-  }
-
   // [取得：指定した日付の来店履歴を取得]
   Future<List<VisitHistory>> getVisitHistoriesByDay(DateTime date) =>
       (select(visitHistories)..where((t) => t.date.equals(date))).get();
 
-  // [更新：１件分の来店履歴を更新]
-  Future updateVisitHistory(VisitHistory visitHistory) =>
-      update(visitHistories).replace(visitHistory);
-
   // [削除：１件分の来店履歴を削除]
   Future deleteVisitHistory(VisitHistory visitHistory) =>
       (delete(visitHistories)..where((t) => t.id.equals(visitHistory.id))).go();
+
+  //
+  // -- トランザクション処理 ------------------------------------------------------
+  //
+
+  // [一括処理( 追加 )：１件追加 -> 全取得]
+  Future<List<VisitHistory>> addAndGetAllVisitHistories(
+    VisitHistory visitHistory, {
+    VisitHistoryNarrowData narrowData,
+    VisitHistorySortState sortState,
+  }) {
+    return transaction(() async {
+      await addVisitHistory(visitHistory);
+      return await getVisitHistories(
+          narrowData: narrowData, sortState: sortState);
+    });
+  }
+
+  // [一括処理( 追加 )：複数追加 -> 全取得]
+  Future<List<VisitHistory>> addAllAndGetAllVisitHistories(
+    List<VisitHistory> visitHistoryList, {
+    VisitHistoryNarrowData narrowData,
+    VisitHistorySortState sortState,
+  }) {
+    return transaction(() async {
+      await addAllVisitHistory(visitHistoryList);
+      return await getVisitHistories(
+          narrowData: narrowData, sortState: sortState);
+    });
+  }
+
+  // [一括処理( 削除 )：１件削除 -> 全取得]
+  Future<List<VisitHistory>> deleteAndGetAllVisitHistories(
+    VisitHistory visitHistory, {
+    VisitHistoryNarrowData narrowData,
+    VisitHistorySortState sortState,
+  }) {
+    return transaction(() async {
+      await deleteVisitHistory(visitHistory);
+      return await getVisitHistories(
+          narrowData: narrowData, sortState: sortState);
+    });
+  }
 }

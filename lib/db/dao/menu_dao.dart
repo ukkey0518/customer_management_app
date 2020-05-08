@@ -16,17 +16,14 @@ class MenuDao extends DatabaseAccessor<MyDatabase> with _$MenuDaoMixin {
       into(menus).insert(menu, mode: InsertMode.replace);
 
   // [追加：渡されたデータをすべて追加]
-  Future<void> addAllMenus(List<Menu> menusList) async {
+  Future<void> addAllMenus(List<Menu> menuList) async {
     await batch((batch) {
-      batch.insertAll(menus, menusList);
+      batch.insertAll(menus, menuList);
     });
   }
 
   // [取得：すべてのメニューを取得]
   Future<List<Menu>> get allMenus => select(menus).get();
-
-  // [更新：１件分のメニューを更新]
-  Future updateMenu(Menu menu) => update(menus).replace(menu);
 
   // [削除：１件分のメニューを削除]
   Future deleteMenu(Menu menu) =>
@@ -35,4 +32,28 @@ class MenuDao extends DatabaseAccessor<MyDatabase> with _$MenuDaoMixin {
   //
   // -- トランザクション処理 ------------------------------------------------------
   //
+
+  // [一括処理：１件追加 -> 全取得]
+  Future<List<Menu>> addAndGetAllMenus(Menu menu) {
+    return transaction(() async {
+      await addMenu(menu);
+      return allMenus;
+    });
+  }
+
+  // [一括処理：複数追加 -> 全取得]
+  Future<List<Menu>> addAllAndGetAllMenus(List<Menu> menuList) {
+    return transaction(() async {
+      await addAllMenus(menuList);
+      return await allMenus;
+    });
+  }
+
+  // [一括処理：１件削除 -> 全取得]
+  Future<List<Menu>> deleteAndGetAllMenus(Menu menu) {
+    return transaction(() async {
+      await deleteMenu(menu);
+      return await allMenus;
+    });
+  }
 }

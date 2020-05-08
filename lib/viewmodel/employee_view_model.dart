@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/repository/my_repository.dart';
+import 'package:customermanagementapp/repositories/employee_repository.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmployeeViewModel extends ChangeNotifier {
@@ -7,7 +7,7 @@ class EmployeeViewModel extends ChangeNotifier {
   EmployeeViewModel({repository}) : _repository = repository;
 
   // [定数フィールド：MyRepository]
-  final MyRepository _repository;
+  final EmployeeRepository _repository;
 
   // [フィールド：従業員データ]
   List<Employee> _employees = List();
@@ -42,7 +42,7 @@ class EmployeeViewModel extends ChangeNotifier {
   }
 
   // [更新：MyRepositoryの変更があったときに呼ばれる]
-  onRepositoryUpdated(MyRepository repository) {
+  onRepositoryUpdated(EmployeeRepository repository) {
     print('EmployeeViewModel.onRepositoryUpdated :');
     _employees = repository.employees;
     _isLoading = repository.isLoading;
