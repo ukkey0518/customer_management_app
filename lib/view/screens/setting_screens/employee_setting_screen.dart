@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/dialogs/employee_edit_dialog.dart';
 import 'package:customermanagementapp/view/components/list_items/employee_list_item.dart';
-import 'package:customermanagementapp/viewmodel/employee_setting_view_model.dart';
+import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,8 +10,7 @@ import 'package:toast/toast.dart';
 class EmployeeSettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final viewModel =
-        Provider.of<EmployeeSettingViewModel>(context, listen: false);
+    final viewModel = Provider.of<EmployeeViewModel>(context, listen: false);
 
     Future(
       () => viewModel.getEmployees(),
@@ -26,7 +25,7 @@ class EmployeeSettingScreen extends StatelessWidget {
         child: Icon(Icons.add),
         onPressed: () => _showEditEmployeeDialog(context),
       ),
-      body: Consumer<EmployeeSettingViewModel>(
+      body: Consumer<EmployeeViewModel>(
         builder: (context, viewModel, child) {
           return viewModel.isLoading
               ? Center(
@@ -51,8 +50,7 @@ class EmployeeSettingScreen extends StatelessWidget {
 
 // [コールバック：FAB・リストアイテムタップ時]
   _showEditEmployeeDialog(BuildContext context, [Employee employee]) {
-    var viewModel =
-        Provider.of<EmployeeSettingViewModel>(context, listen: false);
+    var viewModel = Provider.of<EmployeeViewModel>(context, listen: false);
 
     showDialog(
       context: context,
@@ -69,8 +67,7 @@ class EmployeeSettingScreen extends StatelessWidget {
 // [コールバック：リストアイテム長押し時]
 // ・従業員データを削除する
   _deleteEmployee(BuildContext context, Employee employee) async {
-    var viewModel =
-        Provider.of<EmployeeSettingViewModel>(context, listen: false);
+    var viewModel = Provider.of<EmployeeViewModel>(context, listen: false);
     await viewModel.deleteEmployee(employee);
     Toast.show('削除しました。', context);
   }

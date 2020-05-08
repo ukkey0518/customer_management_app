@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/db/dao.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/viewmodel/employee_setting_view_model.dart';
+import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 import 'package:moor_ffi/database.dart';
@@ -166,7 +166,7 @@ class SampleDataInitializer {
 
     // 従業員ViewModelの取得
     final employeeViewModel =
-        Provider.of<EmployeeSettingViewModel>(context, listen: false);
+        Provider.of<EmployeeViewModel>(context, listen: false);
 
     try {
       // [Customersテーブルの初期化]
