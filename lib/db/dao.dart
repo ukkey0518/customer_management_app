@@ -24,39 +24,6 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
   //
   //
 
-  // [一括処理( 追加 )：１件追加 -> 全取得]
-  Future<List<Customer>> addAndGetAllCustomers(
-    Customer customer, {
-    CustomerNarrowState narrowState,
-    CustomerSortState sortState,
-  }) {
-    return transaction(() async {
-      await addCustomer(customer);
-      return await getCustomers(
-        narrowState: narrowState,
-        sortState: sortState,
-      );
-    });
-  }
-
-  // [一括処理( 追加 ) : 複数追加 -> 全取得]
-  Future<List<Customer>> addAllAndGetAllCustomers(List<Customer> customersList,
-      {CustomerNarrowState narrowState, CustomerSortState sortState}) {
-    return transaction(() async {
-      await addAllCustomers(customersList);
-      return await getCustomers(narrowState: narrowState, sortState: sortState);
-    });
-  }
-
-  // [一括処理( 削除 )：１件削除 -> 全取得]
-  Future<List<Customer>> deleteAndGetAllCustomers(Customer customer,
-      {CustomerNarrowState narrowState, CustomerSortState sortState}) {
-    return transaction(() async {
-      await deleteCustomer(customer);
-      return await getCustomers(narrowState: narrowState, sortState: sortState);
-    });
-  }
-
   // [追加：１件]
   Future<int> addCustomer(Customer customer) =>
       into(customers).insert(customer, mode: InsertMode.replace);
@@ -121,16 +88,45 @@ class MyDao extends DatabaseAccessor<MyDatabase> with _$MyDaoMixin {
     return statement.get();
   }
 
-  // [取得：顧客名]
-  Future<Customer> getCustomersByName(String name) =>
-      (select(customers)..where((t) => t.name.equals(name))).getSingle();
-
   // [削除：１件]
   Future deleteCustomer(Customer customer) => (delete(customers)
         ..where(
           (t) => t.id.equals(customer.id),
         ))
       .go();
+
+  // [一括処理( 追加 )：１件追加 -> 全取得]
+  Future<List<Customer>> addAndGetAllCustomers(
+    Customer customer, {
+    CustomerNarrowState narrowState,
+    CustomerSortState sortState,
+  }) {
+    return transaction(() async {
+      await addCustomer(customer);
+      return await getCustomers(
+        narrowState: narrowState,
+        sortState: sortState,
+      );
+    });
+  }
+
+  // [一括処理( 追加 ) : 複数追加 -> 全取得]
+  Future<List<Customer>> addAllAndGetAllCustomers(List<Customer> customersList,
+      {CustomerNarrowState narrowState, CustomerSortState sortState}) {
+    return transaction(() async {
+      await addAllCustomers(customersList);
+      return await getCustomers(narrowState: narrowState, sortState: sortState);
+    });
+  }
+
+  // [一括処理( 削除 )：１件削除 -> 全取得]
+  Future<List<Customer>> deleteAndGetAllCustomers(Customer customer,
+      {CustomerNarrowState narrowState, CustomerSortState sortState}) {
+    return transaction(() async {
+      await deleteCustomer(customer);
+      return await getCustomers(narrowState: narrowState, sortState: sortState);
+    });
+  }
 
   //
   //

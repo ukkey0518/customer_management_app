@@ -175,11 +175,10 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
     _nameReadingFieldErrorText =
         _nameReadingController.text.isEmpty ? '必須入力です' : null;
 
-    // 重複チェック：
-    _nameFieldErrorText = widget.customer == null &&
-            await dao.getCustomersByName(_nameController.text) != null
-        ? '同名の顧客データが存在しています。'
-        : _nameFieldErrorText;
+    //TODO 重複チェック：
+//    _nameFieldErrorText = await dao.isNameDuplicated(_nameController.text)
+//        ? '同名の顧客データが存在しています。'
+//        : _nameFieldErrorText;
 
     // エラー時は画面を更新して戻る
     if (_nameFieldErrorText != null || _nameReadingFieldErrorText != null) {
