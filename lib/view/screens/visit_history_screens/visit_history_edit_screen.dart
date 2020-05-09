@@ -3,6 +3,7 @@ import 'package:customermanagementapp/db/dao/employee_dao.dart';
 import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/main.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 import 'package:customermanagementapp/view/components/icon_button_to_switch.dart';
 import 'package:customermanagementapp/view/components/contents_column_with_title.dart';
 import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
@@ -16,7 +17,7 @@ import 'package:customermanagementapp/view/components/input_widgets/menu_input_t
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_menu_list.dart';
 import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';

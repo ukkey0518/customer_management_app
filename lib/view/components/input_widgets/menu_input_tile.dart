@@ -1,7 +1,9 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_menu_list.dart';
 
 import '../my_divider.dart';
 

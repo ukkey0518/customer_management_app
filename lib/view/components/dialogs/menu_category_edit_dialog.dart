@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/color_select_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
 import 'package:customermanagementapp/view/components/input_widgets/text_input_field.dart';

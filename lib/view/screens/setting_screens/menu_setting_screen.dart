@@ -5,7 +5,8 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_edit_dialog.dart';
 import 'package:customermanagementapp/view/components/menu_expansion_panel_list.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_category_setting_screen.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 

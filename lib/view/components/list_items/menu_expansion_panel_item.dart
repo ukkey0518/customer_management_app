@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 import 'package:customermanagementapp/view/components/polymorphism/basic_list_view_item.dart';
 import 'package:flutter/material.dart';

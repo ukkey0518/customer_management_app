@@ -2,7 +2,7 @@ import 'package:customermanagementapp/data/data_classes/screen_preferences.dart'
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/main.dart';

@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
 import 'package:customermanagementapp/view/components/list_card_widgets/price_analysis_card_widget.dart';
 import 'package:customermanagementapp/view/components/list_card_widgets/profile_card_widget.dart';
 import 'package:customermanagementapp/view/components/list_card_widgets/repeat_analysis_card_widget.dart';

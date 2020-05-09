@@ -2,7 +2,7 @@ import 'package:customermanagementapp/data/date_format_mode.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 class DateInputTile extends InputWidget {
   DateInputTile({

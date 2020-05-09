@@ -4,7 +4,7 @@ import 'package:customermanagementapp/data/list_status.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/customer_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 class VisitHistoriesByCustomerRepository extends ChangeNotifier {

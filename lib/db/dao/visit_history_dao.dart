@@ -1,8 +1,7 @@
-import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_state.dart';
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
 import 'package:moor/moor.dart';
 
 part 'visit_history_dao.g.dart';
@@ -51,6 +50,7 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
   // [削除：１件分の来店履歴を削除]
   Future deleteVisitHistory(VisitHistory visitHistory) =>
       (delete(visitHistories)..where((t) => t.id.equals(visitHistory.id))).go();
+
   // [削除：すべての来店履歴を削除]
   Future deleteAllVisitHistories() => delete(visitHistories).go();
 

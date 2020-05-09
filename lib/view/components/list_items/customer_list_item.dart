@@ -1,7 +1,9 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/util/extensions.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
 import 'package:customermanagementapp/view/components/polymorphism/basic_list_view_item.dart';
 import 'package:flutter/material.dart';
+
 import '../customer_information_panel.dart';
 import '../customer_name_panel.dart';
 
