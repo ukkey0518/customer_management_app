@@ -1,4 +1,3 @@
-import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
@@ -13,9 +12,8 @@ import 'visit_record_page.dart';
 
 class CustomerInformationScreen extends StatefulWidget {
   final VisitHistoriesByCustomer historiesByCustomer;
-  final CustomerListScreenPreferences pref;
 
-  CustomerInformationScreen(this.pref, {this.historiesByCustomer});
+  CustomerInformationScreen({this.historiesByCustomer});
 
   @override
   _CustomerInformationScreenState createState() =>
@@ -24,7 +22,6 @@ class CustomerInformationScreen extends StatefulWidget {
 
 class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   VisitHistoriesByCustomer _visitHistoriesByCustomer;
-  CustomerListScreenPreferences _pref;
 
   final _tabs = <Tab>[
     Tab(text: '基本情報', icon: Icon(Icons.account_circle)),
@@ -37,7 +34,6 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
   void initState() {
     super.initState();
     _visitHistoriesByCustomer = widget.historiesByCustomer;
-    _pref = widget.pref;
   }
 
   @override
@@ -83,7 +79,6 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
       context,
       MyCustomRoute(
         builder: (context) => CustomerEditScreen(
-          _pref,
           List(),
           customer: customer,
         ),
@@ -96,7 +91,7 @@ class _CustomerInformationScreenState extends State<CustomerInformationScreen> {
     Navigator.pushReplacement(
       context,
       MyCustomRoute(
-        builder: (context) => CustomersListScreen(pref: widget.pref),
+        builder: (context) => CustomersListScreen(),
       ),
     );
     return Future.value(false);

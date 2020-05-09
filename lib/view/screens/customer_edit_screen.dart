@@ -1,6 +1,5 @@
 import 'package:customermanagementapp/data/gender_entry.dart';
 import 'package:customermanagementapp/data/input_field_style.dart';
-import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
@@ -12,9 +11,8 @@ import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_di
 import 'package:flutter/material.dart';
 
 class CustomerEditScreen extends StatefulWidget {
-  CustomerEditScreen(this.pref, this.customers, {this.customer});
+  CustomerEditScreen(this.customers, {this.customer});
 
-  final CustomerListScreenPreferences pref;
   final List<Customer> customers;
   final Customer customer;
 
@@ -173,11 +171,11 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
         builder: (_) => UnsavedConfirmDialog(),
       ).then((flag) {
         if (flag) {
-          Navigator.of(context).pop([widget.pref, _editedCustomer]);
+          Navigator.of(context).pop(_editedCustomer);
         }
       });
     } else {
-      Navigator.of(context).pop([widget.pref, _editedCustomer]);
+      Navigator.of(context).pop(_editedCustomer);
     }
     return Future.value(false);
   }

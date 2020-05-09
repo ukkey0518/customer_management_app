@@ -2,6 +2,7 @@ import 'package:customermanagementapp/data/data_classes/screen_preferences.dart'
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/data/list_status.dart';
+import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -65,6 +66,12 @@ class CustomersListViewModel extends ChangeNotifier {
 
     _visitHistoriesByCustomers =
         await _vhbcRep.getVisitHistoriesByCustomers(cPref: _pref);
+  }
+
+  // [追加；顧客データを追加]
+  addCustomer(Customer customer) async {
+    print('CustomersListViewModel.addCustomer :');
+    _visitHistoriesByCustomers = await _vhbcRep.addCustomer(customer);
   }
 
   // [削除：１件の顧客データを削除]

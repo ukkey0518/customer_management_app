@@ -1,4 +1,3 @@
-import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
@@ -14,10 +13,6 @@ import 'package:toast/toast.dart';
 import 'customers_list_screens/customer_information_pages/customer_information_screen.dart';
 
 class CustomersListScreen extends StatelessWidget {
-  CustomersListScreen({this.pref});
-
-  final CustomerListScreenPreferences pref;
-
   @override
   Widget build(BuildContext context) {
     final viewModel =
@@ -94,28 +89,27 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    Navigator.of(context)
-        .push(
-          MaterialPageRoute(
-            builder: (context) => CustomerEditScreen(
-              viewModel.pref,
-              viewModel.visitHistoriesByCustomers.toCustomers(),
-              customer: null,
-            ),
-          ),
-        )
-        .then(([pref, customer]) {});
+    Navigator.of(context).push(
+      MaterialPageRoute(
+        builder: (context) {
+          return CustomerEditScreen(
+            viewModel.visitHistoriesByCustomers.toCustomers(),
+            customer: null,
+          );
+        },
+      ),
+    ).then((customer) async {
+      if (customer != null) {
+        await viewModel.addCustomer(customer);
+      }
+    });
   }
 
   // [コールバック：リストアイテムタップ]
   _showInformation(BuildContext context, VisitHistoriesByCustomer vhbc) async {
-    final viewModel =
-        Provider.of<CustomersListViewModel>(context, listen: false);
-
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => CustomerInformationScreen(
-          viewModel.pref,
           historiesByCustomer: vhbc,
         ),
       ),

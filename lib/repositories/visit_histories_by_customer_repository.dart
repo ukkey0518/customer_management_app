@@ -50,6 +50,15 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
   // --- 処理 -------------------------------------------------------------------
   //
 
+  // [追加：顧客データの追加]
+  addCustomer(Customer customer) async {
+    print('VisitHistoriesByCustomerRepository.addCustomer :');
+    _customers = await _cRep.addCustomer(customer, preferences: _cPref);
+
+    _visitHistoriesByCustomers =
+        ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);
+  }
+
   // [取得：顧客別の来店履歴をすべて取得]
   getVisitHistoriesByCustomers({CustomerListScreenPreferences cPref}) async {
     print(
@@ -58,7 +67,6 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
     _cPref = cPref;
 
     _customers = await _cRep.getCustomers(preferences: _cPref) ?? List();
-
     _visitHistories = await _vhRep.getVisitHistories() ?? List();
 
     _visitHistoriesByCustomers =
