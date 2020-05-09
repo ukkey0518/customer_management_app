@@ -137,7 +137,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
     _nameReadingFieldErrorText =
         _nameReadingController.text.isEmpty ? '必須入力です' : null;
 
-    //重複チェック：
+    //重複チェック
     _nameFieldErrorText =
         widget.customers.isNameDuplicated(_nameController.text)
             ? '同名の顧客データが存在しています。'

@@ -107,10 +107,14 @@ class CustomersListScreen extends StatelessWidget {
 
   // [コールバック：リストアイテムタップ]
   _showInformation(BuildContext context, VisitHistoriesByCustomer vhbc) async {
+    final viewModel =
+        Provider.of<CustomersListViewModel>(context, listen: false);
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => CustomerInformationScreen(
-          historiesByCustomer: vhbc,
+          viewModel.visitHistoriesByCustomers.toCustomers(),
+          vhbc: vhbc,
         ),
       ),
     );
