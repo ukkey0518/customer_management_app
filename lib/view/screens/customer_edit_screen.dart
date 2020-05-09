@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/data/gender_entry.dart';
 import 'package:customermanagementapp/data/input_field_style.dart';
 import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
-import 'package:customermanagementapp/util/extensions/convert_from_customer_list.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:customermanagementapp/view/components/basic_input_form.dart';
@@ -55,14 +55,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
 
   // [コールバック：性別選択時]
   _setGender(String value) {
-    switch (value) {
-      case '女性':
-        _isGenderFemale = true;
-        break;
-      case '男性':
-        _isGenderFemale = false;
-        break;
-    }
+    _isGenderFemale = genderEntry.getKeyFromValue(value);
     setState(() {});
   }
 

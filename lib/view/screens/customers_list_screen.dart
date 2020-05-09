@@ -138,9 +138,7 @@ class CustomersListScreen extends StatelessWidget {
         Provider.of<CustomersListViewModel>(context, listen: false);
 
     // 絞り込みメニュー文字列からCustomerNarrowStateを取得
-    final narrowState = customerNarrowStateMap.entries
-        .singleWhere((entry) => entry.value == value)
-        .key;
+    final narrowState = customerNarrowStateMap.getKeyFromValue(value);
 
     await viewModel.getCustomersList(narrowState: narrowState);
   }
@@ -151,9 +149,7 @@ class CustomersListScreen extends StatelessWidget {
         Provider.of<CustomersListViewModel>(context, listen: false);
 
     // ソートメニュー文字列からCustomerSortStateを取得
-    final sortState = customerSortStateMap.entries
-        .singleWhere((entry) => entry.value == value)
-        .key;
+    final sortState = customerSortStateMap.getKeyFromValue(value);
 
     await viewModel.getCustomersList(sortState: sortState);
   }
