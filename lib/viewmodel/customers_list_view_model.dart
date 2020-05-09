@@ -7,7 +7,6 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/customer_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:toast/toast.dart';
 
 class CustomersListViewModel extends ChangeNotifier {
   // [コンストラクタ：CustomerRepositoryを受け取る]
@@ -19,18 +18,18 @@ class CustomersListViewModel extends ChangeNotifier {
   final CustomerRepository _cRep;
   final VisitHistoryRepository _vhRep;
 
-  // [priフィールド]
+  // [priフィールド：来店履歴リスト]
   List<VisitHistory> _visitHistories = List();
 
   // [フィールド：読み込み状態]
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  // [フィールド：顧客データ]
+  // [フィールド：顧客データリスト]
   List<Customer> _customers = List();
   List<Customer> get customers => _customers;
 
-  // [フィールド：顧客別来店履歴データ]
+  // [フィールド：顧客別来店履歴データリスト]
   List<VisitHistoriesByCustomer> _visitHistoriesByCustomers = List();
   List<VisitHistoriesByCustomer> get visitHistoriesByCustomers =>
       _visitHistoriesByCustomers;
@@ -78,17 +77,9 @@ class CustomersListViewModel extends ChangeNotifier {
     _visitHistoriesByCustomers =
         ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);
 
-    print('customer : ${_customers?.length}');
-    print('visithistories : ${_visitHistories?.length}');
-    print('vhbc : ${visitHistoriesByCustomers.length}');
-  }
-
-  // [追加：１件の顧客データを追加]
-  addCustomer(Customer customer) async {
-    print('CustomersListViewModel.addCustomer :');
-    print('  customer : [${customer.id}] ${customer.name}');
-
-    _customers = await _cRep.addCustomer(customer, preferences: _pref);
+    print('  customer : ${_customers?.length}');
+    print('  visithistories : ${_visitHistories?.length}');
+    print('  vhbc : ${visitHistoriesByCustomers.length}');
   }
 
   // [削除：１件の顧客データを削除]
@@ -96,7 +87,11 @@ class CustomersListViewModel extends ChangeNotifier {
     print('CustomersListViewModel.deleteEmployee :');
     print('  customer : [${customer.id}] ${customer.name}');
 
+    //TODO 確認ダイアログ
+
     _customers = await _cRep.deleteCustomer(customer, preferences: _pref);
+
+    //TODO 削除した顧客の来店履歴をすべて削除する処理
   }
 
   // [更新：CustomerRepositoryの変更があったときに呼ばれる]

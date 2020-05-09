@@ -24,10 +24,9 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-//    if (!viewModel.isLoading && viewModel.customers.isEmpty) {
-//      Future(() => viewModel.getCustomersList());
-//    }
-    Future(() => viewModel.getCustomersList());
+    if (!viewModel.isLoading && viewModel.customers.isEmpty) {
+      Future(() => viewModel.getCustomersList());
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -141,7 +140,7 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    // 選択中のメニューアイテム文字列と一致するEntryを取得
+    // 絞り込みメニュー文字列からCustomerNarrowStateを取得
     final narrowState = customerNarrowStateMap.entries
         .singleWhere((entry) => entry.value == value)
         .key;
@@ -154,7 +153,7 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    // 選択中のメニューアイテム文字列と一致するEntryを取得
+    // ソートメニュー文字列からCustomerSortStateを取得
     final sortState = customerSortStateMap.entries
         .singleWhere((entry) => entry.value == value)
         .key;
