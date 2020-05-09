@@ -102,21 +102,32 @@ List<SingleChildWidget> repositories = [
       );
     },
   ),
-];
-
-List<SingleChildWidget> viewModels = [
   // CustomerViewModel
   ChangeNotifierProxyProvider2<CustomerRepository, VisitHistoryRepository,
-      CustomersListViewModel>(
+      VisitHistoriesByCustomerRepository>(
     create: (context) {
       print('CustomerListViewModel Repository provider create.');
-      return CustomersListViewModel(
+      return VisitHistoriesByCustomerRepository(
         cRep: Provider.of<CustomerRepository>(context, listen: false),
         vhRep: Provider.of<VisitHistoryRepository>(context, listen: false),
       );
     },
     update: (_, cRep, vhRep, viewModel) =>
         viewModel..onRepositoryUpdated(cRep, vhRep),
+  ),
+];
+
+List<SingleChildWidget> viewModels = [
+  ChangeNotifierProxyProvider<VisitHistoriesByCustomerRepository,
+      CustomersListViewModel>(
+    create: (context) {
+      print('CustomerListViewModel Repository provider create.');
+      return CustomersListViewModel(
+        vhbcRep: Provider.of<VisitHistoriesByCustomerRepository>(context,
+            listen: false),
+      );
+    },
+    update: (_, vhbcRep, viewModel) => viewModel..onRepositoryUpdated(vhbcRep),
   ),
   // EmployeeViewModel
   ChangeNotifierProxyProvider<EmployeeRepository, EmployeeViewModel>(

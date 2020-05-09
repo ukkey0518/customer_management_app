@@ -1,7 +1,6 @@
+import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
-import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions.dart';
 import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
@@ -24,7 +23,7 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    if (!viewModel.isLoading && viewModel.customers.isEmpty) {
+    if (!viewModel.isLoading && viewModel.visitHistoriesByCustomers.isEmpty) {
       Future(() => viewModel.getCustomersList());
     }
 
@@ -43,7 +42,7 @@ class CustomersListScreen extends StatelessWidget {
           return Column(
             children: <Widget>[
               SearchBar(
-                numberOfItems: viewModel.customers.length,
+                numberOfItems: viewModel.visitHistoriesByCustomers.length,
                 narrowMenu: NarrowDropDownMenu(
                   items: customerNarrowStateMap.values.toList(),
                   selectedValue: viewModel.narrowSelectedValue,
@@ -65,21 +64,19 @@ class CustomersListScreen extends StatelessWidget {
                 child: viewModel.isLoading
                     ? Center(
                         child: CircularProgressIndicator(
-                        backgroundColor: Colors.grey,
-                      ))
+                          backgroundColor: Colors.grey,
+                        ),
+                      )
                     : Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: ListView.builder(
                           itemCount: viewModel.visitHistoriesByCustomers.length,
                           itemBuilder: (context, index) {
                             return CustomerListItem(
-                              visitHistoriesByCustomer: viewModel
-                                  .visitHistoriesByCustomers
-                                  .getVHBC(viewModel.customers[index]),
-                              onTap: (vhbc) =>
-                                  _showCustomer(context, vhbc.customer),
-                              onLongPress: (vhbc) =>
-                                  _deleteCustomer(context, vhbc.customer),
+                              visitHistoriesByCustomer:
+                                  viewModel.visitHistoriesByCustomers[index],
+                              onTap: (vhbc) => _showInformation(context, vhbc),
+                              onLongPress: (vhbc) => _deleteVHBC(context, vhbc),
                             );
                           },
                         ),
@@ -93,7 +90,7 @@ class CustomersListScreen extends StatelessWidget {
   }
 
   // [コールバック：FABタップ]
-  _addCustomer(BuildContext context, [Customer customer]) {
+  _addCustomer(BuildContext context) {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
@@ -102,14 +99,14 @@ class CustomersListScreen extends StatelessWidget {
       MyCustomRoute(
         builder: (context) => CustomerEditScreen(
           viewModel.pref,
-          customer: customer,
+          customer: null,
         ),
       ),
     );
   }
 
   // [コールバック：リストアイテムタップ]
-  _showCustomer(BuildContext context, Customer customer) async {
+  _showInformation(BuildContext context, VisitHistoriesByCustomer vhbc) async {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
@@ -118,19 +115,18 @@ class CustomersListScreen extends StatelessWidget {
       MyCustomRoute(
         builder: (context) => CustomerInformationScreen(
           viewModel.pref,
-          historiesByCustomer:
-              viewModel.visitHistoriesByCustomers.getVHBC(customer),
+          historiesByCustomer: vhbc,
         ),
       ),
     );
   }
 
   // [コールバック：リストアイテム長押し]
-  _deleteCustomer(BuildContext context, Customer customer) async {
+  _deleteVHBC(BuildContext context, VisitHistoriesByCustomer vhbc) async {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    await viewModel.deleteCustomer(customer);
+    await viewModel.deleteVHBC(vhbc);
 
     Toast.show('削除しました。', context);
   }
