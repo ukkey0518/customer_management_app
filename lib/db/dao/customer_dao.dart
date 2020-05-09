@@ -30,9 +30,10 @@ class CustomerDao extends DatabaseAccessor<MyDatabase> with _$CustomerDaoMixin {
   Future<List<Customer>> getCustomers(
       {CustomerListScreenPreferences preferences}) async {
     return transaction(() async {
-      final narrowState = preferences.narrowState;
-      final sortState = preferences.sortState;
-      final searchWord = preferences.searchWord;
+      final narrowState = preferences?.narrowState ?? CustomerNarrowState.ALL;
+      final sortState =
+          preferences?.sortState ?? CustomerSortState.REGISTER_OLD;
+      final searchWord = preferences?.searchWord ?? '';
 
       // 全取得ステートメント
       var statement = select(customers);

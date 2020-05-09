@@ -21,7 +21,7 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
       into(visitHistories).insert(visitHistory, orReplace: true);
 
   // [追加：複数の来店履歴]
-  Future<int> addAllVisitHistory(List<VisitHistory> visitHistoryList) {
+  Future<void> addAllVisitHistory(List<VisitHistory> visitHistoryList) {
     return batch((batch) {
       batch.insertAll(visitHistories, visitHistoryList);
     });

@@ -40,6 +40,13 @@ extension ConvertFromJson on String {
   }
 }
 
+extension ConvertFromCustomerList on List<Customer> {
+  bool isNameDuplicated(String name) {
+    var nameList = this.map((c) => c.name);
+    return nameList.contains(name);
+  }
+}
+
 // List<Menu>拡張
 extension ConvertFromMenuList on List<Menu> {
   // [変換：List<Menu> -> JSON文字列]
@@ -284,6 +291,10 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
       },
     );
     return vhbc;
+  }
+
+  List<Customer> toCustomers() {
+    return this.map((vhbc) => vhbc.customer).toList();
   }
 }
 

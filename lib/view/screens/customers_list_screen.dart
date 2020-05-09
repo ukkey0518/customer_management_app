@@ -5,8 +5,9 @@ import 'package:customermanagementapp/view/components/list_items/customer_list_i
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/screens/customer_edit_screen.dart';
-import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:customermanagementapp/viewmodel/customers_list_view_model.dart';
+import 'package:customermanagementapp/util/extensions.dart';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
@@ -94,15 +95,17 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    Navigator.pushReplacement(
-      context,
-      MyCustomRoute(
-        builder: (context) => CustomerEditScreen(
-          viewModel.pref,
-          customer: null,
-        ),
-      ),
-    );
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) => CustomerEditScreen(
+              viewModel.pref,
+              viewModel.visitHistoriesByCustomers.toCustomers(),
+              customer: null,
+            ),
+          ),
+        )
+        .then(([pref, customer]) {});
   }
 
   // [コールバック：リストアイテムタップ]
@@ -110,9 +113,8 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    Navigator.pushReplacement(
-      context,
-      MyCustomRoute(
+    Navigator.of(context).push(
+      MaterialPageRoute(
         builder: (context) => CustomerInformationScreen(
           viewModel.pref,
           historiesByCustomer: vhbc,
