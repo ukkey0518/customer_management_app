@@ -87,4 +87,17 @@ class VisitHistoryRepository extends ChangeNotifier {
     _isLoading = false;
     notifyListeners();
   }
+
+  // [削除：複数の来店履歴を削除]
+  deleteMultipleVisitHistories(List<VisitHistory> visitHistoryList) async {
+    print('VisitHistoryRepository.deleteMultipleVisitHistories :');
+
+    _isLoading = true;
+    notifyListeners();
+
+    _visitHistories = await _dao.deleteMultipleVisitHistories(visitHistoryList);
+
+    _isLoading = false;
+    notifyListeners();
+  }
 }

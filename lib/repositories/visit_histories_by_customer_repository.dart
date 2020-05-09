@@ -74,7 +74,7 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
     final visitHistories = vhbc.histories;
 
     _customers = await _cRep.deleteCustomer(customer, preferences: cPref);
-    //TODO 来店履歴を削除する処理
+    _visitHistories = await _vhRep.deleteMultipleVisitHistories(visitHistories);
   }
 
   // [更新：どちらかのRepositoryが更新された時]

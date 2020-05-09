@@ -51,6 +51,8 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
   // [削除：１件分の来店履歴を削除]
   Future deleteVisitHistory(VisitHistory visitHistory) =>
       (delete(visitHistories)..where((t) => t.id.equals(visitHistory.id))).go();
+  // [削除：すべての来店履歴を削除]
+  Future deleteAllVisitHistories() => delete(visitHistories).go();
 
   //
   // -- トランザクション処理 ------------------------------------------------------
@@ -92,6 +94,18 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
       await deleteVisitHistory(visitHistory);
       return await getVisitHistories(
           narrowData: narrowData, sortState: sortState);
+    });
+  }
+
+// [一括処理( 削除 )：複数の来店履歴を削除]
+  Future deleteMultipleVisitHistories(List<VisitHistory> visitHistoryList) {
+    return transaction(() async {
+      final vhList = await getVisitHistories();
+      visitHistoryList.forEach((dVh) {
+        vhList.removeWhere((cVh) => cVh.id == dVh.id);
+      });
+      await deleteAllVisitHistories();
+      await addAllVisitHistory(vhList);
     });
   }
 }
