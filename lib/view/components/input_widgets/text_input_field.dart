@@ -3,14 +3,14 @@ import 'package:customermanagementapp/view/components/polymorphism/input_widget.
 import 'package:flutter/material.dart';
 
 class TextInputField extends InputWidget {
-  TextInputField({
-    @required this.controller,
-    @required this.errorText,
-    this.inputType = TextInputType.text,
-    this.hintText = '',
-    this.isClearable = false,
-    this.style = InputFieldStyle.UNDER_LINE,
-  });
+  TextInputField(
+      {@required this.controller,
+      @required this.errorText,
+      this.inputType = TextInputType.text,
+      this.hintText = '',
+      this.isClearable = false,
+      this.style = InputFieldStyle.UNDER_LINE,
+      this.prefixIcon});
 
   final TextEditingController controller;
   final TextInputType inputType;
@@ -18,6 +18,7 @@ class TextInputField extends InputWidget {
   final String hintText;
   final bool isClearable;
   final InputFieldStyle style;
+  final Icon prefixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,7 @@ class TextInputField extends InputWidget {
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
+        prefixIcon: prefixIcon,
         border: inputBorder,
         hintText: hintText,
         errorText: errorText,

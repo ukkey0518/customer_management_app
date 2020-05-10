@@ -40,6 +40,10 @@ class MenuEditDialog extends StatelessWidget {
                 AbsorbPointer(
                   absorbing: true,
                   child: TextInputField(
+                    prefixIcon: Icon(
+                      Icons.category,
+                      color: Color(category.color),
+                    ),
                     controller: TextEditingController(text: category.name),
                     style: InputFieldStyle.ROUNDED_RECTANGLE,
                     errorText: null,
