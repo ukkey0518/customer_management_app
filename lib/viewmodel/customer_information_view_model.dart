@@ -46,6 +46,8 @@ class CustomerInformationViewModel extends ChangeNotifier {
     _customers = _allVHBC.toCustomers();
 
     _vhbc = _allVHBC.getVHBC(_customers.getCustomer(_customerId));
+
+    notifyListeners();
   }
 
   @override

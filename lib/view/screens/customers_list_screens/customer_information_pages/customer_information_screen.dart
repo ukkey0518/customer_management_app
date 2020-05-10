@@ -28,29 +28,28 @@ class CustomerInformationScreen extends StatelessWidget {
 
     return DefaultTabController(
       length: _tabs.length,
-      child: Consumer<CustomerInformationViewModel>(
-        builder: (context, viewModel, child) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('顧客情報'),
-              bottom: TabBar(tabs: _tabs),
-              actions: <Widget>[
-                IconButton(
-                  icon: Icon(Icons.edit),
-                  onPressed: () => _editCustomer(context),
-                )
-              ],
-            ),
-            body: TabBarView(
-              children: <Widget>[
-                BasicInformationPage(
-                  historiesByCustomer: viewModel.vhbc,
-                ),
-                VisitRecordPage(),
-              ],
-            ),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('顧客情報'),
+          bottom: TabBar(tabs: _tabs),
+          actions: <Widget>[
+            IconButton(
+              icon: Icon(Icons.edit),
+              onPressed: () => _editCustomer(context),
+            )
+          ],
+        ),
+        body: Consumer<CustomerInformationViewModel>(
+            builder: (context, viewModel, child) {
+          return TabBarView(
+            children: <Widget>[
+              BasicInformationPage(
+                vhbc: viewModel.vhbc,
+              ),
+              VisitRecordPage(),
+            ],
           );
-        },
+        }),
       ),
     );
   }

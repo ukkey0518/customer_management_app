@@ -19,8 +19,8 @@ class ProfileCardWidget extends ListCardWidget {
   @override
   Widget build(BuildContext context) {
     final genderStr = isGenderFemale ? '女性' : '男性';
-    final birthStr = birth.toFormatString(DateFormatMode.FULL);
-    final ageStr = birth.toAge();
+    final birthStr = birth?.toFormatString(DateFormatMode.FULL);
+    final ageStr = birth?.toAge();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -60,7 +60,9 @@ class ProfileCardWidget extends ListCardWidget {
                 Row(
                   children: <Widget>[
                     Expanded(child: Text('生年月日')),
-                    Expanded(child: Text('$birthStr ($ageStr歳)')),
+                    Expanded(
+                        child: Text(
+                            birth != null ? '$birthStr ($ageStr歳)' : '未登録')),
                   ],
                 ),
               ],
