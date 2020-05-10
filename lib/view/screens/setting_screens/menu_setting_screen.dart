@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
@@ -13,22 +14,6 @@ import 'package:flutter/material.dart';
 class MenuSettingScreen extends StatefulWidget {
   @override
   _MenuSettingScreenState createState() => _MenuSettingScreenState();
-}
-
-// [クラス：カテゴリごとのメニューをまとめたクラス]
-class MenusByCategory {
-  MenusByCategory({this.menuCategory, this.menus, this.isExpanded = false});
-  // カテゴリ
-  MenuCategory menuCategory;
-  // カテゴリの全メニュー
-  List<Menu> menus;
-  // パネルが開いているかどうか
-  bool isExpanded;
-
-  @override
-  String toString() {
-    return 'menuCategory...$menuCategory, menus...$menus, isExpanded...$isExpanded';
-  }
 }
 
 class _MenuSettingScreenState extends State<MenuSettingScreen> {
