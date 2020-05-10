@@ -3,8 +3,8 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
 import 'package:flutter/cupertino.dart';
 
-class MenuSettingViewModel extends ChangeNotifier {
-  MenuSettingViewModel({mbcRep}) : _mbcRep = mbcRep;
+class MenuCategorySettingViewModel extends ChangeNotifier {
+  MenuCategorySettingViewModel({mbcRep}) : _mbcRep = mbcRep;
 
   final MenusByCategoryRepository _mbcRep;
 
@@ -15,16 +15,12 @@ class MenuSettingViewModel extends ChangeNotifier {
     _mbcList = await _mbcRep.getMenusByCategories();
   }
 
-  setExpanded(int index, bool isExpanded) async {
-    _mbcList = await _mbcRep.setExpanded(index, isExpanded);
+  addMenuCategory(MenuCategory menuCategory) async {
+    _mbcList = await _mbcRep.addMenuCategory(menuCategory);
   }
 
-  addMenu(Menu menu) async {
-    _mbcList = await _mbcRep.addMenu(menu);
-  }
-
-  deleteMenu(Menu menu) async {
-    _mbcList = await _mbcRep.deleteMenu(menu);
+  deleteMenuCategory(MenuCategory menuCategory) async {
+    _mbcList = await _mbcRep.deleteMenuCategory(menuCategory);
   }
 
   onRepositoryUpdated(MenusByCategoryRepository mbcRep) {

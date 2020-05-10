@@ -133,7 +133,7 @@ class MenuSettingScreen extends StatelessWidget {
     final viewModel = Provider.of<MenuSettingViewModel>(context, listen: false);
 
     Future(() {
-      viewModel.getMBC();
+      viewModel.getMBCList();
     });
 
     return Scaffold(
@@ -152,7 +152,7 @@ class MenuSettingScreen extends StatelessWidget {
           return SingleChildScrollView(
             child: Container(
               child: MenuExpansionPanelList(
-                menuByCategories: viewModel.mbc,
+                menuByCategories: viewModel.mbcList,
                 expansionCallback: (index, isExpanded) =>
                     _setExpended(context, index, isExpanded),
                 onItemPanelTap: (category, menu) =>
