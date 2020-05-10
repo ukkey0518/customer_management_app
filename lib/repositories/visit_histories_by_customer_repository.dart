@@ -61,8 +61,7 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
 
   // [取得：顧客別の来店履歴をすべて取得]
   getVisitHistoriesByCustomers({CustomerListScreenPreferences cPref}) async {
-    print(
-        'VisitHistoriesByCustomerRepository.getAllVisitHistoriesByCustomers :');
+    print('VisitHistoriesByCustomerRepository.getVisitHistoriesByCustomers :');
 
     _cPref = cPref;
 

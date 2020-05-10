@@ -10,6 +10,7 @@ import 'package:customermanagementapp/repositories/menu_category_repository.dart
 import 'package:customermanagementapp/repositories/menu_repository.dart';
 import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
+import 'package:customermanagementapp/viewmodel/customer_information_view_model.dart';
 import 'package:customermanagementapp/viewmodel/customers_list_view_model.dart';
 import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
 import 'package:provider/provider.dart';
@@ -123,6 +124,17 @@ List<SingleChildWidget> viewModels = [
     create: (context) {
       print('CustomersListViewModel Repository provider create.');
       return CustomersListViewModel(
+        vhbcRep: Provider.of<VisitHistoriesByCustomerRepository>(context,
+            listen: false),
+      );
+    },
+    update: (_, vhbcRep, viewModel) => viewModel..onRepositoryUpdated(vhbcRep),
+  ),
+  ChangeNotifierProxyProvider<VisitHistoriesByCustomerRepository,
+      CustomerInformationViewModel>(
+    create: (context) {
+      print('CustomerInformationViewModel Repository provider create.');
+      return CustomerInformationViewModel(
         vhbcRep: Provider.of<VisitHistoriesByCustomerRepository>(context,
             listen: false),
       );

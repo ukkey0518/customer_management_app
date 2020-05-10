@@ -73,7 +73,7 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
           title: Text(_titleStr),
           // 戻るボタン
           leading: IconButton(
-            icon: Icon(Icons.arrow_back_ios),
+            icon: Icon(Icons.close),
             onPressed: () => _finishEditScreen(context, true),
           ),
           actions: <Widget>[
@@ -138,10 +138,10 @@ class _CustomerEditScreenState extends State<CustomerEditScreen> {
         _nameReadingController.text.isEmpty ? '必須入力です' : null;
 
     //重複チェック
-    _nameFieldErrorText =
-        widget.customers.isNameDuplicated(_nameController.text)
-            ? '同名の顧客データが存在しています。'
-            : _nameFieldErrorText;
+    _nameFieldErrorText = widget.customers
+            .isNameDuplicated(widget.customer?.id, _nameController.text)
+        ? '同名の顧客データが存在しています。'
+        : _nameFieldErrorText;
 
     // エラー時は画面を更新して戻る
     if (_nameFieldErrorText != null || _nameReadingFieldErrorText != null) {

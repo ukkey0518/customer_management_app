@@ -30,6 +30,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
 
   // [取得：指定顧客の顧客別来店履歴を取得]
   VisitHistoriesByCustomer getVHBC(Customer customer) {
+    if (this == null || this.isEmpty || customer == null) return null;
     final vhbc = this.singleWhere(
       (vhbc) {
         return vhbc.customer == customer;
@@ -39,6 +40,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
   }
 
   List<Customer> toCustomers() {
+    if (this == null || this.isEmpty) return null;
     return this.map((vhbc) => vhbc.customer).toList();
   }
 }

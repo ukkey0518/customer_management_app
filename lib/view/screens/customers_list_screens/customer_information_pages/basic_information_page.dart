@@ -8,28 +8,86 @@ import 'package:customermanagementapp/view/components/list_card_widgets/repeat_a
 import 'package:customermanagementapp/view/components/list_card_widgets/visit_information_card_widgt.dart';
 import 'package:flutter/material.dart';
 
-class BasicInformationPage extends StatefulWidget {
-  BasicInformationPage({@required this.historiesByCustomer});
+//class BasicInformationPage extends StatefulWidget {
+//  BasicInformationPage({@required this.historiesByCustomer});
+//
+//  final VisitHistoriesByCustomer historiesByCustomer;
+//
+//  @override
+//  _BasicInformationPageState createState() => _BasicInformationPageState();
+//}
+//
+//class _BasicInformationPageState extends State<BasicInformationPage> {
+//  Customer _customer;
+//  List<VisitHistory> _histories = List();
+//
+//  @override
+//  void initState() {
+//    super.initState();
+//    _customer = widget.historiesByCustomer?.customer;
+//    _histories = widget.historiesByCustomer?.histories;
+//  }
+//
+//  @override
+//  Widget build(BuildContext context) {
+//    return Padding(
+//      padding: const EdgeInsets.all(16.0),
+//      child: SingleChildScrollView(
+//        child: Column(
+//          crossAxisAlignment: CrossAxisAlignment.start,
+//          children: <Widget>[
+//            ProfileCardWidget(
+//              name: _customer.name,
+//              nameReading: _customer.nameReading,
+//              isGenderFemale: _customer.isGenderFemale,
+//              birth: _customer.birth,
+//            ),
+//            SizedBox(height: 30),
+//            VisitInformationCardWidget(
+//              numberOfVisit: _histories?.length,
+//              firstVisitDate: _histories?.getFirstVisitHistory()?.date,
+//              lastVisitDate: _histories?.getLastVisitHistory()?.date,
+//              reasonForVisit: null, //TODO
+//            ),
+//            SizedBox(height: 30),
+//            PriceAnalysisCardWidget(
+//              totalPayment: _histories?.toSumPriceList()?.getSum(),
+//              averagePrice: _histories?.toSumPriceList()?.getAverage(),
+//            ),
+//            SizedBox(height: 30),
+//            RepeatAnalysisCardWidget(
+//              numberOfRepeatWithinAMonth:
+//                  _histories?.getNumOfRepeatDuringPeriodByMonths(
+//                minMonth: 0,
+//                maxMonth: 1,
+//              ),
+//              numberOfRepeatWithinThreeMonth:
+//                  _histories?.getNumOfRepeatDuringPeriodByMonths(
+//                minMonth: 1,
+//                maxMonth: 3,
+//              ),
+//              numberOfRepeatMore:
+//                  _histories?.getNumOfRepeatDuringPeriodByMonths(
+//                minMonth: 3,
+//              ),
+//              repeatCycle: _histories?.getRepeatCycle(),
+//              expectedNextVisit: _histories?.expectedNextVisit(),
+//            ),
+//          ],
+//        ),
+//      ),
+//    );
+//  }
+//}
 
+class BasicInformationPage extends StatelessWidget {
+  BasicInformationPage({@required this.historiesByCustomer});
   final VisitHistoriesByCustomer historiesByCustomer;
 
   @override
-  _BasicInformationPageState createState() => _BasicInformationPageState();
-}
-
-class _BasicInformationPageState extends State<BasicInformationPage> {
-  Customer _customer;
-  List<VisitHistory> _histories = List();
-
-  @override
-  void initState() {
-    super.initState();
-    _customer = widget.historiesByCustomer.customer;
-    _histories = widget.historiesByCustomer.histories;
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final Customer customer = historiesByCustomer?.customer;
+    final List<VisitHistory> histories = historiesByCustomer?.histories;
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: SingleChildScrollView(
@@ -37,41 +95,41 @@ class _BasicInformationPageState extends State<BasicInformationPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             ProfileCardWidget(
-              name: _customer.name,
-              nameReading: _customer.nameReading,
-              isGenderFemale: _customer.isGenderFemale,
-              birth: _customer.birth,
+              name: customer?.name,
+              nameReading: customer?.nameReading,
+              isGenderFemale:
+                  customer == null ? false : customer.isGenderFemale,
+              birth: customer?.birth,
             ),
             SizedBox(height: 30),
             VisitInformationCardWidget(
-              numberOfVisit: _histories?.length,
-              firstVisitDate: _histories?.getFirstVisitHistory()?.date,
-              lastVisitDate: _histories?.getLastVisitHistory()?.date,
+              numberOfVisit: histories?.length,
+              firstVisitDate: histories?.getFirstVisitHistory()?.date,
+              lastVisitDate: histories?.getLastVisitHistory()?.date,
               reasonForVisit: null, //TODO
             ),
             SizedBox(height: 30),
             PriceAnalysisCardWidget(
-              totalPayment: _histories?.toSumPriceList()?.getSum(),
-              averagePrice: _histories?.toSumPriceList()?.getAverage(),
+              totalPayment: histories?.toSumPriceList()?.getSum(),
+              averagePrice: histories?.toSumPriceList()?.getAverage(),
             ),
             SizedBox(height: 30),
             RepeatAnalysisCardWidget(
               numberOfRepeatWithinAMonth:
-                  _histories?.getNumOfRepeatDuringPeriodByMonths(
+                  histories?.getNumOfRepeatDuringPeriodByMonths(
                 minMonth: 0,
                 maxMonth: 1,
               ),
               numberOfRepeatWithinThreeMonth:
-                  _histories?.getNumOfRepeatDuringPeriodByMonths(
+                  histories?.getNumOfRepeatDuringPeriodByMonths(
                 minMonth: 1,
                 maxMonth: 3,
               ),
-              numberOfRepeatMore:
-                  _histories?.getNumOfRepeatDuringPeriodByMonths(
+              numberOfRepeatMore: histories?.getNumOfRepeatDuringPeriodByMonths(
                 minMonth: 3,
               ),
-              repeatCycle: _histories?.getRepeatCycle(),
-              expectedNextVisit: _histories?.expectedNextVisit(),
+              repeatCycle: histories?.getRepeatCycle(),
+              expectedNextVisit: histories?.expectedNextVisit(),
             ),
           ],
         ),

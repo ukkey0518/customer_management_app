@@ -89,7 +89,8 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    Navigator.of(context).push(
+    Navigator.of(context)
+        .push(
       MaterialPageRoute(
         builder: (context) {
           return CustomerEditScreen(
@@ -97,8 +98,10 @@ class CustomersListScreen extends StatelessWidget {
             customer: null,
           );
         },
+        fullscreenDialog: true,
       ),
-    ).then((customer) async {
+    )
+        .then((customer) async {
       if (customer != null) {
         await viewModel.addCustomer(customer);
       }
@@ -107,14 +110,10 @@ class CustomersListScreen extends StatelessWidget {
 
   // [コールバック：リストアイテムタップ]
   _showInformation(BuildContext context, VisitHistoriesByCustomer vhbc) async {
-    final viewModel =
-        Provider.of<CustomersListViewModel>(context, listen: false);
-
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => CustomerInformationScreen(
-          viewModel.visitHistoriesByCustomers.toCustomers(),
-          vhbc: vhbc,
+          customerId: vhbc.customer.id,
         ),
       ),
     );

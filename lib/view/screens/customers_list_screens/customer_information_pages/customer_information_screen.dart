@@ -1,16 +1,16 @@
-import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/viewmodel/customer_information_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 import '../../customer_edit_screen.dart';
 import 'basic_information_page.dart';
 import 'visit_record_page.dart';
 
 class CustomerInformationScreen extends StatelessWidget {
-  CustomerInformationScreen(this.customers, {this.vhbc});
+  CustomerInformationScreen({@required this.customerId});
 
-  final VisitHistoriesByCustomer vhbc;
-  final List<Customer> customers;
+  final int customerId;
 
   final _tabs = <Tab>[
     Tab(text: '基本情報', icon: Icon(Icons.account_circle)),
@@ -19,41 +19,65 @@ class CustomerInformationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final viewModel =
+        Provider.of<CustomerInformationViewModel>(context, listen: false);
+
+    Future(() {
+      viewModel.getVHBC(id: customerId);
+    });
+
     return DefaultTabController(
       length: _tabs.length,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text('顧客情報'),
-          bottom: TabBar(tabs: _tabs),
-          actions: <Widget>[
-            IconButton(
-              icon: Icon(Icons.edit),
-              onPressed: () => _editCustomer(context, vhbc.customer),
-            )
-          ],
-        ),
-        body: TabBarView(
-          children: <Widget>[
-            BasicInformationPage(
-              historiesByCustomer: vhbc,
+      child: Consumer<CustomerInformationViewModel>(
+        builder: (context, viewModel, child) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('顧客情報'),
+              bottom: TabBar(tabs: _tabs),
+              actions: <Widget>[
+                IconButton(
+                  icon: Icon(Icons.edit),
+                  onPressed: () => _editCustomer(context),
+                )
+              ],
             ),
-            VisitRecordPage(),
-          ],
-        ),
+            body: TabBarView(
+              children: <Widget>[
+                BasicInformationPage(
+                  historiesByCustomer: viewModel.vhbc,
+                ),
+                VisitRecordPage(),
+              ],
+            ),
+          );
+        },
       ),
     );
   }
 
   // [コールバック：編集ボタンタップ]
   // →表示中の顧客情報を編集する
-  _editCustomer(BuildContext context, Customer customer) {
-    Navigator.of(context).push(
+  _editCustomer(BuildContext context) {
+    final viewModel =
+        Provider.of<CustomerInformationViewModel>(context, listen: false);
+
+    Navigator.of(context)
+        .push(
       MaterialPageRoute(
-        builder: (context) => CustomerEditScreen(
-          customers,
-          customer: vhbc.customer,
-        ),
+        builder: (context) {
+          return CustomerEditScreen(
+            viewModel.customers,
+            customer: viewModel.vhbc.customer,
+          );
+        },
+        fullscreenDialog: true,
       ),
-    );
+    )
+        .then((customer) async {
+      if (customer != null) {
+        await viewModel.addCustomer(customer);
+        Toast.show('更新されました。', context);
+      }
+    });
   }
 }
