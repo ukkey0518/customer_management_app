@@ -8,7 +8,6 @@ import 'package:customermanagementapp/main.dart';
 import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
-import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:customermanagementapp/view/components/narrow_switch_button.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:flutter/material.dart';
@@ -65,7 +64,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   _addVisitHistory() {
     Navigator.pushReplacement(
       context,
-      MyCustomRoute(
+      MaterialPageRoute(
         builder: (context) => VisitHistoryEditScreen(
           VisitHistoryListScreenPreferences(
             narrowData: _narrowData,
@@ -94,7 +93,7 @@ class _VisitHistoryScreenState extends State<VisitHistoryListScreen> {
   _editVisitHistory(VisitHistory visitHistory) {
     Navigator.pushReplacement(
       context,
-      MyCustomRoute(
+      MaterialPageRoute(
         builder: (context) => VisitHistoryEditScreen(
           VisitHistoryListScreenPreferences(
             narrowData: _narrowData,

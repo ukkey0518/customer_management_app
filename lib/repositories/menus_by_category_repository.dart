@@ -66,4 +66,9 @@ class MenusByCategoryRepository extends ChangeNotifier {
 
     notifyListeners();
   }
+
+  setExpanded(int index, bool isExpanded) {
+    _menusByCategories[index].isExpanded = isExpanded;
+    notifyListeners();
+  }
 }

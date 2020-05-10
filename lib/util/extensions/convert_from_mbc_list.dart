@@ -5,10 +5,10 @@ import 'package:customermanagementapp/db/database.dart';
 extension ConvertFromMBCList on List<MenusByCategory> {
   static mbcListFrom(List<Menu> menus, List<MenuCategory> categories) {
     if (menus == null || categories == null || categories.isEmpty) {
-      return List();
+      return List<MenusByCategory>();
     }
 
-    final menusByCategories = categories.map<MenusByCategory>(
+    List<MenusByCategory> menusByCategories = categories.map<MenusByCategory>(
       (category) {
         return MenusByCategory(
           menuCategory: category,

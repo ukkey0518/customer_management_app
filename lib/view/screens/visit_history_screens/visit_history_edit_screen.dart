@@ -18,7 +18,6 @@ import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_menu_list.dart';
-import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';
 
@@ -138,7 +137,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
     if (_screenAbsorbing) {
       Navigator.pushReplacement(
         context,
-        MyCustomRoute(
+        MaterialPageRoute(
           builder: (context) => VisitHistoryListScreen(pref: widget.pref),
         ),
       );
@@ -149,7 +148,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       if (flag) {
         Navigator.pushReplacement(
           context,
-          MyCustomRoute(
+          MaterialPageRoute(
             builder: (context) => VisitHistoryListScreen(pref: widget.pref),
           ),
         );

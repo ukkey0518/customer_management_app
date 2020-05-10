@@ -2,7 +2,6 @@ import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
 import 'package:customermanagementapp/view/screens/home_screen.dart';
 import 'package:customermanagementapp/view/screens/setting_screen.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/visit_history_list_screen.dart';
-import 'package:customermanagementapp/util/my_custom_route.dart';
 import 'package:flutter/material.dart';
 
 class MyDrawer extends StatelessWidget {
@@ -23,7 +22,7 @@ class MyDrawer extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.pushReplacement(
                 context,
-                MyCustomRoute(
+                MaterialPageRoute(
                   builder: (context) => HomeScreen(),
                 ),
               );
@@ -36,7 +35,7 @@ class MyDrawer extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.pushReplacement(
                 context,
-                MyCustomRoute(
+                MaterialPageRoute(
                   builder: (context) => CustomersListScreen(),
                 ),
               );
@@ -49,7 +48,7 @@ class MyDrawer extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.pushReplacement(
                 context,
-                MyCustomRoute(
+                MaterialPageRoute(
                   builder: (context) => VisitHistoryListScreen(),
                 ),
               );
@@ -62,7 +61,7 @@ class MyDrawer extends StatelessWidget {
               Navigator.of(context).pop();
               Navigator.pushReplacement(
                 context,
-                MyCustomRoute(
+                MaterialPageRoute(
                   builder: (context) => MainSettingScreen(),
                 ),
               );
