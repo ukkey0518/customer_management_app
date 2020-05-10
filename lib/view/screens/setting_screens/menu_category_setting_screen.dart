@@ -1,47 +1,21 @@
-import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
-import 'package:customermanagementapp/db/dao/menu_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_category_edit_dialog.dart';
 import 'package:customermanagementapp/view/components/list_items/menu_category_list_item.dart';
+import 'package:customermanagementapp/viewmodel/menu_category_setting_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
-import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 
-import '../../../main.dart';
-
-class MenuCategorySettingScreen extends StatefulWidget {
-  @override
-  _MenuCategorySettingScreenState createState() =>
-      _MenuCategorySettingScreenState();
-}
-
-class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
-  List<MenuCategory> _menuCategoriesList;
-  List<Menu> _menus;
-
-  final menuCategoryDao = MenuCategoryDao(database);
-  final menuDao = MenuDao(database);
-
-  @override
-  void initState() {
-    super.initState();
-    _menuCategoriesList = List();
-    _reloadMenuCategories();
-  }
-
-  // [更新：DBからメニューカテゴリを取得してリストに反映する処理]
-  _reloadMenuCategories() async {
-    _menuCategoriesList = await menuCategoryDao.allMenuCategories;
-    _menuCategoriesList.forEach(
-      (category) => print('${category.id} : ${category.name}'),
-    );
-    print('');
-    _menus = await menuDao.allMenus;
-    setState(() {});
-  }
-
+class MenuCategorySettingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final viewModel =
+        Provider.of<MenuCategorySettingViewModel>(context, listen: false);
+
+    Future(() {
+      viewModel.getMBCList();
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('メニューカテゴリ管理'),
@@ -49,15 +23,19 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => _showEditDialog(),
+        onPressed: () => _showEditDialog(context),
       ),
-      body: ListView.builder(
-        itemCount: _menuCategoriesList.length,
-        itemBuilder: (context, index) {
-          return MenuCategoryListItem(
-            menuCategory: _menuCategoriesList[index],
-            onTap: (category) => _showEditDialog(category),
-            onLongPress: (category) => _deleteMenuCategory(index),
+      body: Consumer<MenuCategorySettingViewModel>(
+        builder: (context, viewModel, child) {
+          return ListView.builder(
+            itemCount: viewModel.mbcList.length,
+            itemBuilder: (context, index) {
+              return MenuCategoryListItem(
+                menuCategory: viewModel.mbcList[index].menuCategory,
+                onTap: (category) => _showEditDialog(context, category),
+                onLongPress: (category) => _deleteMenuCategory(context, index),
+              );
+            },
           );
         },
       ),
@@ -65,32 +43,38 @@ class _MenuCategorySettingScreenState extends State<MenuCategorySettingScreen> {
   }
 
   // [コールバック：リストアイテムをタップ時]
-  _showEditDialog([MenuCategory menuCategory]) {
+  _showEditDialog(BuildContext context, [MenuCategory menuCategory]) {
+    final viewModel =
+        Provider.of<MenuCategorySettingViewModel>(context, listen: false);
+
     showDialog(
       context: context,
-      builder: (context) => MenuCategoryEditDialog(category: menuCategory),
+      builder: (context) {
+        return MenuCategoryEditDialog(category: menuCategory);
+      },
     ).then(
       (category) async {
         if (category != null) {
-          await menuCategoryDao.addMenuCategory(category);
-          _reloadMenuCategories();
+          await viewModel.addMenuCategory(category);
         }
       },
     );
   }
 
   // [コールバック：リストアイテム長押し時]
-  _deleteMenuCategory(int index) async {
-    var deleteMenuCategory = _menuCategoriesList[index];
-    print('delete: ${deleteMenuCategory.id} : ${deleteMenuCategory.name}');
+  _deleteMenuCategory(BuildContext context, int index) async {
+    final viewModel =
+        Provider.of<MenuCategorySettingViewModel>(context, listen: false);
+
+    var deleteMBC = viewModel.mbcList[index];
+
     // カテゴリ内にメニューがある場合は削除できない
-    if (_menus.any((menu) =>
-        menu.menuCategoryJson.toMenuCategory().id == deleteMenuCategory.id)) {
-      Toast.show('カテゴリ内にメニューが存在するため削除できません。', context);
+    if (deleteMBC.menus.isNotEmpty) {
+      Toast.show('カテゴリ内にメニューが存在するため削除できません。', context,
+          duration: Toast.LENGTH_LONG);
     } else {
-      await menuCategoryDao.deleteMenuCategory(deleteMenuCategory);
+      await viewModel.deleteMenuCategory(deleteMBC.menuCategory);
       Toast.show('削除しました', context);
     }
-    _reloadMenuCategories();
   }
 }
