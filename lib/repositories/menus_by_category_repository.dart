@@ -17,7 +17,6 @@ class MenusByCategoryRepository extends ChangeNotifier {
   List<MenuCategory> _menuCategories;
 
   List<MenusByCategory> _menusByCategories;
-
   List<MenusByCategory> get menusByCategories => _menusByCategories;
 
   getMenusByCategories() async {
