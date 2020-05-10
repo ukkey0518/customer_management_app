@@ -1,9 +1,8 @@
+import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
-
-import 'package:customermanagementapp/view/screens/setting_screens/menu_setting_screen.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:toast/toast.dart';

@@ -1,8 +1,8 @@
+import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/functions.dart';
 import 'package:customermanagementapp/view/components/expantion_panels/expansion_panel_add_panel.dart';
 import 'package:customermanagementapp/view/components/expantion_panels/expansion_panel_title.dart';
-import 'package:customermanagementapp/view/screens/setting_screens/menu_setting_screen.dart';
 import 'package:flutter/material.dart';
 
 import 'list_items/menu_expansion_panel_item.dart';
