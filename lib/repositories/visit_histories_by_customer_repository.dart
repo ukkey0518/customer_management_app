@@ -85,7 +85,7 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
   }
 
   // [更新：どちらかのRepositoryが更新された時]
-  onRepositoryUpdated(CustomerRepository cRep, VisitHistoryRepository vhRep) {
+  onRepositoriesUpdated(CustomerRepository cRep, VisitHistoryRepository vhRep) {
     print('VisitHistoriesByCustomerRepository.onRepositoryUpdated :');
     _customers = cRep.customers;
     _visitHistories = vhRep.visitHistories;

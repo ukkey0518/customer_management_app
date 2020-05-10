@@ -8,6 +8,7 @@ import 'package:customermanagementapp/repositories/customer_repository.dart';
 import 'package:customermanagementapp/repositories/employee_repository.dart';
 import 'package:customermanagementapp/repositories/menu_category_repository.dart';
 import 'package:customermanagementapp/repositories/menu_repository.dart';
+import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
 import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
 import 'package:customermanagementapp/viewmodel/customer_information_view_model.dart';
@@ -103,18 +104,30 @@ List<SingleChildWidget> repositories = [
       );
     },
   ),
-  // CustomerViewModel
+  // VisitHistoriesByCustomerRepository
   ChangeNotifierProxyProvider2<CustomerRepository, VisitHistoryRepository,
       VisitHistoriesByCustomerRepository>(
     create: (context) {
-      print('CustomerListViewModel Repository provider create.');
+      print('VisitHistoriesByCustomerRepository Repository provider create.');
       return VisitHistoriesByCustomerRepository(
         cRep: Provider.of<CustomerRepository>(context, listen: false),
         vhRep: Provider.of<VisitHistoryRepository>(context, listen: false),
       );
     },
     update: (_, cRep, vhRep, viewModel) =>
-        viewModel..onRepositoryUpdated(cRep, vhRep),
+        viewModel..onRepositoriesUpdated(cRep, vhRep),
+  ),
+  ChangeNotifierProxyProvider2<MenuRepository, MenuCategoryRepository,
+      MenusByCategoryRepository>(
+    create: (context) {
+      print('MenusByCategoryRepository Repository provider create.');
+      return MenusByCategoryRepository(
+        mRep: Provider.of<MenuRepository>(context, listen: false),
+        mcRep: Provider.of<MenuCategoryRepository>(context, listen: false),
+      );
+    },
+    update: (_, mRep, mcRep, viewModel) =>
+        viewModel..onRepositoriesUpdated(mRep, mcRep),
   ),
 ];
 

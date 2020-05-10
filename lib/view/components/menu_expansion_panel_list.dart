@@ -41,21 +41,24 @@ class MenuExpansionPanelList extends StatelessWidget {
           // メニュー部分の生成
           body: SingleChildScrollView(
             child: Column(
-              children: List<Widget>.generate(menus.length, (index) {
-                return MenuExpansionPanelItem(
+              children: List<Widget>.generate(
+                menus.length,
+                (index) => MenuExpansionPanelItem(
                   menu: menus[index],
-                  onTap: (menu) =>
-                      onItemPanelTap(menusByCategory.menuCategory, menu),
+                  onTap: (menu) {
+                    onItemPanelTap(menusByCategory.menuCategory, menu);
+                  },
                   onLongPress: (menu) => onItemPanelLongPress(menu),
-                );
-              })
-                ..add(onAddPanelTap != null
-                    ? ExpansionPanelAddPanel(
-                        name: 'メニュー',
-                        onTap: () =>
-                            onAddPanelTap(menusByCategory.menuCategory),
-                      )
-                    : Container()),
+                ),
+              )..add(
+                  onAddPanelTap != null
+                      ? ExpansionPanelAddPanel(
+                          name: 'メニュー',
+                          onTap: () =>
+                              onAddPanelTap(menusByCategory.menuCategory),
+                        )
+                      : Container(),
+                ),
             ),
           ),
           isExpanded: menusByCategory.isExpanded,
