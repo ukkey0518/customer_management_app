@@ -2,6 +2,7 @@ import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/menu_category_repository.dart';
 import 'package:customermanagementapp/repositories/menu_repository.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_mbc_list.dart';
 import 'package:flutter/cupertino.dart';
 
 class MenusByCategoryRepository extends ChangeNotifier {
@@ -13,7 +14,7 @@ class MenusByCategoryRepository extends ChangeNotifier {
   final MenuCategoryRepository _mcRep;
 
   List<Menu> _menus;
-  List<MenuCategory> _categories;
+  List<MenuCategory> _menuCategories;
 
   List<MenusByCategory> _menusByCategories;
 
@@ -24,15 +25,45 @@ class MenusByCategoryRepository extends ChangeNotifier {
     _menus = await _mRep.getMenus();
     _menusByCategories = await _mcRep.getMenuCategories();
 
-    //TODO _menusByCategories初期化処理
+    _menusByCategories =
+        ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
+  }
+
+  addMenu(Menu menu) {
+    _menus = _mRep.addMenu(menu);
+
+    _menusByCategories =
+        ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
+  }
+
+  deleteMenu(Menu menu) {
+    _menus = _mRep.deleteMenu(menu);
+
+    _menusByCategories =
+        ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
+  }
+
+  addMenuCategory(MenuCategory menuCategory) {
+    _menuCategories = _mcRep.addMenuCategory(menuCategory);
+
+    _menusByCategories =
+        ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
+  }
+
+  deleteMenuCategory(MenuCategory menuCategory) {
+    _menuCategories = _mcRep.deleteMenuCategory(menuCategory);
+
+    _menusByCategories =
+        ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
   }
 
   onRepositoriesUpdated(MenuRepository mRep, MenuCategoryRepository mcRep) {
     print('MenusByCategoryRepository.onRepositoriesUpdated :');
     _menus = mRep.menus;
-    _categories = mcRep.menuCategories;
+    _menuCategories = mcRep.menuCategories;
 
-    //TODO _menusByCategories初期化処理
+    _menusByCategories =
+        ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
 
     notifyListeners();
   }
