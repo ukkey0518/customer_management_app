@@ -1,12 +1,13 @@
 import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/dao/employee_dao.dart';
+import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
+import 'package:customermanagementapp/db/dao/menu_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
 import 'package:provider/provider.dart';
 
 class SampleDataInitializer {
-  static bool _isInitialized = false;
   static SampleDataInitializer _instance;
 
   factory SampleDataInitializer() {
@@ -162,34 +163,56 @@ class SampleDataInitializer {
   initialize(BuildContext context) async {
     print('--- sample data init start ...');
 
-    if (_isInitialized) {
-      print('--- already initialized.');
-      return;
-    }
-
-    _isInitialized = true;
-
     // CustomerDaoの取得
     final customerDao = Provider.of<CustomerDao>(context, listen: false);
 
     // EmployeeDaoの取得
     final employeeDao = Provider.of<EmployeeDao>(context, listen: false);
 
+    // menuCategoryDaoの取得
+    final menuCategoryDao =
+        Provider.of<MenuCategoryDao>(context, listen: false);
+
+    // menuDaoの取得
+    final menuDao = Provider.of<MenuDao>(context, listen: false);
+
     try {
       //Customersテーブルの初期化
-      await customerDao.addAllCustomers(_initCustomers);
-      print('  ...Customers init ok. : ${_initCustomers.length} data');
+      if ((await customerDao.getCustomers()).isEmpty) {
+        await customerDao.addAllCustomers(_initCustomers);
+        print('  ...Customers init ok. : ${_initCustomers.length} data');
+      } else {
+        print(
+            '  ...Customers not empty. : exists ${_initCustomers.length} data');
+      }
 
       // Employeesテーブルの初期化
-      await employeeDao.addAllEmployees(_initEmployees);
-      print('  ...Employees init ok. : ${_initEmployees.length} data');
+      if ((await employeeDao.allEmployees).isEmpty) {
+        await employeeDao.addAllEmployees(_initEmployees);
+        print('  ...Employees init ok. : ${_initEmployees.length} data');
+      } else {
+        print(
+            '  ...Employees not empty. : exists ${_initEmployees.length} data');
+      }
 
-      //TODO MenuCategoriesテーブルの初期化
+      // MenuCategoriesテーブルの初期化
+      if ((await menuCategoryDao.allMenuCategories).isEmpty) {
+        await menuCategoryDao.addAllMenuCategories(_initMenuCategories);
+        print(
+            '  ...MenuCategories init ok. : ${_initMenuCategories.length} data');
+      } else {
+        print(
+            '  ...MenuCategories not empty. : exists ${_initMenuCategories.length} data');
+      }
 
-      //TODO Menusテーブルの初期化
+      // Menusテーブルの初期化
+      if ((await menuDao.allMenus).isEmpty) {
+        await menuDao.addAllMenus(_initMenus);
+        print('  ...Menus init ok. : ${_initMenus.length} data');
+      } else {
+        print('  ...Menus not empty. : exists ${_initMenus.length} data');
+      }
 
-      print('  [not init] MenuCategories: ${_initMenuCategories.length} data');
-      print('  [not init] Menus: ${_initMenus.length} data');
       print('--- initialize finished.');
     } on SqliteException catch (e) {
       print('!!sample data init Exeption：$e');
