@@ -28,29 +28,29 @@ class MenusByCategoryRepository extends ChangeNotifier {
         ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
   }
 
-  addMenu(Menu menu) {
-    _menus = _mRep.addMenu(menu);
+  addMenu(Menu menu) async {
+    await _mRep.addMenu(menu);
 
     _menusByCategories =
         ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
   }
 
-  deleteMenu(Menu menu) {
-    _menus = _mRep.deleteMenu(menu);
+  deleteMenu(Menu menu) async {
+    await _mRep.deleteMenu(menu);
 
     _menusByCategories =
         ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
   }
 
-  addMenuCategory(MenuCategory menuCategory) {
-    _menuCategories = _mcRep.addMenuCategory(menuCategory);
+  addMenuCategory(MenuCategory menuCategory) async {
+    await _mcRep.addMenuCategory(menuCategory);
 
     _menusByCategories =
         ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
   }
 
-  deleteMenuCategory(MenuCategory menuCategory) {
-    _menuCategories = _mcRep.deleteMenuCategory(menuCategory);
+  deleteMenuCategory(MenuCategory menuCategory) async {
+    await _mcRep.deleteMenuCategory(menuCategory);
 
     _menusByCategories =
         ConvertFromMBCList.mbcListFrom(_menus, _menuCategories);
