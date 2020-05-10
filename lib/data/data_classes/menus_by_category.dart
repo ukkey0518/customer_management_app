@@ -11,6 +11,6 @@ class MenusByCategory {
 
   @override
   String toString() {
-    return 'menuCategory...$menuCategory, menus...$menus, isExpanded...$isExpanded';
+    return 'menuCategory...${menuCategory.id}, menus...${menus.map((menu) => menu.id)}, isExpanded...$isExpanded';
   }
 }

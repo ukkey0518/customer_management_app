@@ -171,7 +171,7 @@ class MenuSettingScreen extends StatelessWidget {
   _setExpended(BuildContext context, int index, bool isExpanded) async {
     final viewModel = Provider.of<MenuSettingViewModel>(context, listen: false);
 
-    await viewModel.setExpanded(index, isExpanded);
+    await viewModel.setExpanded(index, !isExpanded);
   }
 
   // [コールバック：メニューリストパネルタップ時]
