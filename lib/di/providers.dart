@@ -15,6 +15,7 @@ import 'package:customermanagementapp/viewmodel/customer_information_view_model.
 import 'package:customermanagementapp/viewmodel/customers_list_view_model.dart';
 import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
 import 'package:customermanagementapp/viewmodel/menu_category_setting_view_model.dart';
+import 'package:customermanagementapp/viewmodel/menu_select_view_model.dart';
 import 'package:customermanagementapp/viewmodel/menu_setting_view_model.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_edit_view_model.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.dart';
@@ -172,6 +173,15 @@ List<SingleChildWidget> viewModels = [
     create: (context) {
       print('MenuSettingViewModel Repository provider create.');
       return MenuSettingViewModel(
+        mbcRep: Provider.of<MenusByCategoryRepository>(context, listen: false),
+      );
+    },
+    update: (_, mbcRep, viewModel) => viewModel..onRepositoryUpdated(mbcRep),
+  ),
+  ChangeNotifierProxyProvider<MenusByCategoryRepository, MenuSelectViewModel>(
+    create: (context) {
+      print('MenuSelectViewModel Repository provider create.');
+      return MenuSelectViewModel(
         mbcRep: Provider.of<MenusByCategoryRepository>(context, listen: false),
       );
     },
