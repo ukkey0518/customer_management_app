@@ -19,7 +19,8 @@ class VisitHistoryListViewModel extends ChangeNotifier {
   VisitHistorySortState _sortState = VisitHistorySortState.REGISTER_OLD;
   VisitHistorySortState get sortState => _sortState;
 
-  String _selectedSortValue = '';
+  String _selectedSortValue =
+      visitHistorySortStateMap[VisitHistorySortState.REGISTER_OLD];
   String get selectedSortValue => _selectedSortValue;
 
   getVisitHistories({

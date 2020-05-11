@@ -245,18 +245,14 @@ class VisitHistoryListScreen extends StatelessWidget {
                       onChanged: (newValue) =>
                           _sortMenuSelected(context, newValue),
                       style: TextStyle(fontSize: 14, color: Colors.black),
-                      items: visitHistorySortStateMap.entries
-                          .toList()
+                      items: visitHistorySortStateMap.values
                           .map<DropdownMenuItem<String>>(
                         (value) {
                           return DropdownMenuItem<String>(
-                            value: value.value,
+                            value: value,
                             child: SizedBox(
                               width: 80,
-                              child: Text(
-                                value.value,
-                                textAlign: TextAlign.center,
-                              ),
+                              child: Text(value, textAlign: TextAlign.center),
                             ),
                           );
                         },
