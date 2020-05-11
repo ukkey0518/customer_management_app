@@ -26,16 +26,16 @@ class VisitHistoryListViewModel extends ChangeNotifier {
     VisitHistoryNarrowData narrowData,
     VisitHistorySortState sortState,
   }) {
-
     _narrowData = narrowData ?? _narrowData;
     _sortState = sortState ?? _sortState;
 
     _selectedSortValue = visitHistorySortStateMap[_sortState];
 
-    _visitHistories = _vhRep.getVisitHistories(narrowData: _narrowData, sortState: _sortState);
+    _visitHistories = _vhRep.getVisitHistories(
+        narrowData: _narrowData, sortState: _sortState);
   }
 
-  onRepositoryUpdated(VisitHistoryRepository vhRep){
+  onRepositoryUpdated(VisitHistoryRepository vhRep) {
     _visitHistories = vhRep.visitHistories;
 
     notifyListeners();
