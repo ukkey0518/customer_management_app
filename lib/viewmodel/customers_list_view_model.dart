@@ -2,6 +2,7 @@ import 'package:customermanagementapp/data/data_classes/screen_preferences.dart'
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/data/list_status.dart';
+import 'package:customermanagementapp/data/screen_display_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
 import 'package:flutter/cupertino.dart';
@@ -15,12 +16,18 @@ class CustomersListViewModel extends ChangeNotifier {
   // --- フィールド --------------------------------------------------------------
   //
 
+  ScreenDisplayMode _displayMode = ScreenDisplayMode.EDITABLE;
+
+  ScreenDisplayMode get displayMode => _displayMode;
+
   // [読み込み状態]
   bool _isLoading = false;
+
   bool get isLoading => _isLoading;
 
   // [顧客別来店履歴データリスト]
   List<VisitHistoriesByCustomer> _visitHistoriesByCustomers = List();
+
   List<VisitHistoriesByCustomer> get visitHistoriesByCustomers =>
       _visitHistoriesByCustomers;
 
@@ -30,19 +37,23 @@ class CustomersListViewModel extends ChangeNotifier {
     sortState: CustomerSortState.REGISTER_OLD,
     searchWord: '',
   );
+
   CustomerListScreenPreferences get pref => _pref;
 
   // [選択中の絞り込み表示文字列]
   String _narrowSelectedValue = customerNarrowStateMap[CustomerNarrowState.ALL];
+
   String get narrowSelectedValue => _narrowSelectedValue;
 
   // [選択中の並べ替え表示]文字列
   String _sortSelectedValue =
       customerSortStateMap[CustomerSortState.REGISTER_OLD];
+
   String get sortSelectedValue => _sortSelectedValue;
 
   // [検索欄コントローラー]
   TextEditingController _searchController = TextEditingController();
+
   TextEditingController get searchController => _searchController;
 
   //
@@ -51,11 +62,14 @@ class CustomersListViewModel extends ChangeNotifier {
 
   // [取得：顧客データの取得]
   Future<void> getCustomersList({
+    ScreenDisplayMode displayMode,
     CustomerNarrowState narrowState,
     CustomerSortState sortState,
     String searchWord,
   }) async {
     print('CustomersListViewModel.getCustomers :');
+
+    _displayMode = displayMode ?? _displayMode;
 
     _pref.narrowState = narrowState ?? _pref.narrowState;
     _pref.sortState = sortState ?? _pref.sortState;

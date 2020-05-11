@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
+import 'package:customermanagementapp/data/screen_display_mode.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
@@ -13,23 +14,42 @@ import 'package:toast/toast.dart';
 import 'customers_list_screens/customer_information_pages/customer_information_screen.dart';
 
 class CustomersListScreen extends StatelessWidget {
+  CustomersListScreen({this.displayMode});
+
+  final ScreenDisplayMode displayMode;
+
   @override
   Widget build(BuildContext context) {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
     if (!viewModel.isLoading && viewModel.visitHistoriesByCustomers.isEmpty) {
-      Future(() => viewModel.getCustomersList());
+      Future(() {
+        return viewModel.getCustomersList(displayMode: displayMode);
+      });
     }
 
     return Scaffold(
       appBar: AppBar(
         title: const Text('顧客リスト'),
       ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        tooltip: '新規登録',
-        onPressed: () => _addCustomer(context),
+      floatingActionButton: Consumer<CustomersListViewModel>(
+        builder: (context, viewModel, child) {
+          var fab;
+          switch (viewModel.displayMode) {
+            case ScreenDisplayMode.EDITABLE:
+              fab = FloatingActionButton(
+                child: Icon(Icons.add),
+                tooltip: '新規登録',
+                onPressed: () => _addCustomer(context),
+              );
+              break;
+            case ScreenDisplayMode.SELECTABLE:
+              fab = null;
+              break;
+          }
+          return fab;
+        },
       ),
       drawer: MyDrawer(),
       body: Consumer<CustomersListViewModel>(
@@ -70,7 +90,7 @@ class CustomersListScreen extends StatelessWidget {
                             return CustomerListItem(
                               visitHistoriesByCustomer:
                                   viewModel.visitHistoriesByCustomers[index],
-                              onTap: (vhbc) => _showInformation(context, vhbc),
+                              onTap: (vhbc) => _onListItemTap(context, vhbc),
                               onLongPress: (vhbc) => _deleteVHBC(context, vhbc),
                             );
                           },
@@ -109,14 +129,23 @@ class CustomersListScreen extends StatelessWidget {
   }
 
   // [コールバック：リストアイテムタップ]
-  _showInformation(BuildContext context, VisitHistoriesByCustomer vhbc) async {
-    Navigator.of(context).push(
-      MaterialPageRoute(
-        builder: (context) => CustomerInformationScreen(
-          customerId: vhbc.customer.id,
-        ),
-      ),
-    );
+  _onListItemTap(BuildContext context, VisitHistoriesByCustomer vhbc) async {
+    final viewModel =
+        Provider.of<CustomersListViewModel>(context, listen: false);
+
+    switch (viewModel.displayMode) {
+      case ScreenDisplayMode.EDITABLE:
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (context) => CustomerInformationScreen(
+              customerId: vhbc.customer.id,
+            ),
+          ),
+        );
+        break;
+      case ScreenDisplayMode.SELECTABLE:
+        Navigator.of(context).pop(vhbc.customer);
+    }
   }
 
   // [コールバック：リストアイテム長押し]

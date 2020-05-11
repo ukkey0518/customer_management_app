@@ -1,0 +1,4 @@
+enum ScreenDisplayMode {
+  EDITABLE,
+  SELECTABLE,
+}

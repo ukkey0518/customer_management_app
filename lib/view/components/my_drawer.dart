@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/screen_display_mode.dart';
 import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
 import 'package:customermanagementapp/view/screens/home_screen.dart';
 import 'package:customermanagementapp/view/screens/setting_screen.dart';
@@ -36,7 +37,9 @@ class MyDrawer extends StatelessWidget {
               Navigator.pushReplacement(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => CustomersListScreen(),
+                  builder: (context) => CustomersListScreen(
+                    displayMode: ScreenDisplayMode.EDITABLE,
+                  ),
                 ),
               );
             },
