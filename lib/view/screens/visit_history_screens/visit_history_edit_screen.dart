@@ -1,4 +1,3 @@
-import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
 import 'package:customermanagementapp/db/dao/employee_dao.dart';
 import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
@@ -24,9 +23,8 @@ import 'package:toast/toast.dart';
 import 'visit_history_list_screen.dart';
 
 class VisitHistoryEditScreen extends StatefulWidget {
-  VisitHistoryEditScreen(this.pref, {this.visitHistory});
+  VisitHistoryEditScreen({this.visitHistory});
 
-  final VisitHistoryListScreenPreferences pref;
   final VisitHistory visitHistory;
 
   @override
@@ -138,7 +136,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => VisitHistoryListScreen(pref: widget.pref),
+          builder: (context) => VisitHistoryListScreen(),
         ),
       );
       return Future.value(false);
@@ -149,7 +147,7 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
         Navigator.pushReplacement(
           context,
           MaterialPageRoute(
-            builder: (context) => VisitHistoryListScreen(pref: widget.pref),
+            builder: (context) => VisitHistoryListScreen(),
           ),
         );
       }

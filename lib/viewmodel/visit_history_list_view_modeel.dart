@@ -10,28 +10,33 @@ class VisitHistoryListViewModel extends ChangeNotifier {
 
   final VisitHistoryRepository _vhRep;
 
-  List<VisitHistory> _visitHistories;
+  List<VisitHistory> _visitHistories = List();
   List<VisitHistory> get visitHistories => _visitHistories;
 
-  VisitHistoryNarrowData _narrowData;
+  VisitHistoryNarrowData _narrowData = VisitHistoryNarrowData();
   VisitHistoryNarrowData get narrowData => _narrowData;
 
-  VisitHistorySortState _sortState;
+  VisitHistorySortState _sortState = VisitHistorySortState.REGISTER_OLD;
   VisitHistorySortState get sortState => _sortState;
 
-  String _selectedSortValue;
+  String _selectedSortValue = '';
   String get selectedSortValue => _selectedSortValue;
 
   getVisitHistories({
     VisitHistoryNarrowData narrowData,
     VisitHistorySortState sortState,
-  }) {
+  }) async {
     _narrowData = narrowData ?? _narrowData;
     _sortState = sortState ?? _sortState;
 
     _selectedSortValue = visitHistorySortStateMap[_sortState];
 
-    _visitHistories = _vhRep.getVisitHistories(
+    _visitHistories = await _vhRep.getVisitHistories(
+        narrowData: _narrowData, sortState: _sortState);
+  }
+
+  deleteVisitHistory(VisitHistory visitHistory) async {
+    _visitHistories = await _vhRep.deleteVisitHistory(visitHistory,
         narrowData: _narrowData, sortState: _sortState);
   }
 
