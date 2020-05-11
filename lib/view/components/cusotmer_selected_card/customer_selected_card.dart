@@ -1,7 +1,8 @@
+import 'package:customermanagementapp/data/screen_display_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/styles.dart';
-import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/customer_select_screen.dart';
+import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
 import 'package:flutter/material.dart';
 
 class CustomerSelectedCard extends StatelessWidget {
@@ -20,7 +21,9 @@ class CustomerSelectedCard extends StatelessWidget {
                 Navigator.of(context)
                     .push(
                       MaterialPageRoute(
-                        builder: (context) => CustomerSelectScreen(),
+                        builder: (context) => CustomersListScreen(
+                          displayMode: ScreenDisplayMode.SELECTABLE,
+                        ),
                         fullscreenDialog: true,
                       ),
                     )
