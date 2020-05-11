@@ -17,8 +17,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
-import 'visit_history_list_screen.dart';
-
 //class VisitHistoryEditScreen extends StatefulWidget {
 //  VisitHistoryEditScreen({this.visitHistory});
 //
@@ -460,24 +458,14 @@ class VisitHistoryEditScreen extends StatelessWidget {
         Provider.of<VisitHistoryEditViewModel>(context, listen: false);
 
     if (viewModel.isSaved) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => VisitHistoryListScreen(),
-        ),
-      );
+      Navigator.of(context).pop();
     } else {
       await showDialog(
         context: context,
         builder: (_) => UnsavedConfirmDialog(),
       ).then((flag) {
         if (flag) {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => VisitHistoryListScreen(),
-            ),
-          );
+          Navigator.of(context).pop();
         }
       });
     }

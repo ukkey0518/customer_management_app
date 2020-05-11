@@ -286,8 +286,7 @@ class VisitHistoryListScreen extends StatelessWidget {
   // [コールバック：FABタップ]
   // →売上データを登録する画面へ遷移する
   _addVisitHistory(BuildContext context) {
-    Navigator.pushReplacement(
-      context,
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => VisitHistoryEditScreen(),
       ),
@@ -308,8 +307,7 @@ class VisitHistoryListScreen extends StatelessWidget {
   // [コールバック：リストアイテムタップ時]
   // →売上データを登録する画面へ遷移する
   _editVisitHistory(BuildContext context, VisitHistory visitHistory) {
-    Navigator.pushReplacement(
-      context,
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) =>
             VisitHistoryEditScreen(visitHistory: visitHistory),
