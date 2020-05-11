@@ -24,27 +24,35 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
   Customer get customer => _customer;
 
   DateTime _date = DateTime.now();
+
   DateTime get date => _date;
 
   Employee _employee = Employee(id: null, name: '');
+
   Employee get employee => _employee;
 
   List<Menu> _menus = List();
+
   List<Menu> get menus => _menus;
 
   bool _isSaved = false;
+
   bool get isSaved => _isSaved;
 
   bool _isReadingMode = false;
+
   bool get isReadingMode => _isReadingMode;
 
   String _customerErrorText;
+
   String get customerErrorText => _customerErrorText;
 
   String _employeeErrorText;
+
   String get employeeErrorText => _employeeErrorText;
 
   String _menusErrorText;
+
   String get menusErrorText => _menusErrorText;
 
   reflectVisitHistoryData({VisitHistory visitHistory}) async {
@@ -70,7 +78,8 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
   saveVisitHistory() async {
     _customerErrorText = _customer == null ? '顧客データが選択されていません。' : null;
     _employeeErrorText = _employee == null ? '担当スタッフが選択されていません。' : null;
-    _menusErrorText = _menus == null || _menus.isEmpty ? 'メニューが選択されていません。' : null;
+    _menusErrorText =
+        _menus == null || _menus.isEmpty ? 'メニューが選択されていません。' : null;
 
     if (_customerErrorText != null ||
         _employeeErrorText != null ||
@@ -90,7 +99,6 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
 
     _isSaved = true;
     _isReadingMode = true;
-
   }
 
   onRepositoriesUpdated(VisitHistoryRepository vhRep, EmployeeRepository eRep) {
