@@ -45,7 +45,7 @@ class CustomersListScreen extends StatelessWidget {
               );
               break;
             case ScreenDisplayMode.SELECTABLE:
-              fab = null;
+              fab = Container();
               break;
           }
           return fab;
