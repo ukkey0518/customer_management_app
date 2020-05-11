@@ -23,11 +23,9 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    if (!viewModel.isLoading && viewModel.visitHistoriesByCustomers.isEmpty) {
-      Future(() {
-        return viewModel.getCustomersList(displayMode: displayMode);
-      });
-    }
+    Future(() {
+      return viewModel.getCustomersList(displayMode: displayMode);
+    });
 
     return Consumer<CustomersListViewModel>(
       builder: (context, viewModel, child) {
