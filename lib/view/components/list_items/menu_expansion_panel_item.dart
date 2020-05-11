@@ -30,7 +30,7 @@ class MenuExpansionPanelItem extends BasicListViewItem<Menu> {
             ),
           ),
           onTap: () => onTap(item),
-          onLongPress: () => onLongPress(item),
+          onLongPress: onLongPress != null ? () => onLongPress(item) : null,
         ),
       ],
     );

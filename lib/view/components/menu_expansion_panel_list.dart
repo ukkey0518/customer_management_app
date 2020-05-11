@@ -48,7 +48,9 @@ class MenuExpansionPanelList extends StatelessWidget {
                   onTap: (menu) {
                     onItemPanelTap(menusByCategory.menuCategory, menu);
                   },
-                  onLongPress: (menu) => onItemPanelLongPress(menu),
+                  onLongPress: onItemPanelLongPress != null
+                      ? (menu) => onItemPanelLongPress(menu)
+                      : null,
                 ),
               )..add(
                   onAddPanelTap != null

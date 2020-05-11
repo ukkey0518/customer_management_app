@@ -20,6 +20,7 @@ class MenuSelectViewModel extends ChangeNotifier {
 
   getMBCList(List<Menu> selectedMenus) async {
     _mbcList = await _mbcRep.getMenusByCategories();
+    _selectedMenus = selectedMenus ?? _selectedMenus;
   }
 
   setMenu(Menu menu) {
