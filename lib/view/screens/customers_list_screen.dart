@@ -29,32 +29,33 @@ class CustomersListScreen extends StatelessWidget {
       });
     }
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('顧客リスト'),
-      ),
-      floatingActionButton: Consumer<CustomersListViewModel>(
-        builder: (context, viewModel, child) {
-          var fab;
-          switch (viewModel.displayMode) {
-            case ScreenDisplayMode.EDITABLE:
-              fab = FloatingActionButton(
-                child: Icon(Icons.add),
-                tooltip: '新規登録',
-                onPressed: () => _addCustomer(context),
-              );
-              break;
-            case ScreenDisplayMode.SELECTABLE:
-              fab = Container();
-              break;
-          }
-          return fab;
-        },
-      ),
-      drawer: MyDrawer(),
-      body: Consumer<CustomersListViewModel>(
-        builder: (context, viewModel, child) {
-          return Column(
+    return Consumer<CustomersListViewModel>(
+      builder: (context, viewModel, child) {
+        var fab;
+        var drawer;
+
+        switch (viewModel.displayMode) {
+          case ScreenDisplayMode.EDITABLE:
+            fab = FloatingActionButton(
+              child: Icon(Icons.add),
+              tooltip: '新規登録',
+              onPressed: () => _addCustomer(context),
+            );
+            drawer = MyDrawer();
+            break;
+          case ScreenDisplayMode.SELECTABLE:
+            fab = Container();
+            drawer = null;
+            break;
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('顧客リスト'),
+          ),
+          floatingActionButton: fab,
+          drawer: drawer,
+          body: Column(
             children: <Widget>[
               SearchBar(
                 numberOfItems: viewModel.visitHistoriesByCustomers.length,
@@ -98,9 +99,9 @@ class CustomersListScreen extends StatelessWidget {
                       ),
               ),
             ],
-          );
-        },
-      ),
+          ),
+        );
+      },
     );
   }
 
