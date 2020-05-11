@@ -84,6 +84,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
     if (_customerErrorText != null ||
         _employeeErrorText != null ||
         _menusErrorText != null) {
+      notifyListeners();
       return;
     }
 
@@ -99,6 +100,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
 
     _isSaved = true;
     _isReadingMode = true;
+    notifyListeners();
   }
 
   onRepositoriesUpdated(VisitHistoryRepository vhRep, EmployeeRepository eRep) {

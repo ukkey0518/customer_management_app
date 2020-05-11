@@ -1,9 +1,4 @@
-import 'package:customermanagementapp/db/dao/employee_dao.dart';
-import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/main.dart';
-import 'package:customermanagementapp/util/extensions/convert_from_menu_list.dart';
-import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 import 'package:customermanagementapp/view/components/contents_column_with_title.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selectd_card.dart';
 import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
@@ -17,7 +12,9 @@ import 'package:customermanagementapp/view/components/input_widgets/menu_input_t
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
+import 'package:customermanagementapp/viewmodel/visit_history_edit_view_model.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';
 
 import 'visit_history_list_screen.dart';
@@ -276,143 +273,20 @@ import 'visit_history_list_screen.dart';
 //  }
 //}
 
-class VisitHistoryEditScreen extends StatefulWidget {
+class VisitHistoryEditScreen extends StatelessWidget {
   VisitHistoryEditScreen({this.visitHistory});
 
   final VisitHistory visitHistory;
 
   @override
-  _VisitHistoryEditScreenState createState() => _VisitHistoryEditScreenState();
-}
-
-class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
-  DateTime _date;
-  Customer _selectedCustomer;
-  List<Employee> _employees = List();
-  Employee _selectedEmployee;
-  List<Menu> _menus = List();
-
-  bool _screenAbsorbing = true;
-
-  String _customerErrorText;
-  String _employeeErrorText;
-  String _menuErrorText;
-
-  final employeeDao = EmployeeDao(database);
-  final visitHistoryDao = VisitHistoryDao(database);
-
-  @override
-  void initState() {
-    super.initState();
-    _initScreenState();
-  }
-
-  // [初期化：担当選択ドロップダウン用フィールド初期化]
-  _initScreenState() async {
-    if (widget.visitHistory == null) {
-      _date = DateTime.now();
-      _selectedCustomer = null;
-      _selectedEmployee = null;
-      _menus = List();
-      _screenAbsorbing = false;
-    } else {
-      _date = widget.visitHistory.date;
-      _selectedCustomer = widget.visitHistory.customerJson.toCustomer();
-      _selectedEmployee = widget.visitHistory.employeeJson.toEmployee();
-      _menus = widget.visitHistory.menuListJson.toMenuList();
-    }
-    _employees = await employeeDao.allEmployees;
-    setState(() {});
-  }
-
-  // [更新：編集モードと閲覧モードを切り替える]
-  _setAbsorbing(bool flag) {
-    setState(() {
-      _screenAbsorbing = flag;
-    });
-  }
-
-  // [コールバック：メニュー欄タップ時]
-  _startMenuSelectScreen() {
-    Navigator.of(context)
-        .push(
-      MaterialPageRoute(
-        builder: (context) {
-          return MenuSelectScreen(selectedMenus: _menus);
-        },
-        fullscreenDialog: true,
-      ),
-    )
-        .then((menuList) {
-      setState(() {
-        return _menus = menuList ?? _menus;
-      });
-    });
-  }
-
-  // [コールバック：保存ボタン押下時]
-  _saveSingleVisitHistory() async {
-    // 未入力チェック：顧客選択欄
-    _customerErrorText = _selectedCustomer == null ? '顧客が選択されていません' : null;
-
-    // 未入力チェック：担当選択欄
-    _employeeErrorText = _selectedEmployee == null ? '担当が選択されていません' : null;
-
-    // 未入力チェック：メニュー欄
-    _menuErrorText = _menus == null || _menus.isEmpty ? 'メニューが選択されていません' : null;
-
-    setState(() {});
-
-    if (_customerErrorText != null ||
-        _employeeErrorText != null ||
-        _menuErrorText != null) {
-      return;
-    }
-
-    print(_date);
-    // 新しい来店履歴データ作成
-    var visitHistory = VisitHistory(
-      id: widget.visitHistory?.id,
-      date: _date,
-      customerJson: _selectedCustomer.toJsonString(),
-      employeeJson: _selectedEmployee.toJsonString(),
-      menuListJson: _menus.toJsonString(),
-    );
-    // DB挿入
-    await visitHistoryDao.addVisitHistory(visitHistory);
-    // 完了メッセージ表示
-    Toast.show('保存しました。', context);
-    // 閲覧モードにする
-    _setAbsorbing(true);
-  }
-
-  // [コールバック：画面終了時の処理]
-  Future<bool> _finishEditScreen(BuildContext context) async {
-    if (_screenAbsorbing) {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => VisitHistoryListScreen(),
-        ),
-      );
-      return Future.value(false);
-    }
-    await showDialog(context: context, builder: (_) => UnsavedConfirmDialog())
-        .then((flag) {
-      if (flag) {
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => VisitHistoryListScreen(),
-          ),
-        );
-      }
-    });
-    return Future.value(false);
-  }
-
-  @override
   Widget build(BuildContext context) {
+    final viewModel =
+        Provider.of<VisitHistoryEditViewModel>(context, listen: false);
+
+    Future(() {
+      viewModel.reflectVisitHistoryData(visitHistory: visitHistory);
+    });
+
     return WillPopScope(
       onWillPop: () => _finishEditScreen(context),
       child: Scaffold(
@@ -424,110 +298,189 @@ class _VisitHistoryEditScreenState extends State<VisitHistoryEditScreen> {
             onPressed: () => _finishEditScreen(context),
           ),
           actions: <Widget>[
-            IconButtonToSwitch(
-              switchFlag: _screenAbsorbing,
-              trueButton: IconButton(
-                icon: Icon(Icons.edit),
-                onPressed: () => _setAbsorbing(false),
-              ),
-              falseButton: IconButton(
-                icon: Icon(Icons.save),
-                onPressed: () => _saveSingleVisitHistory(),
-              ),
+            Consumer<VisitHistoryEditViewModel>(
+              builder: (context, viewModel, child) {
+                return IconButtonToSwitch(
+                  switchFlag: viewModel.isReadingMode,
+                  trueButton: IconButton(
+                    icon: Icon(Icons.edit),
+                    onPressed: () => _setStatus(context, isReadingMode: false),
+                  ),
+                  falseButton: IconButton(
+                    icon: Icon(Icons.save),
+                    onPressed: () => _saveSingleVisitHistory(context),
+                  ),
+                );
+              },
             ),
           ],
         ),
         body: Center(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              CurrentModeIndicator(
-                modeText: _screenAbsorbing ? '閲覧モード' : '編集モード',
-                color: _screenAbsorbing
-                    ? Theme.of(context).primaryColorLight
-                    : Colors.amber,
-              ),
-              ErrorIndicator(
-                errorTexts: [
-                  _customerErrorText,
-                  _employeeErrorText,
-                  _menuErrorText,
-                ],
-              ),
-              ContentsColumnWithTitle(
-                title: 'お客様情報',
+          child: Consumer<VisitHistoryEditViewModel>(
+            builder: (context, viewModel, child) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  RowWithIcon(
-                    icon: Icon(Icons.account_circle),
-                    title: '顧客',
-                    content: _selectedCustomer != null
-                        ? CustomerSelectedCard(
-                            customer: _selectedCustomer,
-                            onSelected: _screenAbsorbing
-                                ? null
-                                : (customer) {
-                                    setState(() => _selectedCustomer =
-                                        customer ?? _selectedCustomer);
-                                  },
-                          )
-                        : CustomerNotSelectedCard(
-                            onSelected: _screenAbsorbing
-                                ? null
-                                : (customer) {
-                                    setState(() => _selectedCustomer =
-                                        customer ?? _selectedCustomer);
-                                  },
-                          ),
+                  CurrentModeIndicator(
+                    modeText: viewModel.isReadingMode ? '閲覧モード' : '編集モード',
+                    color: viewModel.isReadingMode
+                        ? Theme.of(context).primaryColorLight
+                        : Colors.amber,
                   ),
-                ],
-              ),
-              MyDivider(),
-              SizedBox(height: 30),
-              ContentsColumnWithTitle(
-                title: '詳細情報',
-                children: <Widget>[
-                  RowWithIcon(
-                    icon: Icon(Icons.calendar_today),
-                    title: '日付',
-                    content: DateInputTile(
-                      selectedDate: _date,
-                      onConfirm: (date) => setState(() => _date = date),
-                      isDisabled: _screenAbsorbing,
+                  ErrorIndicator(
+                    errorTexts: [
+                      viewModel.customerErrorText,
+                      viewModel.employeeErrorText,
+                      viewModel.menusErrorText,
+                    ],
+                  ),
+                  ContentsColumnWithTitle(
+                    title: 'お客様情報',
+                    children: <Widget>[
+                      RowWithIcon(
+                        icon: Icon(Icons.account_circle),
+                        title: '顧客',
+                        content: viewModel.customer != null
+                            ? CustomerSelectedCard(
+                                customer: viewModel.customer,
+                                onSelected: viewModel.isReadingMode
+                                    ? null
+                                    : (customer) =>
+                                        _setStatus(context, customer: customer),
+                              )
+                            : CustomerNotSelectedCard(
+                                onSelected: viewModel.isReadingMode
+                                    ? null
+                                    : (customer) =>
+                                        _setStatus(context, customer: customer),
+                              ),
+                      ),
+                    ],
+                  ),
+                  MyDivider(),
+                  SizedBox(height: 30),
+                  ContentsColumnWithTitle(
+                    title: '詳細情報',
+                    children: <Widget>[
+                      RowWithIcon(
+                        icon: Icon(Icons.calendar_today),
+                        title: '日付',
+                        content: DateInputTile(
+                          selectedDate: viewModel.date,
+                          onConfirm: (date) => _setStatus(context, date: date),
+                          isDisabled: viewModel.isReadingMode,
+                        ),
+                      ),
+                      RowWithIcon(
+                        icon: Icon(Icons.supervisor_account),
+                        title: '担当',
+                        content: EmployeeInputButton(
+                          selectedEmployee: viewModel.employee,
+                          employees: viewModel.employeeList,
+                          onChanged: (employee) =>
+                              _setStatus(context, employee: employee),
+                          isDisabled: viewModel.isReadingMode,
+                        ),
+                      ),
+                    ],
+                  ),
+                  MyDivider(),
+                  SizedBox(height: 30),
+                  ContentsColumnWithTitle(
+                    title: '提供メニュー',
+                    children: <Widget>[Container()],
+                  ),
+                  Expanded(
+                    child: MenuInputTile(
+                      screenAbsorbing: viewModel.isReadingMode,
+                      onTap: () => _startMenuSelectScreen(context),
+                      menus: viewModel.menus,
                     ),
                   ),
-                  RowWithIcon(
-                    icon: Icon(Icons.supervisor_account),
-                    title: '担当',
-                    content: EmployeeInputButton(
-                      selectedEmployee: _selectedEmployee,
-                      employees: _employees,
-                      onChanged: (selectedEmployee) {
-                        setState(() {
-                          _selectedEmployee = selectedEmployee;
-                        });
-                      },
-                      isDisabled: _screenAbsorbing,
-                    ),
-                  ),
                 ],
-              ),
-              MyDivider(),
-              SizedBox(height: 30),
-              ContentsColumnWithTitle(
-                title: '提供メニュー',
-                children: <Widget>[Container()],
-              ),
-              Expanded(
-                child: MenuInputTile(
-                  screenAbsorbing: _screenAbsorbing,
-                  onTap: () => _startMenuSelectScreen(),
-                  menus: _menus,
-                ),
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),
     );
+  }
+
+  _setStatus(
+    BuildContext context, {
+    Customer customer,
+    DateTime date,
+    Employee employee,
+    List<Menu> menus,
+    bool isReadingMode,
+  }) async {
+    final viewModel =
+        Provider.of<VisitHistoryEditViewModel>(context, listen: false);
+
+    await viewModel.setStatus(
+        customer: customer,
+        date: date,
+        employee: employee,
+        menus: menus,
+        isReadingMode: isReadingMode);
+  }
+
+  // [コールバック：メニュー欄タップ時]
+  _startMenuSelectScreen(BuildContext context) {
+    final viewModel =
+        Provider.of<VisitHistoryEditViewModel>(context, listen: false);
+
+    Navigator.of(context)
+        .push(
+          MaterialPageRoute(
+            builder: (context) {
+              return MenuSelectScreen(selectedMenus: viewModel.menus);
+            },
+            fullscreenDialog: true,
+          ),
+        )
+        .then((menus) => _setStatus(context, menus: menus));
+  }
+
+  // [コールバック：保存ボタン押下時]
+  _saveSingleVisitHistory(BuildContext context) async {
+    final viewModel =
+        Provider.of<VisitHistoryEditViewModel>(context, listen: false);
+
+    await viewModel.saveVisitHistory();
+
+    if (viewModel.isSaved) {
+      Toast.show('保存しました。', context);
+    }
+  }
+
+  // [コールバック：画面終了時の処理]
+  Future<bool> _finishEditScreen(BuildContext context) async {
+    final viewModel =
+        Provider.of<VisitHistoryEditViewModel>(context, listen: false);
+
+    if (viewModel.isSaved) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => VisitHistoryListScreen(),
+        ),
+      );
+    } else {
+      await showDialog(
+        context: context,
+        builder: (_) => UnsavedConfirmDialog(),
+      ).then((flag) {
+        if (flag) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => VisitHistoryListScreen(),
+            ),
+          );
+        }
+      });
+    }
+    return Future.value(false);
   }
 }
