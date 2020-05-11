@@ -6,7 +6,7 @@ import 'package:customermanagementapp/view/components/list_items/visit_history_l
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/narrow_switch_button.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
-import 'package:customermanagementapp/viewmodel/visit_history_list_view_modeel.dart';
+import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:toast/toast.dart';

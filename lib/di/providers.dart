@@ -17,7 +17,7 @@ import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
 import 'package:customermanagementapp/viewmodel/menu_category_setting_view_model.dart';
 import 'package:customermanagementapp/viewmodel/menu_setting_view_model.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_edit_view_model.dart';
-import 'package:customermanagementapp/viewmodel/visit_history_list_view_modeel.dart';
+import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
