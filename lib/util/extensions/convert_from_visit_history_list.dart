@@ -1,9 +1,7 @@
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions/convert_from_menu_list.dart';
-import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
-import 'package:customermanagementapp/util/extensions/convert_from_visit_history.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 extension ConvertFromVisitHistoryList on List<VisitHistory> {
   // [取得：直近の来店履歴を取得]
@@ -17,7 +15,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     return this.first;
   }
 
-  // [取得：直近の来店履歴を取得]
+  // [取得：直近の来店履歴を取得]˙
   VisitHistory getLastVisitHistory() {
     if (this.isEmpty) return null;
     this.sort((a, b) {
@@ -111,9 +109,12 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [取得：次回来店予想を取得]
   DateTime expectedNextVisit() {
-    if (this.isEmpty || this.getRepeatCycle() == 0) return null;
-    final lastVisit = this.getLastVisitHistory().date;
-    final repeatCycle = Duration(days: this.getRepeatCycle());
+    if (this.isEmpty || ConvertFromVisitHistoryList(this).getRepeatCycle() == 0)
+      return null;
+    final lastVisit =
+        ConvertFromVisitHistoryList(this).getLastVisitHistory().date;
+    final repeatCycle =
+        Duration(days: ConvertFromVisitHistoryList(this).getRepeatCycle());
 
     return lastVisit.add(repeatCycle);
   }
@@ -190,5 +191,32 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       return !(vh.customerJson.toCustomer().name.contains(name) ||
           vh.customerJson.toCustomer().nameReading.contains(name));
     });
+  }
+
+  List<VisitHistory> getUpdate(
+      List<Customer> customers, List<Employee> employees, List<Menu> menus) {
+    final newVHList = List<VisitHistory>();
+
+    this.forEach((vh) {
+      final cId = vh.customerJson.toCustomer().id;
+      final eId = vh.employeeJson.toEmployee().id;
+      final menuIds = vh.menuListJson.toMenuList().map((menu) => menu.id);
+
+      Customer c = customers.getCustomer(cId);
+      Employee e = employees.getEmployee(eId);
+      List<Menu> m = menus.getMenus(menuIds);
+
+      newVHList.add(
+        VisitHistory(
+          id: vh.id,
+          date: vh.date,
+          customerJson: c.toJsonString(),
+          employeeJson: e.toJsonString(),
+          menuListJson: m.toJsonString(),
+        ),
+      );
+    });
+
+    return newVHList;
   }
 }

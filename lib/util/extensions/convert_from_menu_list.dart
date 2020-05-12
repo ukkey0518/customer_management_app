@@ -24,4 +24,15 @@ extension ConvertFromMenuList on List<Menu> {
     var ave = sum / this.length;
     return ave;
   }
+
+  List<Menu> getMenus(List<int> ids) {
+    if (this.isEmpty) return List<Menu>();
+    final menus = List<Menu>();
+
+    ids.forEach((id) {
+      menus.add(this.singleWhere((menu) => menu.id == id));
+    });
+
+    return menus;
+  }
 }
