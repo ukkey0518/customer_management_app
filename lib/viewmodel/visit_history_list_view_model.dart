@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/data_classes/visit_history_list_screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_state.dart';
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
@@ -14,13 +15,13 @@ class VisitHistoryListViewModel extends ChangeNotifier {
 
   List<VisitHistory> get visitHistories => _visitHistories;
 
-  VisitHistoryNarrowData _narrowData = VisitHistoryNarrowData();
+  VisitHistoryListScreenPreferences _vhPref = VisitHistoryListScreenPreferences(
+    narrowData: VisitHistoryNarrowData(),
+    sortState: VisitHistorySortState.REGISTER_OLD,
+    searchCustomerName: '',
+  );
 
-  VisitHistoryNarrowData get narrowData => _narrowData;
-
-  VisitHistorySortState _sortState = VisitHistorySortState.REGISTER_OLD;
-
-  VisitHistorySortState get sortState => _sortState;
+  VisitHistoryListScreenPreferences get vhPref => _vhPref;
 
   TextEditingController _searchNameController = TextEditingController();
 
@@ -31,28 +32,25 @@ class VisitHistoryListViewModel extends ChangeNotifier {
 
   String get selectedSortValue => _selectedSortValue;
 
-  String _searchName = '';
-
-  String get searchName => _searchName;
-
   getVisitHistories({
     VisitHistoryNarrowData narrowData,
     VisitHistorySortState sortState,
-    String searchName,
+    String searchCustomerName,
   }) async {
-    _narrowData = narrowData ?? _narrowData;
-    _sortState = sortState ?? _sortState;
-    _searchName = searchName ?? _searchName;
+    _vhPref = VisitHistoryListScreenPreferences(
+      narrowData: narrowData ?? _vhPref.narrowData,
+      sortState: sortState ?? _vhPref.sortState,
+      searchCustomerName: searchCustomerName ?? _vhPref.searchCustomerName,
+    );
 
-    _selectedSortValue = visitHistorySortStateMap[_sortState];
+    _selectedSortValue = visitHistorySortStateMap[_vhPref.sortState];
 
-    _visitHistories = await _vhRep.getVisitHistories(
-        narrowData: _narrowData, sortState: _sortState);
+    _visitHistories = await _vhRep.getVisitHistories(vhPref: _vhPref);
   }
 
   deleteVisitHistory(VisitHistory visitHistory) async {
-    _visitHistories = await _vhRep.deleteVisitHistory(visitHistory,
-        narrowData: _narrowData, sortState: _sortState);
+    _visitHistories =
+        await _vhRep.deleteVisitHistory(visitHistory, vhPref: _vhPref);
   }
 
   onRepositoryUpdated(VisitHistoryRepository vhRep) {

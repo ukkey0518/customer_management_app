@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/data_classes/visit_history_list_screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_state.dart';
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
@@ -28,13 +29,11 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
 
   // [取得：条件に一致した来店履歴を取得]
   Future<List<VisitHistory>> getVisitHistories({
-    VisitHistoryNarrowData narrowData,
-    VisitHistorySortState sortState,
-    String searchCustomerName,
+    VisitHistoryListScreenPreferences vhPref,
   }) {
-    final narrow = narrowData ?? VisitHistoryNarrowData();
-    final sort = sortState ?? VisitHistorySortState.REGISTER_NEW;
-    final name = searchCustomerName ?? '';
+    final narrow = vhPref?.narrowData ?? VisitHistoryNarrowData();
+    final sort = vhPref?.sortState ?? VisitHistorySortState.REGISTER_NEW;
+    final name = vhPref?.searchCustomerName ?? '';
 
     return transaction(() async {
       var allVisitHistory = await select(visitHistories).get();
@@ -63,40 +62,33 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
 
   // [一括処理( 追加 )：１件追加 -> 全取得]
   Future<List<VisitHistory>> addAndGetAllVisitHistories(
-    VisitHistory visitHistory, {
-    VisitHistoryNarrowData narrowData,
-    VisitHistorySortState sortState,
-  }) {
+      VisitHistory visitHistory,
+      {VisitHistoryListScreenPreferences vhPref}) {
     return transaction(() async {
       await addVisitHistory(visitHistory);
-      return await getVisitHistories(
-          narrowData: narrowData, sortState: sortState);
+      return await getVisitHistories(vhPref: vhPref);
     });
   }
 
   // [一括処理( 追加 )：複数追加 -> 全取得]
   Future<List<VisitHistory>> addAllAndGetAllVisitHistories(
     List<VisitHistory> visitHistoryList, {
-    VisitHistoryNarrowData narrowData,
-    VisitHistorySortState sortState,
+    VisitHistoryListScreenPreferences vhPref,
   }) {
     return transaction(() async {
       await addAllVisitHistory(visitHistoryList);
-      return await getVisitHistories(
-          narrowData: narrowData, sortState: sortState);
+      return await getVisitHistories(vhPref: vhPref);
     });
   }
 
   // [一括処理( 削除 )：１件削除 -> 全取得]
   Future<List<VisitHistory>> deleteAndGetAllVisitHistories(
     VisitHistory visitHistory, {
-    VisitHistoryNarrowData narrowData,
-    VisitHistorySortState sortState,
+    VisitHistoryListScreenPreferences vhPref,
   }) {
     return transaction(() async {
       await deleteVisitHistory(visitHistory);
-      return await getVisitHistories(
-          narrowData: narrowData, sortState: sortState);
+      return await getVisitHistories(vhPref: vhPref);
     });
   }
 
