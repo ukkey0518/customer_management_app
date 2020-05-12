@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_edit_dialog.dart';
 import 'package:customermanagementapp/view/components/menu_expansion_panel_list.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_category_setting_screen.dart';
@@ -6,6 +7,7 @@ import 'package:customermanagementapp/viewmodel/menu_setting_view_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:toast/toast.dart';
 
 class MenuSettingScreen extends StatelessWidget {
   @override
@@ -79,8 +81,17 @@ class MenuSettingScreen extends StatelessWidget {
   // [コールバック：メニューリストパネル長押し時]
   _deleteMenuTile(BuildContext context, Menu menu) async {
     final viewModel = Provider.of<MenuSettingViewModel>(context, listen: false);
-
-    await viewModel.deleteMenu(menu);
+    showDialog(
+      context: context,
+      builder: (_) => DeleteConfirmDialog(
+        deleteValue: menu.name,
+      ),
+    ).then((flag) async {
+      if (flag) {
+        await viewModel.deleteMenu(menu);
+        Toast.show('削除しました', context);
+      }
+    });
   }
 
   // [コールバック：FABタップ時]
