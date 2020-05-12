@@ -2,6 +2,7 @@ import 'package:customermanagementapp/data/data_classes/visit_histories_by_custo
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/data/screen_display_mode.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
@@ -144,9 +145,17 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    await viewModel.deleteVHBC(vhbc);
-
-    Toast.show('削除しました。', context);
+    showDialog(
+      context: context,
+      builder: (_) => DeleteConfirmDialog(
+        deleteValue: vhbc.customer.name,
+      ),
+    ).then((flag) async {
+      if (flag) {
+        await viewModel.deleteVHBC(vhbc);
+        Toast.show('削除しました。', context);
+      }
+    });
   }
 
   // [コールバック：絞り込みメニューアイテム選択時]

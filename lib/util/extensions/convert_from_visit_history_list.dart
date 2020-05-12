@@ -195,6 +195,8 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   List<VisitHistory> getUpdate(
       List<Customer> customers, List<Employee> employees, List<Menu> menus) {
+    if (this == null) return List();
+
     final newVHList = List<VisitHistory>();
 
     this.forEach((vh) {
