@@ -64,6 +64,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
       _employee = null;
       _menus = List();
       _isReadingMode = false;
+      _isSaved = false;
     } else {
       _id = visitHistory.id;
       _date = visitHistory.date;
@@ -71,6 +72,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
       _employee = visitHistory.employeeJson.toEmployee();
       _menus = visitHistory.menuListJson.toMenuList();
       _isReadingMode = true;
+      _isSaved = true;
     }
   }
 
