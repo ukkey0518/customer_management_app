@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_category_edit_dialog.dart';
 import 'package:customermanagementapp/view/components/list_items/menu_category_list_item.dart';
 import 'package:customermanagementapp/viewmodel/menu_category_setting_view_model.dart';
@@ -73,8 +74,17 @@ class MenuCategorySettingScreen extends StatelessWidget {
       Toast.show('カテゴリ内にメニューが存在するため削除できません。', context,
           duration: Toast.LENGTH_LONG);
     } else {
-      await viewModel.deleteMenuCategory(deleteMBC.menuCategory);
-      Toast.show('削除しました', context);
+      showDialog(
+        context: context,
+        builder: (_) => DeleteConfirmDialog(
+          deleteValue: deleteMBC.menuCategory.name,
+        ),
+      ).then((flag) async {
+        if (flag) {
+          await viewModel.deleteMenuCategory(deleteMBC.menuCategory);
+          Toast.show('削除しました', context);
+        }
+      });
     }
   }
 }
