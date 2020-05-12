@@ -47,6 +47,7 @@ class CustomerEditViewModel extends ChangeNotifier {
 
   bool get isSaved => _isSaved;
 
+  // 画面生成時にフィールドを初期化する処理
   setCustomer(Customer customer) async {
     _customers = await _cRep.getCustomers();
 
@@ -58,6 +59,7 @@ class CustomerEditViewModel extends ChangeNotifier {
       _isGenderFemale = _customer.isGenderFemale;
       _birthDay = _customer.birth;
       _title = '顧客データの編集';
+      _isSaved = true;
     } else {
       _customer = customer;
       _id = null;
@@ -66,23 +68,32 @@ class CustomerEditViewModel extends ChangeNotifier {
       _isGenderFemale = false;
       _birthDay = null;
       _title = '顧客データの登録';
+      _isSaved = false;
     }
   }
 
-  setStatus({
-    String name,
-    String nameReading,
-    bool isGenderFemale,
-    DateTime birthDay,
-  }) {
-    _nameController.text = name ?? _nameController.text;
-    _nameReadingController.text = nameReading ?? _nameReadingController.text;
-    _isGenderFemale = isGenderFemale ?? _isGenderFemale;
-    _birthDay = birthDay ?? _birthDay;
-
+  // 入力欄変更処理
+  onInputFieldChanged() {
     _isSaved = false;
   }
 
+  // 性別変更処理
+  onGenderChanged(bool isGenderFemale) {
+    _isGenderFemale = isGenderFemale ?? _isGenderFemale;
+
+    _isSaved = false;
+    notifyListeners();
+  }
+
+  // 生年月日変更処理
+  onBirthdayChanged(DateTime birthDay) {
+    _birthDay = birthDay;
+
+    _isSaved = false;
+    notifyListeners();
+  }
+
+  // 保存処理
   saveCustomer() async {
     // 未入力チェック
     _nameFieldErrorText = _nameController.text.isEmpty ? '必須入力です' : null;
@@ -112,6 +123,7 @@ class CustomerEditViewModel extends ChangeNotifier {
     return true;
   }
 
+  // Repository更新時に呼ばれる
   onRepositoryUpdated(CustomerRepository cRep) {
     _customers = cRep.customers;
     notifyListeners();

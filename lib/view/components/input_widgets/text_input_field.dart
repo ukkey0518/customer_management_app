@@ -6,6 +6,7 @@ class TextInputField extends InputWidget {
   TextInputField(
       {@required this.controller,
       @required this.errorText,
+      this.onChanged,
       this.inputType = TextInputType.text,
       this.hintText = '',
       this.isClearable = false,
@@ -13,6 +14,7 @@ class TextInputField extends InputWidget {
       this.prefixIcon});
 
   final TextEditingController controller;
+  final ValueChanged onChanged;
   final TextInputType inputType;
   final String errorText;
   final String hintText;
@@ -55,6 +57,7 @@ class TextInputField extends InputWidget {
     return TextField(
       controller: controller,
       keyboardType: inputType,
+      onChanged: onChanged != null ? (value) => onChanged(value) : null,
       decoration: InputDecoration(
         fillColor: Colors.white,
         filled: true,
