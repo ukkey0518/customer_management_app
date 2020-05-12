@@ -11,24 +11,38 @@ class VisitHistoryListViewModel extends ChangeNotifier {
   final VisitHistoryRepository _vhRep;
 
   List<VisitHistory> _visitHistories = List();
+
   List<VisitHistory> get visitHistories => _visitHistories;
 
   VisitHistoryNarrowData _narrowData = VisitHistoryNarrowData();
+
   VisitHistoryNarrowData get narrowData => _narrowData;
 
   VisitHistorySortState _sortState = VisitHistorySortState.REGISTER_OLD;
+
   VisitHistorySortState get sortState => _sortState;
+
+  TextEditingController _searchNameController = TextEditingController();
+
+  TextEditingController get searchNameController => _searchNameController;
 
   String _selectedSortValue =
       visitHistorySortStateMap[VisitHistorySortState.REGISTER_OLD];
+
   String get selectedSortValue => _selectedSortValue;
+
+  String _searchName = '';
+
+  String get searchName => _searchName;
 
   getVisitHistories({
     VisitHistoryNarrowData narrowData,
     VisitHistorySortState sortState,
+    String searchName,
   }) async {
     _narrowData = narrowData ?? _narrowData;
     _sortState = sortState ?? _sortState;
+    _searchName = searchName ?? _searchName;
 
     _selectedSortValue = visitHistorySortStateMap[_sortState];
 

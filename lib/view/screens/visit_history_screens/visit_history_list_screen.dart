@@ -240,6 +240,11 @@ class VisitHistoryListScreen extends StatelessWidget {
                   selectedValue: viewModel.selectedSortValue,
                   onSelected: (value) => _sortMenuSelected(context, value),
                 ),
+                searchMenu: SearchMenu(
+                  controller: viewModel.searchNameController,
+                  onChanged: (searchName) =>
+                      _onKeyWordSearch(context, searchName),
+                ),
               ),
               Divider(),
               Expanded(
@@ -282,6 +287,14 @@ class VisitHistoryListScreen extends StatelessWidget {
     final sortState = visitHistorySortStateMap.getKeyFromValue(value);
 
     await viewModel.getVisitHistories(sortState: sortState);
+  }
+
+  // [コールバック：キーワード検索時]
+  _onKeyWordSearch(BuildContext context, String searchName) async {
+    final viewModel =
+        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+
+    await viewModel.getVisitHistories(searchName: searchName);
   }
 
   // [コールバック：リストアイテムタップ時]
