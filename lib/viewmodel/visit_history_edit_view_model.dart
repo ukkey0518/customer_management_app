@@ -16,10 +16,9 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
 
   List<Employee> get employeeList => _employeeList;
 
-  Customer _customer =
-      Customer(id: null, name: '', nameReading: '', isGenderFemale: true);
-
   int _id;
+
+  Customer _customer;
 
   Customer get customer => _customer;
 
@@ -27,7 +26,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
 
   DateTime get date => _date;
 
-  Employee _employee = Employee(id: null, name: '');
+  Employee _employee;
 
   Employee get employee => _employee;
 

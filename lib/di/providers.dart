@@ -102,13 +102,19 @@ List<SingleChildWidget> repositories = [
     },
   ),
   // VisitHistoryRepository
-  ChangeNotifierProvider<VisitHistoryRepository>(
+  ChangeNotifierProxyProvider4<VisitHistoryDao, CustomerRepository,
+      EmployeeRepository, MenuRepository, VisitHistoryRepository>(
     create: (context) {
       print('VisitHistoryRepository provider create.');
       return VisitHistoryRepository(
         dao: Provider.of<VisitHistoryDao>(context, listen: false),
+        cRep: Provider.of<CustomerRepository>(context, listen: false),
+        eRep: Provider.of<EmployeeRepository>(context, listen: false),
+        mRep: Provider.of<MenuRepository>(context, listen: false),
       );
     },
+    update: (_, dao, cRep, eRep, mRep, vhRep) =>
+        vhRep..onRepositoryUpdated(cRep, eRep, mRep),
   ),
   // VisitHistoriesByCustomerRepository
   ChangeNotifierProxyProvider2<CustomerRepository, VisitHistoryRepository,

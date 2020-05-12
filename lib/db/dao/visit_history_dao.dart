@@ -103,4 +103,12 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
       await addAllVisitHistory(vhList);
     });
   }
+
+  // [一括処理( 更新 )：全件削除 -> 全件追加 -> 全件取得]
+  Future refresh(List<VisitHistory> visitHistoryList) {
+    return transaction(() async {
+      await deleteAllVisitHistories();
+      return await addAllAndGetAllVisitHistories(visitHistoryList);
+    });
+  }
 }

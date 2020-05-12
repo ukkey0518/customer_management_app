@@ -200,7 +200,8 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     this.forEach((vh) {
       final cId = vh.customerJson.toCustomer().id;
       final eId = vh.employeeJson.toEmployee().id;
-      final menuIds = vh.menuListJson.toMenuList().map((menu) => menu.id);
+      final menuIds =
+          vh.menuListJson.toMenuList().map((menu) => menu.id).toList();
 
       Customer c = customers.getCustomer(cId);
       Employee e = employees.getEmployee(eId);

@@ -94,6 +94,7 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
     _visitHistoriesByCustomers =
         ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);
 
+    print(_visitHistories);
     notifyListeners();
   }
 

@@ -28,6 +28,8 @@ class _VisitRecordPageState extends State<VisitRecordPage> {
   String _selectedSortValue =
       visitHistorySortStateMap[VisitHistorySortState.REGISTER_OLD];
 
+  bool setStateFlag = false;
+
   @override
   void initState() {
     print(widget.vhbc?.histories);
@@ -46,6 +48,14 @@ class _VisitRecordPageState extends State<VisitRecordPage> {
 
   @override
   Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (setStateFlag) setStateFlag = false;
+    });
+    if (!setStateFlag) {
+      _visitHistories = widget.vhbc.histories;
+      _visitHistories.applyNarrowData(_vhPref.narrowData);
+      _visitHistories.applySortState(_vhPref.sortState);
+    }
     return Column(
       children: <Widget>[
         SearchBar(
@@ -101,10 +111,10 @@ class _VisitRecordPageState extends State<VisitRecordPage> {
       },
     ).then((narrowData) {
       setState(() {
+        setStateFlag = true;
         _vhPref.narrowData = narrowData;
         _visitHistories = List.from(widget.vhbc.histories)
           ..applyNarrowData(_vhPref.narrowData);
-        print(_vhPref);
       });
     });
   }
@@ -113,9 +123,10 @@ class _VisitRecordPageState extends State<VisitRecordPage> {
     final sortState = visitHistorySortStateMap.getKeyFromValue(value);
 
     setState(() {
+      setStateFlag = true;
       _vhPref.sortState = sortState;
       _visitHistories.applySortState(_vhPref.sortState);
-      print(_vhPref);
+      _selectedSortValue = visitHistorySortStateMap[_vhPref.sortState];
     });
   }
 }

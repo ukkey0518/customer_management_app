@@ -11,6 +11,6 @@ class VisitHistoriesByCustomer {
 
   @override
   String toString() {
-    return 'cusotmer ID [${customer.id}] : history IDs [ ${histories.map((h) => h.id)} ]\n';
+    return 'cusotmer ID [$customer] : history IDs [ ${histories[0]} ]\n';
   }
 }
