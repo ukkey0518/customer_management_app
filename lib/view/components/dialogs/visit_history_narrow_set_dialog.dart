@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/data/data_classes/visit_history_narrow_state.dart';
+import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
 import 'package:customermanagementapp/view/components/input_widgets/period_input_tile.dart';
 import 'package:flutter/material.dart';

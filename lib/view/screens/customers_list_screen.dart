@@ -124,13 +124,15 @@ class CustomersListScreen extends StatelessWidget {
 
     switch (viewModel.displayMode) {
       case ScreenDisplayMode.EDITABLE:
-        Navigator.of(context).push(
-          MaterialPageRoute(
-            builder: (context) => CustomerInformationScreen(
-              customerId: vhbc.customer.id,
-            ),
-          ),
-        );
+        Navigator.of(context)
+            .push(
+              MaterialPageRoute(
+                builder: (context) => CustomerInformationScreen(
+                  customerId: vhbc.customer.id,
+                ),
+              ),
+            )
+            .then((_) => viewModel.setDisplayMode(ScreenDisplayMode.EDITABLE));
         break;
       case ScreenDisplayMode.SELECTABLE:
         Navigator.of(context).pop(vhbc.customer);

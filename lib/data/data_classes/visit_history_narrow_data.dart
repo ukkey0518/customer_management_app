@@ -32,4 +32,9 @@ class VisitHistoryNarrowData {
     customer = null;
     menuCategory = null;
   }
+
+  @override
+  String toString() {
+    return 'NarrowData(sd: $sinceDate, ud: $untilDate, em: $employee, cu: $customer, mc: $menuCategory)';
+  }
 }

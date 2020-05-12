@@ -105,6 +105,11 @@ class CustomersListViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  setDisplayMode(ScreenDisplayMode displayMode) {
+    _displayMode = displayMode;
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     _vhbcRep.dispose();
