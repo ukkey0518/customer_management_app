@@ -1,9 +1,9 @@
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_state.dart';
 import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions/convert_from_visit_history.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_menu_list.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_visit_history.dart';
 
 extension ConvertFromVisitHistoryList on List<VisitHistory> {
   // [取得：直近の来店履歴を取得]
@@ -182,5 +182,13 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         this.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
         break;
     }
+  }
+
+  void applySearchCustomerName(String name) {
+    if (name == null || name.isEmpty) return;
+    this.removeWhere((vh) {
+      return !(vh.customerJson.toCustomer().name.contains(name) ||
+          vh.customerJson.toCustomer().nameReading.contains(name));
+    });
   }
 }

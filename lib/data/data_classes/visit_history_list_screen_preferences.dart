@@ -3,9 +3,9 @@ import 'package:customermanagementapp/data/visit_history_sort_state.dart';
 
 class VisitHistoryListScreenPreferences {
   VisitHistoryListScreenPreferences(
-      {this.narrowData, this.sortState, this.searchWord});
+      {this.narrowData, this.sortState, this.searchCustomerName});
 
   VisitHistoryNarrowData narrowData;
   VisitHistorySortState sortState;
-  String searchWord;
+  String searchCustomerName;
 }

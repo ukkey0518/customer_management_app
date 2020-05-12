@@ -30,15 +30,18 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
   Future<List<VisitHistory>> getVisitHistories({
     VisitHistoryNarrowData narrowData,
     VisitHistorySortState sortState,
+    String searchCustomerName,
   }) {
     final narrow = narrowData ?? VisitHistoryNarrowData();
     final sort = sortState ?? VisitHistorySortState.REGISTER_NEW;
+    final name = searchCustomerName ?? '';
 
     return transaction(() async {
       var allVisitHistory = await select(visitHistories).get();
       var result = allVisitHistory
         ..applyNarrowData(narrow)
-        ..applySortState(sort);
+        ..applySortState(sort)
+        ..applySearchCustomerName(name);
       return result;
     });
   }
