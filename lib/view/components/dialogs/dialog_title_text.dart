@@ -19,7 +19,7 @@ class DialogTitleText extends StatelessWidget {
       txColor = Colors.red;
     } else {
       bgColor = Theme.of(context).primaryColorLight;
-      txColor = Theme.of(context).textTheme.body1.color;
+      txColor = Theme.of(context).textTheme.bodyText1.color;
     }
 
     return Container(
