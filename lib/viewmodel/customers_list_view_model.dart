@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
+import 'package:customermanagementapp/data/data_classes/customer_list_screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/drop_down_menu_items.dart';
 import 'package:customermanagementapp/data/list_status.dart';

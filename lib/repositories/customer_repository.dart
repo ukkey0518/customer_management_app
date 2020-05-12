@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/data/data_classes/screen_preferences.dart';
+import 'package:customermanagementapp/data/data_classes/customer_list_screen_preferences.dart';
 import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
