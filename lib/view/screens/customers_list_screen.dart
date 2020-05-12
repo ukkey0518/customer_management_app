@@ -105,26 +105,16 @@ class CustomersListScreen extends StatelessWidget {
 
   // [コールバック：FABタップ]
   _addCustomer(BuildContext context) {
-    final viewModel =
-        Provider.of<CustomersListViewModel>(context, listen: false);
-
-    Navigator.of(context)
-        .push(
+    Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) {
           return CustomerEditScreen(
-            viewModel.visitHistoriesByCustomers.toCustomers(),
             customer: null,
           );
         },
         fullscreenDialog: true,
       ),
-    )
-        .then((customer) async {
-      if (customer != null) {
-        await viewModel.addCustomer(customer);
-      }
-    });
+    );
   }
 
   // [コールバック：リストアイテムタップ]

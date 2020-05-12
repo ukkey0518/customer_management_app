@@ -11,6 +11,7 @@ import 'package:customermanagementapp/repositories/menu_repository.dart';
 import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
 import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
+import 'package:customermanagementapp/viewmodel/customer_edit_view_model.dart';
 import 'package:customermanagementapp/viewmodel/customer_information_view_model.dart';
 import 'package:customermanagementapp/viewmodel/customers_list_view_model.dart';
 import 'package:customermanagementapp/viewmodel/employee_view_model.dart';
@@ -186,6 +187,15 @@ List<SingleChildWidget> viewModels = [
       );
     },
     update: (_, mbcRep, viewModel) => viewModel..onRepositoryUpdated(mbcRep),
+  ),
+  ChangeNotifierProxyProvider<CustomerRepository, CustomerEditViewModel>(
+    create: (context) {
+      print('CustomerEditViewModel provider create.');
+      return CustomerEditViewModel(
+        cRep: Provider.of<CustomerRepository>(context, listen: false),
+      );
+    },
+    update: (_, cRep, viewModel) => viewModel..onRepositoryUpdated(cRep),
   ),
   // EmployeeViewModel
   ChangeNotifierProxyProvider<EmployeeRepository, EmployeeViewModel>(

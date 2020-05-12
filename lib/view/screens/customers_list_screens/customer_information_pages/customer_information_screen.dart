@@ -65,7 +65,6 @@ class CustomerInformationScreen extends StatelessWidget {
       MaterialPageRoute(
         builder: (context) {
           return CustomerEditScreen(
-            viewModel.customers,
             customer: viewModel.vhbc.customer,
           );
         },
