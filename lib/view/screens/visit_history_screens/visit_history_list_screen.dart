@@ -235,30 +235,10 @@ class VisitHistoryListScreen extends StatelessWidget {
                   isSetAnyNarrowData: viewModel.narrowData.isSetAny(),
                   onPressed: () => _showNarrowSetDialog(context),
                 ),
-                sortMenu: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: DropdownButton(
-                      value: viewModel.selectedSortValue,
-                      icon: Icon(Icons.arrow_drop_down),
-                      onChanged: (newValue) =>
-                          _sortMenuSelected(context, newValue),
-                      style: TextStyle(fontSize: 14, color: Colors.black),
-                      items: visitHistorySortStateMap.values
-                          .map<DropdownMenuItem<String>>(
-                        (value) {
-                          return DropdownMenuItem<String>(
-                            value: value,
-                            child: SizedBox(
-                              width: 80,
-                              child: Text(value, textAlign: TextAlign.center),
-                            ),
-                          );
-                        },
-                      ).toList(),
-                    ),
-                  ),
+                sortMenu: SortDropDownMenu(
+                  items: visitHistorySortStateMap.values.toList(),
+                  selectedValue: viewModel.selectedSortValue,
+                  onSelected: (value) => _sortMenuSelected(context, value),
                 ),
               ),
               Divider(),
