@@ -16,13 +16,6 @@ import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 List<SingleChildWidget> indepRepProviders = [
-  // [Rep: CustomerRepository]
-  ChangeNotifierProvider<CustomerRepository>(
-    create: (context) => CustomerRepository(
-      dao: Provider.of<CustomerDao>(context, listen: false),
-    ),
-  ),
-
   // [Rep: EmployeeRepository]
   ChangeNotifierProvider<EmployeeRepository>(
     create: (context) => EmployeeRepository(
@@ -53,6 +46,17 @@ List<SingleChildWidget> indepRepProviders = [
 ];
 
 List<SingleChildWidget> depRepProviders = [
+  // [Rep: CustomerRepository]
+  // (依存) VisitReasonRepository
+  ChangeNotifierProxyProvider2<CustomerDao, VisitReasonRepository,
+      CustomerRepository>(
+    create: (context) => CustomerRepository(
+      dao: Provider.of<CustomerDao>(context, listen: false),
+      vrRep: Provider.of<VisitReasonRepository>(context, listen: false),
+    ),
+    update: (_, dao, vrRep, cRep) => cRep..onRepositoryUpdated(vrRep),
+  ),
+
   // [Rep: VisitHistoryRepository]
   // (依存) CustomerRepository, EmployeeRepository, MenuRepository
   ChangeNotifierProxyProvider4<VisitHistoryDao, CustomerRepository,
@@ -75,8 +79,8 @@ List<SingleChildWidget> depRepProviders = [
       cRep: Provider.of<CustomerRepository>(context, listen: false),
       vhRep: Provider.of<VisitHistoryRepository>(context, listen: false),
     ),
-    update: (_, cRep, vhRep, viewModel) =>
-        viewModel..onRepositoriesUpdated(cRep, vhRep),
+    update: (_, cRep, vhRep, vhbcRep) =>
+        vhbcRep..onRepositoriesUpdated(cRep, vhRep),
   ),
 
   // [Rep: MenusByCategoryRepository]
@@ -87,7 +91,7 @@ List<SingleChildWidget> depRepProviders = [
       mRep: Provider.of<MenuRepository>(context, listen: false),
       mcRep: Provider.of<MenuCategoryRepository>(context, listen: false),
     ),
-    update: (_, mRep, mcRep, viewModel) =>
-        viewModel..onRepositoriesUpdated(mRep, mcRep),
+    update: (_, mRep, mcRep, mbcRep) =>
+        mbcRep..onRepositoriesUpdated(mRep, mcRep),
   ),
 ];
