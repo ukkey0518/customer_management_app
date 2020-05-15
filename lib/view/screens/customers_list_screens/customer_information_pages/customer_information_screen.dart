@@ -46,7 +46,9 @@ class CustomerInformationScreen extends StatelessWidget {
               BasicInformationPage(
                 vhbc: viewModel.vhbc,
               ),
-              VisitRecordPage(vhbc: viewModel.vhbc),
+              VisitRecordPage(
+                vhbc: viewModel.vhbc,
+              ),
             ],
           );
         }),

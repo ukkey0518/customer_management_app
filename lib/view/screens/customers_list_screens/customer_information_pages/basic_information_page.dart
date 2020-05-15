@@ -36,7 +36,7 @@ class BasicInformationPage extends StatelessWidget {
               numberOfVisit: histories?.length,
               firstVisitDate: histories?.getFirstVisitHistory()?.date,
               lastVisitDate: histories?.getLastVisitHistory()?.date,
-              reasonForVisit: null, //TODO
+              reasonForVisit: customer?.visitReason,
             ),
             SizedBox(height: 30),
             PriceAnalysisCardWidget(
