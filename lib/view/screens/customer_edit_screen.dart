@@ -73,11 +73,12 @@ class CustomerEditScreen extends StatelessWidget {
                           style: InputFieldStyle.ROUNDED_RECTANGLE,
                         ),
                         '性別*': SelectSwitchButtons(
-                          values: genderEntry.values.toList(),
-                          selectedValue: genderEntry[viewModel.isGenderFemale],
+                          values: genderBoolData.values.toList(),
+                          selectedValue:
+                              genderBoolData[viewModel.isGenderFemale],
                           onChanged: (genderStr) => _onGenderChanged(
                             context,
-                            genderEntry.getKeyFromValue(genderStr),
+                            genderBoolData.getKeyFromValue(genderStr),
                           ),
                         ),
                         '生年月日': DateInputTile(
