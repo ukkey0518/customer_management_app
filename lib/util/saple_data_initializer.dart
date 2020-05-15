@@ -1,8 +1,11 @@
+import 'package:customermanagementapp/data/visit_reason_data.dart';
 import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/dao/employee_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_dao.dart';
+import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
 import 'package:provider/provider.dart';
@@ -16,6 +19,34 @@ class SampleDataInitializer {
   }
 
   SampleDataInitializer._internal();
+
+  // [初期データ：顧客]
+  static final List<Customer> _initCustomers = [
+    Customer(
+      id: 1,
+      name: 'カスタマーA',
+      nameReading: 'かすたまーA',
+      isGenderFemale: true,
+      birth: DateTime(1996, 5, 18),
+      visitReason: visitReasonData[0],
+    ),
+    Customer(
+      id: 2,
+      name: 'カスタマーB',
+      nameReading: 'かすたまーB',
+      isGenderFemale: false,
+      birth: DateTime(1990, 1, 1),
+      visitReason: visitReasonData[5],
+    ),
+    Customer(
+      id: 3,
+      name: 'カスタマーC',
+      nameReading: 'かすたまーC',
+      isGenderFemale: true,
+      birth: DateTime(1989, 10, 26),
+      visitReason: visitReasonData[3],
+    ),
+  ];
 
   // [初期データ：従業員]
   static final List<Employee> _initEmployees = [
@@ -110,28 +141,64 @@ class SampleDataInitializer {
     ),
   ];
 
-  // [初期データ：顧客]
-  static final List<Customer> _initCustomers = [
-    Customer(
+  static final List<VisitHistory> _initVisitHistories = [
+    VisitHistory(
       id: 1,
-      name: 'カスタマーA',
-      nameReading: 'かすたまーA',
-      isGenderFemale: true,
-      birth: DateTime(1996, 5, 18),
+      date: DateTime(2020, 1, 1),
+      customerJson: _initCustomers[0].toJsonString(),
+      employeeJson: _initEmployees[0].toJsonString(),
+      menuListJson: [
+        _initMenus[0],
+      ].toJsonString(),
     ),
-    Customer(
+    VisitHistory(
       id: 2,
-      name: 'カスタマーB',
-      nameReading: 'かすたまーB',
-      isGenderFemale: false,
-      birth: DateTime(1990, 1, 1),
+      date: DateTime(2020, 2, 13),
+      customerJson: _initCustomers[1].toJsonString(),
+      employeeJson: _initEmployees[1].toJsonString(),
+      menuListJson: [
+        _initMenus[2],
+        _initMenus[6],
+      ].toJsonString(),
     ),
-    Customer(
+    VisitHistory(
       id: 3,
-      name: 'カスタマーC',
-      nameReading: 'かすたまーC',
-      isGenderFemale: true,
-      birth: DateTime(1989, 10, 26),
+      date: DateTime(2020, 2, 23),
+      customerJson: _initCustomers[2].toJsonString(),
+      employeeJson: _initEmployees[2].toJsonString(),
+      menuListJson: [
+        _initMenus[3],
+        _initMenus[9],
+      ].toJsonString(),
+    ),
+    VisitHistory(
+      id: 4,
+      date: DateTime(2020, 3, 19),
+      customerJson: _initCustomers[1].toJsonString(),
+      employeeJson: _initEmployees[1].toJsonString(),
+      menuListJson: [
+        _initMenus[10],
+      ].toJsonString(),
+    ),
+    VisitHistory(
+      id: 5,
+      date: DateTime(2020, 3, 12),
+      customerJson: _initCustomers[2].toJsonString(),
+      employeeJson: _initEmployees[2].toJsonString(),
+      menuListJson: [
+        _initMenus[7],
+        _initMenus[11],
+      ].toJsonString(),
+    ),
+    VisitHistory(
+      id: 6,
+      date: DateTime(2020, 4, 12),
+      customerJson: _initCustomers[0].toJsonString(),
+      employeeJson: _initEmployees[0].toJsonString(),
+      menuListJson: [
+        _initMenus[2],
+        _initMenus[5],
+      ].toJsonString(),
     ),
   ];
 
@@ -139,18 +206,12 @@ class SampleDataInitializer {
   initialize(BuildContext context) async {
     print('--- sample data init start ...');
 
-    // CustomerDaoの取得
     final customerDao = Provider.of<CustomerDao>(context, listen: false);
-
-    // EmployeeDaoの取得
     final employeeDao = Provider.of<EmployeeDao>(context, listen: false);
-
-    // menuCategoryDaoの取得
     final menuCategoryDao =
         Provider.of<MenuCategoryDao>(context, listen: false);
-
-    // menuDaoの取得
     final menuDao = Provider.of<MenuDao>(context, listen: false);
+    final vhDao = Provider.of<VisitHistoryDao>(context, listen: false);
 
     try {
       //Customersテーブルの初期化
@@ -187,6 +248,16 @@ class SampleDataInitializer {
         print('  ...Menus init ok. : ${_initMenus.length} data');
       } else {
         print('  ...Menus not empty. : exists ${_initMenus.length} data');
+      }
+
+      // VisitHistoriesテーブルの初期化
+      if ((await vhDao.getVisitHistories()).isEmpty) {
+        await vhDao.addAllVisitHistory(_initVisitHistories);
+        print(
+            '  ...VisitHistories init ok. : ${_initVisitHistories.length} data');
+      } else {
+        print(
+            '  ...VisitHistories not empty. : exists ${_initVisitHistories.length} data');
       }
 
       print('--- initialize finished.');
