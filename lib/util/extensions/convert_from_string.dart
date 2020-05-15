@@ -27,6 +27,12 @@ extension ConvertFromJson on String {
     return Employee.fromJson(jsonMap);
   }
 
+  // [変換：JSON文字列 -> VisitReason]
+  VisitReason toVisitReason() {
+    var jsonMap = JsonCodec().decode(this);
+    return VisitReason.fromJson(jsonMap);
+  }
+
   // [変換：JSON文字列 -> MenuCategory]
   MenuCategory toMenuCategory() {
     var jsonMap = JsonCodec().decode(this);
