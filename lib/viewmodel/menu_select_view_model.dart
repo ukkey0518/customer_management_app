@@ -10,15 +10,19 @@ class MenuSelectViewModel extends ChangeNotifier {
   final MenusByCategoryRepository _mbcRep;
 
   List<MenusByCategory> _mbcList = List();
+
   List<MenusByCategory> get mbcList => _mbcList;
 
   List<Menu> _selectedMenus = List();
+
   List<Menu> get selectedMenus => _selectedMenus;
 
   String _whenSetMessage = '';
+
   String get whenSetMessage => _whenSetMessage;
 
   getMBCList(List<Menu> selectedMenus) async {
+    print('[VM: メニュー選択画面] getMBCList');
     _mbcList = await _mbcRep.getMenusByCategories();
     if (selectedMenus != null) {
       List<Menu> list = List.from(selectedMenus);
@@ -27,6 +31,7 @@ class MenuSelectViewModel extends ChangeNotifier {
   }
 
   setMenu(Menu menu) {
+    print('[VM: メニュー選択画面] setMenu');
     if (_selectedMenus.contains(menu)) {
       _selectedMenus.remove(menu);
       _whenSetMessage = 'リストから削除しました。';
@@ -43,12 +48,20 @@ class MenuSelectViewModel extends ChangeNotifier {
   }
 
   setExpanded(int index, bool isExpanded) async {
+    print('[VM: メニュー選択画面] setExpanded');
     _mbcList = await _mbcRep.setExpanded(index, isExpanded);
   }
 
   onRepositoryUpdated(MenusByCategoryRepository mbcRep) {
+    print('  [VM: メニュー選択画面] onRepositoryUpdated');
     _mbcList = _mbcRep.menusByCategories;
 
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _mbcRep.dispose();
+    super.dispose();
   }
 }

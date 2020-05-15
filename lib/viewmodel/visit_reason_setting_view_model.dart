@@ -12,22 +12,22 @@ class VisitReasonSettingViewModel extends ChangeNotifier {
   List<VisitReason> get visitReasons => _visitReasons;
 
   getVisitReasons() async {
-    print('[ViewModel: VisitReason] getVisitReasons');
+    print('[VM: 来店動機設定画面] getVisitReasons');
     _visitReasons = await _vrRep.getVisitReasons();
   }
 
   addVisitReason(VisitReason visitReason) async {
-    print('[ViewModel: VisitReason] addVisitReason');
+    print('[VM: 来店動機設定画面] addVisitReason');
     _visitReasons = await _vrRep.addVisitReason(visitReason);
   }
 
   deleteVisitReasons(VisitReason visitReason) async {
-    print('[ViewModel: VisitReason] deleteVisitReasons');
+    print('[VM: 来店動機設定画面] deleteVisitReasons');
     _visitReasons = await _vrRep.deleteVisitReason(visitReason);
   }
 
   onRepositoryUpdated(VisitReasonRepository vrRep) {
-    print('[ViewModel: VisitReason] onRepositoryUpdated');
+    print('  [VM: 来店動機設定画面] onRepositoryUpdated');
     _visitReasons = vrRep.visitReasons;
     notifyListeners();
   }

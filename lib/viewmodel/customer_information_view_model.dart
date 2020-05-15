@@ -14,13 +14,15 @@ class CustomerInformationViewModel extends ChangeNotifier {
   int _customerId;
 
   List<Customer> _customers = List();
+
   List<Customer> get customers => _customers;
 
   VisitHistoriesByCustomer _vhbc;
+
   VisitHistoriesByCustomer get vhbc => _vhbc;
 
   getVHBC({int id}) async {
-    print('CustomerInformationViewModel.getVHBC :');
+    print('[VM: 顧客情報画面] getVHBC');
 
     _customerId = id;
 
@@ -31,7 +33,7 @@ class CustomerInformationViewModel extends ChangeNotifier {
   }
 
   addCustomer(Customer customer) async {
-    print('CustomerInformationViewModel.onRepositoryUpdated :');
+    print('[VM: 顧客情報画面] addCustomer');
 
     _allVHBC = await _vhbcRep.addCustomer(customer);
     _customers = _allVHBC.toCustomers();
@@ -40,7 +42,7 @@ class CustomerInformationViewModel extends ChangeNotifier {
   }
 
   onRepositoryUpdated(VisitHistoriesByCustomerRepository vhbcRep) {
-    print('CustomerInformationViewModel.onRepositoryUpdated :');
+    print('  [VM: 顧客情報画面] onRepositoryUpdated');
 
     _allVHBC = _vhbcRep.visitHistoriesByCustomers;
     _customers = _allVHBC.toCustomers();

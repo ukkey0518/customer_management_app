@@ -49,6 +49,7 @@ class CustomerEditViewModel extends ChangeNotifier {
 
   // 画面生成時にフィールドを初期化する処理
   setCustomer(Customer customer) async {
+    print('[VM: 顧客データ編集画面] setCustomer');
     _customers = await _cRep.getCustomers();
 
     if (customer != null) {
@@ -74,11 +75,13 @@ class CustomerEditViewModel extends ChangeNotifier {
 
   // 入力欄変更処理
   onInputFieldChanged() {
+    print('[VM: 顧客データ編集画面] onInputFieldChanged');
     _isSaved = false;
   }
 
   // 性別変更処理
   onGenderChanged(bool isGenderFemale) {
+    print('[VM: 顧客データ編集画面] onGenderChanged');
     _isGenderFemale = isGenderFemale ?? _isGenderFemale;
 
     _isSaved = false;
@@ -87,6 +90,7 @@ class CustomerEditViewModel extends ChangeNotifier {
 
   // 生年月日変更処理
   onBirthdayChanged(DateTime birthDay) {
+    print('[VM: 顧客データ編集画面] onBirthdayChanged');
     _birthDay = birthDay;
 
     _isSaved = false;
@@ -95,6 +99,7 @@ class CustomerEditViewModel extends ChangeNotifier {
 
   // 保存処理
   saveCustomer() async {
+    print('[VM: 顧客データ編集画面] saveCustomer');
     // 未入力チェック
     _nameFieldErrorText = _nameController.text.isEmpty ? '必須入力です' : null;
     _nameReadingFieldErrorText =
@@ -125,7 +130,15 @@ class CustomerEditViewModel extends ChangeNotifier {
 
   // Repository更新時に呼ばれる
   onRepositoryUpdated(CustomerRepository cRep) {
+    print('  [VM: 顧客データ編集画面] onRepositoryUpdated');
+
     _customers = cRep.customers;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _cRep.dispose();
+    super.dispose();
   }
 }

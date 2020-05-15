@@ -77,7 +77,7 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
     CustomerRepository cRep,
     VisitHistoryRepository vhRep,
   ) {
-    print('[Rep: VisitHistoriesByCustomer] onRepositoriesUpdated');
+    print('  [Rep: VisitHistoriesByCustomer] onRepositoriesUpdated');
 
     _customers = cRep.customers;
     _visitHistories = vhRep.visitHistories;
@@ -85,7 +85,6 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
     _visitHistoriesByCustomers =
         ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);
 
-    print(_visitHistories);
     notifyListeners();
   }
 

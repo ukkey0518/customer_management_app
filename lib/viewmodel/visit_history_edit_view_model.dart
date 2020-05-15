@@ -55,6 +55,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
   String get menusErrorText => _menusErrorText;
 
   reflectVisitHistoryData({VisitHistory visitHistory}) async {
+    print('[VM: 来店履歴編集画面] reflectVisitHistoryData');
     _employeeList = await _eRep.getEmployees();
 
     if (visitHistory == null) {
@@ -77,6 +78,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
   }
 
   saveVisitHistory() async {
+    print('[VM: 来店履歴編集画面] saveVisitHistory');
     _customerErrorText = _customer == null ? '顧客データが選択されていません。' : null;
     _employeeErrorText = _employee == null ? '担当スタッフが選択されていません。' : null;
     _menusErrorText =
@@ -105,6 +107,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
   }
 
   onRepositoriesUpdated(VisitHistoryRepository vhRep, EmployeeRepository eRep) {
+    print('  [VM: 来店履歴編集画面] onRepositoriesUpdated');
     _employeeList = eRep.employees;
     notifyListeners();
   }
@@ -116,6 +119,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
     List<Menu> menus,
     bool isReadingMode,
   }) {
+    print('[VM: 来店履歴編集画面] setStatus');
     _customer = customer ?? _customer;
     _date = date ?? _date;
     _employee = employee ?? _employee;
@@ -125,5 +129,12 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
     _isSaved = false;
 
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _vhRep.dispose();
+    _eRep.dispose();
+    super.dispose();
   }
 }

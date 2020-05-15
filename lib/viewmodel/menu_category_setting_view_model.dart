@@ -9,23 +9,34 @@ class MenuCategorySettingViewModel extends ChangeNotifier {
   final MenusByCategoryRepository _mbcRep;
 
   List<MenusByCategory> _mbcList;
+
   List<MenusByCategory> get mbcList => _mbcList;
 
   getMBCList() async {
+    print('[VM: メニューカテゴリ設定画面] getMBCList');
     _mbcList = await _mbcRep.getMenusByCategories();
   }
 
   addMenuCategory(MenuCategory menuCategory) async {
+    print('[VM: メニューカテゴリ設定画面] addMenuCategory');
     _mbcList = await _mbcRep.addMenuCategory(menuCategory);
   }
 
   deleteMenuCategory(MenuCategory menuCategory) async {
+    print('[VM: メニューカテゴリ設定画面] deleteMenuCategory');
     _mbcList = await _mbcRep.deleteMenuCategory(menuCategory);
   }
 
   onRepositoryUpdated(MenusByCategoryRepository mbcRep) {
+    print('  [VM: メニューカテゴリ設定画面] onRepositoryUpdated');
     _mbcList = _mbcRep.menusByCategories;
 
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _mbcRep.dispose();
+    super.dispose();
   }
 }

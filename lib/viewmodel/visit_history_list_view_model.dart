@@ -37,6 +37,7 @@ class VisitHistoryListViewModel extends ChangeNotifier {
     VisitHistorySortState sortState,
     String searchCustomerName,
   }) async {
+    print('[VM: 来店履歴リスト画面] getVisitHistories');
     _vhPref = VisitHistoryListScreenPreferences(
       narrowData: narrowData ?? _vhPref.narrowData,
       sortState: sortState ?? _vhPref.sortState,
@@ -49,13 +50,21 @@ class VisitHistoryListViewModel extends ChangeNotifier {
   }
 
   deleteVisitHistory(VisitHistory visitHistory) async {
+    print('[VM: 来店履歴リスト画面] deleteVisitHistory');
     _visitHistories =
         await _vhRep.deleteVisitHistory(visitHistory, vhPref: _vhPref);
   }
 
   onRepositoryUpdated(VisitHistoryRepository vhRep) {
+    print('  [VM: 来店履歴リスト画面] onRepositoryUpdated');
     _visitHistories = vhRep.visitHistories;
 
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _vhRep.dispose();
+    super.dispose();
   }
 }

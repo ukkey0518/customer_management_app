@@ -69,7 +69,7 @@ class CustomerRepository extends ChangeNotifier {
 
   // [Repositoryの更新]
   onRepositoryUpdated(VisitReasonRepository vrRep) {
-    print('[Rep: Customer] onRepositoryUpdated');
+    print('  [Rep: Customer] onRepositoryUpdated');
 
     _visitReasons = vrRep.visitReasons;
     _customers = _customers.getUpdate(_visitReasons);

@@ -79,7 +79,7 @@ class MenusByCategoryRepository extends ChangeNotifier {
     MenuRepository mRep,
     MenuCategoryRepository mcRep,
   ) {
-    print('[Rep: MenusByCategory] onRepositoriesUpdated');
+    print('  [Rep: MenusByCategory] onRepositoriesUpdated');
 
     _menus = mRep.menus;
     _menuCategories = mcRep.menuCategories;

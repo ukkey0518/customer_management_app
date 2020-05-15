@@ -92,7 +92,7 @@ class VisitHistoryRepository extends ChangeNotifier {
     EmployeeRepository eRep,
     MenuRepository mRep,
   ) {
-    print('[Rep: VisitHistory] onRepositoryUpdated');
+    print('  [Rep: VisitHistory] onRepositoryUpdated');
     _customerList = _cRep.customers;
     _employeeList = _eRep.employees;
     _menuList = _mRep.menus;

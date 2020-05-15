@@ -62,7 +62,7 @@ class CustomersListViewModel extends ChangeNotifier {
     CustomerSortState sortState,
     String searchWord,
   }) async {
-    print('CustomersListViewModel.getCustomers :');
+    print('[VM: 顧客リスト画面] getCustomersList');
 
     _displayMode = displayMode ?? _displayMode;
 
@@ -79,20 +79,20 @@ class CustomersListViewModel extends ChangeNotifier {
 
   // [追加；顧客データを追加]
   addCustomer(Customer customer) async {
-    print('CustomersListViewModel.addCustomer :');
+    print('[VM: 顧客リスト画面] addCustomer');
     _visitHistoriesByCustomers = await _vhbcRep.addCustomer(customer);
   }
 
   // [削除：１件の顧客データを削除]
   deleteVHBC(VisitHistoriesByCustomer vhbc) async {
-    print('CustomersListViewModel.deleteEmployee :');
+    print('[VM: 顧客リスト画面] deleteVHBC');
 
     await _vhbcRep.deleteVisitHistoriesByCustomers(vhbc, _pref);
   }
 
   // [更新：CustomerRepositoryの変更があったときに呼ばれる]
   onRepositoryUpdated(VisitHistoriesByCustomerRepository vhbcRep) {
-    print('CustomersListViewModel.onRepositoryUpdated :');
+    print('  [VM: 顧客リスト画面] onRepositoryUpdated');
 
     _visitHistoriesByCustomers = vhbcRep.visitHistoriesByCustomers;
 
@@ -100,6 +100,7 @@ class CustomersListViewModel extends ChangeNotifier {
   }
 
   setDisplayMode(ScreenDisplayMode displayMode) {
+    print('[VM: 顧客リスト画面] setDisplayMode');
     _displayMode = displayMode;
     notifyListeners();
   }

@@ -37,7 +37,7 @@ class EmployeeSettingViewModel extends ChangeNotifier {
 
   // [更新：MyRepositoryの変更があったときに呼ばれる]
   onRepositoryUpdated(EmployeeRepository eRep) {
-    print('[VM: Employee] onRepositoryUpdated');
+    print('  [VM: Employee] onRepositoryUpdated');
     _employees = eRep.employees;
 
     notifyListeners();
