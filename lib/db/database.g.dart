@@ -13,12 +13,14 @@ class Customer extends DataClass implements Insertable<Customer> {
   final String nameReading;
   final bool isGenderFemale;
   final DateTime birth;
+  final String visitReasonJson;
   Customer(
       {@required this.id,
       @required this.name,
       @required this.nameReading,
       @required this.isGenderFemale,
-      this.birth});
+      this.birth,
+      this.visitReasonJson});
   factory Customer.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -35,6 +37,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           .mapFromDatabaseResponse(data['${effectivePrefix}is_gender_female']),
       birth:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}birth']),
+      visitReasonJson: stringType
+          .mapFromDatabaseResponse(data['${effectivePrefix}visit_reason_json']),
     );
   }
   @override
@@ -55,6 +59,9 @@ class Customer extends DataClass implements Insertable<Customer> {
     if (!nullToAbsent || birth != null) {
       map['birth'] = Variable<DateTime>(birth);
     }
+    if (!nullToAbsent || visitReasonJson != null) {
+      map['visit_reason_json'] = Variable<String>(visitReasonJson);
+    }
     return map;
   }
 
@@ -67,6 +74,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       nameReading: serializer.fromJson<String>(json['nameReading']),
       isGenderFemale: serializer.fromJson<bool>(json['isGenderFemale']),
       birth: serializer.fromJson<DateTime>(json['birth']),
+      visitReasonJson: serializer.fromJson<String>(json['visitReasonJson']),
     );
   }
   @override
@@ -78,6 +86,7 @@ class Customer extends DataClass implements Insertable<Customer> {
       'nameReading': serializer.toJson<String>(nameReading),
       'isGenderFemale': serializer.toJson<bool>(isGenderFemale),
       'birth': serializer.toJson<DateTime>(birth),
+      'visitReasonJson': serializer.toJson<String>(visitReasonJson),
     };
   }
 
@@ -86,13 +95,15 @@ class Customer extends DataClass implements Insertable<Customer> {
           String name,
           String nameReading,
           bool isGenderFemale,
-          DateTime birth}) =>
+          DateTime birth,
+          String visitReasonJson}) =>
       Customer(
         id: id ?? this.id,
         name: name ?? this.name,
         nameReading: nameReading ?? this.nameReading,
         isGenderFemale: isGenderFemale ?? this.isGenderFemale,
         birth: birth ?? this.birth,
+        visitReasonJson: visitReasonJson ?? this.visitReasonJson,
       );
   @override
   String toString() {
@@ -101,7 +112,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           ..write('name: $name, ')
           ..write('nameReading: $nameReading, ')
           ..write('isGenderFemale: $isGenderFemale, ')
-          ..write('birth: $birth')
+          ..write('birth: $birth, ')
+          ..write('visitReasonJson: $visitReasonJson')
           ..write(')'))
         .toString();
   }
@@ -111,8 +123,10 @@ class Customer extends DataClass implements Insertable<Customer> {
       id.hashCode,
       $mrjc(
           name.hashCode,
-          $mrjc(nameReading.hashCode,
-              $mrjc(isGenderFemale.hashCode, birth.hashCode)))));
+          $mrjc(
+              nameReading.hashCode,
+              $mrjc(isGenderFemale.hashCode,
+                  $mrjc(birth.hashCode, visitReasonJson.hashCode))))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -121,7 +135,8 @@ class Customer extends DataClass implements Insertable<Customer> {
           other.name == this.name &&
           other.nameReading == this.nameReading &&
           other.isGenderFemale == this.isGenderFemale &&
-          other.birth == this.birth);
+          other.birth == this.birth &&
+          other.visitReasonJson == this.visitReasonJson);
 }
 
 class CustomersCompanion extends UpdateCompanion<Customer> {
@@ -130,12 +145,14 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
   final Value<String> nameReading;
   final Value<bool> isGenderFemale;
   final Value<DateTime> birth;
+  final Value<String> visitReasonJson;
   const CustomersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.nameReading = const Value.absent(),
     this.isGenderFemale = const Value.absent(),
     this.birth = const Value.absent(),
+    this.visitReasonJson = const Value.absent(),
   });
   CustomersCompanion.insert({
     this.id = const Value.absent(),
@@ -143,6 +160,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     @required String nameReading,
     @required bool isGenderFemale,
     this.birth = const Value.absent(),
+    this.visitReasonJson = const Value.absent(),
   })  : name = Value(name),
         nameReading = Value(nameReading),
         isGenderFemale = Value(isGenderFemale);
@@ -152,6 +170,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     Expression<String> nameReading,
     Expression<bool> isGenderFemale,
     Expression<DateTime> birth,
+    Expression<String> visitReasonJson,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -159,6 +178,7 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       if (nameReading != null) 'name_reading': nameReading,
       if (isGenderFemale != null) 'is_gender_female': isGenderFemale,
       if (birth != null) 'birth': birth,
+      if (visitReasonJson != null) 'visit_reason_json': visitReasonJson,
     });
   }
 
@@ -167,13 +187,15 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       Value<String> name,
       Value<String> nameReading,
       Value<bool> isGenderFemale,
-      Value<DateTime> birth}) {
+      Value<DateTime> birth,
+      Value<String> visitReasonJson}) {
     return CustomersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       nameReading: nameReading ?? this.nameReading,
       isGenderFemale: isGenderFemale ?? this.isGenderFemale,
       birth: birth ?? this.birth,
+      visitReasonJson: visitReasonJson ?? this.visitReasonJson,
     );
   }
 
@@ -194,6 +216,9 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     }
     if (birth.present) {
       map['birth'] = Variable<DateTime>(birth.value);
+    }
+    if (visitReasonJson.present) {
+      map['visit_reason_json'] = Variable<String>(visitReasonJson.value);
     }
     return map;
   }
@@ -265,9 +290,23 @@ class $CustomersTable extends Customers
     );
   }
 
+  final VerificationMeta _visitReasonJsonMeta =
+      const VerificationMeta('visitReasonJson');
+  GeneratedTextColumn _visitReasonJson;
+  @override
+  GeneratedTextColumn get visitReasonJson =>
+      _visitReasonJson ??= _constructVisitReasonJson();
+  GeneratedTextColumn _constructVisitReasonJson() {
+    return GeneratedTextColumn(
+      'visit_reason_json',
+      $tableName,
+      true,
+    );
+  }
+
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, nameReading, isGenderFemale, birth];
+      [id, name, nameReading, isGenderFemale, birth, visitReasonJson];
   @override
   $CustomersTable get asDslTable => this;
   @override
@@ -307,6 +346,12 @@ class $CustomersTable extends Customers
     if (data.containsKey('birth')) {
       context.handle(
           _birthMeta, birth.isAcceptableOrUnknown(data['birth'], _birthMeta));
+    }
+    if (data.containsKey('visit_reason_json')) {
+      context.handle(
+          _visitReasonJsonMeta,
+          visitReasonJson.isAcceptableOrUnknown(
+              data['visit_reason_json'], _visitReasonJsonMeta));
     }
     return context;
   }

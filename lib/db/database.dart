@@ -8,13 +8,14 @@ import 'package:path/path.dart' as p;
 part 'database.g.dart';
 
 // [テーブル：顧客データ]
-// (依存：なし)
+// (依存：VisitReasons)
 class Customers extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text()();
   TextColumn get nameReading => text()();
   BoolColumn get isGenderFemale => boolean()();
   DateTimeColumn get birth => dateTime().nullable()();
+  TextColumn get visitReasonJson => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
