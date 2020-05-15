@@ -20,6 +20,8 @@ class Customers extends Table {
 
   DateTimeColumn get birth => dateTime().nullable()();
 
+  TextColumn get visitReason => text().nullable()();
+
   @override
   Set<Column> get primaryKey => {id};
 }
