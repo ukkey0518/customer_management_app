@@ -17,40 +17,40 @@ List<SingleChildWidget> repositories = [
   // [Rep: CustomerRepository]
   ChangeNotifierProvider<CustomerRepository>(
     create: (context) => CustomerRepository(
-        dao: Provider.of<CustomerDao>(context, listen: false),
-      ),
+      dao: Provider.of<CustomerDao>(context, listen: false),
+    ),
   ),
 
   // [Rep: EmployeeRepository]
   ChangeNotifierProvider<EmployeeRepository>(
     create: (context) => EmployeeRepository(
-        dao: Provider.of<EmployeeDao>(context, listen: false),
-      ),
+      dao: Provider.of<EmployeeDao>(context, listen: false),
+    ),
   ),
 
   // [Rep: MenuCategoryRepository]
   ChangeNotifierProvider<MenuCategoryRepository>(
     create: (context) => MenuCategoryRepository(
-        dao: Provider.of<MenuCategoryDao>(context, listen: false),
-      ),
+      dao: Provider.of<MenuCategoryDao>(context, listen: false),
+    ),
   ),
 
   // [Rep: MenuRepository]
   ChangeNotifierProvider<MenuRepository>(
     create: (context) => MenuRepository(
-        dao: Provider.of<MenuDao>(context, listen: false),
-      ),
+      dao: Provider.of<MenuDao>(context, listen: false),
+    ),
   ),
 
   // [Rep: VisitHistoryRepository]
   ChangeNotifierProxyProvider4<VisitHistoryDao, CustomerRepository,
       EmployeeRepository, MenuRepository, VisitHistoryRepository>(
     create: (context) => VisitHistoryRepository(
-        dao: Provider.of<VisitHistoryDao>(context, listen: false),
-        cRep: Provider.of<CustomerRepository>(context, listen: false),
-        eRep: Provider.of<EmployeeRepository>(context, listen: false),
-        mRep: Provider.of<MenuRepository>(context, listen: false),
-      ),
+      dao: Provider.of<VisitHistoryDao>(context, listen: false),
+      cRep: Provider.of<CustomerRepository>(context, listen: false),
+      eRep: Provider.of<EmployeeRepository>(context, listen: false),
+      mRep: Provider.of<MenuRepository>(context, listen: false),
+    ),
     update: (_, dao, cRep, eRep, mRep, vhRep) =>
         vhRep..onRepositoryUpdated(cRep, eRep, mRep),
   ),
@@ -59,9 +59,9 @@ List<SingleChildWidget> repositories = [
   ChangeNotifierProxyProvider2<CustomerRepository, VisitHistoryRepository,
       VisitHistoriesByCustomerRepository>(
     create: (context) => VisitHistoriesByCustomerRepository(
-        cRep: Provider.of<CustomerRepository>(context, listen: false),
-        vhRep: Provider.of<VisitHistoryRepository>(context, listen: false),
-      ),
+      cRep: Provider.of<CustomerRepository>(context, listen: false),
+      vhRep: Provider.of<VisitHistoryRepository>(context, listen: false),
+    ),
     update: (_, cRep, vhRep, viewModel) =>
         viewModel..onRepositoriesUpdated(cRep, vhRep),
   ),
@@ -70,9 +70,9 @@ List<SingleChildWidget> repositories = [
   ChangeNotifierProxyProvider2<MenuRepository, MenuCategoryRepository,
       MenusByCategoryRepository>(
     create: (context) => MenusByCategoryRepository(
-        mRep: Provider.of<MenuRepository>(context, listen: false),
-        mcRep: Provider.of<MenuCategoryRepository>(context, listen: false),
-      ),
+      mRep: Provider.of<MenuRepository>(context, listen: false),
+      mcRep: Provider.of<MenuCategoryRepository>(context, listen: false),
+    ),
     update: (_, mRep, mcRep, viewModel) =>
         viewModel..onRepositoriesUpdated(mRep, mcRep),
   ),
