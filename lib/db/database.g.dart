@@ -457,6 +457,165 @@ class $EmployeesTable extends Employees
   }
 }
 
+class VisitReason extends DataClass implements Insertable<VisitReason> {
+  final int id;
+  final String reason;
+  VisitReason({@required this.id, @required this.reason});
+  factory VisitReason.fromData(Map<String, dynamic> data, GeneratedDatabase db,
+      {String prefix}) {
+    final effectivePrefix = prefix ?? '';
+    final intType = db.typeSystem.forDartType<int>();
+    final stringType = db.typeSystem.forDartType<String>();
+    return VisitReason(
+      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
+      reason:
+          stringType.mapFromDatabaseResponse(data['${effectivePrefix}reason']),
+    );
+  }
+  factory VisitReason.fromJson(Map<String, dynamic> json,
+      {ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return VisitReason(
+      id: serializer.fromJson<int>(json['id']),
+      reason: serializer.fromJson<String>(json['reason']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer serializer}) {
+    serializer ??= moorRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'reason': serializer.toJson<String>(reason),
+    };
+  }
+
+  @override
+  VisitReasonsCompanion createCompanion(bool nullToAbsent) {
+    return VisitReasonsCompanion(
+      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
+      reason:
+          reason == null && nullToAbsent ? const Value.absent() : Value(reason),
+    );
+  }
+
+  VisitReason copyWith({int id, String reason}) => VisitReason(
+        id: id ?? this.id,
+        reason: reason ?? this.reason,
+      );
+  @override
+  String toString() {
+    return (StringBuffer('VisitReason(')
+          ..write('id: $id, ')
+          ..write('reason: $reason')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => $mrjf($mrjc(id.hashCode, reason.hashCode));
+  @override
+  bool operator ==(dynamic other) =>
+      identical(this, other) ||
+      (other is VisitReason &&
+          other.id == this.id &&
+          other.reason == this.reason);
+}
+
+class VisitReasonsCompanion extends UpdateCompanion<VisitReason> {
+  final Value<int> id;
+  final Value<String> reason;
+  const VisitReasonsCompanion({
+    this.id = const Value.absent(),
+    this.reason = const Value.absent(),
+  });
+  VisitReasonsCompanion.insert({
+    this.id = const Value.absent(),
+    @required String reason,
+  }) : reason = Value(reason);
+  VisitReasonsCompanion copyWith({Value<int> id, Value<String> reason}) {
+    return VisitReasonsCompanion(
+      id: id ?? this.id,
+      reason: reason ?? this.reason,
+    );
+  }
+}
+
+class $VisitReasonsTable extends VisitReasons
+    with TableInfo<$VisitReasonsTable, VisitReason> {
+  final GeneratedDatabase _db;
+  final String _alias;
+  $VisitReasonsTable(this._db, [this._alias]);
+  final VerificationMeta _idMeta = const VerificationMeta('id');
+  GeneratedIntColumn _id;
+  @override
+  GeneratedIntColumn get id => _id ??= _constructId();
+  GeneratedIntColumn _constructId() {
+    return GeneratedIntColumn('id', $tableName, false,
+        hasAutoIncrement: true, declaredAsPrimaryKey: true);
+  }
+
+  final VerificationMeta _reasonMeta = const VerificationMeta('reason');
+  GeneratedTextColumn _reason;
+  @override
+  GeneratedTextColumn get reason => _reason ??= _constructReason();
+  GeneratedTextColumn _constructReason() {
+    return GeneratedTextColumn(
+      'reason',
+      $tableName,
+      false,
+    );
+  }
+
+  @override
+  List<GeneratedColumn> get $columns => [id, reason];
+  @override
+  $VisitReasonsTable get asDslTable => this;
+  @override
+  String get $tableName => _alias ?? 'visit_reasons';
+  @override
+  final String actualTableName = 'visit_reasons';
+  @override
+  VerificationContext validateIntegrity(VisitReasonsCompanion d,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    if (d.id.present) {
+      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    }
+    if (d.reason.present) {
+      context.handle(
+          _reasonMeta, reason.isAcceptableValue(d.reason.value, _reasonMeta));
+    } else if (isInserting) {
+      context.missing(_reasonMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  VisitReason map(Map<String, dynamic> data, {String tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
+    return VisitReason.fromData(data, _db, prefix: effectivePrefix);
+  }
+
+  @override
+  Map<String, Variable> entityToSql(VisitReasonsCompanion d) {
+    final map = <String, Variable>{};
+    if (d.id.present) {
+      map['id'] = Variable<int, IntType>(d.id.value);
+    }
+    if (d.reason.present) {
+      map['reason'] = Variable<String, StringType>(d.reason.value);
+    }
+    return map;
+  }
+
+  @override
+  $VisitReasonsTable createAlias(String alias) {
+    return $VisitReasonsTable(_db, alias);
+  }
+}
+
 class MenuCategory extends DataClass implements Insertable<MenuCategory> {
   final int id;
   final String name;
@@ -1205,6 +1364,9 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   $CustomersTable get customers => _customers ??= $CustomersTable(this);
   $EmployeesTable _employees;
   $EmployeesTable get employees => _employees ??= $EmployeesTable(this);
+  $VisitReasonsTable _visitReasons;
+  $VisitReasonsTable get visitReasons =>
+      _visitReasons ??= $VisitReasonsTable(this);
   $MenuCategoriesTable _menuCategories;
   $MenuCategoriesTable get menuCategories =>
       _menuCategories ??= $MenuCategoriesTable(this);
@@ -1216,6 +1378,12 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [customers, employees, menuCategories, menus, visitHistories];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        customers,
+        employees,
+        visitReasons,
+        menuCategories,
+        menus,
+        visitHistories
+      ];
 }

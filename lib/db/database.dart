@@ -30,6 +30,13 @@ class Employees extends Table {
   Set<Column> get primaryKey => {id};
 }
 
+// [テーブル：来店動機]
+// (依存：なし)
+class VisitReasons extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get reason => text()();
+}
+
 // [テーブル：メニューカテゴリデータ]
 // (依存：なし)
 @DataClassName('MenuCategory')
@@ -79,6 +86,7 @@ LazyDatabase _openConnection() {
 @UseMoor(tables: [
   Customers,
   Employees,
+  VisitReasons,
   MenuCategories,
   Menus,
   VisitHistories,
