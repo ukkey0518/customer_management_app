@@ -8,7 +8,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-List<SingleChildWidget> daos = [
+List<SingleChildWidget> daoProviders = [
   // [DAO: CustomerDao]
   ProxyProvider<MyDatabase, CustomerDao>(
     update: (_, db, dao) => CustomerDao(db),

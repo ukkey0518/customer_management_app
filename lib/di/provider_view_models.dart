@@ -15,7 +15,7 @@ import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.da
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
-List<SingleChildWidget> viewModels = [
+List<SingleChildWidget> viewModelProviders = [
   ChangeNotifierProxyProvider<VisitHistoriesByCustomerRepository,
       CustomersListViewModel>(
     create: (context) {

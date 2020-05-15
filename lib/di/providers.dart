@@ -5,8 +5,9 @@ import 'package:customermanagementapp/di/provider_view_models.dart';
 import 'package:provider/single_child_widget.dart';
 
 List<SingleChildWidget> globalProviders = [
-  ...independentModels,
-  ...daos,
-  ...repositories,
-  ...viewModels,
+  ...dbProviders,
+  ...daoProviders,
+  ...indepRepProviders,
+  ...depRepProviders,
+  ...viewModelProviders,
 ];
