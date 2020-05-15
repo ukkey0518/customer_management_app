@@ -6,6 +6,7 @@ import 'package:customermanagementapp/view/components/basic_input_form.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/input_widgets/date_input_tile.dart';
 import 'package:customermanagementapp/view/components/input_widgets/select_switch_buttons.dart';
+import 'package:customermanagementapp/view/components/input_widgets/single_item_select_picker.dart';
 import 'package:customermanagementapp/view/components/input_widgets/text_input_field.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:customermanagementapp/viewmodel/customer_edit_view_model.dart';
@@ -88,6 +89,13 @@ class CustomerEditScreen extends StatelessWidget {
                           paddingHorizontal: 8,
                           color: Colors.white,
                         ),
+                      },
+                    ),
+                    SizedBox(height: 30),
+                    BasicInputForm(
+                      formTitle: 'その他情報',
+                      items: <String, InputWidget>{
+                        '来店動機': SingleItemSelectPicker(),
                       },
                     ),
                   ],
