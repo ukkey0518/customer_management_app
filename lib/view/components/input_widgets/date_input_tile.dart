@@ -1,14 +1,13 @@
 import 'package:customermanagementapp/data/enums/date_format_mode.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
-import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 class DateInputTile extends InputWidget {
   DateInputTile({
     @required this.selectedDate,
     @required this.onConfirm,
-    this.onLongPress,
     this.isDisabled = false,
     this.isClearable = false,
     this.paddingHorizontal = 0,
@@ -24,7 +23,6 @@ class DateInputTile extends InputWidget {
 
   final DateTime selectedDate;
   final ValueChanged<DateTime> onConfirm;
-  final ValueChanged<DateTime> onLongPress;
   final bool isDisabled;
   final bool isClearable;
   final double paddingVertical;
@@ -64,7 +62,7 @@ class DateInputTile extends InputWidget {
               style: TextStyle(fontSize: 16),
             ),
           ),
-          Icon(Icons.chevron_right),
+          Icon(Icons.arrow_drop_down),
         ],
       );
     }
@@ -73,8 +71,7 @@ class DateInputTile extends InputWidget {
       children: <Widget>[
         InkWell(
           onTap: () => _showDateSelectPicker(context),
-          onLongPress:
-              onLongPress != null ? () => onLongPress(selectedDate) : null,
+          onLongPress: isClearable ? () => onConfirm(null) : null,
           child: Container(
             color: color,
             padding: EdgeInsets.symmetric(
@@ -82,23 +79,8 @@ class DateInputTile extends InputWidget {
             child: content,
           ),
         ),
-        _clearButtonPart(isClearable),
       ],
     );
-  }
-
-  Widget _clearButtonPart(bool flag) {
-    return flag
-        ? Container(
-            width: double.infinity,
-            alignment: Alignment.centerRight,
-            child: RaisedButton(
-              disabledColor: Color(0xe5e5e5e5),
-              child: Text('クリア'),
-              onPressed: selectedDate != null ? () => onConfirm(null) : null,
-            ),
-          )
-        : Container();
   }
 
   // [コールバック：誕生日欄タップ時]

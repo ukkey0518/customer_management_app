@@ -1,5 +1,6 @@
-import 'package:customermanagementapp/data/gender_bool_data.dart';
 import 'package:customermanagementapp/data/enums/input_field_style.dart';
+import 'package:customermanagementapp/data/gender_bool_data.dart';
+import 'package:customermanagementapp/data/visit_reason_data.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/basic_input_form.dart';
@@ -81,7 +82,7 @@ class CustomerEditScreen extends StatelessWidget {
                             genderBoolData.getKeyFromValue(genderStr),
                           ),
                         ),
-                        '生年月日': DateInputTile(
+                        '生年月日（長押しでクリア）': DateInputTile(
                           selectedDate: viewModel.birthDay,
                           onConfirm: (birthDay) =>
                               _onBirthdayChanged(context, birthDay),
@@ -96,7 +97,11 @@ class CustomerEditScreen extends StatelessWidget {
                     BasicInputForm(
                       formTitle: 'その他情報',
                       items: <String, InputWidget>{
-                        '来店動機': SingleItemSelectPicker(),
+                        '来店動機（長押しでクリア）': SingleItemSelectPicker(
+                          items: visitReasonData,
+                          selectedItem: null, // selectedVisitReason
+                          onConfirm: null,
+                        ),
                       },
                     ),
                   ],
