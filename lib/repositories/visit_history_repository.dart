@@ -19,113 +19,86 @@ class VisitHistoryRepository extends ChangeNotifier {
   final EmployeeRepository _eRep;
   final MenuRepository _mRep;
 
-  List<Customer> _customerList;
-  List<Employee> _employeeList;
-  List<Menu> _menuList;
+  List<Customer> _customerList = List();
+  List<Employee> _employeeList = List();
+  List<Menu> _menuList = List();
 
-  // [フィールド：読み込みステータス]
-  bool _isLoading = false;
-
-  bool get isLoading => _isLoading;
-
-  // [フィールド：メニューカテゴリリスト]
   List<VisitHistory> _visitHistories = List();
 
   List<VisitHistory> get visitHistories => _visitHistories;
 
-  // [取得：条件付きで来店データを取得]
+  // [取得：条件一致データ]
   getVisitHistories({
     VisitHistoryListScreenPreferences vhPref,
   }) async {
-    print('VisitHistoryRepository.getVisitHistories :');
-
-    _isLoading = true;
-    notifyListeners();
+    print('[Rep: VisitHistory] getVisitHistories');
 
     _customerList = await _cRep.getCustomers();
     _employeeList = await _eRep.getEmployees();
     _menuList = await _mRep.getMenus();
 
     _visitHistories = await _dao.getVisitHistories(vhPref: vhPref);
-
-    _isLoading = false;
     notifyListeners();
   }
 
-  // [追加：１件の来店履歴データを追加]
+  // [追加：１件]
   addVisitHistory(
     VisitHistory visitHistory, {
     VisitHistoryListScreenPreferences vhPref,
   }) async {
-    print('VisitHistoryRepository.addVisitHistory :');
-
-    _isLoading = true;
-    notifyListeners();
+    print('[Rep: VisitHistory] addVisitHistory');
 
     _visitHistories =
         await _dao.addAndGetAllVisitHistories(visitHistory, vhPref: vhPref);
-
-    _isLoading = false;
     notifyListeners();
   }
 
-  // [追加：複数の来店履歴データを追加]
+  // [追加：複数]
   addAllVisitHistory(
     List<VisitHistory> visitHistoryList, {
     VisitHistoryListScreenPreferences vhPref,
   }) async {
-    print('VisitHistoryRepository.addAllVisitHistory :');
+    print('[Rep: VisitHistory] addAllVisitHistory');
 
-    _isLoading = true;
-    notifyListeners();
-
-    _visitHistories = await _dao.addAllAndGetAllVisitHistories(visitHistoryList,
-        vhPref: vhPref);
-
-    _isLoading = false;
+    _visitHistories =
+        await _dao.addAllAndGetAllVisitHistories(visitHistoryList);
     notifyListeners();
   }
 
-  // [削除：１件の来店履歴データを削除]
+  // [削除：１件]
   deleteVisitHistory(
     VisitHistory visitHistory, {
     VisitHistoryListScreenPreferences vhPref,
   }) async {
-    print('VisitHistoryRepository.deleteVisitHistory :');
-
-    _isLoading = true;
-    notifyListeners();
+    print('[Rep: VisitHistory] deleteVisitHistory');
 
     _visitHistories =
         await _dao.deleteAndGetAllVisitHistories(visitHistory, vhPref: vhPref);
-
-    _isLoading = false;
     notifyListeners();
   }
 
-  // [削除：複数の来店履歴を削除]
-  deleteMultipleVisitHistories(List<VisitHistory> visitHistoryList) async {
-    print('VisitHistoryRepository.deleteMultipleVisitHistories :');
-
-    _isLoading = true;
-    notifyListeners();
+  // [削除：複数]
+  deleteMultipleVisitHistories(
+    List<VisitHistory> visitHistoryList,
+  ) async {
+    print('[Rep: VisitHistory] deleteMultipleVisitHistories');
 
     _visitHistories = await _dao.deleteMultipleVisitHistories(visitHistoryList);
-
-    _isLoading = false;
     notifyListeners();
   }
 
   onRepositoryUpdated(
-      CustomerRepository cRep, EmployeeRepository eRep, MenuRepository mRep) {
-    print(_visitHistories);
+    CustomerRepository cRep,
+    EmployeeRepository eRep,
+    MenuRepository mRep,
+  ) {
+    print('[Rep: VisitHistory] onRepositoryUpdated');
     _customerList = _cRep.customers;
     _employeeList = _eRep.employees;
     _menuList = _mRep.menus;
 
     _visitHistories =
         _visitHistories.getUpdate(_customerList, _employeeList, _menuList);
-    print(_visitHistories);
     notifyListeners();
   }
 

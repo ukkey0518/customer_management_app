@@ -15,53 +15,27 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
   final CustomerRepository _cRep;
   final VisitHistoryRepository _vhRep;
 
-  //
-  // --- Privateフィールド ------------------------------------------------------
-  //
-
-  // [顧客リスト]
   List<Customer> _customers = List();
-
-  // [来店履歴リスト]
   List<VisitHistory> _visitHistories = List();
 
-  //
-  // --- フィールド --------------------------------------------------------------
-  //
-
-  // [読み込みステータス]
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  // [メニューカテゴリリスト]
   List<VisitHistoriesByCustomer> _visitHistoriesByCustomers = List();
+
   List<VisitHistoriesByCustomer> get visitHistoriesByCustomers =>
       _visitHistoriesByCustomers;
 
-  // [表示状態]
   CustomerListScreenPreferences _cPref = CustomerListScreenPreferences(
     narrowState: CustomerNarrowState.ALL,
     sortState: CustomerSortState.REGISTER_OLD,
     searchWord: '',
   );
+
   CustomerListScreenPreferences get cPref => _cPref;
 
-  //
-  // --- 処理 -------------------------------------------------------------------
-  //
-
-  // [追加：顧客データの追加]
-  addCustomer(Customer customer) async {
-    print('VisitHistoriesByCustomerRepository.addCustomer :');
-    _customers = await _cRep.addCustomer(customer, preferences: _cPref);
-
-    _visitHistoriesByCustomers =
-        ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);
-  }
-
-  // [取得：顧客別の来店履歴をすべて取得]
-  getVisitHistoriesByCustomers({CustomerListScreenPreferences cPref}) async {
-    print('VisitHistoriesByCustomerRepository.getVisitHistoriesByCustomers :');
+  // [取得：すべてのVHBC]
+  getVisitHistoriesByCustomers({
+    CustomerListScreenPreferences cPref,
+  }) async {
+    print('[Rep: VisitHistoriesByCustomer] getVisitHistoriesByCustomers');
 
     _cPref = cPref;
 
@@ -72,11 +46,25 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
         ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);
   }
 
-  // [削除：顧客別来店履歴を削除]
-  deleteVisitHistoriesByCustomers(VisitHistoriesByCustomer vhbc,
-      CustomerListScreenPreferences cPref) async {
-    print(
-        'VisitHistoriesByCustomerRepository.deleteVisitHistoriesByCustomers :');
+  // [追加：１件の顧客データ]
+  addCustomer(
+    Customer customer,
+  ) async {
+    print('[Rep: VisitHistoriesByCustomer] addCustomer');
+
+    _customers = await _cRep.addCustomer(customer, preferences: _cPref);
+
+    _visitHistoriesByCustomers =
+        ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);
+  }
+
+  // [削除：１件のVHBC]
+  deleteVisitHistoriesByCustomers(
+    VisitHistoriesByCustomer vhbc,
+    CustomerListScreenPreferences cPref,
+  ) async {
+    print('[Rep: VisitHistoriesByCustomer] deleteVisitHistoriesByCustomers');
+
     final customer = vhbc.customer;
     final visitHistories = vhbc.histories;
 
@@ -84,12 +72,15 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
     _visitHistories = await _vhRep.deleteMultipleVisitHistories(visitHistories);
   }
 
-  // [更新：どちらかのRepositoryが更新された時]
-  onRepositoriesUpdated(CustomerRepository cRep, VisitHistoryRepository vhRep) {
-    print('VisitHistoriesByCustomerRepository.onRepositoryUpdated :');
+  // [Repository更新]
+  onRepositoriesUpdated(
+    CustomerRepository cRep,
+    VisitHistoryRepository vhRep,
+  ) {
+    print('[Rep: VisitHistoriesByCustomer] onRepositoriesUpdated');
+
     _customers = cRep.customers;
     _visitHistories = vhRep.visitHistories;
-    _isLoading = cRep.isLoading && vhRep.isLoading;
 
     _visitHistoriesByCustomers =
         ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);

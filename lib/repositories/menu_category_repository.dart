@@ -7,64 +7,46 @@ class MenuCategoryRepository extends ChangeNotifier {
 
   final MenuCategoryDao _dao;
 
-  // [フィールド：読み込みステータス]
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  // [フィールド：メニューカテゴリリスト]
   List<MenuCategory> _menuCategories = List();
+
   List<MenuCategory> get menuCategories => _menuCategories;
 
-  // [取得：すべてのメニューカテゴリデータを取得]
+  // [取得：すべて]
   getMenuCategories() async {
-    print('MenuCategoryRepository.getMenuCategories :');
-
-    _isLoading = true;
-    notifyListeners();
+    print('[Rep: MenuCategory] getMenuCategories');
 
     _menuCategories = await _dao.allMenuCategories;
-
-    _isLoading = false;
     notifyListeners();
   }
 
-  // [追加：１件のメニューカテゴリデータを追加]
-  addMenuCategory(MenuCategory menuCategory) async {
-    print('MenuCategoryRepository.addMenuCategory :');
-
-    _isLoading = true;
-    notifyListeners();
+  // [追加：１件]
+  addMenuCategory(
+    MenuCategory menuCategory,
+  ) async {
+    print('[Rep: MenuCategory] addMenuCategory');
 
     _menuCategories = await _dao.addAndGetAllMenuCategories(menuCategory);
-
-    _isLoading = false;
     notifyListeners();
   }
 
-  // [追加：複数のメニューカテゴリデータを追加]
-  addAllMenuCategories(List<MenuCategory> menuCategoryList) async {
-    print('MenuCategoryRepository.addAllMenuCategories :');
-
-    _isLoading = true;
-    notifyListeners();
+  // [追加：複数]
+  addAllMenuCategories(
+    List<MenuCategory> menuCategoryList,
+  ) async {
+    print('[Rep: MenuCategory] addAllMenuCategories');
 
     _menuCategories =
         await _dao.addAllAndGetAllMenuCategories(menuCategoryList);
-
-    _isLoading = false;
     notifyListeners();
   }
 
-  // [削除：１件のメニューカテゴリデータを削除]
-  deleteMenuCategory(MenuCategory menuCategory) async {
-    print('MenuCategoryRepository.deleteMenuCategory :');
-
-    _isLoading = true;
-    notifyListeners();
+  // [削除：１件]
+  deleteMenuCategory(
+    MenuCategory menuCategory,
+  ) async {
+    print('[Rep: MenuCategory] deleteMenuCategory');
 
     _menuCategories = await _dao.deleteAndGetAllMenuCategory(menuCategory);
-
-    _isLoading = false;
     notifyListeners();
   }
 }

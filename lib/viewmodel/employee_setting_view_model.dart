@@ -30,7 +30,7 @@ class EmployeeSettingViewModel extends ChangeNotifier {
   // [追加：複数の従業員データを追加]
   addAllEmployee(List<Employee> employeeList) async {
     print('[VM: Employee] addAllEmployee');
-    _employees = await _eRep.addAllEmployee(employeeList);
+    _employees = await _eRep.addAllEmployees(employeeList);
   }
 
   // [削除：１件の従業員データを削除]

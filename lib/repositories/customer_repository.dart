@@ -8,65 +8,53 @@ class CustomerRepository extends ChangeNotifier {
 
   final CustomerDao _dao;
 
-  // [フィールド：読み込みステータス]
-  bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
-  // [フィールド：顧客リスト]
   List<Customer> _customers = List();
+
   List<Customer> get customers => _customers;
 
-  // [取得：条件付きで顧客データを取得]
-  getCustomers({CustomerListScreenPreferences preferences}) async {
-    print('CustomerRepository.getCustomers :');
-    _isLoading = true;
-    notifyListeners();
+  // [取得：条件一致データ]
+  getCustomers({
+    CustomerListScreenPreferences preferences,
+  }) async {
+    print('[Rep: Customer] getCustomers');
 
     _customers = await _dao.getCustomers(preferences: preferences);
-
-    _isLoading = false;
     notifyListeners();
   }
 
-  // [追加：１つの顧客データを追加]
-  addCustomer(Customer customer,
-      {CustomerListScreenPreferences preferences}) async {
-    print('CustomerRepository.addCustomer :');
-    _isLoading = true;
-    notifyListeners();
+  // [追加：１件]
+  addCustomer(
+    Customer customer, {
+    CustomerListScreenPreferences preferences,
+  }) async {
+    print('[Rep: Customer] addCustomer');
 
     _customers =
         await _dao.addAndGetAllCustomers(customer, preferences: preferences);
-
-    _isLoading = false;
     notifyListeners();
   }
 
-  // [追加：複数の顧客データを追加]
-  addAllCustomers(List<Customer> customerList,
-      {CustomerListScreenPreferences preferences}) async {
-    print('CustomerRepository.addAllCustomer :');
-    _isLoading = true;
-    notifyListeners();
+  // [追加：複数]
+  addAllCustomers(
+    List<Customer> customerList, {
+    CustomerListScreenPreferences preferences,
+  }) async {
+    print('[Rep: Customer] addAllCustomers');
 
     _customers = await _dao.addAllAndGetAllCustomers(customerList,
         preferences: preferences);
-
-    _isLoading = false;
     notifyListeners();
   }
 
-  // [削除：１つの顧客データを削除]
-  deleteCustomer(Customer customer,
-      {CustomerListScreenPreferences preferences}) async {
-    print('CustomerRepository.deleteCustomer :');
-    _isLoading = true;
-    notifyListeners();
+  // [削除：１件]
+  deleteCustomer(
+    Customer customer, {
+    CustomerListScreenPreferences preferences,
+  }) async {
+    print('[Rep: Customer] deleteCustomer');
 
     _customers =
         await _dao.deleteAndGetAllCustomers(customer, preferences: preferences);
-
-    _isLoading = false;
     notifyListeners();
   }
 }

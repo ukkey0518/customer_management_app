@@ -13,47 +13,74 @@ class MenusByCategoryRepository extends ChangeNotifier {
   final MenuRepository _mRep;
   final MenuCategoryRepository _mcRep;
 
-  List<Menu> _menus;
+  List<Menu> _menus = List();
   List<MenuCategory> _menuCategories;
 
-  List<MenusByCategory> _menusByCategories;
+  List<MenusByCategory> _menusByCategories = List();
 
   List<MenusByCategory> get menusByCategories => _menusByCategories;
 
+  // [取得：すべて]
   getMenusByCategories() async {
-    print('MenusByCategoryRepository.getMenusByCategories :');
+    print('[Rep: MenusByCategory] getMenusByCategories');
+
     _menus = await _mRep.getMenus();
     _menusByCategories = await _mcRep.getMenuCategories();
 
     _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
   }
 
-  addMenu(Menu menu) async {
+  // [追加：１件のメニュー]
+  addMenu(
+    Menu menu,
+  ) async {
+    print('[Rep: MenusByCategory] addMenu');
+
     await _mRep.addMenu(menu);
 
     _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
   }
 
-  deleteMenu(Menu menu) async {
-    await _mRep.deleteMenu(menu);
+  // [追加：１件のメニューカテゴリ]
+  addMenuCategory(
+    MenuCategory menuCategory,
+  ) async {
+    print('[Rep: MenusByCategory] addMenuCategory');
 
-    _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
-  }
-
-  addMenuCategory(MenuCategory menuCategory) async {
     await _mcRep.addMenuCategory(menuCategory);
 
     _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
   }
 
-  deleteMenuCategory(MenuCategory menuCategory) async {
+  // [削除：１件のメニュー]
+  deleteMenu(
+    Menu menu,
+  ) async {
+    print('[Rep: MenusByCategory] deleteMenu');
+
+    await _mRep.deleteMenu(menu);
+
+    _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
+  }
+
+  // [削除：１件のメニューカテゴリ]
+  deleteMenuCategory(
+    MenuCategory menuCategory,
+  ) async {
+    print('[Rep: MenusByCategory] deleteMenuCategory');
+
     await _mcRep.deleteMenuCategory(menuCategory);
 
     _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
   }
 
-  onRepositoriesUpdated(MenuRepository mRep, MenuCategoryRepository mcRep) {
-    print('MenusByCategoryRepository.onRepositoriesUpdated :');
+  // [Repository更新]
+  onRepositoriesUpdated(
+    MenuRepository mRep,
+    MenuCategoryRepository mcRep,
+  ) {
+    print('[Rep: MenusByCategory] onRepositoriesUpdated');
+
     _menus = mRep.menus;
     _menuCategories = mcRep.menuCategories;
 
@@ -62,8 +89,21 @@ class MenusByCategoryRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  setExpanded(int index, bool isExpanded) {
+  // [フィールド更新：展開パネルの展開状態]
+  setExpanded(
+    int index,
+    bool isExpanded,
+  ) {
+    print('[Rep: MenusByCategory] setExpanded');
+
     _menusByCategories[index].isExpanded = isExpanded;
     notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    _mRep.dispose();
+    _mcRep.dispose();
+    super.dispose();
   }
 }
