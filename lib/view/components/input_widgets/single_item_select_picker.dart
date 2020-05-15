@@ -53,6 +53,7 @@ class SingleItemSelectPicker extends InputWidget {
       adapter: PickerDataAdapter<String>(pickerdata: items),
       changeToFirst: true,
       textAlign: TextAlign.center,
+      selecteds: [items.indexOf(selectedItem)],
       columnPadding: const EdgeInsets.all(8.0),
       confirmText: '決定',
       confirmTextStyle: TextStyle(
