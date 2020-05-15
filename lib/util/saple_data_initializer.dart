@@ -2,6 +2,7 @@ import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/dao/employee_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_dao.dart';
+import 'package:customermanagementapp/db/dao/visit_reason_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:flutter/material.dart';
 import 'package:moor_ffi/database.dart';
@@ -47,6 +48,20 @@ class SampleDataInitializer {
     Employee(id: 1, name: 'スタッフA'),
     Employee(id: 2, name: 'スタッフB'),
     Employee(id: 3, name: 'スタッフC'),
+  ];
+
+  // [初期データ：来店動機]
+  static final List<VisitReason> _initVisitReasons = [
+    VisitReason(id: 1, reason: 'ご家族のご紹介'),
+    VisitReason(id: 2, reason: 'お友達のご紹介'),
+    VisitReason(id: 3, reason: '近所だから'),
+    VisitReason(id: 4, reason: '店舗の雰囲気'),
+    VisitReason(id: 5, reason: '評判'),
+    VisitReason(id: 6, reason: 'HPを見て'),
+    VisitReason(id: 7, reason: '雑誌広告を見て'),
+    VisitReason(id: 8, reason: 'チラシを見て'),
+    VisitReason(id: 9, reason: '看板を見て'),
+    VisitReason(id: 10, reason: 'その他'),
   ];
 
   // [初期データ：メニューカテゴリ]
@@ -169,6 +184,9 @@ class SampleDataInitializer {
     // EmployeeDaoの取得
     final employeeDao = Provider.of<EmployeeDao>(context, listen: false);
 
+    // EmployeeDaoの取得
+    final visitReasonDao = Provider.of<VisitReasonDao>(context, listen: false);
+
     // menuCategoryDaoの取得
     final menuCategoryDao =
         Provider.of<MenuCategoryDao>(context, listen: false);
@@ -193,6 +211,15 @@ class SampleDataInitializer {
       } else {
         print(
             '  ...Employees not empty. : exists ${_initEmployees.length} data');
+      }
+
+      // VisitReasonsテーブルの初期化
+      if ((await visitReasonDao.allVisitReasons).isEmpty) {
+        await visitReasonDao.addAllVisitReasons(_initVisitReasons);
+        print('  ...VisitReasons init ok. : ${_initVisitReasons.length} data');
+      } else {
+        print(
+            '  ...VisitReasons not empty. : exists ${_initVisitReasons.length} data');
       }
 
       // MenuCategoriesテーブルの初期化
