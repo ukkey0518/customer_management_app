@@ -37,6 +37,27 @@ class Customer extends DataClass implements Insertable<Customer> {
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}birth']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || nameReading != null) {
+      map['name_reading'] = Variable<String>(nameReading);
+    }
+    if (!nullToAbsent || isGenderFemale != null) {
+      map['is_gender_female'] = Variable<bool>(isGenderFemale);
+    }
+    if (!nullToAbsent || birth != null) {
+      map['birth'] = Variable<DateTime>(birth);
+    }
+    return map;
+  }
+
   factory Customer.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -58,22 +79,6 @@ class Customer extends DataClass implements Insertable<Customer> {
       'isGenderFemale': serializer.toJson<bool>(isGenderFemale),
       'birth': serializer.toJson<DateTime>(birth),
     };
-  }
-
-  @override
-  CustomersCompanion createCompanion(bool nullToAbsent) {
-    return CustomersCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      nameReading: nameReading == null && nullToAbsent
-          ? const Value.absent()
-          : Value(nameReading),
-      isGenderFemale: isGenderFemale == null && nullToAbsent
-          ? const Value.absent()
-          : Value(isGenderFemale),
-      birth:
-          birth == null && nullToAbsent ? const Value.absent() : Value(birth),
-    );
   }
 
   Customer copyWith(
@@ -141,6 +146,22 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
   })  : name = Value(name),
         nameReading = Value(nameReading),
         isGenderFemale = Value(isGenderFemale);
+  static Insertable<Customer> custom({
+    Expression<int> id,
+    Expression<String> name,
+    Expression<String> nameReading,
+    Expression<bool> isGenderFemale,
+    Expression<DateTime> birth,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (nameReading != null) 'name_reading': nameReading,
+      if (isGenderFemale != null) 'is_gender_female': isGenderFemale,
+      if (birth != null) 'birth': birth,
+    });
+  }
+
   CustomersCompanion copyWith(
       {Value<int> id,
       Value<String> name,
@@ -154,6 +175,27 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       isGenderFemale: isGenderFemale ?? this.isGenderFemale,
       birth: birth ?? this.birth,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (nameReading.present) {
+      map['name_reading'] = Variable<String>(nameReading.value);
+    }
+    if (isGenderFemale.present) {
+      map['is_gender_female'] = Variable<bool>(isGenderFemale.value);
+    }
+    if (birth.present) {
+      map['birth'] = Variable<DateTime>(birth.value);
+    }
+    return map;
   }
 }
 
@@ -233,35 +275,38 @@ class $CustomersTable extends Customers
   @override
   final String actualTableName = 'customers';
   @override
-  VerificationContext validateIntegrity(CustomersCompanion d,
+  VerificationContext validateIntegrity(Insertable<Customer> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.name.present) {
+    if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (d.nameReading.present) {
-      context.handle(_nameReadingMeta,
-          nameReading.isAcceptableValue(d.nameReading.value, _nameReadingMeta));
+    if (data.containsKey('name_reading')) {
+      context.handle(
+          _nameReadingMeta,
+          nameReading.isAcceptableOrUnknown(
+              data['name_reading'], _nameReadingMeta));
     } else if (isInserting) {
       context.missing(_nameReadingMeta);
     }
-    if (d.isGenderFemale.present) {
+    if (data.containsKey('is_gender_female')) {
       context.handle(
           _isGenderFemaleMeta,
-          isGenderFemale.isAcceptableValue(
-              d.isGenderFemale.value, _isGenderFemaleMeta));
+          isGenderFemale.isAcceptableOrUnknown(
+              data['is_gender_female'], _isGenderFemaleMeta));
     } else if (isInserting) {
       context.missing(_isGenderFemaleMeta);
     }
-    if (d.birth.present) {
+    if (data.containsKey('birth')) {
       context.handle(
-          _birthMeta, birth.isAcceptableValue(d.birth.value, _birthMeta));
+          _birthMeta, birth.isAcceptableOrUnknown(data['birth'], _birthMeta));
     }
     return context;
   }
@@ -272,28 +317,6 @@ class $CustomersTable extends Customers
   Customer map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Customer.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(CustomersCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.name.present) {
-      map['name'] = Variable<String, StringType>(d.name.value);
-    }
-    if (d.nameReading.present) {
-      map['name_reading'] = Variable<String, StringType>(d.nameReading.value);
-    }
-    if (d.isGenderFemale.present) {
-      map['is_gender_female'] =
-          Variable<bool, BoolType>(d.isGenderFemale.value);
-    }
-    if (d.birth.present) {
-      map['birth'] = Variable<DateTime, DateTimeType>(d.birth.value);
-    }
-    return map;
   }
 
   @override
@@ -316,6 +339,18 @@ class Employee extends DataClass implements Insertable<Employee> {
       name: stringType.mapFromDatabaseResponse(data['${effectivePrefix}name']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    return map;
+  }
+
   factory Employee.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -331,14 +366,6 @@ class Employee extends DataClass implements Insertable<Employee> {
       'id': serializer.toJson<int>(id),
       'name': serializer.toJson<String>(name),
     };
-  }
-
-  @override
-  EmployeesCompanion createCompanion(bool nullToAbsent) {
-    return EmployeesCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-    );
   }
 
   Employee copyWith({int id, String name}) => Employee(
@@ -373,11 +400,33 @@ class EmployeesCompanion extends UpdateCompanion<Employee> {
     this.id = const Value.absent(),
     @required String name,
   }) : name = Value(name);
+  static Insertable<Employee> custom({
+    Expression<int> id,
+    Expression<String> name,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+    });
+  }
+
   EmployeesCompanion copyWith({Value<int> id, Value<String> name}) {
     return EmployeesCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    return map;
   }
 }
 
@@ -416,15 +465,16 @@ class $EmployeesTable extends Employees
   @override
   final String actualTableName = 'employees';
   @override
-  VerificationContext validateIntegrity(EmployeesCompanion d,
+  VerificationContext validateIntegrity(Insertable<Employee> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.name.present) {
+    if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
@@ -437,18 +487,6 @@ class $EmployeesTable extends Employees
   Employee map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Employee.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(EmployeesCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.name.present) {
-      map['name'] = Variable<String, StringType>(d.name.value);
-    }
-    return map;
   }
 
   @override
@@ -472,6 +510,18 @@ class VisitReason extends DataClass implements Insertable<VisitReason> {
           stringType.mapFromDatabaseResponse(data['${effectivePrefix}reason']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || reason != null) {
+      map['reason'] = Variable<String>(reason);
+    }
+    return map;
+  }
+
   factory VisitReason.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -487,15 +537,6 @@ class VisitReason extends DataClass implements Insertable<VisitReason> {
       'id': serializer.toJson<int>(id),
       'reason': serializer.toJson<String>(reason),
     };
-  }
-
-  @override
-  VisitReasonsCompanion createCompanion(bool nullToAbsent) {
-    return VisitReasonsCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      reason:
-          reason == null && nullToAbsent ? const Value.absent() : Value(reason),
-    );
   }
 
   VisitReason copyWith({int id, String reason}) => VisitReason(
@@ -532,11 +573,33 @@ class VisitReasonsCompanion extends UpdateCompanion<VisitReason> {
     this.id = const Value.absent(),
     @required String reason,
   }) : reason = Value(reason);
+  static Insertable<VisitReason> custom({
+    Expression<int> id,
+    Expression<String> reason,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (reason != null) 'reason': reason,
+    });
+  }
+
   VisitReasonsCompanion copyWith({Value<int> id, Value<String> reason}) {
     return VisitReasonsCompanion(
       id: id ?? this.id,
       reason: reason ?? this.reason,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (reason.present) {
+      map['reason'] = Variable<String>(reason.value);
+    }
+    return map;
   }
 }
 
@@ -575,15 +638,16 @@ class $VisitReasonsTable extends VisitReasons
   @override
   final String actualTableName = 'visit_reasons';
   @override
-  VerificationContext validateIntegrity(VisitReasonsCompanion d,
+  VerificationContext validateIntegrity(Insertable<VisitReason> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.reason.present) {
-      context.handle(
-          _reasonMeta, reason.isAcceptableValue(d.reason.value, _reasonMeta));
+    if (data.containsKey('reason')) {
+      context.handle(_reasonMeta,
+          reason.isAcceptableOrUnknown(data['reason'], _reasonMeta));
     } else if (isInserting) {
       context.missing(_reasonMeta);
     }
@@ -596,18 +660,6 @@ class $VisitReasonsTable extends VisitReasons
   VisitReason map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return VisitReason.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(VisitReasonsCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.reason.present) {
-      map['reason'] = Variable<String, StringType>(d.reason.value);
-    }
-    return map;
   }
 
   @override
@@ -632,6 +684,21 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
       color: intType.mapFromDatabaseResponse(data['${effectivePrefix}color']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || color != null) {
+      map['color'] = Variable<int>(color);
+    }
+    return map;
+  }
+
   factory MenuCategory.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -649,16 +716,6 @@ class MenuCategory extends DataClass implements Insertable<MenuCategory> {
       'name': serializer.toJson<String>(name),
       'color': serializer.toJson<int>(color),
     };
-  }
-
-  @override
-  MenuCategoriesCompanion createCompanion(bool nullToAbsent) {
-    return MenuCategoriesCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      color:
-          color == null && nullToAbsent ? const Value.absent() : Value(color),
-    );
   }
 
   MenuCategory copyWith({int id, String name, int color}) => MenuCategory(
@@ -703,6 +760,18 @@ class MenuCategoriesCompanion extends UpdateCompanion<MenuCategory> {
     @required int color,
   })  : name = Value(name),
         color = Value(color);
+  static Insertable<MenuCategory> custom({
+    Expression<int> id,
+    Expression<String> name,
+    Expression<int> color,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (color != null) 'color': color,
+    });
+  }
+
   MenuCategoriesCompanion copyWith(
       {Value<int> id, Value<String> name, Value<int> color}) {
     return MenuCategoriesCompanion(
@@ -710,6 +779,21 @@ class MenuCategoriesCompanion extends UpdateCompanion<MenuCategory> {
       name: name ?? this.name,
       color: color ?? this.color,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (color.present) {
+      map['color'] = Variable<int>(color.value);
+    }
+    return map;
   }
 }
 
@@ -760,21 +844,22 @@ class $MenuCategoriesTable extends MenuCategories
   @override
   final String actualTableName = 'menu_categories';
   @override
-  VerificationContext validateIntegrity(MenuCategoriesCompanion d,
+  VerificationContext validateIntegrity(Insertable<MenuCategory> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.name.present) {
+    if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (d.color.present) {
+    if (data.containsKey('color')) {
       context.handle(
-          _colorMeta, color.isAcceptableValue(d.color.value, _colorMeta));
+          _colorMeta, color.isAcceptableOrUnknown(data['color'], _colorMeta));
     } else if (isInserting) {
       context.missing(_colorMeta);
     }
@@ -787,21 +872,6 @@ class $MenuCategoriesTable extends MenuCategories
   MenuCategory map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return MenuCategory.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(MenuCategoriesCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.name.present) {
-      map['name'] = Variable<String, StringType>(d.name.value);
-    }
-    if (d.color.present) {
-      map['color'] = Variable<int, IntType>(d.color.value);
-    }
-    return map;
   }
 
   @override
@@ -833,6 +903,24 @@ class Menu extends DataClass implements Insertable<Menu> {
       price: intType.mapFromDatabaseResponse(data['${effectivePrefix}price']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || menuCategoryJson != null) {
+      map['menu_category_json'] = Variable<String>(menuCategoryJson);
+    }
+    if (!nullToAbsent || name != null) {
+      map['name'] = Variable<String>(name);
+    }
+    if (!nullToAbsent || price != null) {
+      map['price'] = Variable<int>(price);
+    }
+    return map;
+  }
+
   factory Menu.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -852,19 +940,6 @@ class Menu extends DataClass implements Insertable<Menu> {
       'name': serializer.toJson<String>(name),
       'price': serializer.toJson<int>(price),
     };
-  }
-
-  @override
-  MenusCompanion createCompanion(bool nullToAbsent) {
-    return MenusCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      menuCategoryJson: menuCategoryJson == null && nullToAbsent
-          ? const Value.absent()
-          : Value(menuCategoryJson),
-      name: name == null && nullToAbsent ? const Value.absent() : Value(name),
-      price:
-          price == null && nullToAbsent ? const Value.absent() : Value(price),
-    );
   }
 
   Menu copyWith({int id, String menuCategoryJson, String name, int price}) =>
@@ -917,6 +992,20 @@ class MenusCompanion extends UpdateCompanion<Menu> {
   })  : menuCategoryJson = Value(menuCategoryJson),
         name = Value(name),
         price = Value(price);
+  static Insertable<Menu> custom({
+    Expression<int> id,
+    Expression<String> menuCategoryJson,
+    Expression<String> name,
+    Expression<int> price,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (menuCategoryJson != null) 'menu_category_json': menuCategoryJson,
+      if (name != null) 'name': name,
+      if (price != null) 'price': price,
+    });
+  }
+
   MenusCompanion copyWith(
       {Value<int> id,
       Value<String> menuCategoryJson,
@@ -928,6 +1017,24 @@ class MenusCompanion extends UpdateCompanion<Menu> {
       name: name ?? this.name,
       price: price ?? this.price,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (menuCategoryJson.present) {
+      map['menu_category_json'] = Variable<String>(menuCategoryJson.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (price.present) {
+      map['price'] = Variable<int>(price.value);
+    }
+    return map;
   }
 }
 
@@ -991,29 +1098,30 @@ class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
   @override
   final String actualTableName = 'menus';
   @override
-  VerificationContext validateIntegrity(MenusCompanion d,
+  VerificationContext validateIntegrity(Insertable<Menu> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.menuCategoryJson.present) {
+    if (data.containsKey('menu_category_json')) {
       context.handle(
           _menuCategoryJsonMeta,
-          menuCategoryJson.isAcceptableValue(
-              d.menuCategoryJson.value, _menuCategoryJsonMeta));
+          menuCategoryJson.isAcceptableOrUnknown(
+              data['menu_category_json'], _menuCategoryJsonMeta));
     } else if (isInserting) {
       context.missing(_menuCategoryJsonMeta);
     }
-    if (d.name.present) {
+    if (data.containsKey('name')) {
       context.handle(
-          _nameMeta, name.isAcceptableValue(d.name.value, _nameMeta));
+          _nameMeta, name.isAcceptableOrUnknown(data['name'], _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
-    if (d.price.present) {
+    if (data.containsKey('price')) {
       context.handle(
-          _priceMeta, price.isAcceptableValue(d.price.value, _priceMeta));
+          _priceMeta, price.isAcceptableOrUnknown(data['price'], _priceMeta));
     } else if (isInserting) {
       context.missing(_priceMeta);
     }
@@ -1026,25 +1134,6 @@ class $MenusTable extends Menus with TableInfo<$MenusTable, Menu> {
   Menu map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return Menu.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(MenusCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.menuCategoryJson.present) {
-      map['menu_category_json'] =
-          Variable<String, StringType>(d.menuCategoryJson.value);
-    }
-    if (d.name.present) {
-      map['name'] = Variable<String, StringType>(d.name.value);
-    }
-    if (d.price.present) {
-      map['price'] = Variable<int, IntType>(d.price.value);
-    }
-    return map;
   }
 
   @override
@@ -1083,6 +1172,27 @@ class VisitHistory extends DataClass implements Insertable<VisitHistory> {
           .mapFromDatabaseResponse(data['${effectivePrefix}menu_list_json']),
     );
   }
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (!nullToAbsent || id != null) {
+      map['id'] = Variable<int>(id);
+    }
+    if (!nullToAbsent || date != null) {
+      map['date'] = Variable<DateTime>(date);
+    }
+    if (!nullToAbsent || customerJson != null) {
+      map['customer_json'] = Variable<String>(customerJson);
+    }
+    if (!nullToAbsent || employeeJson != null) {
+      map['employee_json'] = Variable<String>(employeeJson);
+    }
+    if (!nullToAbsent || menuListJson != null) {
+      map['menu_list_json'] = Variable<String>(menuListJson);
+    }
+    return map;
+  }
+
   factory VisitHistory.fromJson(Map<String, dynamic> json,
       {ValueSerializer serializer}) {
     serializer ??= moorRuntimeOptions.defaultSerializer;
@@ -1104,23 +1214,6 @@ class VisitHistory extends DataClass implements Insertable<VisitHistory> {
       'employeeJson': serializer.toJson<String>(employeeJson),
       'menuListJson': serializer.toJson<String>(menuListJson),
     };
-  }
-
-  @override
-  VisitHistoriesCompanion createCompanion(bool nullToAbsent) {
-    return VisitHistoriesCompanion(
-      id: id == null && nullToAbsent ? const Value.absent() : Value(id),
-      date: date == null && nullToAbsent ? const Value.absent() : Value(date),
-      customerJson: customerJson == null && nullToAbsent
-          ? const Value.absent()
-          : Value(customerJson),
-      employeeJson: employeeJson == null && nullToAbsent
-          ? const Value.absent()
-          : Value(employeeJson),
-      menuListJson: menuListJson == null && nullToAbsent
-          ? const Value.absent()
-          : Value(menuListJson),
-    );
   }
 
   VisitHistory copyWith(
@@ -1189,6 +1282,22 @@ class VisitHistoriesCompanion extends UpdateCompanion<VisitHistory> {
         customerJson = Value(customerJson),
         employeeJson = Value(employeeJson),
         menuListJson = Value(menuListJson);
+  static Insertable<VisitHistory> custom({
+    Expression<int> id,
+    Expression<DateTime> date,
+    Expression<String> customerJson,
+    Expression<String> employeeJson,
+    Expression<String> menuListJson,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (date != null) 'date': date,
+      if (customerJson != null) 'customer_json': customerJson,
+      if (employeeJson != null) 'employee_json': employeeJson,
+      if (menuListJson != null) 'menu_list_json': menuListJson,
+    });
+  }
+
   VisitHistoriesCompanion copyWith(
       {Value<int> id,
       Value<DateTime> date,
@@ -1202,6 +1311,27 @@ class VisitHistoriesCompanion extends UpdateCompanion<VisitHistory> {
       employeeJson: employeeJson ?? this.employeeJson,
       menuListJson: menuListJson ?? this.menuListJson,
     );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (date.present) {
+      map['date'] = Variable<DateTime>(date.value);
+    }
+    if (customerJson.present) {
+      map['customer_json'] = Variable<String>(customerJson.value);
+    }
+    if (employeeJson.present) {
+      map['employee_json'] = Variable<String>(employeeJson.value);
+    }
+    if (menuListJson.present) {
+      map['menu_list_json'] = Variable<String>(menuListJson.value);
+    }
+    return map;
   }
 }
 
@@ -1283,39 +1413,40 @@ class $VisitHistoriesTable extends VisitHistories
   @override
   final String actualTableName = 'visit_histories';
   @override
-  VerificationContext validateIntegrity(VisitHistoriesCompanion d,
+  VerificationContext validateIntegrity(Insertable<VisitHistory> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
-    if (d.id.present) {
-      context.handle(_idMeta, id.isAcceptableValue(d.id.value, _idMeta));
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
     }
-    if (d.date.present) {
+    if (data.containsKey('date')) {
       context.handle(
-          _dateMeta, date.isAcceptableValue(d.date.value, _dateMeta));
+          _dateMeta, date.isAcceptableOrUnknown(data['date'], _dateMeta));
     } else if (isInserting) {
       context.missing(_dateMeta);
     }
-    if (d.customerJson.present) {
+    if (data.containsKey('customer_json')) {
       context.handle(
           _customerJsonMeta,
-          customerJson.isAcceptableValue(
-              d.customerJson.value, _customerJsonMeta));
+          customerJson.isAcceptableOrUnknown(
+              data['customer_json'], _customerJsonMeta));
     } else if (isInserting) {
       context.missing(_customerJsonMeta);
     }
-    if (d.employeeJson.present) {
+    if (data.containsKey('employee_json')) {
       context.handle(
           _employeeJsonMeta,
-          employeeJson.isAcceptableValue(
-              d.employeeJson.value, _employeeJsonMeta));
+          employeeJson.isAcceptableOrUnknown(
+              data['employee_json'], _employeeJsonMeta));
     } else if (isInserting) {
       context.missing(_employeeJsonMeta);
     }
-    if (d.menuListJson.present) {
+    if (data.containsKey('menu_list_json')) {
       context.handle(
           _menuListJsonMeta,
-          menuListJson.isAcceptableValue(
-              d.menuListJson.value, _menuListJsonMeta));
+          menuListJson.isAcceptableOrUnknown(
+              data['menu_list_json'], _menuListJsonMeta));
     } else if (isInserting) {
       context.missing(_menuListJsonMeta);
     }
@@ -1328,28 +1459,6 @@ class $VisitHistoriesTable extends VisitHistories
   VisitHistory map(Map<String, dynamic> data, {String tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
     return VisitHistory.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  Map<String, Variable> entityToSql(VisitHistoriesCompanion d) {
-    final map = <String, Variable>{};
-    if (d.id.present) {
-      map['id'] = Variable<int, IntType>(d.id.value);
-    }
-    if (d.date.present) {
-      map['date'] = Variable<DateTime, DateTimeType>(d.date.value);
-    }
-    if (d.customerJson.present) {
-      map['customer_json'] = Variable<String, StringType>(d.customerJson.value);
-    }
-    if (d.employeeJson.present) {
-      map['employee_json'] = Variable<String, StringType>(d.employeeJson.value);
-    }
-    if (d.menuListJson.present) {
-      map['menu_list_json'] =
-          Variable<String, StringType>(d.menuListJson.value);
-    }
-    return map;
   }
 
   @override

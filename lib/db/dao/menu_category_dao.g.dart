@@ -7,5 +7,5 @@ part of 'menu_category_dao.dart';
 // **************************************************************************
 
 mixin _$MenuCategoryDaoMixin on DatabaseAccessor<MyDatabase> {
-  $MenuCategoriesTable get menuCategories => db.menuCategories;
+  $MenuCategoriesTable get menuCategories => attachedDatabase.menuCategories;
 }

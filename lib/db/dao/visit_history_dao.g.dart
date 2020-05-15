@@ -7,5 +7,5 @@ part of 'visit_history_dao.dart';
 // **************************************************************************
 
 mixin _$VisitHistoryDaoMixin on DatabaseAccessor<MyDatabase> {
-  $VisitHistoriesTable get visitHistories => db.visitHistories;
+  $VisitHistoriesTable get visitHistories => attachedDatabase.visitHistories;
 }

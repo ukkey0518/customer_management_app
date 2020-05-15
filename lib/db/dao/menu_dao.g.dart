@@ -7,5 +7,5 @@ part of 'menu_dao.dart';
 // **************************************************************************
 
 mixin _$MenuDaoMixin on DatabaseAccessor<MyDatabase> {
-  $MenusTable get menus => db.menus;
+  $MenusTable get menus => attachedDatabase.menus;
 }

@@ -7,5 +7,5 @@ part of 'customer_dao.dart';
 // **************************************************************************
 
 mixin _$CustomerDaoMixin on DatabaseAccessor<MyDatabase> {
-  $CustomersTable get customers => db.customers;
+  $CustomersTable get customers => attachedDatabase.customers;
 }
