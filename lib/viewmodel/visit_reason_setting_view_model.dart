@@ -7,7 +7,8 @@ class VisitReasonSettingViewModel extends ChangeNotifier {
 
   final VisitReasonRepository _vrRep;
 
-  List<VisitReason> _visitReasons;
+  List<VisitReason> _visitReasons = List();
+
   List<VisitReason> get visitReasons => _visitReasons;
 
   getVisitReasons() async {

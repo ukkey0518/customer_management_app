@@ -18,7 +18,7 @@ class VisitReasonSettingScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('スタッフ管理'),
+        title: const Text('来店動機の登録'),
         centerTitle: true,
       ),
       floatingActionButton: FloatingActionButton(

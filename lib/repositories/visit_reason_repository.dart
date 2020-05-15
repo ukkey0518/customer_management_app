@@ -7,7 +7,7 @@ class VisitReasonRepository extends ChangeNotifier {
 
   final VisitReasonDao _dao;
 
-  List<VisitReason> _visitReasons;
+  List<VisitReason> _visitReasons = List();
 
   List<VisitReason> get visitReasons => _visitReasons;
 
