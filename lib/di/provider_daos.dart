@@ -3,7 +3,6 @@ import 'package:customermanagementapp/db/dao/employee_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_dao.dart';
 import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
-import 'package:customermanagementapp/db/dao/visit_reason_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -17,11 +16,6 @@ List<SingleChildWidget> daoProviders = [
   // [DAO: EmployeeDao]
   ProxyProvider<MyDatabase, EmployeeDao>(
     update: (_, db, dao) => EmployeeDao(db),
-  ),
-
-  // [DAO: VisitReasonDao]
-  ProxyProvider<MyDatabase, VisitReasonDao>(
-    update: (_, db, dao) => VisitReasonDao(db),
   ),
 
   // [DAO: MenuCategoryDao]

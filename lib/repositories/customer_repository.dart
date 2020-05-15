@@ -1,19 +1,12 @@
 import 'package:customermanagementapp/data/data_classes/customer_list_screen_preferences.dart';
 import 'package:customermanagementapp/db/dao/customer_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/repositories/visit_reason_repository.dart';
-import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 class CustomerRepository extends ChangeNotifier {
-  CustomerRepository({dao, vrRep})
-      : _dao = dao,
-        _vrRep = vrRep;
+  CustomerRepository({dao, vrRep}) : _dao = dao;
 
   final CustomerDao _dao;
-  final VisitReasonRepository _vrRep;
-
-  List<VisitReason> _visitReasons = List();
 
   List<Customer> _customers = List();
 
@@ -24,8 +17,6 @@ class CustomerRepository extends ChangeNotifier {
     CustomerListScreenPreferences preferences,
   }) async {
     print('[Rep: Customer] getCustomers');
-
-    _visitReasons = await _vrRep.getVisitReasons();
 
     _customers = await _dao.getCustomers(preferences: preferences);
     notifyListeners();
@@ -64,16 +55,6 @@ class CustomerRepository extends ChangeNotifier {
 
     _customers =
         await _dao.deleteAndGetAllCustomers(customer, preferences: preferences);
-    notifyListeners();
-  }
-
-  // [Repositoryの更新]
-  onRepositoryUpdated(VisitReasonRepository vrRep) {
-    print('  [Rep: Customer] onRepositoryUpdated');
-
-    _visitReasons = vrRep.visitReasons;
-    _customers = _customers.getUpdate(_visitReasons);
-
     notifyListeners();
   }
 }

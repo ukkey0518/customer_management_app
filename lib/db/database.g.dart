@@ -13,14 +13,12 @@ class Customer extends DataClass implements Insertable<Customer> {
   final String nameReading;
   final bool isGenderFemale;
   final DateTime birth;
-  final String visitReasonJson;
   Customer(
       {@required this.id,
       @required this.name,
       @required this.nameReading,
       @required this.isGenderFemale,
-      this.birth,
-      this.visitReasonJson});
+      this.birth});
   factory Customer.fromData(Map<String, dynamic> data, GeneratedDatabase db,
       {String prefix}) {
     final effectivePrefix = prefix ?? '';
@@ -37,8 +35,6 @@ class Customer extends DataClass implements Insertable<Customer> {
           .mapFromDatabaseResponse(data['${effectivePrefix}is_gender_female']),
       birth:
           dateTimeType.mapFromDatabaseResponse(data['${effectivePrefix}birth']),
-      visitReasonJson: stringType
-          .mapFromDatabaseResponse(data['${effectivePrefix}visit_reason_json']),
     );
   }
   @override
@@ -59,9 +55,6 @@ class Customer extends DataClass implements Insertable<Customer> {
     if (!nullToAbsent || birth != null) {
       map['birth'] = Variable<DateTime>(birth);
     }
-    if (!nullToAbsent || visitReasonJson != null) {
-      map['visit_reason_json'] = Variable<String>(visitReasonJson);
-    }
     return map;
   }
 
@@ -74,7 +67,6 @@ class Customer extends DataClass implements Insertable<Customer> {
       nameReading: serializer.fromJson<String>(json['nameReading']),
       isGenderFemale: serializer.fromJson<bool>(json['isGenderFemale']),
       birth: serializer.fromJson<DateTime>(json['birth']),
-      visitReasonJson: serializer.fromJson<String>(json['visitReasonJson']),
     );
   }
   @override
@@ -86,7 +78,6 @@ class Customer extends DataClass implements Insertable<Customer> {
       'nameReading': serializer.toJson<String>(nameReading),
       'isGenderFemale': serializer.toJson<bool>(isGenderFemale),
       'birth': serializer.toJson<DateTime>(birth),
-      'visitReasonJson': serializer.toJson<String>(visitReasonJson),
     };
   }
 
@@ -95,15 +86,13 @@ class Customer extends DataClass implements Insertable<Customer> {
           String name,
           String nameReading,
           bool isGenderFemale,
-          DateTime birth,
-          String visitReasonJson}) =>
+          DateTime birth}) =>
       Customer(
         id: id ?? this.id,
         name: name ?? this.name,
         nameReading: nameReading ?? this.nameReading,
         isGenderFemale: isGenderFemale ?? this.isGenderFemale,
         birth: birth ?? this.birth,
-        visitReasonJson: visitReasonJson ?? this.visitReasonJson,
       );
   @override
   String toString() {
@@ -112,8 +101,7 @@ class Customer extends DataClass implements Insertable<Customer> {
           ..write('name: $name, ')
           ..write('nameReading: $nameReading, ')
           ..write('isGenderFemale: $isGenderFemale, ')
-          ..write('birth: $birth, ')
-          ..write('visitReasonJson: $visitReasonJson')
+          ..write('birth: $birth')
           ..write(')'))
         .toString();
   }
@@ -123,10 +111,8 @@ class Customer extends DataClass implements Insertable<Customer> {
       id.hashCode,
       $mrjc(
           name.hashCode,
-          $mrjc(
-              nameReading.hashCode,
-              $mrjc(isGenderFemale.hashCode,
-                  $mrjc(birth.hashCode, visitReasonJson.hashCode))))));
+          $mrjc(nameReading.hashCode,
+              $mrjc(isGenderFemale.hashCode, birth.hashCode)))));
   @override
   bool operator ==(dynamic other) =>
       identical(this, other) ||
@@ -135,8 +121,7 @@ class Customer extends DataClass implements Insertable<Customer> {
           other.name == this.name &&
           other.nameReading == this.nameReading &&
           other.isGenderFemale == this.isGenderFemale &&
-          other.birth == this.birth &&
-          other.visitReasonJson == this.visitReasonJson);
+          other.birth == this.birth);
 }
 
 class CustomersCompanion extends UpdateCompanion<Customer> {
@@ -145,14 +130,12 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
   final Value<String> nameReading;
   final Value<bool> isGenderFemale;
   final Value<DateTime> birth;
-  final Value<String> visitReasonJson;
   const CustomersCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.nameReading = const Value.absent(),
     this.isGenderFemale = const Value.absent(),
     this.birth = const Value.absent(),
-    this.visitReasonJson = const Value.absent(),
   });
   CustomersCompanion.insert({
     this.id = const Value.absent(),
@@ -160,7 +143,6 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     @required String nameReading,
     @required bool isGenderFemale,
     this.birth = const Value.absent(),
-    this.visitReasonJson = const Value.absent(),
   })  : name = Value(name),
         nameReading = Value(nameReading),
         isGenderFemale = Value(isGenderFemale);
@@ -170,7 +152,6 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     Expression<String> nameReading,
     Expression<bool> isGenderFemale,
     Expression<DateTime> birth,
-    Expression<String> visitReasonJson,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -178,7 +159,6 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       if (nameReading != null) 'name_reading': nameReading,
       if (isGenderFemale != null) 'is_gender_female': isGenderFemale,
       if (birth != null) 'birth': birth,
-      if (visitReasonJson != null) 'visit_reason_json': visitReasonJson,
     });
   }
 
@@ -187,15 +167,13 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
       Value<String> name,
       Value<String> nameReading,
       Value<bool> isGenderFemale,
-      Value<DateTime> birth,
-      Value<String> visitReasonJson}) {
+      Value<DateTime> birth}) {
     return CustomersCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       nameReading: nameReading ?? this.nameReading,
       isGenderFemale: isGenderFemale ?? this.isGenderFemale,
       birth: birth ?? this.birth,
-      visitReasonJson: visitReasonJson ?? this.visitReasonJson,
     );
   }
 
@@ -216,9 +194,6 @@ class CustomersCompanion extends UpdateCompanion<Customer> {
     }
     if (birth.present) {
       map['birth'] = Variable<DateTime>(birth.value);
-    }
-    if (visitReasonJson.present) {
-      map['visit_reason_json'] = Variable<String>(visitReasonJson.value);
     }
     return map;
   }
@@ -290,23 +265,9 @@ class $CustomersTable extends Customers
     );
   }
 
-  final VerificationMeta _visitReasonJsonMeta =
-      const VerificationMeta('visitReasonJson');
-  GeneratedTextColumn _visitReasonJson;
-  @override
-  GeneratedTextColumn get visitReasonJson =>
-      _visitReasonJson ??= _constructVisitReasonJson();
-  GeneratedTextColumn _constructVisitReasonJson() {
-    return GeneratedTextColumn(
-      'visit_reason_json',
-      $tableName,
-      true,
-    );
-  }
-
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, nameReading, isGenderFemale, birth, visitReasonJson];
+      [id, name, nameReading, isGenderFemale, birth];
   @override
   $CustomersTable get asDslTable => this;
   @override
@@ -346,12 +307,6 @@ class $CustomersTable extends Customers
     if (data.containsKey('birth')) {
       context.handle(
           _birthMeta, birth.isAcceptableOrUnknown(data['birth'], _birthMeta));
-    }
-    if (data.containsKey('visit_reason_json')) {
-      context.handle(
-          _visitReasonJsonMeta,
-          visitReasonJson.isAcceptableOrUnknown(
-              data['visit_reason_json'], _visitReasonJsonMeta));
     }
     return context;
   }
@@ -537,179 +492,6 @@ class $EmployeesTable extends Employees
   @override
   $EmployeesTable createAlias(String alias) {
     return $EmployeesTable(_db, alias);
-  }
-}
-
-class VisitReason extends DataClass implements Insertable<VisitReason> {
-  final int id;
-  final String reason;
-  VisitReason({@required this.id, @required this.reason});
-  factory VisitReason.fromData(Map<String, dynamic> data, GeneratedDatabase db,
-      {String prefix}) {
-    final effectivePrefix = prefix ?? '';
-    final intType = db.typeSystem.forDartType<int>();
-    final stringType = db.typeSystem.forDartType<String>();
-    return VisitReason(
-      id: intType.mapFromDatabaseResponse(data['${effectivePrefix}id']),
-      reason:
-          stringType.mapFromDatabaseResponse(data['${effectivePrefix}reason']),
-    );
-  }
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (!nullToAbsent || id != null) {
-      map['id'] = Variable<int>(id);
-    }
-    if (!nullToAbsent || reason != null) {
-      map['reason'] = Variable<String>(reason);
-    }
-    return map;
-  }
-
-  factory VisitReason.fromJson(Map<String, dynamic> json,
-      {ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return VisitReason(
-      id: serializer.fromJson<int>(json['id']),
-      reason: serializer.fromJson<String>(json['reason']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer serializer}) {
-    serializer ??= moorRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'reason': serializer.toJson<String>(reason),
-    };
-  }
-
-  VisitReason copyWith({int id, String reason}) => VisitReason(
-        id: id ?? this.id,
-        reason: reason ?? this.reason,
-      );
-  @override
-  String toString() {
-    return (StringBuffer('VisitReason(')
-          ..write('id: $id, ')
-          ..write('reason: $reason')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => $mrjf($mrjc(id.hashCode, reason.hashCode));
-  @override
-  bool operator ==(dynamic other) =>
-      identical(this, other) ||
-      (other is VisitReason &&
-          other.id == this.id &&
-          other.reason == this.reason);
-}
-
-class VisitReasonsCompanion extends UpdateCompanion<VisitReason> {
-  final Value<int> id;
-  final Value<String> reason;
-  const VisitReasonsCompanion({
-    this.id = const Value.absent(),
-    this.reason = const Value.absent(),
-  });
-  VisitReasonsCompanion.insert({
-    this.id = const Value.absent(),
-    @required String reason,
-  }) : reason = Value(reason);
-  static Insertable<VisitReason> custom({
-    Expression<int> id,
-    Expression<String> reason,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (reason != null) 'reason': reason,
-    });
-  }
-
-  VisitReasonsCompanion copyWith({Value<int> id, Value<String> reason}) {
-    return VisitReasonsCompanion(
-      id: id ?? this.id,
-      reason: reason ?? this.reason,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (reason.present) {
-      map['reason'] = Variable<String>(reason.value);
-    }
-    return map;
-  }
-}
-
-class $VisitReasonsTable extends VisitReasons
-    with TableInfo<$VisitReasonsTable, VisitReason> {
-  final GeneratedDatabase _db;
-  final String _alias;
-  $VisitReasonsTable(this._db, [this._alias]);
-  final VerificationMeta _idMeta = const VerificationMeta('id');
-  GeneratedIntColumn _id;
-  @override
-  GeneratedIntColumn get id => _id ??= _constructId();
-  GeneratedIntColumn _constructId() {
-    return GeneratedIntColumn('id', $tableName, false,
-        hasAutoIncrement: true, declaredAsPrimaryKey: true);
-  }
-
-  final VerificationMeta _reasonMeta = const VerificationMeta('reason');
-  GeneratedTextColumn _reason;
-  @override
-  GeneratedTextColumn get reason => _reason ??= _constructReason();
-  GeneratedTextColumn _constructReason() {
-    return GeneratedTextColumn(
-      'reason',
-      $tableName,
-      false,
-    );
-  }
-
-  @override
-  List<GeneratedColumn> get $columns => [id, reason];
-  @override
-  $VisitReasonsTable get asDslTable => this;
-  @override
-  String get $tableName => _alias ?? 'visit_reasons';
-  @override
-  final String actualTableName = 'visit_reasons';
-  @override
-  VerificationContext validateIntegrity(Insertable<VisitReason> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id'], _idMeta));
-    }
-    if (data.containsKey('reason')) {
-      context.handle(_reasonMeta,
-          reason.isAcceptableOrUnknown(data['reason'], _reasonMeta));
-    } else if (isInserting) {
-      context.missing(_reasonMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  VisitReason map(Map<String, dynamic> data, {String tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : null;
-    return VisitReason.fromData(data, _db, prefix: effectivePrefix);
-  }
-
-  @override
-  $VisitReasonsTable createAlias(String alias) {
-    return $VisitReasonsTable(_db, alias);
   }
 }
 
@@ -1518,9 +1300,6 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   $CustomersTable get customers => _customers ??= $CustomersTable(this);
   $EmployeesTable _employees;
   $EmployeesTable get employees => _employees ??= $EmployeesTable(this);
-  $VisitReasonsTable _visitReasons;
-  $VisitReasonsTable get visitReasons =>
-      _visitReasons ??= $VisitReasonsTable(this);
   $MenuCategoriesTable _menuCategories;
   $MenuCategoriesTable get menuCategories =>
       _menuCategories ??= $MenuCategoriesTable(this);
@@ -1532,12 +1311,6 @@ abstract class _$MyDatabase extends GeneratedDatabase {
   @override
   Iterable<TableInfo> get allTables => allSchemaEntities.whereType<TableInfo>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [
-        customers,
-        employees,
-        visitReasons,
-        menuCategories,
-        menus,
-        visitHistories
-      ];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [customers, employees, menuCategories, menus, visitHistories];
 }

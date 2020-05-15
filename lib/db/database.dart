@@ -2,20 +2,23 @@ import 'dart:io';
 
 import 'package:moor/moor.dart';
 import 'package:moor_ffi/moor_ffi.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
 
 part 'database.g.dart';
 
 // [テーブル：顧客データ]
-// (依存：VisitReasons)
+// (依存：なし)
 class Customers extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   TextColumn get name => text()();
+
   TextColumn get nameReading => text()();
+
   BoolColumn get isGenderFemale => boolean()();
+
   DateTimeColumn get birth => dateTime().nullable()();
-  TextColumn get visitReasonJson => text().nullable()();
 
   @override
   Set<Column> get primaryKey => {id};
@@ -25,17 +28,11 @@ class Customers extends Table {
 // (依存：なし)
 class Employees extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   TextColumn get name => text()();
 
   @override
   Set<Column> get primaryKey => {id};
-}
-
-// [テーブル：来店動機]
-// (依存：なし)
-class VisitReasons extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  TextColumn get reason => text()();
 }
 
 // [テーブル：メニューカテゴリデータ]
@@ -43,7 +40,9 @@ class VisitReasons extends Table {
 @DataClassName('MenuCategory')
 class MenuCategories extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   TextColumn get name => text()();
+
   IntColumn get color => integer()();
 
   @override
@@ -54,8 +53,11 @@ class MenuCategories extends Table {
 // (依存：MenuCategories)
 class Menus extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   TextColumn get menuCategoryJson => text()();
+
   TextColumn get name => text()();
+
   IntColumn get price => integer()();
 
   @override
@@ -67,9 +69,13 @@ class Menus extends Table {
 @DataClassName('VisitHistory')
 class VisitHistories extends Table {
   IntColumn get id => integer().autoIncrement()();
+
   DateTimeColumn get date => dateTime()();
+
   TextColumn get customerJson => text()();
+
   TextColumn get employeeJson => text()();
+
   TextColumn get menuListJson => text()();
 
   @override
@@ -87,7 +93,6 @@ LazyDatabase _openConnection() {
 @UseMoor(tables: [
   Customers,
   Employees,
-  VisitReasons,
   MenuCategories,
   Menus,
   VisitHistories,

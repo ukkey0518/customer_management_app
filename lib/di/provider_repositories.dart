@@ -3,7 +3,6 @@ import 'package:customermanagementapp/db/dao/employee_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_category_dao.dart';
 import 'package:customermanagementapp/db/dao/menu_dao.dart';
 import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
-import 'package:customermanagementapp/db/dao/visit_reason_dao.dart';
 import 'package:customermanagementapp/repositories/customer_repository.dart';
 import 'package:customermanagementapp/repositories/employee_repository.dart';
 import 'package:customermanagementapp/repositories/menu_category_repository.dart';
@@ -11,22 +10,21 @@ import 'package:customermanagementapp/repositories/menu_repository.dart';
 import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
 import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
-import 'package:customermanagementapp/repositories/visit_reason_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
 List<SingleChildWidget> indepRepProviders = [
+  // [Rep: CustomerRepository]
+  ChangeNotifierProvider<CustomerRepository>(
+    create: (context) => CustomerRepository(
+      dao: Provider.of<CustomerDao>(context, listen: false),
+    ),
+  ),
+
   // [Rep: EmployeeRepository]
   ChangeNotifierProvider<EmployeeRepository>(
     create: (context) => EmployeeRepository(
       dao: Provider.of<EmployeeDao>(context, listen: false),
-    ),
-  ),
-
-  // [Rep: VisitReasonRepository]
-  ChangeNotifierProvider<VisitReasonRepository>(
-    create: (context) => VisitReasonRepository(
-      dao: Provider.of<VisitReasonDao>(context, listen: false),
     ),
   ),
 
@@ -46,17 +44,6 @@ List<SingleChildWidget> indepRepProviders = [
 ];
 
 List<SingleChildWidget> depRepProviders = [
-  // [Rep: CustomerRepository]
-  // (依存) VisitReasonRepository
-  ChangeNotifierProxyProvider2<CustomerDao, VisitReasonRepository,
-      CustomerRepository>(
-    create: (context) => CustomerRepository(
-      dao: Provider.of<CustomerDao>(context, listen: false),
-      vrRep: Provider.of<VisitReasonRepository>(context, listen: false),
-    ),
-    update: (_, dao, vrRep, cRep) => cRep..onRepositoryUpdated(vrRep),
-  ),
-
   // [Rep: VisitHistoryRepository]
   // (依存) CustomerRepository, EmployeeRepository, MenuRepository
   ChangeNotifierProxyProvider4<VisitHistoryDao, CustomerRepository,

@@ -3,7 +3,6 @@ import 'package:customermanagementapp/repositories/employee_repository.dart';
 import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
 import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
-import 'package:customermanagementapp/repositories/visit_reason_repository.dart';
 import 'package:customermanagementapp/viewmodel/customer_edit_view_model.dart';
 import 'package:customermanagementapp/viewmodel/customer_information_view_model.dart';
 import 'package:customermanagementapp/viewmodel/customers_list_view_model.dart';
@@ -13,7 +12,6 @@ import 'package:customermanagementapp/viewmodel/menu_select_view_model.dart';
 import 'package:customermanagementapp/viewmodel/menu_setting_view_model.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_edit_view_model.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.dart';
-import 'package:customermanagementapp/viewmodel/visit_reason_setting_view_model.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
 
@@ -53,15 +51,6 @@ List<SingleChildWidget> viewModelProviders = [
     ),
     update: (_, repository, viewModel) =>
         viewModel..onRepositoryUpdated(repository),
-  ),
-
-  // [VM: 来店動機設定画面]
-  ChangeNotifierProxyProvider<VisitReasonRepository,
-      VisitReasonSettingViewModel>(
-    create: (context) => VisitReasonSettingViewModel(
-      vrRep: Provider.of<VisitReasonRepository>(context, listen: false),
-    ),
-    update: (_, vrRep, viewModel) => viewModel..onRepositoryUpdated(vrRep),
   ),
 
   // [VM: メニューカテゴリ設定画面]
