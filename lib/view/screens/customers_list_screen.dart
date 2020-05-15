@@ -76,26 +76,20 @@ class CustomersListScreen extends StatelessWidget {
               ),
               Divider(),
               Expanded(
-                child: viewModel.isLoading
-                    ? Center(
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.grey,
-                        ),
-                      )
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: ListView.builder(
-                          itemCount: viewModel.visitHistoriesByCustomers.length,
-                          itemBuilder: (context, index) {
-                            return CustomerListItem(
-                              visitHistoriesByCustomer:
-                                  viewModel.visitHistoriesByCustomers[index],
-                              onTap: (vhbc) => _onListItemTap(context, vhbc),
-                              onLongPress: (vhbc) => _deleteVHBC(context, vhbc),
-                            );
-                          },
-                        ),
-                      ),
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: ListView.builder(
+                    itemCount: viewModel.visitHistoriesByCustomers.length,
+                    itemBuilder: (context, index) {
+                      return CustomerListItem(
+                        visitHistoriesByCustomer:
+                            viewModel.visitHistoriesByCustomers[index],
+                        onTap: (vhbc) => _onListItemTap(context, vhbc),
+                        onLongPress: (vhbc) => _deleteVHBC(context, vhbc),
+                      );
+                    },
+                  ),
+                ),
               ),
             ],
           ),

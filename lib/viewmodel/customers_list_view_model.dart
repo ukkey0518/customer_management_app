@@ -20,11 +20,6 @@ class CustomersListViewModel extends ChangeNotifier {
 
   ScreenDisplayMode get displayMode => _displayMode;
 
-  // [読み込み状態]
-  bool _isLoading = false;
-
-  bool get isLoading => _isLoading;
-
   // [顧客別来店履歴データリスト]
   List<VisitHistoriesByCustomer> _visitHistoriesByCustomers = List();
 
@@ -100,7 +95,6 @@ class CustomersListViewModel extends ChangeNotifier {
     print('CustomersListViewModel.onRepositoryUpdated :');
 
     _visitHistoriesByCustomers = vhbcRep.visitHistoriesByCustomers;
-    _isLoading = vhbcRep.isLoading;
 
     notifyListeners();
   }

@@ -11,10 +11,6 @@ class EmployeeSettingViewModel extends ChangeNotifier {
 
   List<Employee> get employees => _employees;
 
-  bool _isLoading = false;
-
-  bool get isLoading => _isLoading;
-
   // [取得：従業員データの取得]
   Future<void> getEmployees() async {
     print('[VM: Employee] getEmployees');
@@ -43,7 +39,6 @@ class EmployeeSettingViewModel extends ChangeNotifier {
   onRepositoryUpdated(EmployeeRepository eRep) {
     print('[VM: Employee] onRepositoryUpdated');
     _employees = eRep.employees;
-    _isLoading = eRep.isLoading;
 
     notifyListeners();
   }

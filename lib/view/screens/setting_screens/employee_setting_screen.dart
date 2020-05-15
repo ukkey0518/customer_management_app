@@ -27,22 +27,16 @@ class EmployeeSettingScreen extends StatelessWidget {
       ),
       body: Consumer<EmployeeSettingViewModel>(
         builder: (context, viewModel, child) {
-          return viewModel.isLoading
-              ? Center(
-                  child: CircularProgressIndicator(),
-                )
-              : ListView.builder(
-                  itemCount: viewModel.employees.length,
-                  itemBuilder: (context, index) {
-                    return EmployeeListItem(
-                      employee: viewModel.employees[index],
-                      onTap: (employee) =>
-                          _showEditEmployeeDialog(context, employee),
-                      onLongPress: (employee) =>
-                          _deleteEmployee(context, employee),
-                    );
-                  },
-                );
+          return ListView.builder(
+            itemCount: viewModel.employees.length,
+            itemBuilder: (context, index) {
+              return EmployeeListItem(
+                employee: viewModel.employees[index],
+                onTap: (employee) => _showEditEmployeeDialog(context, employee),
+                onLongPress: (employee) => _deleteEmployee(context, employee),
+              );
+            },
+          );
         },
       ),
     );
