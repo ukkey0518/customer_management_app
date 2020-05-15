@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/data/screen_display_mode.dart';
+import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/styles.dart';

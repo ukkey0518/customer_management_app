@@ -63,7 +63,12 @@ class VisitReasonSettingScreen extends StatelessWidget {
   _deleteVisitReason(BuildContext context, VisitReason visitReason) async {
     var viewModel =
         Provider.of<VisitReasonSettingViewModel>(context, listen: false);
-    await viewModel.deleteVisitReasons(visitReason);
-    Toast.show('削除しました。', context);
+
+    if (viewModel.visitReasons.length == 1) {
+      Toast.show('来店理由をすべて削除することは出来ません。', context, duration: Toast.LENGTH_LONG);
+    } else {
+      await viewModel.deleteVisitReasons(visitReason);
+      Toast.show('削除しました。', context);
+    }
   }
 }

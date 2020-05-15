@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/data/date_format_mode.dart';
+import 'package:customermanagementapp/data/enums/date_format_mode.dart';
 import 'package:intl/intl.dart';
 
 extension ConvertFromDateTime on DateTime {

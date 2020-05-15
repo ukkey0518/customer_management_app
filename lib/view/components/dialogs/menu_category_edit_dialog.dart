@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/data/input_field_style.dart';
+import 'package:customermanagementapp/data/enums/input_field_style.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/color_select_button.dart';

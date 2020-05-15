@@ -1,6 +1,7 @@
+import 'package:customermanagementapp/data/drop_down_menu_items/customer_narrow_state.dart';
+import 'package:customermanagementapp/data/drop_down_menu_items/customer_sort_state.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/data/drop_down_menu_items.dart';
-import 'package:customermanagementapp/data/screen_display_mode.dart';
+import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
