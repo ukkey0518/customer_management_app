@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/data/drop_down_menu_items/visit_history_sort_state.dart';
+import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';

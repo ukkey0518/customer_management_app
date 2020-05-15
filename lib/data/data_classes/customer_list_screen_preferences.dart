@@ -1,5 +1,5 @@
-import 'package:customermanagementapp/data/drop_down_menu_items/customer_narrow_state.dart';
-import 'package:customermanagementapp/data/drop_down_menu_items/customer_sort_state.dart';
+import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
+import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 
 class CustomerListScreenPreferences {
   CustomerListScreenPreferences(

@@ -1,7 +1,7 @@
-import 'package:customermanagementapp/data/drop_down_menu_items/customer_narrow_state.dart';
+import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
 import 'package:customermanagementapp/data/data_classes/customer_list_screen_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/data/drop_down_menu_items/customer_sort_state.dart';
+import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
