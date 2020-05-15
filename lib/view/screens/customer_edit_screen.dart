@@ -99,8 +99,10 @@ class CustomerEditScreen extends StatelessWidget {
                       items: <String, InputWidget>{
                         '来店動機（長押しでクリア）': SingleItemSelectPicker(
                           items: visitReasonData,
-                          selectedItem: null, // selectedVisitReason
-                          onConfirm: null,
+                          isClearable: true,
+                          selectedItem: viewModel.selectedVisitReason,
+                          onConfirm: (visitReason) =>
+                              _onVisitReasonChanged(context, visitReason),
                         ),
                       },
                     ),
@@ -136,6 +138,14 @@ class CustomerEditScreen extends StatelessWidget {
         Provider.of<CustomerEditViewModel>(context, listen: false);
 
     await viewModel.onBirthdayChanged(birthDay);
+  }
+
+  // [コールバック：生年月日変更時]
+  _onVisitReasonChanged(BuildContext context, String visitReason) async {
+    final viewModel =
+        Provider.of<CustomerEditViewModel>(context, listen: false);
+
+    await viewModel.onVisitReasonChanged(visitReason);
   }
 
   // [コールバック：保存ボタンタップ時]

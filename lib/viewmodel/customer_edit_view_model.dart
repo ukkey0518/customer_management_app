@@ -35,6 +35,9 @@ class CustomerEditViewModel extends ChangeNotifier {
 
   DateTime get birthDay => _birthDay;
 
+  String _selectedVisitReason;
+  String get selectedVisitReason => _selectedVisitReason;
+
   String _nameFieldErrorText;
 
   String get nameFieldErrorText => _nameFieldErrorText;
@@ -59,6 +62,7 @@ class CustomerEditViewModel extends ChangeNotifier {
       _nameReadingController.text = _customer.nameReading;
       _isGenderFemale = _customer.isGenderFemale;
       _birthDay = _customer.birth;
+      _selectedVisitReason = _customer.visitReason;
       _title = '顧客データの編集';
       _isSaved = true;
     } else {
@@ -68,9 +72,13 @@ class CustomerEditViewModel extends ChangeNotifier {
       _nameReadingController.text = '';
       _isGenderFemale = false;
       _birthDay = null;
+      _selectedVisitReason = null;
       _title = '顧客データの登録';
       _isSaved = false;
     }
+
+    _nameFieldErrorText = null;
+    _nameReadingFieldErrorText = null;
   }
 
   // 入力欄変更処理
@@ -97,6 +105,14 @@ class CustomerEditViewModel extends ChangeNotifier {
     notifyListeners();
   }
 
+  onVisitReasonChanged(String visitReason) {
+    print('[VM: 顧客データ編集画面] onVisitReasonChanged');
+    _selectedVisitReason = visitReason;
+
+    _isSaved = false;
+    notifyListeners();
+  }
+
   // 保存処理
   saveCustomer() async {
     print('[VM: 顧客データ編集画面] saveCustomer');
@@ -111,6 +127,7 @@ class CustomerEditViewModel extends ChangeNotifier {
         : _nameFieldErrorText;
 
     if (_nameFieldErrorText != null || _nameReadingFieldErrorText != null) {
+      notifyListeners();
       return false;
     }
 
@@ -120,11 +137,16 @@ class CustomerEditViewModel extends ChangeNotifier {
       nameReading: _nameReadingController.text,
       isGenderFemale: _isGenderFemale,
       birth: _birthDay,
+      visitReason: _selectedVisitReason,
     );
 
     await _cRep.addCustomer(newCustomer);
+
+    _nameFieldErrorText = null;
+    _nameReadingFieldErrorText = null;
     _isSaved = true;
 
+    notifyListeners();
     return true;
   }
 
