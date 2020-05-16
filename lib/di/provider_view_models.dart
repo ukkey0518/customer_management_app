@@ -71,12 +71,11 @@ List<SingleChildWidget> viewModelProviders = [
   ),
 
   // [VM: 来店履歴リスト画面]
-  ChangeNotifierProxyProvider<VisitHistoryRepository,
-      VisitHistoryListViewModel>(
+  ChangeNotifierProxyProvider<GlobalRepository, VisitHistoryListViewModel>(
     create: (context) => VisitHistoryListViewModel(
-      vhRep: Provider.of<VisitHistoryRepository>(context, listen: false),
+      gRep: Provider.of<GlobalRepository>(context, listen: false),
     ),
-    update: (_, vhRep, viewModel) => viewModel..onRepositoryUpdated(vhRep),
+    update: (_, gRep, viewModel) => viewModel..onRepositoryUpdated(gRep),
   ),
 
   // [VM: 来店履歴編集画面]
