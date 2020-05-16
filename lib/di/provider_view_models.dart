@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/repositories/global_repository.dart';
+import 'package:customermanagementapp/viewmodel/analysis_view_model.dart';
 import 'package:customermanagementapp/viewmodel/customer_edit_view_model.dart';
 import 'package:customermanagementapp/viewmodel/customer_information_view_model.dart';
 import 'package:customermanagementapp/viewmodel/customers_list_view_model.dart';
@@ -82,5 +83,13 @@ List<SingleChildWidget> viewModelProviders = [
       gRep: Provider.of<GlobalRepository>(context, listen: false),
     ),
     update: (_, gRep, viewModel) => viewModel..onRepositoriesUpdated(gRep),
+  ),
+
+  // [VM: 分析画面]
+  ChangeNotifierProxyProvider<GlobalRepository, AnalysisViewModel>(
+    create: (context) => AnalysisViewModel(
+      gRep: Provider.of<GlobalRepository>(context, listen: false),
+    ),
+    update: (_, gRep, viewModel) => viewModel..onRepositoryUpdated(gRep),
   ),
 ];
