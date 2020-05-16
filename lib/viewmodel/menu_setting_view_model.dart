@@ -1,39 +1,41 @@
 import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
+import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:flutter/cupertino.dart';
 
 class MenuSettingViewModel extends ChangeNotifier {
-  MenuSettingViewModel({mbcRep}) : _mbcRep = mbcRep;
+  MenuSettingViewModel({gRep}) : _gRep = gRep;
 
-  final MenusByCategoryRepository _mbcRep;
+  final GlobalRepository _gRep;
 
   List<MenusByCategory> _mbcList;
+
   List<MenusByCategory> get mbcList => _mbcList;
 
   getMBCList() async {
     print('[VM: メニュー設定画面] getMBCList');
-    _mbcList = await _mbcRep.getMenusByCategories();
+    await _gRep.getData();
+    _mbcList = _gRep.menusByCategories;
   }
 
   setExpanded(int index, bool isExpanded) async {
     print('[VM: メニュー設定画面] setExpanded');
-    _mbcList = await _mbcRep.setExpanded(index, isExpanded);
+    _mbcList = await _gRep.setMBCExpanded(index, isExpanded);
   }
 
   addMenu(Menu menu) async {
     print('[VM: メニュー設定画面] addMenu');
-    _mbcList = await _mbcRep.addMenu(menu);
+    _mbcList = await _gRep.addSingleData(menu);
   }
 
   deleteMenu(Menu menu) async {
     print('[VM: メニュー設定画面] deleteMenu');
-    _mbcList = await _mbcRep.deleteMenu(menu);
+    _mbcList = await _gRep.deleteData(menu);
   }
 
-  onRepositoryUpdated(MenusByCategoryRepository mbcRep) {
+  onRepositoryUpdated(GlobalRepository gRep) {
     print('  [VM: メニュー設定画面] onRepositoryUpdated');
-    _mbcList = _mbcRep.menusByCategories;
+    _mbcList = gRep.menusByCategories;
 
     notifyListeners();
   }

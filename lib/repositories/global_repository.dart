@@ -164,6 +164,12 @@ class GlobalRepository extends ChangeNotifier {
     }
   }
 
+  setMBCExpanded(int index, bool isExpanded) {
+    print('[Rep: Global] setMBCExpanded');
+    _menusByCategories[index].isExpanded = isExpanded;
+    notifyListeners();
+  }
+
   onRepositoriesUpdated(
     CustomerRepository cRep,
     EmployeeRepository eRep,
