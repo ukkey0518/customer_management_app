@@ -2,7 +2,6 @@ import 'package:customermanagementapp/repositories/customer_repository.dart';
 import 'package:customermanagementapp/repositories/employee_repository.dart';
 import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
-import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
 import 'package:customermanagementapp/viewmodel/customer_edit_view_model.dart';
 import 'package:customermanagementapp/viewmodel/customer_information_view_model.dart';
@@ -26,13 +25,11 @@ List<SingleChildWidget> viewModelProviders = [
   ),
 
   // [VM: 顧客情報表示画面]
-  ChangeNotifierProxyProvider<VisitHistoriesByCustomerRepository,
-      CustomerInformationViewModel>(
+  ChangeNotifierProxyProvider<GlobalRepository, CustomerInformationViewModel>(
     create: (context) => CustomerInformationViewModel(
-      vhbcRep: Provider.of<VisitHistoriesByCustomerRepository>(context,
-          listen: false),
+      gRep: Provider.of<GlobalRepository>(context, listen: false),
     ),
-    update: (_, vhbcRep, viewModel) => viewModel..onRepositoryUpdated(vhbcRep),
+    update: (_, gRep, viewModel) => viewModel..onRepositoryUpdated(gRep),
   ),
 
   // [VM: 顧客情報編集画面]
