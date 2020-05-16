@@ -27,7 +27,7 @@ class MenusByCategoryRepository extends ChangeNotifier {
     _menus = await _mRep.getMenus();
     _menusByCategories = await _mcRep.getMenuCategories();
 
-    _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
+    _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
   }
 
   // [追加：１件のメニュー]
@@ -38,7 +38,7 @@ class MenusByCategoryRepository extends ChangeNotifier {
 
     await _mRep.addMenu(menu);
 
-    _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
+    _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
   }
 
   // [追加：１件のメニューカテゴリ]
@@ -49,7 +49,7 @@ class MenusByCategoryRepository extends ChangeNotifier {
 
     await _mcRep.addMenuCategory(menuCategory);
 
-    _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
+    _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
   }
 
   // [削除：１件のメニュー]
@@ -60,7 +60,7 @@ class MenusByCategoryRepository extends ChangeNotifier {
 
     await _mRep.deleteMenu(menu);
 
-    _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
+    _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
   }
 
   // [削除：１件のメニューカテゴリ]
@@ -71,7 +71,7 @@ class MenusByCategoryRepository extends ChangeNotifier {
 
     await _mcRep.deleteMenuCategory(menuCategory);
 
-    _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
+    _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
   }
 
   // [Repository更新]
@@ -84,7 +84,7 @@ class MenusByCategoryRepository extends ChangeNotifier {
     _menus = mRep.menus;
     _menuCategories = mcRep.menuCategories;
 
-    _menusByCategories = _menusByCategories.rebuild(_menus, _menuCategories);
+    _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
 
     notifyListeners();
   }

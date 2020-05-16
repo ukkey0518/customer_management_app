@@ -1,0 +1,6 @@
+enum RepositoryType {
+  CUSTOMER,
+  EMPLOYEE,
+  DELETE_SINGLE,
+  DELETE_MULTIPLE,
+}

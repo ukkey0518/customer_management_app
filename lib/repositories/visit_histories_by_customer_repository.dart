@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
-import 'package:customermanagementapp/data/data_classes/customer_list_screen_preferences.dart';
+import 'package:customermanagementapp/data/data_classes/customer_list_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
@@ -24,23 +24,23 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
   List<VisitHistoriesByCustomer> get visitHistoriesByCustomers =>
       _visitHistoriesByCustomers;
 
-  CustomerListScreenPreferences _cPref = CustomerListScreenPreferences(
+  CustomerListPreferences _cPref = CustomerListPreferences(
     narrowState: CustomerNarrowState.ALL,
     sortState: CustomerSortState.REGISTER_OLD,
     searchWord: '',
   );
 
-  CustomerListScreenPreferences get cPref => _cPref;
+  CustomerListPreferences get cPref => _cPref;
 
   // [取得：すべてのVHBC]
   getVisitHistoriesByCustomers({
-    CustomerListScreenPreferences cPref,
+    CustomerListPreferences cPref,
   }) async {
     print('[Rep: VisitHistoriesByCustomer] getVisitHistoriesByCustomers');
 
     _cPref = cPref;
 
-    _customers = await _cRep.getCustomers(preferences: _cPref) ?? List();
+    _customers = await _cRep.getCustomers(cPref: _cPref) ?? List();
     _visitHistories = await _vhRep.getVisitHistories() ?? List();
 
     _visitHistoriesByCustomers =
@@ -53,7 +53,7 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
   ) async {
     print('[Rep: VisitHistoriesByCustomer] addCustomer');
 
-    _customers = await _cRep.addCustomer(customer, preferences: _cPref);
+    _customers = await _cRep.addCustomer(customer, cPref: _cPref);
 
     _visitHistoriesByCustomers =
         ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);
@@ -62,14 +62,14 @@ class VisitHistoriesByCustomerRepository extends ChangeNotifier {
   // [削除：１件のVHBC]
   deleteVisitHistoriesByCustomers(
     VisitHistoriesByCustomer vhbc,
-    CustomerListScreenPreferences cPref,
+    CustomerListPreferences cPref,
   ) async {
     print('[Rep: VisitHistoriesByCustomer] deleteVisitHistoriesByCustomers');
 
     final customer = vhbc.customer;
     final visitHistories = vhbc.histories;
 
-    _customers = await _cRep.deleteCustomer(customer, preferences: cPref);
+    _customers = await _cRep.deleteCustomer(customer, cPref: cPref);
     _visitHistories = await _vhRep.deleteMultipleVisitHistories(visitHistories);
   }
 

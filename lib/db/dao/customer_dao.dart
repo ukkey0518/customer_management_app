@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
-import 'package:customermanagementapp/data/data_classes/customer_list_screen_preferences.dart';
+import 'package:customermanagementapp/data/data_classes/customer_list_preferences.dart';
 import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:moor/moor.dart';
@@ -29,7 +29,7 @@ class CustomerDao extends DatabaseAccessor<MyDatabase> with _$CustomerDaoMixin {
 
   // [取得：条件付き]
   Future<List<Customer>> getCustomers(
-      {CustomerListScreenPreferences preferences}) async {
+      {CustomerListPreferences preferences}) async {
     return transaction(() async {
       final narrowState = preferences?.narrowState ?? CustomerNarrowState.ALL;
       final sortState =
@@ -107,7 +107,7 @@ class CustomerDao extends DatabaseAccessor<MyDatabase> with _$CustomerDaoMixin {
 
   // [一括処理( 追加 )：１件追加 -> 全取得]
   Future<List<Customer>> addAndGetAllCustomers(Customer customer,
-      {CustomerListScreenPreferences preferences}) {
+      {CustomerListPreferences preferences}) {
     return transaction(() async {
       await addCustomer(customer);
       return await getCustomers(preferences: preferences);
@@ -116,7 +116,7 @@ class CustomerDao extends DatabaseAccessor<MyDatabase> with _$CustomerDaoMixin {
 
   // [一括処理( 追加 ) : 複数追加 -> 全取得]
   Future<List<Customer>> addAllAndGetAllCustomers(List<Customer> customersList,
-      {CustomerListScreenPreferences preferences}) {
+      {CustomerListPreferences preferences}) {
     return transaction(() async {
       await addAllCustomers(customersList);
       return await getCustomers(preferences: preferences);
@@ -125,7 +125,7 @@ class CustomerDao extends DatabaseAccessor<MyDatabase> with _$CustomerDaoMixin {
 
   // [一括処理( 削除 )：１件削除 -> 全取得]
   Future<List<Customer>> deleteAndGetAllCustomers(Customer customer,
-      {CustomerListScreenPreferences preferences}) {
+      {CustomerListPreferences preferences}) {
     return transaction(() async {
       await deleteCustomer(customer);
       return await getCustomers(preferences: preferences);

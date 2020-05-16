@@ -6,6 +6,7 @@ export 'package:customermanagementapp/util/extensions/convert_from_employee_list
 export 'package:customermanagementapp/util/extensions/convert_from_int.dart';
 export 'package:customermanagementapp/util/extensions/convert_from_int_list.dart';
 export 'package:customermanagementapp/util/extensions/convert_from_map.dart';
+export 'package:customermanagementapp/util/extensions/convert_from_mbc_list.dart';
 export 'package:customermanagementapp/util/extensions/convert_from_menu_list.dart';
 export 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 export 'package:customermanagementapp/util/extensions/convert_from_vhbc_list.dart';

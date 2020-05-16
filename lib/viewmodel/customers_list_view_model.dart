@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
-import 'package:customermanagementapp/data/data_classes/customer_list_screen_preferences.dart';
+import 'package:customermanagementapp/data/data_classes/customer_list_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
@@ -27,13 +27,13 @@ class CustomersListViewModel extends ChangeNotifier {
       _visitHistoriesByCustomers;
 
   // [表示設定]
-  CustomerListScreenPreferences _pref = CustomerListScreenPreferences(
+  CustomerListPreferences _pref = CustomerListPreferences(
     narrowState: CustomerNarrowState.ALL,
     sortState: CustomerSortState.REGISTER_OLD,
     searchWord: '',
   );
 
-  CustomerListScreenPreferences get pref => _pref;
+  CustomerListPreferences get pref => _pref;
 
   // [選択中の絞り込み表示文字列]
   String _narrowSelectedValue = customerNarrowStateMap[CustomerNarrowState.ALL];

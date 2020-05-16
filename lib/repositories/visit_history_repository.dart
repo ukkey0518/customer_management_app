@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/data/data_classes/visit_history_list_screen_preferences.dart';
+import 'package:customermanagementapp/data/data_classes/visit_history_list_preferences.dart';
 import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/customer_repository.dart';
@@ -29,7 +29,7 @@ class VisitHistoryRepository extends ChangeNotifier {
 
   // [取得：条件一致データ]
   getVisitHistories({
-    VisitHistoryListScreenPreferences vhPref,
+    VisitHistoryListPreferences vhPref,
   }) async {
     print('[Rep: VisitHistory] getVisitHistories');
 
@@ -44,7 +44,7 @@ class VisitHistoryRepository extends ChangeNotifier {
   // [追加：１件]
   addVisitHistory(
     VisitHistory visitHistory, {
-    VisitHistoryListScreenPreferences vhPref,
+    VisitHistoryListPreferences vhPref,
   }) async {
     print('[Rep: VisitHistory] addVisitHistory');
 
@@ -54,9 +54,9 @@ class VisitHistoryRepository extends ChangeNotifier {
   }
 
   // [追加：複数]
-  addAllVisitHistory(
+  addAllVisitHistories(
     List<VisitHistory> visitHistoryList, {
-    VisitHistoryListScreenPreferences vhPref,
+    VisitHistoryListPreferences vhPref,
   }) async {
     print('[Rep: VisitHistory] addAllVisitHistory');
 
@@ -68,7 +68,7 @@ class VisitHistoryRepository extends ChangeNotifier {
   // [削除：１件]
   deleteVisitHistory(
     VisitHistory visitHistory, {
-    VisitHistoryListScreenPreferences vhPref,
+    VisitHistoryListPreferences vhPref,
   }) async {
     print('[Rep: VisitHistory] deleteVisitHistory');
 

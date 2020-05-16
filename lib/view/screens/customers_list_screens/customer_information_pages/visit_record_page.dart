@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/data/data_classes/visit_history_list_screen_preferences.dart';
+import 'package:customermanagementapp/data/data_classes/visit_history_list_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
 import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
@@ -22,8 +22,7 @@ class VisitRecordPage extends StatefulWidget {
 
 class _VisitRecordPageState extends State<VisitRecordPage> {
   List<VisitHistory> _visitHistories = List();
-  VisitHistoryListScreenPreferences _vhPref =
-      VisitHistoryListScreenPreferences();
+  VisitHistoryListPreferences _vhPref = VisitHistoryListPreferences();
   String _selectedSortValue =
       visitHistorySortStateMap[VisitHistorySortState.REGISTER_OLD];
 
@@ -31,10 +30,9 @@ class _VisitRecordPageState extends State<VisitRecordPage> {
 
   @override
   void initState() {
-    print(widget.vhbc?.histories);
     if (widget.vhbc != null) {
       _visitHistories = widget.vhbc.histories;
-      _vhPref = VisitHistoryListScreenPreferences(
+      _vhPref = VisitHistoryListPreferences(
         narrowData: VisitHistoryNarrowData(),
         sortState: VisitHistorySortState.REGISTER_OLD,
         searchCustomerName: '',

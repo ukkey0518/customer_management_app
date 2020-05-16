@@ -3,7 +3,10 @@ import 'extensions.dart';
 import 'package:customermanagementapp/db/database.dart';
 
 extension ConvertFromMBCList on List<MenusByCategory> {
-  rebuild(List<Menu> menus, List<MenuCategory> categories) {
+  build(
+    List<Menu> menus,
+    List<MenuCategory> categories,
+  ) {
     if (menus == null || categories == null || categories.isEmpty) {
       return List<MenusByCategory>();
     }
