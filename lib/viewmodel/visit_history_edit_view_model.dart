@@ -1,16 +1,12 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/repositories/employee_repository.dart';
-import 'package:customermanagementapp/repositories/visit_history_repository.dart';
+import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/cupertino.dart';
 
 class VisitHistoryEditViewModel extends ChangeNotifier {
-  VisitHistoryEditViewModel({vhRep, eRep})
-      : _vhRep = vhRep,
-        _eRep = eRep;
+  VisitHistoryEditViewModel({gRep}) : _gRep = gRep;
 
-  final VisitHistoryRepository _vhRep;
-  final EmployeeRepository _eRep;
+  final GlobalRepository _gRep;
 
   List<Employee> _employeeList = List();
 
@@ -56,7 +52,8 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
 
   reflectVisitHistoryData({VisitHistory visitHistory}) async {
     print('[VM: 来店履歴編集画面] reflectVisitHistoryData');
-    _employeeList = await _eRep.getEmployees();
+    await _gRep.getData();
+    _employeeList = _gRep.employees;
 
     if (visitHistory == null) {
       _id = null;
@@ -99,16 +96,16 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
       menuListJson: _menus.toJsonString(),
     );
 
-    await _vhRep.addVisitHistory(visitHistory);
+    await _gRep.addSingleData(visitHistory);
 
     _isSaved = true;
     _isReadingMode = true;
     notifyListeners();
   }
 
-  onRepositoriesUpdated(VisitHistoryRepository vhRep, EmployeeRepository eRep) {
+  onRepositoriesUpdated(GlobalRepository gRep) {
     print('  [VM: 来店履歴編集画面] onRepositoriesUpdated');
-    _employeeList = eRep.employees;
+    _employeeList = gRep.employees;
     notifyListeners();
   }
 
@@ -133,8 +130,7 @@ class VisitHistoryEditViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    _vhRep.dispose();
-    _eRep.dispose();
+    _gRep.dispose();
     super.dispose();
   }
 }
