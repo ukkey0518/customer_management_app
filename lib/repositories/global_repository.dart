@@ -15,7 +15,6 @@ import 'package:customermanagementapp/repositories/menu_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
-import 'package:moor/moor.dart';
 
 class GlobalRepository extends ChangeNotifier {
   GlobalRepository({cRep, eRep, mcRep, mRep, vhRep})
@@ -97,7 +96,7 @@ class GlobalRepository extends ChangeNotifier {
     notifyListeners();
   }
 
-  addSingleData(DataClass data, {ListPreferences pref}) async {
+  addSingleData(dynamic data, {ListPreferences pref}) async {
     print('[Rep: Global] addSingleData');
     switch (data.runtimeType) {
       case Customer:
@@ -118,7 +117,7 @@ class GlobalRepository extends ChangeNotifier {
     }
   }
 
-  addMultipleData(List<DataClass> dataList, {ListPreferences pref}) async {
+  addMultipleData(List<dynamic> dataList, {ListPreferences pref}) async {
     print('[Rep: Global] addMultipleData');
     switch (dataList.single.runtimeType) {
       case Customer:
@@ -140,7 +139,7 @@ class GlobalRepository extends ChangeNotifier {
     }
   }
 
-  deleteData(DataClass data, {ListPreferences pref}) async {
+  deleteData(dynamic data, {ListPreferences pref}) async {
     print('[Rep: Global] deleteData');
     switch (data.runtimeType) {
       case Customer:
@@ -158,6 +157,10 @@ class GlobalRepository extends ChangeNotifier {
       case VisitHistory:
         _visitHistories = await _vhRep.deleteVisitHistory(data, vhPref: pref);
         break;
+      case VisitHistoriesByCustomer:
+        _customers = await _cRep.deleteCustomer(data.customer, cPref: cPref);
+        _visitHistories =
+            await _vhRep.deleteMultipleVisitHistories(data.histories);
     }
   }
 
