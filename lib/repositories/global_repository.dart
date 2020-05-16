@@ -94,9 +94,11 @@ class GlobalRepository extends ChangeNotifier {
     _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
     _visitHistoriesByCustomers =
         ConvertFromVHBCList.vhbcListFrom(_customers, _visitHistories);
+    notifyListeners();
   }
 
   addSingleData(DataClass data, {ListPreferences pref}) async {
+    print('[Rep: Global] addSingleData');
     switch (data.runtimeType) {
       case Customer:
         _customers = await _cRep.addCustomer(data, cPref: pref);
@@ -117,6 +119,7 @@ class GlobalRepository extends ChangeNotifier {
   }
 
   addMultipleData(List<DataClass> dataList, {ListPreferences pref}) async {
+    print('[Rep: Global] addMultipleData');
     switch (dataList.single.runtimeType) {
       case Customer:
         _customers = await _cRep.addAllCustomers(dataList, cPref: pref);
@@ -137,7 +140,8 @@ class GlobalRepository extends ChangeNotifier {
     }
   }
 
-  deleteData(DataClass data, ListPreferences pref) async {
+  deleteData(DataClass data, {ListPreferences pref}) async {
+    print('[Rep: Global] deleteData');
     switch (data.runtimeType) {
       case Customer:
         _customers = await _cRep.deleteCustomer(data, cPref: pref);
@@ -164,6 +168,7 @@ class GlobalRepository extends ChangeNotifier {
     MenuRepository mRep,
     VisitHistoryRepository vhRep,
   ) {
+    print('  [Rep: Global] onRepositoriesUpdated');
     _customers = cRep.customers;
     _employees = eRep.employees;
     _menuCategories = mcRep.menuCategories;

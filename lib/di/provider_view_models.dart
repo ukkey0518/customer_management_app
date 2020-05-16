@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/repositories/customer_repository.dart';
 import 'package:customermanagementapp/repositories/employee_repository.dart';
+import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
 import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
@@ -45,12 +46,11 @@ List<SingleChildWidget> viewModelProviders = [
   ),
 
   // [VM: 従業員設定画面]
-  ChangeNotifierProxyProvider<EmployeeRepository, EmployeeSettingViewModel>(
+  ChangeNotifierProxyProvider<GlobalRepository, EmployeeSettingViewModel>(
     create: (context) => EmployeeSettingViewModel(
-      eRep: Provider.of<EmployeeRepository>(context, listen: false),
+      gRep: Provider.of<GlobalRepository>(context, listen: false),
     ),
-    update: (_, repository, viewModel) =>
-        viewModel..onRepositoryUpdated(repository),
+    update: (_, gRep, viewModel) => viewModel..onRepositoryUpdated(gRep),
   ),
 
   // [VM: メニューカテゴリ設定画面]

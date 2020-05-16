@@ -1,11 +1,11 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/repositories/employee_repository.dart';
+import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:flutter/cupertino.dart';
 
 class EmployeeSettingViewModel extends ChangeNotifier {
-  EmployeeSettingViewModel({eRep}) : _eRep = eRep;
+  EmployeeSettingViewModel({gRep}) : _gRep = gRep;
 
-  final EmployeeRepository _eRep;
+  final GlobalRepository _gRep;
 
   List<Employee> _employees = List();
 
@@ -14,38 +14,39 @@ class EmployeeSettingViewModel extends ChangeNotifier {
   // [取得：従業員データの取得]
   Future<void> getEmployees() async {
     print('[VM: Employee] getEmployees');
-    _employees = await _eRep.getEmployees();
+    await _gRep.getData();
+    _employees = _gRep.employees;
   }
 
   // [追加：１件の従業員データを追加]
   addEmployee(Employee employee) async {
     print('[VM: Employee] addEmployee');
-    _employees = await _eRep.addEmployee(employee);
+    _employees = await _gRep.addSingleData(employee);
   }
 
   // [追加：複数の従業員データを追加]
   addAllEmployee(List<Employee> employeeList) async {
     print('[VM: Employee] addAllEmployee');
-    _employees = await _eRep.addAllEmployees(employeeList);
+    _employees = await _gRep.addMultipleData(employeeList);
   }
 
   // [削除：１件の従業員データを削除]
   deleteEmployee(Employee employee) async {
     print('[VM: Employee] deleteEmployee');
-    _employees = await _eRep.deleteEmployee(employee);
+    _employees = await _gRep.deleteData(employee);
   }
 
   // [更新：MyRepositoryの変更があったときに呼ばれる]
-  onRepositoryUpdated(EmployeeRepository eRep) {
+  onRepositoryUpdated(GlobalRepository gRep) {
     print('  [VM: Employee] onRepositoryUpdated');
-    _employees = eRep.employees;
+    _employees = gRep.employees;
 
     notifyListeners();
   }
 
   @override
   void dispose() {
-    _eRep.dispose();
+    _gRep.dispose();
     super.dispose();
   }
 }
