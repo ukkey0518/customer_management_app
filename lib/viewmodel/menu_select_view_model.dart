@@ -1,13 +1,13 @@
 import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
+import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/cupertino.dart';
 
 class MenuSelectViewModel extends ChangeNotifier {
-  MenuSelectViewModel({mbcRep}) : _mbcRep = mbcRep;
+  MenuSelectViewModel({gRep}) : _gRep = gRep;
 
-  final MenusByCategoryRepository _mbcRep;
+  final GlobalRepository _gRep;
 
   List<MenusByCategory> _mbcList = List();
 
@@ -23,7 +23,8 @@ class MenuSelectViewModel extends ChangeNotifier {
 
   getMBCList(List<Menu> selectedMenus) async {
     print('[VM: メニュー選択画面] getMBCList');
-    _mbcList = await _mbcRep.getMenusByCategories();
+    await _gRep.getData();
+    _mbcList = _gRep.menusByCategories;
     if (selectedMenus != null) {
       List<Menu> list = List.from(selectedMenus);
       _selectedMenus = list;
@@ -49,19 +50,19 @@ class MenuSelectViewModel extends ChangeNotifier {
 
   setExpanded(int index, bool isExpanded) async {
     print('[VM: メニュー選択画面] setExpanded');
-    _mbcList = await _mbcRep.setExpanded(index, isExpanded);
+    _mbcList = await _gRep.setMBCExpanded(index, isExpanded);
   }
 
-  onRepositoryUpdated(MenusByCategoryRepository mbcRep) {
+  onRepositoryUpdated(GlobalRepository gRep) {
     print('  [VM: メニュー選択画面] onRepositoryUpdated');
-    _mbcList = _mbcRep.menusByCategories;
+    _mbcList = gRep.menusByCategories;
 
     notifyListeners();
   }
 
   @override
   void dispose() {
-    _mbcRep.dispose();
+    _gRep.dispose();
     super.dispose();
   }
 }
