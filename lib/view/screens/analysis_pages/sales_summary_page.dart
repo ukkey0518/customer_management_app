@@ -15,7 +15,17 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
   Widget build(BuildContext context) {
     //TODO UI実装
     return Center(
-      child: Text('売上集計ページ'),
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Text(
+              '売上集計ページ',
+              style: TextStyle(fontSize: 20),
+            ),
+            Text('${widget.visitHistories}'),
+          ],
+        ),
+      ),
     );
   }
 }

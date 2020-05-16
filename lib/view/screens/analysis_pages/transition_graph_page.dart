@@ -15,7 +15,17 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
   Widget build(BuildContext context) {
     //TODO UI実装
     return Center(
-      child: Text('推移グラフページ'),
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+            Text(
+              '推移グラフページ',
+              style: TextStyle(fontSize: 20),
+            ),
+            Text('${widget.visitHistories}'),
+          ],
+        ),
+      ),
     );
   }
 }
