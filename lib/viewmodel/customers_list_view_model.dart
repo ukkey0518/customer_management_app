@@ -1,16 +1,16 @@
-import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
 import 'package:customermanagementapp/data/data_classes/customer_list_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
-import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
+import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
+import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/repositories/visit_histories_by_customer_repository.dart';
+import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:flutter/cupertino.dart';
 
 class CustomersListViewModel extends ChangeNotifier {
-  CustomersListViewModel({vhbcRep}) : _vhbcRep = vhbcRep;
+  CustomersListViewModel({gRep}) : _gRep = gRep;
 
-  final VisitHistoriesByCustomerRepository _vhbcRep;
+  final GlobalRepository _gRep;
 
   //
   // --- フィールド --------------------------------------------------------------
@@ -73,28 +73,28 @@ class CustomersListViewModel extends ChangeNotifier {
     _narrowSelectedValue = customerNarrowStateMap[_pref.narrowState];
     _sortSelectedValue = customerSortStateMap[_pref.sortState];
 
-    _visitHistoriesByCustomers =
-        await _vhbcRep.getVisitHistoriesByCustomers(cPref: _pref);
+    await _gRep.getData(cPref: _pref);
+    _visitHistoriesByCustomers = _gRep.visitHistoriesByCustomers;
   }
 
   // [追加；顧客データを追加]
   addCustomer(Customer customer) async {
     print('[VM: 顧客リスト画面] addCustomer');
-    _visitHistoriesByCustomers = await _vhbcRep.addCustomer(customer);
+    _visitHistoriesByCustomers = await _gRep.addSingleData(customer);
   }
 
   // [削除：１件の顧客データを削除]
   deleteVHBC(VisitHistoriesByCustomer vhbc) async {
     print('[VM: 顧客リスト画面] deleteVHBC');
 
-    await _vhbcRep.deleteVisitHistoriesByCustomers(vhbc, _pref);
+    await _gRep.deleteData(vhbc, pref: _pref);
   }
 
   // [更新：CustomerRepositoryの変更があったときに呼ばれる]
-  onRepositoryUpdated(VisitHistoriesByCustomerRepository vhbcRep) {
+  onRepositoryUpdated(GlobalRepository gRep) {
     print('  [VM: 顧客リスト画面] onRepositoryUpdated');
 
-    _visitHistoriesByCustomers = vhbcRep.visitHistoriesByCustomers;
+    _visitHistoriesByCustomers = gRep.visitHistoriesByCustomers;
 
     notifyListeners();
   }
@@ -107,7 +107,7 @@ class CustomersListViewModel extends ChangeNotifier {
 
   @override
   void dispose() {
-    _vhbcRep.dispose();
+    _gRep.dispose();
     super.dispose();
   }
 }

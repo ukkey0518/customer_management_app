@@ -18,13 +18,11 @@ import 'package:provider/single_child_widget.dart';
 
 List<SingleChildWidget> viewModelProviders = [
   // [VM: 顧客リスト画面]
-  ChangeNotifierProxyProvider<VisitHistoriesByCustomerRepository,
-      CustomersListViewModel>(
+  ChangeNotifierProxyProvider<GlobalRepository, CustomersListViewModel>(
     create: (context) => CustomersListViewModel(
-      vhbcRep: Provider.of<VisitHistoriesByCustomerRepository>(context,
-          listen: false),
+      gRep: Provider.of<GlobalRepository>(context, listen: false),
     ),
-    update: (_, vhbcRep, viewModel) => viewModel..onRepositoryUpdated(vhbcRep),
+    update: (_, gRep, viewModel) => viewModel..onRepositoryUpdated(gRep),
   ),
 
   // [VM: 顧客情報表示画面]
