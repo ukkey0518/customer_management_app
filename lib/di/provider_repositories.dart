@@ -8,7 +8,6 @@ import 'package:customermanagementapp/repositories/employee_repository.dart';
 import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:customermanagementapp/repositories/menu_category_repository.dart';
 import 'package:customermanagementapp/repositories/menu_repository.dart';
-import 'package:customermanagementapp/repositories/menus_by_category_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
 import 'package:provider/provider.dart';
 import 'package:provider/single_child_widget.dart';
@@ -58,17 +57,6 @@ List<SingleChildWidget> depRepProviders = [
         vhRep..onRepositoryUpdated(cRep, eRep, mRep),
   ),
 
-  // [Rep: MenusByCategoryRepository]
-  // (依存) MenuRepository, MenuCategoryRepository
-  ChangeNotifierProxyProvider2<MenuRepository, MenuCategoryRepository,
-      MenusByCategoryRepository>(
-    create: (context) => MenusByCategoryRepository(
-      mRep: Provider.of<MenuRepository>(context, listen: false),
-      mcRep: Provider.of<MenuCategoryRepository>(context, listen: false),
-    ),
-    update: (_, mRep, mcRep, mbcRep) =>
-        mbcRep..onRepositoriesUpdated(mRep, mcRep),
-  ),
   // [Rep: GlobalRepository]
   // (依存) CustomerRepository, EmployeeRepository, MenuRepository, MenuCategoryRepository, VisitHistoryRepository
   ChangeNotifierProxyProvider5<
