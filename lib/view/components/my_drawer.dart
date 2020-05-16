@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
+import 'package:customermanagementapp/view/screens/analysis_screen.dart';
 import 'package:customermanagementapp/view/screens/customers_list_screen.dart';
 import 'package:customermanagementapp/view/screens/home_screen.dart';
 import 'package:customermanagementapp/view/screens/setting_screen.dart';
@@ -53,6 +54,19 @@ class MyDrawer extends StatelessWidget {
                 context,
                 MaterialPageRoute(
                   builder: (context) => VisitHistoryListScreen(),
+                ),
+              );
+            },
+          ),
+          ListTile(
+            leading: Icon(Icons.equalizer),
+            title: Text('売上分析'),
+            onTap: () {
+              Navigator.of(context).pop();
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AnalysisScreen(),
                 ),
               );
             },
