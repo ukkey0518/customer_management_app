@@ -1,4 +1,3 @@
-import 'package:customermanagementapp/repositories/customer_repository.dart';
 import 'package:customermanagementapp/repositories/employee_repository.dart';
 import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:customermanagementapp/repositories/visit_history_repository.dart';
@@ -32,11 +31,11 @@ List<SingleChildWidget> viewModelProviders = [
   ),
 
   // [VM: 顧客情報編集画面]
-  ChangeNotifierProxyProvider<CustomerRepository, CustomerEditViewModel>(
+  ChangeNotifierProxyProvider<GlobalRepository, CustomerEditViewModel>(
     create: (context) => CustomerEditViewModel(
-      cRep: Provider.of<CustomerRepository>(context, listen: false),
+      gRep: Provider.of<GlobalRepository>(context, listen: false),
     ),
-    update: (_, cRep, viewModel) => viewModel..onRepositoryUpdated(cRep),
+    update: (_, gRep, viewModel) => viewModel..onRepositoryUpdated(gRep),
   ),
 
   // [VM: 従業員設定画面]

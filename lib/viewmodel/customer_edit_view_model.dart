@@ -1,12 +1,12 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/repositories/customer_repository.dart';
+import 'package:customermanagementapp/repositories/global_repository.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 class CustomerEditViewModel extends ChangeNotifier {
-  CustomerEditViewModel({cRep}) : _cRep = cRep;
+  CustomerEditViewModel({gRep}) : _gRep = gRep;
 
-  final CustomerRepository _cRep;
+  final GlobalRepository _gRep;
 
   List<Customer> _customers;
   int _id;
@@ -36,6 +36,7 @@ class CustomerEditViewModel extends ChangeNotifier {
   DateTime get birthDay => _birthDay;
 
   String _selectedVisitReason;
+
   String get selectedVisitReason => _selectedVisitReason;
 
   String _nameFieldErrorText;
@@ -53,7 +54,8 @@ class CustomerEditViewModel extends ChangeNotifier {
   // 画面生成時にフィールドを初期化する処理
   setCustomer(Customer customer) async {
     print('[VM: 顧客データ編集画面] setCustomer');
-    _customers = await _cRep.getCustomers();
+    await _gRep.getData();
+    _customers = _gRep.customers;
 
     if (customer != null) {
       _customer = customer;
@@ -140,7 +142,7 @@ class CustomerEditViewModel extends ChangeNotifier {
       visitReason: _selectedVisitReason,
     );
 
-    await _cRep.addCustomer(newCustomer);
+    await _gRep.addSingleData(newCustomer);
 
     _nameFieldErrorText = null;
     _nameReadingFieldErrorText = null;
@@ -151,16 +153,16 @@ class CustomerEditViewModel extends ChangeNotifier {
   }
 
   // Repository更新時に呼ばれる
-  onRepositoryUpdated(CustomerRepository cRep) {
+  onRepositoryUpdated(GlobalRepository gRep) {
     print('  [VM: 顧客データ編集画面] onRepositoryUpdated');
 
-    _customers = cRep.customers;
+    _customers = gRep.customers;
     notifyListeners();
   }
 
   @override
   void dispose() {
-    _cRep.dispose();
+    _gRep.dispose();
     super.dispose();
   }
 }
