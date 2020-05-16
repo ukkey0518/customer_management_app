@@ -182,7 +182,8 @@ class GlobalRepository extends ChangeNotifier {
     _employees = eRep.employees;
     _menuCategories = mcRep.menuCategories;
     _menus = mRep.menus;
-    _visitHistories = vhRep.visitHistories;
+    _visitHistories =
+        vhRep.visitHistories.getUpdate(_customers, _employees, _menus);
 
     _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
     _visitHistoriesByCustomers =

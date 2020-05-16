@@ -40,23 +40,16 @@ List<SingleChildWidget> indepRepProviders = [
       dao: Provider.of<MenuDao>(context, listen: false),
     ),
   ),
+
+  // [Rep: VisitHistoryRepository]
+  ChangeNotifierProvider<VisitHistoryRepository>(
+    create: (context) => VisitHistoryRepository(
+      dao: Provider.of<VisitHistoryDao>(context, listen: false),
+    ),
+  ),
 ];
 
 List<SingleChildWidget> depRepProviders = [
-  // [Rep: VisitHistoryRepository]
-  // (依存) CustomerRepository, EmployeeRepository, MenuRepository
-  ChangeNotifierProxyProvider4<VisitHistoryDao, CustomerRepository,
-      EmployeeRepository, MenuRepository, VisitHistoryRepository>(
-    create: (context) => VisitHistoryRepository(
-      dao: Provider.of<VisitHistoryDao>(context, listen: false),
-      cRep: Provider.of<CustomerRepository>(context, listen: false),
-      eRep: Provider.of<EmployeeRepository>(context, listen: false),
-      mRep: Provider.of<MenuRepository>(context, listen: false),
-    ),
-    update: (_, dao, cRep, eRep, mRep, vhRep) =>
-        vhRep..onRepositoryUpdated(cRep, eRep, mRep),
-  ),
-
   // [Rep: GlobalRepository]
   // (依存) CustomerRepository, EmployeeRepository, MenuRepository, MenuCategoryRepository, VisitHistoryRepository
   ChangeNotifierProxyProvider5<
