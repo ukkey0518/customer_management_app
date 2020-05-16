@@ -49,12 +49,11 @@ List<SingleChildWidget> viewModelProviders = [
   ),
 
   // [VM: メニューカテゴリ設定画面]
-  ChangeNotifierProxyProvider<MenusByCategoryRepository,
-      MenuCategorySettingViewModel>(
+  ChangeNotifierProxyProvider<GlobalRepository, MenuCategorySettingViewModel>(
     create: (context) => MenuCategorySettingViewModel(
-      mbcRep: Provider.of<MenusByCategoryRepository>(context, listen: false),
+      gRep: Provider.of<GlobalRepository>(context, listen: false),
     ),
-    update: (_, mbcRep, viewModel) => viewModel..onRepositoryUpdated(mbcRep),
+    update: (_, gRep, viewModel) => viewModel..onRepositoryUpdated(gRep),
   ),
 
   // [VM: メニュー設定画面]
