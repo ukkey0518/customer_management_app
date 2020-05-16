@@ -1,4 +1,6 @@
 import 'package:customermanagementapp/view/components/my_drawer.dart';
+import 'package:customermanagementapp/view/screens/analysis_pages/sales_summary_page.dart';
+import 'package:customermanagementapp/view/screens/analysis_pages/transition_graph_page.dart';
 import 'package:customermanagementapp/viewmodel/analysis_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,8 +32,12 @@ class AnalysisScreen extends StatelessWidget {
           builder: (context, vm, child) {
             return TabBarView(
               children: <Widget>[
-                Container(), // TODO 売上分析ページ
-                Container(), //TODO 推移グラフページ
+                SalesSummaryPage(
+                  visitHistories: vm.visitHistories,
+                ),
+                TransitionGraphPage(
+                  visitHistories: vm.visitHistories,
+                ),
               ],
             );
           },
