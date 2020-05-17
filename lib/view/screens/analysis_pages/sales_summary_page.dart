@@ -3,6 +3,7 @@ import 'package:customermanagementapp/data/enums/date_format_mode.dart';
 import 'package:customermanagementapp/data/enums/period_select_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
 import 'package:flutter/material.dart';
 
 class SalesSummaryPage extends StatefulWidget {
@@ -37,18 +38,14 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             RaisedButton(
               child: Text('modeChange'),
               onPressed: () {
-                switch (_selectMode) {
-                  case PeriodSelectMode.YEAR:
-                    _selectMode = PeriodSelectMode.MONTH;
-                    break;
-                  case PeriodSelectMode.MONTH:
-                    _selectMode = PeriodSelectMode.DAY;
-                    break;
-                  case PeriodSelectMode.DAY:
-                    _selectMode = PeriodSelectMode.YEAR;
-                    break;
-                }
-                _getByPeriod();
+                showDialog(
+                  context: context,
+                  builder: (_) =>
+                      PeriodSetDialog(period: _period, mode: _selectMode),
+                ).then((pair) {
+                  _selectMode = pair['mode'];
+                  _setPeriod(pair['period']);
+                });
               },
             ),
           ],
