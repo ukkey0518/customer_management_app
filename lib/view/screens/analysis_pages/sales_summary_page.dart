@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/period.dart';
 import 'package:customermanagementapp/data/enums/date_format_mode.dart';
+import 'package:customermanagementapp/data/enums/period_select_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,7 @@ class SalesSummaryPage extends StatefulWidget {
 
 class _SalesSummaryPageState extends State<SalesSummaryPage> {
   List<VisitHistory> _vhList = List();
+  PeriodSelectMode selectMode = PeriodSelectMode.MONTH;
   Period _period = Period();
 
   @override
