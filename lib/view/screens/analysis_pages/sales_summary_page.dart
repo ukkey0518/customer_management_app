@@ -1,4 +1,6 @@
+import 'package:customermanagementapp/data/enums/date_format_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 class SalesSummaryPage extends StatefulWidget {
@@ -11,8 +13,16 @@ class SalesSummaryPage extends StatefulWidget {
 }
 
 class _SalesSummaryPageState extends State<SalesSummaryPage> {
+  List<VisitHistory> _vhList = List();
+  int _year;
+  int _month = 0;
+  int _day;
+
   @override
   Widget build(BuildContext context) {
+    _vhList = widget.visitHistories;
+    _getByPeriod();
+
     //TODO UI実装
     return Center(
       child: SingleChildScrollView(
@@ -22,10 +32,25 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
               '売上集計ページ',
               style: TextStyle(fontSize: 20),
             ),
-            Text('${widget.visitHistories}'),
+            Text(
+                '${_vhList.map<String>((vh) => vh.date.toFormatString(DateFormatMode.MEDIUM)).toList()}'),
+            RaisedButton(
+              child: Text('asd'),
+              onPressed: () {
+                _month++;
+                _getByPeriod();
+              },
+            ),
           ],
         ),
       ),
     );
+  }
+
+  _getByPeriod() {
+    setState(() {
+      _vhList =
+          _vhList.getByYear(_year).getByMonth(_month).getByDay(_day).toList();
+    });
   }
 }
