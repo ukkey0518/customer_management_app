@@ -29,6 +29,23 @@ extension ConvertFromDateTime on DateTime {
     return dateStr;
   }
 
+  // [変換：DateTime -> 指定期間を表す文字列]
+  String toPeriodString(PeriodMode periodMode) {
+    var dateStr;
+    switch (periodMode) {
+      case PeriodMode.YEAR:
+        dateStr = '${this.year}年';
+        break;
+      case PeriodMode.MONTH:
+        dateStr = '${this.year}年 ${this.month}月';
+        break;
+      case PeriodMode.DAY:
+        dateStr = '${this.year}年 ${this.month}月 ${this.day}日';
+        break;
+    }
+    return dateStr;
+  }
+
   // [取得：インクリメントした日付を返す]
   DateTime increment(PeriodMode period) {
     DateTime newDate = this;

@@ -16,7 +16,7 @@ class SalesSummaryPage extends StatefulWidget {
 
 class _SalesSummaryPageState extends State<SalesSummaryPage> {
   List<VisitHistory> _vhList = List();
-  PeriodMode _selectMode = PeriodMode.MONTH;
+  PeriodMode _periodMode = PeriodMode.MONTH;
   DateTime _date = DateTime.now();
 
   @override
@@ -33,16 +33,16 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
         ),
         Column(
           children: <Widget>[
-            Text('$_selectMode'),
+            Text('$_periodMode'),
             RaisedButton(
               child: Text('modeChange'),
               onPressed: () {
                 showDialog(
                   context: context,
                   builder: (_) =>
-                      PeriodSetDialog(date: _date, mode: _selectMode),
+                      PeriodSetDialog(date: _date, mode: _periodMode),
                 ).then((pair) {
-                  _selectMode = pair['mode'];
+                  _periodMode = pair['mode'];
                   _date = pair['date'];
                   _getByPeriod();
                 });
@@ -50,7 +50,7 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             ),
           ],
         ),
-        Text('$_date'),
+        Text('${_date.toPeriodString(_periodMode)}'),
         Text(
             '${_vhList.map<String>((vh) => vh.date.toFormatString(DateFormatMode.MEDIUM) + '\n').toList()}'),
         Row(
@@ -59,14 +59,14 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             RaisedButton(
               child: Text('<-'),
               onPressed: () {
-                _date = _date.decrement(_selectMode);
+                _date = _date.decrement(_periodMode);
                 _getByPeriod();
               },
             ),
             RaisedButton(
               child: Text('->'),
               onPressed: () {
-                _date = _date.increment(_selectMode);
+                _date = _date.increment(_periodMode);
                 _getByPeriod();
               },
             ),
@@ -78,7 +78,7 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
 
   _getByPeriod() {
     setState(() {
-      _vhList = _vhList.getByPeriod(_date, _selectMode);
+      _vhList = _vhList.getByPeriod(_date, _periodMode);
     });
   }
 }
