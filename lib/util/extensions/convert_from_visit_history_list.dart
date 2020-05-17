@@ -5,10 +5,6 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 extension ConvertFromVisitHistoryList on List<VisitHistory> {
-  static from(List<VisitHistory> vhList) {
-    return List<VisitHistory>.from(vhList);
-  }
-
   // [取得：直近の来店履歴を取得]
   VisitHistory getFirstVisitHistory() {
     if (this.isEmpty) return null;

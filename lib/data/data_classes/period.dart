@@ -1,3 +1,5 @@
+import 'package:customermanagementapp/data/enums/period_select_mode.dart';
+
 class Period {
   Period({year, month, day})
       : _year = year,
@@ -36,6 +38,34 @@ class Period {
       _year = year ?? _year;
       _month = month ?? _month;
       _day = day ?? _day;
+    }
+  }
+
+  void increment(PeriodSelectMode selectMode) {
+    switch (selectMode) {
+      case PeriodSelectMode.YEAR:
+        _year++;
+        break;
+      case PeriodSelectMode.MONTH:
+        _month++;
+        break;
+      case PeriodSelectMode.DAY:
+        _day++;
+        break;
+    }
+  }
+
+  void decrement(PeriodSelectMode selectMode) {
+    switch (selectMode) {
+      case PeriodSelectMode.YEAR:
+        _year--;
+        break;
+      case PeriodSelectMode.MONTH:
+        _month--;
+        break;
+      case PeriodSelectMode.DAY:
+        _day--;
+        break;
     }
   }
 
