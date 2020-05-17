@@ -185,6 +185,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     }
   }
 
+  // [反映：名前で検索する]
   void applySearchCustomerName(String name) {
     if (name == null || name.isEmpty) return;
     this.removeWhere((vh) {
@@ -193,6 +194,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     });
   }
 
+  // [反映：顧客データ、従業員データ、メニューデータの更新を反映する]
   List<VisitHistory> getUpdate(
       List<Customer> customers, List<Employee> employees, List<Menu> menus) {
     if (this == null) return List();
@@ -221,5 +223,32 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     });
 
     return newVHList;
+  }
+
+  // [取得：「年」が一致する来店履歴を取得する]
+  List<VisitHistory> getByYear(int year) {
+    if (this.isEmpty || year == null) return this;
+
+    final List<VisitHistory> vhList = List.from(this);
+
+    return vhList.where((vh) => vh.date.year == year).toList();
+  }
+
+  // [取得：「月」が一致する来店履歴を取得する]
+  List<VisitHistory> getByMonth(int month) {
+    if (this.isEmpty || month == null) return this;
+
+    final List<VisitHistory> vhList = List.from(this);
+
+    return vhList.where((vh) => vh.date.month == month).toList();
+  }
+
+  // [取得：「日」が一致する来店履歴を取得する]
+  List<VisitHistory> getByDay(int day) {
+    if (this.isEmpty || day == null) return this;
+
+    final List<VisitHistory> vhList = List.from(this);
+
+    return vhList.where((vh) => vh.date.day == day).toList();
   }
 }
