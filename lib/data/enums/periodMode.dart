@@ -1,4 +1,4 @@
-enum PeriodSelectMode {
+enum PeriodMode {
   YEAR,
   MONTH,
   DAY,

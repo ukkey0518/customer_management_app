@@ -1,6 +1,5 @@
-import 'package:customermanagementapp/data/data_classes/period.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
-import 'package:customermanagementapp/data/enums/period_select_mode.dart';
+import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
@@ -255,18 +254,18 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   }
 
   // [取得：年月日が一致する来店履歴を取得する]
-  List<VisitHistory> getByPeriod(Period period, PeriodSelectMode selectMode) {
-    if (this.isEmpty || period == null) return this;
+  List<VisitHistory> getByPeriod(DateTime date, PeriodMode selectMode) {
+    if (this.isEmpty || date == null || selectMode == null) return this;
     List<VisitHistory> vhList =
-        ConvertFromVisitHistoryList(this).getByYear(period.year);
+        ConvertFromVisitHistoryList(this).getByYear(date.year);
 
-    if (selectMode == PeriodSelectMode.MONTH) {
-      vhList = ConvertFromVisitHistoryList(vhList).getByMonth(period.month);
+    if (selectMode == PeriodMode.MONTH) {
+      vhList = ConvertFromVisitHistoryList(vhList).getByMonth(date.month);
     }
 
-    if (selectMode == PeriodSelectMode.DAY) {
-      vhList = ConvertFromVisitHistoryList(vhList).getByMonth(period.month);
-      vhList = ConvertFromVisitHistoryList(vhList).getByDay(period.day);
+    if (selectMode == PeriodMode.DAY) {
+      vhList = ConvertFromVisitHistoryList(vhList).getByMonth(date.month);
+      vhList = ConvertFromVisitHistoryList(vhList).getByDay(date.day);
     }
 
     return vhList;

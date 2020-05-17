@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/data/enums/date_format_mode.dart';
+import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:intl/intl.dart';
 
 extension ConvertFromDateTime on DateTime {
@@ -26,6 +27,66 @@ extension ConvertFromDateTime on DateTime {
         break;
     }
     return dateStr;
+  }
+
+  // [取得：インクリメントした日付を返す]
+  DateTime increment(PeriodMode period) {
+    DateTime newDate = this;
+
+    switch (period) {
+      case PeriodMode.YEAR:
+        newDate = DateTime(
+          this.year + 1,
+          this.month,
+          this.day,
+        );
+        break;
+      case PeriodMode.MONTH:
+        newDate = DateTime(
+          this.year,
+          this.month + 1,
+          this.day,
+        );
+        break;
+      case PeriodMode.DAY:
+        newDate = DateTime(
+          this.year,
+          this.month,
+          this.day + 1,
+        );
+        break;
+    }
+    return newDate;
+  }
+
+  // [取得：デクリメントした日付を返す]
+  DateTime decrement(PeriodMode period) {
+    DateTime newDate = this;
+
+    switch (period) {
+      case PeriodMode.YEAR:
+        newDate = DateTime(
+          this.year - 1,
+          this.month,
+          this.day,
+        );
+        break;
+      case PeriodMode.MONTH:
+        newDate = DateTime(
+          this.year,
+          this.month - 1,
+          this.day,
+        );
+        break;
+      case PeriodMode.DAY:
+        newDate = DateTime(
+          this.year,
+          this.month,
+          this.day - 1,
+        );
+        break;
+    }
+    return newDate;
   }
 
   // [変換：誕生日から年齢を取得する]

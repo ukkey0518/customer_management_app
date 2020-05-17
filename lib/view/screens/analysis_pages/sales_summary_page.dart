@@ -1,6 +1,5 @@
-import 'package:customermanagementapp/data/data_classes/period.dart';
 import 'package:customermanagementapp/data/enums/date_format_mode.dart';
-import 'package:customermanagementapp/data/enums/period_select_mode.dart';
+import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
@@ -17,8 +16,8 @@ class SalesSummaryPage extends StatefulWidget {
 
 class _SalesSummaryPageState extends State<SalesSummaryPage> {
   List<VisitHistory> _vhList = List();
-  PeriodSelectMode _selectMode = PeriodSelectMode.MONTH;
-  Period _period = Period(date: DateTime.now());
+  PeriodMode _selectMode = PeriodMode.MONTH;
+  DateTime _date = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -41,16 +40,17 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
                 showDialog(
                   context: context,
                   builder: (_) =>
-                      PeriodSetDialog(period: _period, mode: _selectMode),
+                      PeriodSetDialog(date: _date, mode: _selectMode),
                 ).then((pair) {
                   _selectMode = pair['mode'];
-                  _setPeriod(pair['period']);
+                  _date = pair['date'];
+                  _getByPeriod();
                 });
               },
             ),
           ],
         ),
-        Text('$_period'),
+        Text('$_date'),
         Text(
             '${_vhList.map<String>((vh) => vh.date.toFormatString(DateFormatMode.MEDIUM) + '\n').toList()}'),
         Row(
@@ -59,14 +59,14 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             RaisedButton(
               child: Text('<-'),
               onPressed: () {
-                _period.decrement(_selectMode);
+                _date = _date.decrement(_selectMode);
                 _getByPeriod();
               },
             ),
             RaisedButton(
               child: Text('->'),
               onPressed: () {
-                _period.increment(_selectMode);
+                _date = _date.increment(_selectMode);
                 _getByPeriod();
               },
             ),
@@ -76,14 +76,9 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
     );
   }
 
-  _setPeriod(Period period) {
-    _period = period;
-    _getByPeriod();
-  }
-
   _getByPeriod() {
     setState(() {
-      _vhList = _vhList.getByPeriod(_period, _selectMode);
+      _vhList = _vhList.getByPeriod(_date, _selectMode);
     });
   }
 }
