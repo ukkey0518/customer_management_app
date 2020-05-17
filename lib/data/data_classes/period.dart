@@ -1,5 +1,8 @@
 class Period {
-  Period();
+  Period({year, month, day})
+      : _year = year,
+        _month = month,
+        _day = day;
 
   int _year;
 
