@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/data/enums/date_format_mode.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/view/components/only_period_picker.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
@@ -70,7 +71,7 @@ class DateInputTile extends InputWidget {
     return Column(
       children: <Widget>[
         InkWell(
-          onTap: () => _showDateSelectPicker(context),
+          onTap: () => _gaga(context),
           onLongPress: isClearable ? () => onConfirm(null) : null,
           child: Container(
             color: color,
@@ -92,6 +93,16 @@ class DateInputTile extends InputWidget {
       maxTime: _maxTime,
       onConfirm: onConfirm,
       currentTime: _currentTime,
+      locale: LocaleType.jp,
+    );
+  }
+
+  _gaga(BuildContext context) {
+    DatePicker.showPicker(
+      context,
+      showTitleActions: true,
+      pickerModel: OnlyPeriodPicker(),
+      onConfirm: onConfirm,
       locale: LocaleType.jp,
     );
   }
