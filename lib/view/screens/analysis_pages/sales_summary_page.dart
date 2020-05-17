@@ -46,11 +46,7 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
 
   _getByPeriod() {
     setState(() {
-      _vhList = _vhList
-          .getByYear(_period.year)
-          .getByMonth(_period.month)
-          .getByDay(_period.day)
-          .toList();
+      _vhList = _vhList.getByPeriod(_period);
     });
   }
 }

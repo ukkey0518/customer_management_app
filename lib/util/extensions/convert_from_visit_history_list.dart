@@ -1,9 +1,14 @@
+import 'package:customermanagementapp/data/data_classes/period.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
 import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 extension ConvertFromVisitHistoryList on List<VisitHistory> {
+  static from(List<VisitHistory> vhList) {
+    return List<VisitHistory>.from(vhList);
+  }
+
   // [取得：直近の来店履歴を取得]
   VisitHistory getFirstVisitHistory() {
     if (this.isEmpty) return null;
@@ -250,5 +255,17 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     final List<VisitHistory> vhList = List.from(this);
 
     return vhList.where((vh) => vh.date.day == day).toList();
+  }
+
+  // [取得：年月日が一致する来店履歴を取得する]
+  List<VisitHistory> getByPeriod(Period period) {
+    if (this.isEmpty || period == null) return this;
+    final List<VisitHistory> vhListByYear =
+        ConvertFromVisitHistoryList(this).getByYear(period.year);
+
+    final List<VisitHistory> vhListByMonth =
+        ConvertFromVisitHistoryList(vhListByYear).getByMonth(period.month);
+
+    return ConvertFromVisitHistoryList(vhListByMonth).getByDay(period.day);
   }
 }
