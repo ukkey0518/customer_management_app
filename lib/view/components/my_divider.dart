@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 
 class MyDivider extends StatelessWidget {
-  MyDivider({this.indent});
+  MyDivider({this.indent, this.height = 8});
 
   final double indent;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
     return Divider(
-      height: 8,
+      height: height,
       indent: indent,
       endIndent: indent,
     );

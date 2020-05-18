@@ -3,6 +3,8 @@ import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
+import 'package:customermanagementapp/view/components/my_divider.dart';
+import 'package:customermanagementapp/view/components/period_select_tile.dart';
 import 'package:flutter/material.dart';
 
 class SalesSummaryPage extends StatefulWidget {
@@ -18,6 +20,8 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
   List<VisitHistory> _vhList = List();
   PeriodMode _periodMode = PeriodMode.MONTH;
   DateTime _date = DateTime.now();
+  DateTime _minDate;
+  DateTime _maxDate;
   bool _initFlag = true;
 
   @override
@@ -30,67 +34,91 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
   @override
   Widget build(BuildContext context) {
     _vhList = widget.visitHistories;
+
     if (_initFlag) {
       _date = widget.visitHistories?.getLastVisitHistory()?.date;
-      if (_date != null) {
+      _maxDate = widget.visitHistories?.getLastVisitHistory()?.date;
+      _minDate = widget.visitHistories?.getFirstVisitHistory()?.date;
+      if (_date != null && _maxDate != null && _minDate != null) {
         _initFlag = false;
       }
     }
     _getByPeriod();
 
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.spaceAround,
-      children: <Widget>[
-        Text(
-          '売上集計ページ',
-          style: TextStyle(fontSize: 20),
-        ),
-        Column(
-          children: <Widget>[
-            Text('$_periodMode'),
-            RaisedButton(
-              child: Text('modeChange'),
-              onPressed: () {
-                showDialog(
-                  context: context,
-                  builder: (_) => PeriodSetDialog(
-                    mode: _periodMode,
-                    date: _date,
-                    minDate: widget.visitHistories.getFirstVisitHistory().date,
-                    maxDate: widget.visitHistories.getLastVisitHistory().date,
-                  ),
-                ).then((pair) {
-                  _periodMode = pair['mode'];
-                  _date = pair['date'];
-                  _getByPeriod();
-                });
-              },
-            ),
-          ],
-        ),
-        Text('${_date?.toPeriodString(_periodMode)}'),
-        Text(
-            '${_vhList.map<String>((vh) => vh.date.toFormatString(DateFormatMode.MEDIUM) + '\n').toList()}'),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            RaisedButton(
-              child: Text('<-'),
-              onPressed: () {
-                _date = _date.decrement(_periodMode);
+    var backText;
+    var forwardText;
+    switch (_periodMode) {
+      case PeriodMode.YEAR:
+        backText = '前年';
+        forwardText = '次年';
+        break;
+      case PeriodMode.MONTH:
+        backText = '前月';
+        forwardText = '次月';
+        break;
+      case PeriodMode.DAY:
+        backText = '前日';
+        forwardText = '次日';
+        break;
+    }
+
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Column(
+        children: <Widget>[
+          PeriodSelectTile(
+            date: _date,
+            mode: _periodMode,
+            maxDate: _maxDate,
+            minDate: _minDate,
+            onBackTap: (mode) {
+              final date = _date.decrement(mode);
+              if (date.isBefore(_minDate)) {
+                _date = _minDate;
+              } else {
+                _date = date;
+              }
+              _getByPeriod();
+            },
+            onForwardTap: (mode) {
+              final date = _date.increment(_periodMode);
+              if (date.isAfter(_maxDate)) {
+                _date = _maxDate;
+              } else {
+                _date = date;
+              }
+              _getByPeriod();
+            },
+            onDateAreaTap: () {
+              showDialog(
+                context: context,
+                builder: (_) => PeriodSetDialog(
+                  mode: _periodMode,
+                  date: _date,
+                  minDate: _minDate,
+                  maxDate: _maxDate,
+                ),
+              ).then((pair) {
+                _periodMode = pair['mode'];
+                _date = pair['date'];
                 _getByPeriod();
-              },
-            ),
-            RaisedButton(
-              child: Text('->'),
-              onPressed: () {
-                _date = _date.increment(_periodMode);
-                _getByPeriod();
-              },
-            ),
-          ],
-        ),
-      ],
+              });
+            },
+            forwardText: forwardText,
+            backText: backText,
+          ),
+          MyDivider(
+            height: 16,
+          ),
+          Column(
+            children: <Widget>[
+              Text('$_periodMode'),
+            ],
+          ),
+          Text(
+              '${_vhList.map<String>((vh) => vh.date.toFormatString(DateFormatMode.MEDIUM) + '\n').toList()}'),
+        ],
+      ),
     );
   }
 
