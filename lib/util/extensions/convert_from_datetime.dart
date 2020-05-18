@@ -56,6 +56,11 @@ extension ConvertFromDateTime on DateTime {
           this.year + 1,
           this.month,
           this.day,
+          this.hour,
+          this.minute,
+          this.second,
+          this.millisecond,
+          this.microsecond,
         );
         break;
       case PeriodMode.MONTH:
@@ -63,6 +68,11 @@ extension ConvertFromDateTime on DateTime {
           this.year,
           this.month + 1,
           this.day,
+          this.hour,
+          this.minute,
+          this.second,
+          this.millisecond,
+          this.microsecond,
         );
         break;
       case PeriodMode.DAY:
@@ -70,6 +80,11 @@ extension ConvertFromDateTime on DateTime {
           this.year,
           this.month,
           this.day + 1,
+          this.hour,
+          this.minute,
+          this.second,
+          this.millisecond,
+          this.microsecond,
         );
         break;
     }

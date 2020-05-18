@@ -18,10 +18,24 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
   List<VisitHistory> _vhList = List();
   PeriodMode _periodMode = PeriodMode.MONTH;
   DateTime _date = DateTime.now();
+  bool _initFlag = true;
+
+  @override
+  void initState() {
+    _vhList = widget.visitHistories;
+    _date = widget.visitHistories?.getLastVisitHistory()?.date;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     _vhList = widget.visitHistories;
+    if (_initFlag) {
+      _date = widget.visitHistories?.getLastVisitHistory()?.date;
+      if (_date != null) {
+        _initFlag = false;
+      }
+    }
     _getByPeriod();
 
     return Column(
@@ -39,8 +53,12 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
               onPressed: () {
                 showDialog(
                   context: context,
-                  builder: (_) =>
-                      PeriodSetDialog(date: _date, mode: _periodMode),
+                  builder: (_) => PeriodSetDialog(
+                    mode: _periodMode,
+                    date: _date,
+                    minDate: widget.visitHistories.getFirstVisitHistory().date,
+                    maxDate: widget.visitHistories.getLastVisitHistory().date,
+                  ),
                 ).then((pair) {
                   _periodMode = pair['mode'];
                   _date = pair['date'];
@@ -50,7 +68,7 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             ),
           ],
         ),
-        Text('${_date.toPeriodString(_periodMode)}'),
+        Text('${_date?.toPeriodString(_periodMode)}'),
         Text(
             '${_vhList.map<String>((vh) => vh.date.toFormatString(DateFormatMode.MEDIUM) + '\n').toList()}'),
         Row(
