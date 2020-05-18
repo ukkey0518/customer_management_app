@@ -51,15 +51,15 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
     switch (_periodMode) {
       case PeriodMode.YEAR:
         backText = '前年';
-        forwardText = '次年';
+        forwardText = '翌年';
         break;
       case PeriodMode.MONTH:
         backText = '前月';
-        forwardText = '次月';
+        forwardText = '翌月';
         break;
       case PeriodMode.DAY:
         backText = '前日';
-        forwardText = '次日';
+        forwardText = '翌日';
         break;
     }
 
