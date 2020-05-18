@@ -151,6 +151,23 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     return monthOfPeriod;
   }
 
+  // [取得：何回目の来店かを取得する]
+  int getNumOfVisit(VisitHistory visitHistory) {
+    if (this.isEmpty || visitHistory == null) return null;
+    if (this.isEmpty || visitHistory == null) return null;
+    final customer = visitHistory.customerJson.toCustomer();
+
+    final vhListByCustomer = List<VisitHistory>.from(this).where((vh) {
+      return vh.customerJson.toCustomer().id == customer.id;
+    }).toList();
+
+    vhListByCustomer.sort((a, b) => a.date.isAfter(b.date) ? 1 : -1);
+
+    final vhIndex = vhListByCustomer.indexOf(visitHistory);
+
+    return vhIndex + 1;
+  }
+
   // [反映：絞り込みステータスを反映させる]
   void applyNarrowData(VisitHistoryNarrowData narrowData) {
     if (this.isEmpty) return;

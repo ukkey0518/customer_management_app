@@ -82,7 +82,14 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
           ),
           MyDivider(height: 16),
           Text(
-              '${_vhList.map<String>((vh) => vh.date.toFormatString(DateFormatMode.MEDIUM)).toList()}'),
+            '${_vhList.map<String>((vh) {
+              final customer = vh.customerJson.toCustomer().name;
+              final dateStr = vh.date.toFormatString(DateFormatMode.MEDIUM);
+              final diffMonths = widget.visitHistories.getDiffOfMonth(vh);
+              final numOfVisit = widget.visitHistories.getNumOfVisit(vh);
+              return 'c: $customer, date: $dateStr, diff: $diffMonths, nov: $numOfVisit \n';
+            }).toList()}',
+          ),
         ],
       ),
     );
