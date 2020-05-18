@@ -3,6 +3,7 @@ import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
+import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/period_select_tile.dart';
 import 'package:flutter/material.dart';
@@ -66,6 +67,8 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
+          PeriodModeIndicator(mode: _periodMode),
+          SizedBox(height: 8),
           PeriodSelectTile(
             date: _date,
             mode: _periodMode,
