@@ -114,9 +114,6 @@ class PeriodSelectTile extends StatelessWidget {
   }
 
   bool checkMinDate() {
-    print('date: $date');
-    print('min: $minDate');
-    print('max: $maxDate');
     var flag = false;
     switch (mode) {
       case PeriodMode.YEAR:
@@ -135,9 +132,6 @@ class PeriodSelectTile extends StatelessWidget {
   }
 
   bool checkMaxDate() {
-    print('date: $date');
-    print('min: $minDate');
-    print('max: $maxDate');
     var flag = false;
     switch (mode) {
       case PeriodMode.YEAR:
