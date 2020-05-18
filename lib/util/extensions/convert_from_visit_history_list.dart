@@ -120,6 +120,41 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     return lastVisit.add(repeatCycle);
   }
 
+  // [取得：前回来店からの期間月を取得]
+//  int getMonthOfPeriodSinceLastVisit(VisitHistory visitHistory) {
+//    if (this.isEmpty || visitHistory == null) return null;
+//    final customer = visitHistory.customerJson.toCustomer();
+//
+//    print(customer);
+//
+//    final vhListByCustomer = List<VisitHistory>.from(this).where((vh) {
+//      return vh.customerJson.toCustomer().id == customer.id;
+//    }).toList();
+//
+//    vhListByCustomer.sort((a, b) {
+//      return a.date.isBefore(b.date) ? 1 : -1;
+//    });
+//    print('sort: $vhListByCustomer');
+//
+//    final vhIndex = vhListByCustomer.indexOf(visitHistory);
+//
+//    print(vhListByCustomer.length);
+//    print(vhIndex + 1);
+//
+//    if (vhListByCustomer.length <= vhIndex + 1) return null;
+//
+//    final lastVisitHistory = vhListByCustomer[vhIndex + 1];
+//    print(visitHistory.date);
+//    print(lastVisitHistory.date);
+//
+//    final diffYears = visitHistory.date.year - lastVisitHistory.date.year;
+//    final monthOfPeriod = ((diffYears * 12) + visitHistory.date.month) -
+//        lastVisitHistory.date.month;
+//    print(diffYears);
+//
+//    return null;
+//  }
+
   // [反映：絞り込みステータスを反映させる]
   void applyNarrowData(VisitHistoryNarrowData narrowData) {
     if (this.isEmpty) return;

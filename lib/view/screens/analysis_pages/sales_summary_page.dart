@@ -42,6 +42,7 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
       _minDate = widget.visitHistories?.getFirstVisitHistory()?.date;
       if (_date != null && _maxDate != null && _minDate != null) {
         _initFlag = false;
+//        print(widget.visitHistories.getMonthOfPeriodSinceLastVisit(_vhList[5]));
       }
     }
     _getByPeriod();
