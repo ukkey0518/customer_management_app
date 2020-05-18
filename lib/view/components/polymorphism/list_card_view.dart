@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 abstract class ListCardWidget extends StatelessWidget {
   ListCardWidget({this.title, this.contentsMap});
+
   final String title;
   final Map<String, String> contentsMap;
 
@@ -28,7 +29,7 @@ abstract class ListCardWidget extends StatelessWidget {
                       children: <Widget>[
                         Expanded(child: Text(entry.key)),
                         Expanded(
-                          child: Text(entry.value ?? '(未データ)'),
+                          child: Text(entry.value ?? '--'),
                         ),
                       ],
                     ),

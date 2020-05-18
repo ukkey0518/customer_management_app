@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/data/enums/date_format_mode.dart';
-import 'package:customermanagementapp/view/components/polymorphism/list_card_view.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/view/components/polymorphism/list_card_view.dart';
 import 'package:flutter/material.dart';
 
 class ProfileCardWidget extends ListCardWidget {
@@ -42,8 +42,14 @@ class ProfileCardWidget extends ListCardWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Text('$nameReading'),
-                          Text('$name 様'),
+                          Text(
+                            '$nameReading',
+                            style: TextStyle(color: Colors.grey.shade600),
+                          ),
+                          Text(
+                            '$name 様',
+                            style: TextStyle(fontSize: 16),
+                          ),
                         ],
                       ),
                     ),
