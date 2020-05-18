@@ -74,55 +74,54 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             mode: _periodMode,
             maxDate: _maxDate,
             minDate: _minDate,
-            onBackTap: (mode) {
-              final date = _date.decrement(mode);
-              if (date.isBefore(_minDate)) {
-                _date = _minDate;
-              } else {
-                _date = date;
-              }
-              _getByPeriod();
-            },
-            onForwardTap: (mode) {
-              final date = _date.increment(_periodMode);
-              if (date.isAfter(_maxDate)) {
-                _date = _maxDate;
-              } else {
-                _date = date;
-              }
-              _getByPeriod();
-            },
-            onDateAreaTap: () {
-              showDialog(
-                context: context,
-                builder: (_) => PeriodSetDialog(
-                  mode: _periodMode,
-                  date: _date,
-                  minDate: _minDate,
-                  maxDate: _maxDate,
-                ),
-              ).then((pair) {
-                _periodMode = pair['mode'];
-                _date = pair['date'];
-                _getByPeriod();
-              });
-            },
+            onBackTap: (mode) => _onBackTap(mode),
+            onForwardTap: (mode) => _onForwardTap(mode),
+            onDateAreaTap: () => _onDateAreaTap(),
             forwardText: forwardText,
             backText: backText,
           ),
-          MyDivider(
-            height: 16,
-          ),
-          Column(
-            children: <Widget>[
-              Text('$_periodMode'),
-            ],
-          ),
+          MyDivider(height: 16),
           Text(
-              '${_vhList.map<String>((vh) => vh.date.toFormatString(DateFormatMode.MEDIUM) + '\n').toList()}'),
+              '${_vhList.map<String>((vh) => vh.date.toFormatString(DateFormatMode.MEDIUM)).toList()}'),
         ],
       ),
     );
+  }
+
+  _onForwardTap(PeriodMode mode) {
+    final date = _date.increment(mode);
+    if (date.isAfter(_maxDate)) {
+      _date = _maxDate;
+    } else {
+      _date = date;
+    }
+    _getByPeriod();
+  }
+
+  _onBackTap(PeriodMode mode) {
+    final date = _date.decrement(mode);
+    if (date.isBefore(_minDate)) {
+      _date = _minDate;
+    } else {
+      _date = date;
+    }
+    _getByPeriod();
+  }
+
+  _onDateAreaTap() {
+    showDialog(
+      context: context,
+      builder: (_) => PeriodSetDialog(
+        mode: _periodMode,
+        date: _date,
+        minDate: _minDate,
+        maxDate: _maxDate,
+      ),
+    ).then((pair) {
+      _periodMode = pair['mode'];
+      _date = pair['date'];
+      _getByPeriod();
+    });
   }
 
   _getByPeriod() {
