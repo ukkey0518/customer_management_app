@@ -319,21 +319,44 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     return vhList;
   }
 
+  // [取得：すべての新規顧客の来店履歴データを取得する]
+  List<VisitHistory> getNewVisitors() {
+    if (this.isEmpty) return this;
+
+    return this.where((vh) {
+      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 1;
+    }).toList();
+  }
+
+  // [取得：すべてのワンリピ顧客の来店履歴データを取得する]
+  List<VisitHistory> getOneRepVisitors() {
+    if (this.isEmpty) return this;
+
+    return this.where((vh) {
+      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 2;
+    }).toList();
+  }
+
+  // [取得：すべての通常リピ顧客の来店履歴データを取得する]
+  List<VisitHistory> getOtherRepVisitors() {
+    if (this.isEmpty) return this;
+
+    return this.where((vh) {
+      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) >= 3;
+    }).toList();
+  }
+
   // [取得：来店者の内訳データ（人数・金額）を取得する]
   Map<String, int> getBDOfVisitorsDataMap() {
     if (this.isEmpty) return null;
 
-    final newVisitors = this.where((vh) {
-      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 1;
-    });
+    final newVisitors = ConvertFromVisitHistoryList(this).getNewVisitors();
 
-    final oneRepVisitors = this.where((vh) {
-      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 2;
-    });
+    final oneRepVisitors =
+        ConvertFromVisitHistoryList(this).getOneRepVisitors();
 
-    final otherRepVisitors = this.where((vh) {
-      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) >= 3;
-    });
+    final otherRepVisitors =
+        ConvertFromVisitHistoryList(this).getOtherRepVisitors();
 
     var priceOfNewVisitors = 0;
     if (newVisitors.isNotEmpty) {
