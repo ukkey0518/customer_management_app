@@ -144,7 +144,7 @@ class SampleDataInitializer {
   static final List<VisitHistory> _initVisitHistories = [
     VisitHistory(
       id: 1,
-      date: DateTime(2020, 1, 1),
+      date: DateTime(2020, 4, 1),
       customerJson: _initCustomers[0].toJsonString(),
       employeeJson: _initEmployees[0].toJsonString(),
       menuListJson: [
@@ -153,7 +153,7 @@ class SampleDataInitializer {
     ),
     VisitHistory(
       id: 2,
-      date: DateTime(2020, 2, 13),
+      date: DateTime(2020, 4, 1),
       customerJson: _initCustomers[1].toJsonString(),
       employeeJson: _initEmployees[1].toJsonString(),
       menuListJson: [
@@ -163,7 +163,7 @@ class SampleDataInitializer {
     ),
     VisitHistory(
       id: 3,
-      date: DateTime(2020, 2, 23),
+      date: DateTime(2020, 4, 6),
       customerJson: _initCustomers[2].toJsonString(),
       employeeJson: _initEmployees[2].toJsonString(),
       menuListJson: [
@@ -173,7 +173,7 @@ class SampleDataInitializer {
     ),
     VisitHistory(
       id: 4,
-      date: DateTime(2020, 3, 19),
+      date: DateTime(2020, 4, 8),
       customerJson: _initCustomers[1].toJsonString(),
       employeeJson: _initEmployees[1].toJsonString(),
       menuListJson: [
@@ -182,7 +182,7 @@ class SampleDataInitializer {
     ),
     VisitHistory(
       id: 5,
-      date: DateTime(2020, 3, 12),
+      date: DateTime(2020, 4, 12),
       customerJson: _initCustomers[2].toJsonString(),
       employeeJson: _initEmployees[2].toJsonString(),
       menuListJson: [
@@ -192,12 +192,70 @@ class SampleDataInitializer {
     ),
     VisitHistory(
       id: 6,
-      date: DateTime(2020, 4, 12),
+      date: DateTime(2020, 4, 15),
       customerJson: _initCustomers[0].toJsonString(),
       employeeJson: _initEmployees[0].toJsonString(),
       menuListJson: [
         _initMenus[2],
         _initMenus[5],
+      ].toJsonString(),
+    ),
+    VisitHistory(
+      id: 7,
+      date: DateTime(2020, 4, 19),
+      customerJson: _initCustomers[0].toJsonString(),
+      employeeJson: _initEmployees[0].toJsonString(),
+      menuListJson: [
+        _initMenus[3],
+        _initMenus[5],
+      ].toJsonString(),
+    ),
+    VisitHistory(
+      id: 8,
+      date: DateTime(2020, 4, 22),
+      customerJson: _initCustomers[1].toJsonString(),
+      employeeJson: _initEmployees[1].toJsonString(),
+      menuListJson: [
+        _initMenus[3],
+        _initMenus[5],
+      ].toJsonString(),
+    ),
+    VisitHistory(
+      id: 9,
+      date: DateTime(2020, 4, 28),
+      customerJson: _initCustomers[0].toJsonString(),
+      employeeJson: _initEmployees[0].toJsonString(),
+      menuListJson: [
+        _initMenus[3],
+        _initMenus[5],
+      ].toJsonString(),
+    ),
+    VisitHistory(
+      id: 10,
+      date: DateTime(2020, 4, 28),
+      customerJson: _initCustomers[2].toJsonString(),
+      employeeJson: _initEmployees[2].toJsonString(),
+      menuListJson: [
+        _initMenus[4],
+        _initMenus[5],
+      ].toJsonString(),
+    ),
+    VisitHistory(
+      id: 11,
+      date: DateTime(2020, 4, 29),
+      customerJson: _initCustomers[1].toJsonString(),
+      employeeJson: _initEmployees[1].toJsonString(),
+      menuListJson: [
+        _initMenus[3],
+      ].toJsonString(),
+    ),
+    VisitHistory(
+      id: 12,
+      date: DateTime(2020, 4, 30),
+      customerJson: _initCustomers[2].toJsonString(),
+      employeeJson: _initEmployees[2].toJsonString(),
+      menuListJson: [
+        _initMenus[6],
       ].toJsonString(),
     ),
   ];
