@@ -2,6 +2,7 @@ import 'package:customermanagementapp/data/enums/date_format_mode.dart';
 import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/view/components/analysis/summary_part.dart';
 import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
 import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
@@ -63,6 +64,16 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
         break;
     }
 
+    print(
+      '\n ${_vhList.map<String>((vh) {
+        final customer = vh.customerJson.toCustomer().name;
+        final dateStr = vh.date.toFormatString(DateFormatMode.MEDIUM);
+        final diffMonths = widget.visitHistories.getDiffOfMonth(vh);
+        final numOfVisit = widget.visitHistories.getNumOfVisit(vh);
+        return 'c: $customer, date: $dateStr, diff: $diffMonths, nov: $numOfVisit \n';
+      }).toList()}',
+    );
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -81,14 +92,8 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             backText: backText,
           ),
           MyDivider(height: 16),
-          Text(
-            '${_vhList.map<String>((vh) {
-              final customer = vh.customerJson.toCustomer().name;
-              final dateStr = vh.date.toFormatString(DateFormatMode.MEDIUM);
-              final diffMonths = widget.visitHistories.getDiffOfMonth(vh);
-              final numOfVisit = widget.visitHistories.getNumOfVisit(vh);
-              return 'c: $customer, date: $dateStr, diff: $diffMonths, nov: $numOfVisit \n';
-            }).toList()}',
+          SummaryPart(
+            visitHistories: _vhList,
           ),
         ],
       ),
