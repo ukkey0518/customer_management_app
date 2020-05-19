@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 class SummaryPart extends StatelessWidget {
@@ -10,11 +11,11 @@ class SummaryPart extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    print(visitHistories.getBDOfVisitorsDataMap());
     return SingleChildScrollView(
       child: Column(
         children: <Widget>[
           //TODO 売上金額集計
-          Container(),
           //TODO 男女人数
           //TODO 来店人数集計(新規orワンリピorリピ)
           //TODO 新規内訳

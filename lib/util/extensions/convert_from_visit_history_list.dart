@@ -318,4 +318,52 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
     return vhList;
   }
+
+  // [取得：来店者の内訳データ（人数・金額）を取得する]
+  Map<String, int> getBDOfVisitorsDataMap() {
+    if (this.isEmpty) return null;
+
+    final newVisitors = this.where((vh) {
+      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 1;
+    });
+
+    final oneRepVisitors = this.where((vh) {
+      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 2;
+    });
+
+    final otherRepVisitors = this.where((vh) {
+      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) >= 3;
+    });
+
+    var priceOfNewVisitors = 0;
+    if (newVisitors.isNotEmpty) {
+      priceOfNewVisitors = List.of(newVisitors)
+          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
+          .reduce((v, e) => v + e);
+    }
+
+    var priceOfOneRepVisitors = 0;
+    if (oneRepVisitors.isNotEmpty) {
+      priceOfOneRepVisitors = List.of(oneRepVisitors)
+          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
+          .reduce((v, e) => v + e);
+    }
+
+    var priceOfOtherRepVisitors = 0;
+    if (otherRepVisitors.isNotEmpty) {
+      priceOfOtherRepVisitors = List.of(otherRepVisitors)
+          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
+          .reduce((v, e) => v + e);
+    }
+
+    final Map<String, int> dataMap = Map();
+    dataMap.putIfAbsent('num_new', () => newVisitors.length);
+    dataMap.putIfAbsent('num_oneRep', () => oneRepVisitors.length);
+    dataMap.putIfAbsent('num_otherRep', () => otherRepVisitors.length);
+    dataMap.putIfAbsent('pri_new', () => priceOfNewVisitors);
+    dataMap.putIfAbsent('pri_oneRep', () => priceOfOneRepVisitors);
+    dataMap.putIfAbsent('pri_otherRep', () => priceOfOtherRepVisitors);
+
+    return dataMap;
+  }
 }
