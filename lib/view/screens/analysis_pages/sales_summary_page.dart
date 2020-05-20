@@ -6,7 +6,8 @@ import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.
 import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/period_select_tile.dart';
-import 'package:customermanagementapp/view/components/sales_summary_page_widgets/ssp_summary_part.dart';
+import 'package:customermanagementapp/view/components/sales_summary_page_widgets/ssp_new_visitors_breakdown_part.dart';
+import 'package:customermanagementapp/view/components/sales_summary_page_widgets/ssp_total_part.dart';
 import 'package:flutter/material.dart';
 
 class SalesSummaryPage extends StatefulWidget {
@@ -25,6 +26,8 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
   DateTime _minDate;
   DateTime _maxDate;
   bool _initFlag = true;
+
+  bool _isNewVisitorListExpand = false;
 
   @override
   void initState() {
@@ -74,8 +77,6 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
       }).toList()}',
     );
 
-    print(widget.visitHistories.getBDOfVisitorsDataMap(_vhList));
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -99,19 +100,29 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
           Expanded(
             child: ListView(
               children: <Widget>[
-                //TODO 売上金額集計
-                //TODO 来店人数集計(新規orワンリピorリピ)
-                //TODO 男女人数
-                //TODO 新規内訳
+                // 新規内訳
+                SSPNewVisitorsBreakDownPart(
+                  vhList: widget.visitHistories.getNewVisitors(_vhList),
+                  onExpandChanged: () =>
+                      _onNewVisitorsBreakDownExpandButtonTap(),
+                  isExpanded: _isNewVisitorListExpand,
+                ),
                 //TODO ワンリピ内訳
                 //TODO リピート内訳
-                //TODO カテゴリ別集計
+                //TODO 男女別
+                //TODO カテゴリ別
               ],
             ),
           ),
         ],
       ),
     );
+  }
+
+  _onNewVisitorsBreakDownExpandButtonTap() {
+    setState(() {
+      _isNewVisitorListExpand = !_isNewVisitorListExpand;
+    });
   }
 
   _onForwardTap(PeriodMode mode) {

@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
 import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
+import 'package:customermanagementapp/data/visit_reason_data.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 
@@ -393,5 +394,24 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     dataMap.putIfAbsent('pri_otherRep', () => priceOfOtherRepVisitors);
 
     return dataMap;
+  }
+
+  // [取得：この来店履歴リストから来店理由に一致するデータをすべて取得する]
+  List<VisitHistory> getDataByVisitReason(String visitReason) {
+    if (!visitReasonData.contains(visitReason)) {
+      throw Exception('登録済みのvisitReasonDataに含まれない文字列: $visitReason');
+    }
+
+    List<VisitHistory> data = List<VisitHistory>();
+
+    if (this.isNotEmpty) {
+      data = List<VisitHistory>.from(this)
+          .where((vh) =>
+              ConvertFromJson(vh.customerJson).toCustomer().visitReason ==
+              visitReason)
+          .toList();
+    }
+
+    return data;
   }
 }
