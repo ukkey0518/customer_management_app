@@ -123,7 +123,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   // [取得：前回来店から何ヶ月以内に来店したかを取得]
   // 5 -> 5ヶ月以内に再来店
   // null -> 初回来店
-  int getDiffOfMonth(VisitHistory visitHistory) {
+  int getSinceLastVisit(VisitHistory visitHistory) {
     if (this.isEmpty || visitHistory == null) return null;
     final customer = visitHistory.customerJson.toCustomer();
 
@@ -320,43 +320,44 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   }
 
   // [取得：すべての新規顧客の来店履歴データを取得する]
-  List<VisitHistory> getNewVisitors() {
-    if (this.isEmpty) return this;
+  List<VisitHistory> getNewVisitors(List<VisitHistory> vhList) {
+    if (this.isEmpty || vhList.isEmpty) return vhList;
 
-    return this.where((vh) {
+    return vhList.where((vh) {
       return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 1;
     }).toList();
   }
 
   // [取得：すべてのワンリピ顧客の来店履歴データを取得する]
-  List<VisitHistory> getOneRepVisitors() {
-    if (this.isEmpty) return this;
+  List<VisitHistory> getOneRepVisitors(List<VisitHistory> vhList) {
+    if (this.isEmpty || vhList.isEmpty) return vhList;
 
-    return this.where((vh) {
+    return vhList.where((vh) {
       return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 2;
     }).toList();
   }
 
   // [取得：すべての通常リピ顧客の来店履歴データを取得する]
-  List<VisitHistory> getOtherRepVisitors() {
-    if (this.isEmpty) return this;
+  List<VisitHistory> getOtherRepVisitors(List<VisitHistory> vhList) {
+    if (this.isEmpty || vhList.isEmpty) return vhList;
 
-    return this.where((vh) {
+    return vhList.where((vh) {
       return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) >= 3;
     }).toList();
   }
 
   // [取得：来店者の内訳データ（人数・金額）を取得する]
-  Map<String, int> getBDOfVisitorsDataMap() {
-    if (this.isEmpty) return null;
+  Map<String, int> getBDOfVisitorsDataMap(List<VisitHistory> vhList) {
+    if (this.isEmpty || vhList.isEmpty) return Map<String, int>();
 
-    final newVisitors = ConvertFromVisitHistoryList(this).getNewVisitors();
+    final newVisitors =
+        ConvertFromVisitHistoryList(this).getNewVisitors(vhList);
 
     final oneRepVisitors =
-        ConvertFromVisitHistoryList(this).getOneRepVisitors();
+        ConvertFromVisitHistoryList(this).getOneRepVisitors(vhList);
 
     final otherRepVisitors =
-        ConvertFromVisitHistoryList(this).getOtherRepVisitors();
+        ConvertFromVisitHistoryList(this).getOtherRepVisitors(vhList);
 
     var priceOfNewVisitors = 0;
     if (newVisitors.isNotEmpty) {
@@ -386,6 +387,27 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     dataMap.putIfAbsent('pri_new', () => priceOfNewVisitors);
     dataMap.putIfAbsent('pri_oneRep', () => priceOfOneRepVisitors);
     dataMap.putIfAbsent('pri_otherRep', () => priceOfOtherRepVisitors);
+
+    return dataMap;
+  }
+
+  // [変換：合計人数と合計金額のデータマップへ変換する]
+  Map<String, int> getTotalDataMap() {
+    final dataMap = Map<String, int>();
+    var totalNumOfVisitors = 0;
+    var totalPrice = 0;
+
+    if (this.isNotEmpty) {
+      totalNumOfVisitors = this.length;
+
+      totalPrice = List.from(this)
+          .map<int>((vh) =>
+              ConvertFromJson(vh.menuListJson).toMenuList().toSumPrice())
+          .reduce((v, e) => v + e);
+    }
+
+    dataMap['総来店人数'] = totalNumOfVisitors ?? 0;
+    dataMap['総売上金額'] = totalPrice ?? 0;
 
     return dataMap;
   }

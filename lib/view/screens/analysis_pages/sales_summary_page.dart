@@ -2,11 +2,11 @@ import 'package:customermanagementapp/data/enums/date_format_mode.dart';
 import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
-import 'package:customermanagementapp/view/components/analysis/summary_part.dart';
 import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
 import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/period_select_tile.dart';
+import 'package:customermanagementapp/view/components/sales_summary_page_widgets/ssp_summary_part.dart';
 import 'package:flutter/material.dart';
 
 class SalesSummaryPage extends StatefulWidget {
@@ -68,11 +68,13 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
       '\n ${_vhList.map<String>((vh) {
         final customer = vh.customerJson.toCustomer().name;
         final dateStr = vh.date.toFormatString(DateFormatMode.MEDIUM);
-        final diffMonths = widget.visitHistories.getDiffOfMonth(vh);
+        final sinceLastVisit = widget.visitHistories.getSinceLastVisit(vh);
         final numOfVisit = widget.visitHistories.getNumOfVisit(vh);
-        return 'c: $customer, date: $dateStr, diff: $diffMonths, nov: $numOfVisit \n';
+        return 'c: $customer, date: $dateStr, slv: $sinceLastVisit, nov: $numOfVisit \n';
       }).toList()}',
     );
+
+    print(widget.visitHistories.getBDOfVisitorsDataMap(_vhList));
 
     return Padding(
       padding: const EdgeInsets.all(8.0),
@@ -92,8 +94,19 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             backText: backText,
           ),
           MyDivider(height: 16),
-          SummaryPart(
-            visitHistories: _vhList,
+          SingleChildScrollView(
+            child: Column(
+              children: <Widget>[
+                //TODO 売上金額集計
+                //TODO 来店人数集計(新規orワンリピorリピ)
+                SSPTotalPart(dataMap: _vhList.getTotalDataMap()),
+                //TODO 男女人数
+                //TODO 新規内訳
+                //TODO ワンリピ内訳
+                //TODO リピート内訳
+                //TODO カテゴリ別集計
+              ],
+            ),
           ),
         ],
       ),
