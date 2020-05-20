@@ -94,8 +94,8 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             backText: backText,
           ),
           MyDivider(height: 16),
-          SingleChildScrollView(
-            child: Column(
+          Expanded(
+            child: ListView(
               children: <Widget>[
                 //TODO 売上金額集計
                 //TODO 来店人数集計(新規orワンリピorリピ)
