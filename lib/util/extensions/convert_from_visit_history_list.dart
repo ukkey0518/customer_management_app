@@ -29,11 +29,15 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [取得：支払い金額リスト]
   List<int> toSumPriceList() {
-    if (this.isEmpty) return null;
-    final sumPriceList = this.map<int>((visitHistory) {
-      final menuList = visitHistory.menuListJson.toMenuList();
-      return menuList.toSumPrice();
-    }).toList();
+    var sumPriceList = List<int>();
+
+    if (this.isNotEmpty) {
+      sumPriceList = this.map<int>((visitHistory) {
+        final menuList = visitHistory.menuListJson.toMenuList();
+        return menuList.toSumPrice();
+      }).toList();
+    }
+
     return sumPriceList;
   }
 
@@ -387,27 +391,6 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     dataMap.putIfAbsent('pri_new', () => priceOfNewVisitors);
     dataMap.putIfAbsent('pri_oneRep', () => priceOfOneRepVisitors);
     dataMap.putIfAbsent('pri_otherRep', () => priceOfOtherRepVisitors);
-
-    return dataMap;
-  }
-
-  // [変換：合計人数と合計金額のデータマップへ変換する]
-  Map<String, int> getTotalDataMap() {
-    final dataMap = Map<String, int>();
-    var totalNumOfVisitors = 0;
-    var totalPrice = 0;
-
-    if (this.isNotEmpty) {
-      totalNumOfVisitors = this.length;
-
-      totalPrice = List.from(this)
-          .map<int>((vh) =>
-              ConvertFromJson(vh.menuListJson).toMenuList().toSumPrice())
-          .reduce((v, e) => v + e);
-    }
-
-    dataMap['総来店人数'] = totalNumOfVisitors ?? 0;
-    dataMap['総売上金額'] = totalPrice ?? 0;
 
     return dataMap;
   }

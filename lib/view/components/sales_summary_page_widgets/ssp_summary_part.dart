@@ -1,52 +1,84 @@
+import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
 class SSPTotalPart extends StatelessWidget {
-  SSPTotalPart({this.dataMap});
+  SSPTotalPart({
+    @required this.vhList,
+  });
 
-  final Map<String, int> dataMap;
+  final List<VisitHistory> vhList;
 
   @override
   Widget build(BuildContext context) {
+    final int totalNumOfVisitors = vhList.length;
+    final int totalPrice = vhList.toSumPriceList().getSum();
+    final double averagePrice = vhList.toSumPriceList().getAverage();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        Card(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: <Widget>[
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          '総来店人数',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          dataMap['総来店人数'].toString(),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+        Container(
+          padding: EdgeInsets.all(8),
+          child: Column(
+            children: <Widget>[
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '総客数',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
                     ),
-                    Column(
-                      children: <Widget>[
-                        Text(
-                          '総売上金額',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        Text(
-                          dataMap['総売上金額'].toPriceString(),
-                          textAlign: TextAlign.center,
-                        ),
-                      ],
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '総売上',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '平均単価',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
+              Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '${totalNumOfVisitors.toString()} 人',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '${totalPrice.toPriceString()}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '${averagePrice.toPriceString(1)}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ],

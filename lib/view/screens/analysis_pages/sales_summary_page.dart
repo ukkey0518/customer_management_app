@@ -94,12 +94,13 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
             backText: backText,
           ),
           MyDivider(height: 16),
+          SSPTotalPart(vhList: _vhList),
+          MyDivider(height: 16),
           Expanded(
             child: ListView(
               children: <Widget>[
                 //TODO 売上金額集計
                 //TODO 来店人数集計(新規orワンリピorリピ)
-                SSPTotalPart(dataMap: _vhList.getTotalDataMap()),
                 //TODO 男女人数
                 //TODO 新規内訳
                 //TODO ワンリピ内訳
