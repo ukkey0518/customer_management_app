@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 
 class SalesSummaryTotalPart extends StatelessWidget {
   SalesSummaryTotalPart({
+    @required this.title,
     @required this.vhList,
   });
 
+  final String title;
   final List<VisitHistory> vhList;
 
   @override
@@ -16,7 +18,7 @@ class SalesSummaryTotalPart extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Text(
-            '新規合計',
+            title,
             style: TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.bold,

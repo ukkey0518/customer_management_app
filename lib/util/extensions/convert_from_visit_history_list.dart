@@ -159,7 +159,6 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   // [取得：何回目の来店かを取得する]
   int getNumOfVisit(VisitHistory visitHistory) {
     if (this.isEmpty || visitHistory == null) return null;
-    if (this.isEmpty || visitHistory == null) return null;
     final customer = visitHistory.customerJson.toCustomer();
 
     final vhListByCustomer = List<VisitHistory>.from(this).where((vh) {
@@ -324,6 +323,36 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     return vhList;
   }
 
+  // [取得：１ヶ月以内に再来店した来店履歴を取得する]
+  List<VisitHistory> getRepeaterWithin1Month(List<VisitHistory> vhList) {
+    if (this.isEmpty || vhList.isEmpty) return vhList;
+
+    return vhList.where((vh) {
+      final slv = ConvertFromVisitHistoryList(this).getSinceLastVisit(vh);
+      return slv == 1;
+    }).toList();
+  }
+
+  // [取得：３ヶ月以内に再来店した来店履歴を取得する]
+  List<VisitHistory> getRepeaterWithin3Month(List<VisitHistory> vhList) {
+    if (this.isEmpty || vhList.isEmpty) return vhList;
+
+    return vhList.where((vh) {
+      final slv = ConvertFromVisitHistoryList(this).getSinceLastVisit(vh);
+      return 1 < slv && slv <= 3;
+    }).toList();
+  }
+
+  // [取得：４ヶ月以上で再来店した来店履歴を取得する]
+  List<VisitHistory> getRepeaterMore4Month(List<VisitHistory> vhList) {
+    if (this.isEmpty || vhList.isEmpty) return vhList;
+
+    return vhList.where((vh) {
+      final slv = ConvertFromVisitHistoryList(this).getSinceLastVisit(vh);
+      return 4 <= slv;
+    }).toList();
+  }
+
   // [取得：すべての新規顧客の来店履歴データを取得する]
   List<VisitHistory> getNewVisitors(List<VisitHistory> vhList) {
     if (this.isEmpty || vhList.isEmpty) return vhList;
@@ -334,12 +363,25 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   }
 
   // [取得：すべてのワンリピ顧客の来店履歴データを取得する]
-  List<VisitHistory> getOneRepVisitors(List<VisitHistory> vhList) {
-    if (this.isEmpty || vhList.isEmpty) return vhList;
+  Map<String, List<VisitHistory>> getOneRepVisitors(List<VisitHistory> vhList) {
+    final Map<String, List<VisitHistory>> dataMap =
+        Map<String, List<VisitHistory>>();
+    var oneRepeaters = List<VisitHistory>();
 
-    return vhList.where((vh) {
+    if (this.isEmpty || vhList.isEmpty) return dataMap;
+
+    oneRepeaters = vhList.where((vh) {
       return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 2;
     }).toList();
+
+    dataMap['1'] =
+        ConvertFromVisitHistoryList(this).getRepeaterWithin1Month(oneRepeaters);
+    dataMap['3'] =
+        ConvertFromVisitHistoryList(this).getRepeaterWithin3Month(oneRepeaters);
+    dataMap['other'] =
+        ConvertFromVisitHistoryList(this).getRepeaterMore4Month(oneRepeaters);
+
+    return dataMap;
   }
 
   // [取得：すべての通常リピ顧客の来店履歴データを取得する]
@@ -352,49 +394,49 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   }
 
   // [取得：来店者の内訳データ（人数・金額）を取得する]
-  Map<String, int> getBDOfVisitorsDataMap(List<VisitHistory> vhList) {
-    if (this.isEmpty || vhList.isEmpty) return Map<String, int>();
-
-    final newVisitors =
-        ConvertFromVisitHistoryList(this).getNewVisitors(vhList);
-
-    final oneRepVisitors =
-        ConvertFromVisitHistoryList(this).getOneRepVisitors(vhList);
-
-    final otherRepVisitors =
-        ConvertFromVisitHistoryList(this).getOtherRepVisitors(vhList);
-
-    var priceOfNewVisitors = 0;
-    if (newVisitors.isNotEmpty) {
-      priceOfNewVisitors = List.of(newVisitors)
-          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
-          .reduce((v, e) => v + e);
-    }
-
-    var priceOfOneRepVisitors = 0;
-    if (oneRepVisitors.isNotEmpty) {
-      priceOfOneRepVisitors = List.of(oneRepVisitors)
-          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
-          .reduce((v, e) => v + e);
-    }
-
-    var priceOfOtherRepVisitors = 0;
-    if (otherRepVisitors.isNotEmpty) {
-      priceOfOtherRepVisitors = List.of(otherRepVisitors)
-          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
-          .reduce((v, e) => v + e);
-    }
-
-    final Map<String, int> dataMap = Map();
-    dataMap.putIfAbsent('num_new', () => newVisitors.length);
-    dataMap.putIfAbsent('num_oneRep', () => oneRepVisitors.length);
-    dataMap.putIfAbsent('num_otherRep', () => otherRepVisitors.length);
-    dataMap.putIfAbsent('pri_new', () => priceOfNewVisitors);
-    dataMap.putIfAbsent('pri_oneRep', () => priceOfOneRepVisitors);
-    dataMap.putIfAbsent('pri_otherRep', () => priceOfOtherRepVisitors);
-
-    return dataMap;
-  }
+//  Map<String, int> getBDOfVisitorsDataMap(List<VisitHistory> vhList) {
+//    if (this.isEmpty || vhList.isEmpty) return Map<String, int>();
+//
+//    final newVisitors =
+//        ConvertFromVisitHistoryList(this).getNewVisitors(vhList);
+//
+//    final oneRepVisitors =
+//        ConvertFromVisitHistoryList(this).getOneRepVisitors(vhList);
+//
+//    final otherRepVisitors =
+//        ConvertFromVisitHistoryList(this).getOtherRepVisitors(vhList);
+//
+//    var priceOfNewVisitors = 0;
+//    if (newVisitors.isNotEmpty) {
+//      priceOfNewVisitors = List.of(newVisitors)
+//          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
+//          .reduce((v, e) => v + e);
+//    }
+//
+//    var priceOfOneRepVisitors = 0;
+//    if (oneRepVisitors.isNotEmpty) {
+//      priceOfOneRepVisitors = List.of(oneRepVisitors)
+//          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
+//          .reduce((v, e) => v + e);
+//    }
+//
+//    var priceOfOtherRepVisitors = 0;
+//    if (otherRepVisitors.isNotEmpty) {
+//      priceOfOtherRepVisitors = List.of(otherRepVisitors)
+//          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
+//          .reduce((v, e) => v + e);
+//    }
+//
+//    final Map<String, int> dataMap = Map();
+//    dataMap.putIfAbsent('num_new', () => newVisitors.length);
+//    dataMap.putIfAbsent('num_oneRep', () => oneRepVisitors.length);
+//    dataMap.putIfAbsent('num_otherRep', () => otherRepVisitors.length);
+//    dataMap.putIfAbsent('pri_new', () => priceOfNewVisitors);
+//    dataMap.putIfAbsent('pri_oneRep', () => priceOfOneRepVisitors);
+//    dataMap.putIfAbsent('pri_otherRep', () => priceOfOtherRepVisitors);
+//
+//    return dataMap;
+//  }
 
   // [取得：この来店履歴リストから来店理由に一致するデータをすべて取得する]
   List<VisitHistory> getDataByVisitReason(String visitReason) {

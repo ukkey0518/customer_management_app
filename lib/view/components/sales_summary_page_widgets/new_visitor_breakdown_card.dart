@@ -7,8 +7,8 @@ import 'package:customermanagementapp/view/components/sales_summary_page_widgets
 import 'package:customermanagementapp/view/components/sales_summary_page_widgets/sales_summary_total_part.dart';
 import 'package:flutter/material.dart';
 
-class SSPNewVisitorsBreakDownPart extends StatelessWidget {
-  SSPNewVisitorsBreakDownPart({
+class NewVisitorBreakDownCard extends StatelessWidget {
+  NewVisitorBreakDownCard({
     @required this.vhList,
     @required this.onExpandChanged,
     @required this.isExpanded,
@@ -44,6 +44,7 @@ class SSPNewVisitorsBreakDownPart extends StatelessWidget {
                     : Container(),
                 MyDivider(),
                 SalesSummaryTotalPart(
+                  title: '新規合計',
                   vhList: vhList,
                 ),
                 SalesSummaryAveragePart(

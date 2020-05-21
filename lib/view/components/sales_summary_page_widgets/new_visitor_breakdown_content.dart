@@ -17,44 +17,47 @@ class NewVisitorBreakDownContent extends StatelessWidget {
       children: <Widget>[
         MyDivider(),
         Column(
-          children: List.generate(visitReasonData.length, (index) {
-            final visitReason = visitReasonData[index];
-            final numOfVisitors =
-                vhList.getDataByVisitReason(visitReason).length;
-            return Row(
-              children: <Widget>[
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    '${visitReasonData[index]}',
-                    style: TextStyle(
-                      color: numOfVisitors == 0 ? Colors.grey.shade300 : null,
+          children: List.generate(
+            visitReasonData.length,
+            (index) {
+              final visitReason = visitReasonData[index];
+              final numOfVisitors =
+                  vhList.getDataByVisitReason(visitReason).length;
+              return Row(
+                children: <Widget>[
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '${visitReasonData[index]}',
+                      style: TextStyle(
+                        color: numOfVisitors == 0 ? Colors.grey.shade300 : null,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    '${vhList.getDataByVisitReason(visitReason).length}',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      color: numOfVisitors == 0 ? Colors.grey.shade300 : null,
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '${vhList.getDataByVisitReason(visitReason).length}',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: numOfVisitors == 0 ? Colors.grey.shade300 : null,
+                      ),
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 1,
-                  child: Text(
-                    '${vhList.getDataByVisitReason(visitReason).toSumPriceList().getSum().toPriceString()}',
-                    textAlign: TextAlign.right,
-                    style: TextStyle(
-                      color: numOfVisitors == 0 ? Colors.grey.shade300 : null,
+                  Expanded(
+                    flex: 1,
+                    child: Text(
+                      '${vhList.getDataByVisitReason(visitReason).toSumPriceList().getSum().toPriceString()}',
+                      textAlign: TextAlign.right,
+                      style: TextStyle(
+                        color: numOfVisitors == 0 ? Colors.grey.shade300 : null,
+                      ),
                     ),
                   ),
-                ),
-              ],
-            );
-          }),
+                ],
+              );
+            },
+          ),
         ),
       ],
     );
