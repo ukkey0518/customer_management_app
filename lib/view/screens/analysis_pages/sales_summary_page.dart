@@ -28,6 +28,7 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
   bool _initFlag = true;
 
   bool _isNewVisitorListExpand = false;
+  bool _isOneRepeaterListExpand = false;
 
   @override
   void initState() {
@@ -77,6 +78,11 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
       }).toList()}',
     );
 
+    print('NEW: ${widget.visitHistories.getNewVisitors(_vhList).length}');
+    print('ONE: ${widget.visitHistories.getOneRepVisitors(_vhList).length}');
+    print(
+        'OTHER: ${widget.visitHistories.getOtherRepVisitors(_vhList).length}');
+
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -122,6 +128,12 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
   _onNewVisitorsBreakDownExpandButtonTap() {
     setState(() {
       _isNewVisitorListExpand = !_isNewVisitorListExpand;
+    });
+  }
+
+  _onOneRepeaterBreakDownExpandButtonTap() {
+    setState(() {
+      _isOneRepeaterListExpand = !_isOneRepeaterListExpand;
     });
   }
 
