@@ -37,10 +37,11 @@ class SSPNewVisitorsBreakDownPart extends StatelessWidget {
                   title: '来店動機',
                   isExpanded: isExpanded,
                 ),
-                NewVisitorBreakDownContent(
-                  vhList: vhList,
-                  isExpanded: isExpanded,
-                ),
+                isExpanded
+                    ? NewVisitorBreakDownContent(
+                        vhList: vhList,
+                      )
+                    : Container(),
                 MyDivider(),
                 SalesSummaryTotalPart(
                   vhList: vhList,
