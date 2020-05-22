@@ -28,6 +28,7 @@ class OneRepeaterBreakDownCard extends StatelessWidget {
       title: 'ワンリピ内訳',
       isExpanded: isExpanded,
       onExpandButtonTap: onExpandButtonTap,
+      isEnable: allOneRepeater.isNotEmpty,
       children: <Widget>[
         HeadingRow(
           title: '',

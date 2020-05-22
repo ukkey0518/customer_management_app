@@ -7,12 +7,14 @@ class ExpandableBreakDownCard extends StatelessWidget {
     @required this.children,
     @required this.isExpanded,
     @required this.onExpandButtonTap,
+    this.isEnable = true,
   });
 
   final String title;
   final bool isExpanded;
   final VoidCallback onExpandButtonTap;
   final List<Widget> children;
+  final bool isEnable;
 
   @override
   Widget build(BuildContext context) {
@@ -25,6 +27,7 @@ class ExpandableBreakDownCard extends StatelessWidget {
               title: title,
               isExpanded: isExpanded,
               onExpandButtonTap: onExpandButtonTap,
+              isEnable: isEnable,
             ),
             isExpanded
                 ? Padding(

@@ -19,7 +19,7 @@ class OtherRepeaterBreakDownCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<VisitHistory> allOneRepeater = vhData.values.reduce((v, e) {
+    final List<VisitHistory> allOtherRepeater = vhData.values.reduce((v, e) {
       return e.isNotEmpty ? (v..addAll(e)) : v;
     }).toList();
 
@@ -27,6 +27,7 @@ class OtherRepeaterBreakDownCard extends StatelessWidget {
       title: '通常リピ内訳',
       isExpanded: isExpanded,
       onExpandButtonTap: onExpandButtonTap,
+      isEnable: allOtherRepeater.isNotEmpty,
       children: <Widget>[
         HeadingRow(
           title: '',
@@ -41,7 +42,7 @@ class OtherRepeaterBreakDownCard extends StatelessWidget {
             : Container(),
         MyDivider(),
         AverageRow(
-          vhList: allOneRepeater,
+          vhList: allOtherRepeater,
         ),
       ],
     );

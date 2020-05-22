@@ -23,6 +23,7 @@ class NewVisitorBreakDownCard extends StatelessWidget {
       title: '新規内訳',
       isExpanded: isExpanded,
       onExpandButtonTap: onExpandButtonTap,
+      isEnable: vhList.isNotEmpty,
       children: <Widget>[
         HeadingRow(
           title: '来店動機',
