@@ -378,19 +378,33 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         ConvertFromVisitHistoryList(this).getRepeaterWithin1Month(oneRepeaters);
     dataMap['3'] =
         ConvertFromVisitHistoryList(this).getRepeaterWithin3Month(oneRepeaters);
-    dataMap['other'] =
+    dataMap['more'] =
         ConvertFromVisitHistoryList(this).getRepeaterMore4Month(oneRepeaters);
 
     return dataMap;
   }
 
   // [取得：すべての通常リピ顧客の来店履歴データを取得する]
-  List<VisitHistory> getOtherRepVisitors(List<VisitHistory> vhList) {
-    if (this.isEmpty || vhList.isEmpty) return vhList;
+  Map<String, List<VisitHistory>> getOtherRepVisitors(
+      List<VisitHistory> vhList) {
+    final Map<String, List<VisitHistory>> dataMap =
+        Map<String, List<VisitHistory>>();
+    var otherRepeaters = List<VisitHistory>();
 
-    return vhList.where((vh) {
+    if (this.isEmpty || vhList.isEmpty) return dataMap;
+
+    otherRepeaters = vhList.where((vh) {
       return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) >= 3;
     }).toList();
+
+    dataMap['1'] = ConvertFromVisitHistoryList(this)
+        .getRepeaterWithin1Month(otherRepeaters);
+    dataMap['3'] = ConvertFromVisitHistoryList(this)
+        .getRepeaterWithin3Month(otherRepeaters);
+    dataMap['more'] =
+        ConvertFromVisitHistoryList(this).getRepeaterMore4Month(otherRepeaters);
+
+    return dataMap;
   }
 
   // [取得：来店者の内訳データ（人数・金額）を取得する]

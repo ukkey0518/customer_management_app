@@ -44,7 +44,7 @@ class OneRepeaterBreakDownCard extends StatelessWidget {
                     ? OneRepeaterBreakDownContent(
                         within1MonthRepeaters: vhData['1'],
                         within3MonthRepeaters: vhData['3'],
-                        more4MonthRepeaters: vhData['other'],
+                        more4MonthRepeaters: vhData['more'],
                       )
                     : Container(),
                 MyDivider(),
