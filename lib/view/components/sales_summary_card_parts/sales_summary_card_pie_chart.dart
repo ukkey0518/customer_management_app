@@ -46,9 +46,15 @@ class SalesSummaryCardPieCharts extends StatelessWidget {
                   : Container(
                       height: 200,
                       child: PieChart(
-                        dataMap: priceDataMap,
+                        dataMap: numberOfVisitorDataMap,
                         showLegends: false,
+                        initialAngle: 300,
                         //TODO colorList: colorList,
+//                        colorList: [
+//                          Colors.red,
+//                          Colors.yellow,
+//                          Colors.green,
+//                        ],
                       ),
                     ),
             ],
@@ -78,9 +84,15 @@ class SalesSummaryCardPieCharts extends StatelessWidget {
                   : Container(
                       height: 200,
                       child: PieChart(
-                        dataMap: numberOfVisitorDataMap,
+                        dataMap: priceDataMap,
                         showLegends: false,
+                        initialAngle: 300,
                         //TODO colorList: colorList,
+//                        colorList: [
+//                          Colors.red,
+//                          Colors.yellow,
+//                          Colors.green,
+//                        ],
                       ),
                     ),
             ],
