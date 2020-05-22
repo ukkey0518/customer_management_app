@@ -3,8 +3,8 @@ import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:flutter/material.dart';
 
-class OneRepeaterBreakDownContent extends StatelessWidget {
-  OneRepeaterBreakDownContent({
+class RepeaterBreakDownContent extends StatelessWidget {
+  RepeaterBreakDownContent({
     @required this.within1MonthRepeaters,
     @required this.within3MonthRepeaters,
     @required this.more4MonthRepeaters,

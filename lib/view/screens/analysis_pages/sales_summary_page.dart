@@ -8,6 +8,7 @@ import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/period_select_tile.dart';
 import 'package:customermanagementapp/view/components/sales_summary_page_widgets/new_visitor_breakdown_card.dart';
 import 'package:customermanagementapp/view/components/sales_summary_page_widgets/one_repeater_breakdown_card.dart';
+import 'package:customermanagementapp/view/components/sales_summary_page_widgets/other_repeater_break_down_card.dart';
 import 'package:customermanagementapp/view/components/sales_summary_page_widgets/ssp_total_part.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,7 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
 
   bool _isNewVisitorListExpand = false;
   bool _isOneRepeaterListExpand = false;
+  bool _isOtherRepeaterListExpand = false;
 
   @override
   void initState() {
@@ -79,11 +81,6 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
       }).toList()}',
     );
 
-    print('NEW: ${widget.visitHistories.getNewVisitors(_vhList).length}');
-    print('ONE: ${widget.visitHistories.getOneRepVisitors(_vhList).length}');
-    print(
-        'OTHER: ${widget.visitHistories.getOtherRepVisitors(_vhList).length}');
-
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -122,7 +119,14 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
                   onExpandChanged: () =>
                       _onOneRepeaterBreakDownExpandButtonTap(),
                 ),
-                //TODO リピート内訳
+                SizedBox(height: 30),
+                // リピート内訳
+                OtherRepeaterBreakDownCard(
+                  vhData: widget.visitHistories.getOtherRepVisitors(_vhList),
+                  isExpanded: _isOtherRepeaterListExpand,
+                  onExpandChanged: () =>
+                      _onOtherRepeaterBreakDownExpandButtonTap(),
+                ),
                 //TODO 男女別
                 //TODO カテゴリ別
               ],
@@ -142,6 +146,12 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
   _onOneRepeaterBreakDownExpandButtonTap() {
     setState(() {
       _isOneRepeaterListExpand = !_isOneRepeaterListExpand;
+    });
+  }
+
+  _onOtherRepeaterBreakDownExpandButtonTap() {
+    setState(() {
+      _isOtherRepeaterListExpand = !_isOtherRepeaterListExpand;
     });
   }
 

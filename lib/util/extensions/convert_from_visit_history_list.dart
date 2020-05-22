@@ -368,11 +368,11 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         Map<String, List<VisitHistory>>();
     var oneRepeaters = List<VisitHistory>();
 
-    if (this.isEmpty || vhList.isEmpty) return dataMap;
-
-    oneRepeaters = vhList.where((vh) {
-      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 2;
-    }).toList();
+    if (this.isNotEmpty || vhList.isNotEmpty) {
+      oneRepeaters = vhList.where((vh) {
+        return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) == 2;
+      }).toList();
+    }
 
     dataMap['1'] =
         ConvertFromVisitHistoryList(this).getRepeaterWithin1Month(oneRepeaters);
@@ -391,11 +391,11 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         Map<String, List<VisitHistory>>();
     var otherRepeaters = List<VisitHistory>();
 
-    if (this.isEmpty || vhList.isEmpty) return dataMap;
-
-    otherRepeaters = vhList.where((vh) {
-      return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) >= 3;
-    }).toList();
+    if (this.isNotEmpty || vhList.isNotEmpty) {
+      otherRepeaters = vhList.where((vh) {
+        return ConvertFromVisitHistoryList(this).getNumOfVisit(vh) >= 3;
+      }).toList();
+    }
 
     dataMap['1'] = ConvertFromVisitHistoryList(this)
         .getRepeaterWithin1Month(otherRepeaters);
