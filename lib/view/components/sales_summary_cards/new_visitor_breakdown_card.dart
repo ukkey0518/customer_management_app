@@ -1,9 +1,7 @@
+import 'package:customermanagementapp/data/visit_reason_data.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/my_divider.dart';
-import 'package:customermanagementapp/view/components/sales_summary_card_rows/average_row.dart';
-import 'package:customermanagementapp/view/components/sales_summary_card_rows/heading_row.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/sales_summary_cards/expandable_breakdown_card.dart';
-import 'package:customermanagementapp/view/components/sales_summary_parts/new_visitor_breakdown_content.dart';
 import 'package:flutter/material.dart';
 
 class NewVisitorBreakDownCard extends StatelessWidget {
@@ -24,18 +22,11 @@ class NewVisitorBreakDownCard extends StatelessWidget {
       isExpanded: isExpanded,
       onExpandButtonTap: onExpandButtonTap,
       isEnable: vhList.isNotEmpty,
-      children: <Widget>[
-        HeadingRow(),
-        isExpanded
-            ? NewVisitorBreakDownContent(
-                vhList: vhList,
-              )
-            : Container(),
-        MyDivider(),
-        AverageRow(
-          vhList: vhList,
-        ),
-      ],
+      dataMap: Map<String, List<VisitHistory>>.fromIterable(
+        visitReasonData,
+        key: (reason) => reason.toString(),
+        value: (reason) => vhList.getDataByVisitReason(reason),
+      ),
     );
   }
 }

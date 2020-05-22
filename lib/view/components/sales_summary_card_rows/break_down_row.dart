@@ -19,6 +19,9 @@ class BreakDownRow extends StatelessWidget {
           flex: 1,
           child: Text(
             title,
+            style: TextStyle(
+              color: vhList.isEmpty ? Colors.grey.shade300 : null,
+            ),
           ),
         ),
         Expanded(
@@ -26,6 +29,9 @@ class BreakDownRow extends StatelessWidget {
           child: Text(
             '${vhList.length} 人',
             textAlign: TextAlign.center,
+            style: TextStyle(
+              color: vhList.isEmpty ? Colors.grey.shade300 : null,
+            ),
           ),
         ),
         Expanded(
@@ -33,6 +39,9 @@ class BreakDownRow extends StatelessWidget {
           child: Text(
             '${vhList.toSumPriceList().getSum().toPriceString()}',
             textAlign: TextAlign.right,
+            style: TextStyle(
+              color: vhList.isEmpty ? Colors.grey.shade300 : null,
+            ),
           ),
         ),
       ],

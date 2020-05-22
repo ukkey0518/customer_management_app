@@ -1,7 +1,4 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/my_divider.dart';
-import 'package:customermanagementapp/view/components/sales_summary_card_rows/break_down_row.dart';
-import 'package:customermanagementapp/view/components/sales_summary_card_rows/heading_row.dart';
 import 'package:customermanagementapp/view/components/sales_summary_cards/fixed_breakdown_card.dart';
 import 'package:flutter/material.dart';
 
@@ -30,22 +27,11 @@ class RepeatersBreakDownCard extends StatelessWidget {
 
     return FixedBreakDownCard(
       title: '新規・リピート別',
-      children: <Widget>[
-        HeadingRow(),
-        MyDivider(),
-        BreakDownRow(
-          title: '新規',
-          vhList: newVisitors,
-        ),
-        BreakDownRow(
-          title: 'ワンリピ',
-          vhList: oneRepeaters,
-        ),
-        BreakDownRow(
-          title: '通常リピ',
-          vhList: otherRepeaters,
-        ),
-      ],
+      dataMap: {
+        '新規': newVisitors,
+        'ワンリピ': oneRepeaters,
+        '通常リピ': otherRepeaters,
+      },
     );
   }
 }

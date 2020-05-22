@@ -1,17 +1,22 @@
+import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/view/components/my_divider.dart';
+import 'package:customermanagementapp/view/components/sales_summary_card_rows/break_down_row.dart';
 import 'package:customermanagementapp/view/components/sales_summary_card_rows/heading_row.dart';
 import 'package:flutter/material.dart';
 
 class FixedBreakDownCard extends StatelessWidget {
   FixedBreakDownCard({
     @required this.title,
-    @required this.children,
+    @required this.dataMap,
   });
 
   final String title;
-  final List<Widget> children;
+  final Map<String, List<VisitHistory>> dataMap;
 
   @override
   Widget build(BuildContext context) {
+    final dataEntry = dataMap.entries.toList();
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
@@ -28,8 +33,16 @@ class FixedBreakDownCard extends StatelessWidget {
             padding: EdgeInsets.all(16),
             child: Column(
               children: <Widget>[
-                HeadingRow(
-
+                HeadingRow(),
+                MyDivider(),
+                Column(
+                  children: List.generate(dataEntry.length, (index) {
+                    final entry = dataEntry[index];
+                    return BreakDownRow(
+                      title: entry.key,
+                      vhList: entry.value,
+                    );
+                  }),
                 ),
               ],
             ),
