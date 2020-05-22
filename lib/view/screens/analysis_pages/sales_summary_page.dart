@@ -6,10 +6,11 @@ import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.
 import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/period_select_tile.dart';
-import 'package:customermanagementapp/view/components/sales_summary_page_widgets/new_visitor_breakdown_card.dart';
-import 'package:customermanagementapp/view/components/sales_summary_page_widgets/one_repeater_breakdown_card.dart';
-import 'package:customermanagementapp/view/components/sales_summary_page_widgets/other_repeater_break_down_card.dart';
-import 'package:customermanagementapp/view/components/sales_summary_page_widgets/ssp_total_part.dart';
+import 'package:customermanagementapp/view/components/sales_summary_cards/new_visitor_breakdown_card.dart';
+import 'package:customermanagementapp/view/components/sales_summary_cards/one_repeater_breakdown_card.dart';
+import 'package:customermanagementapp/view/components/sales_summary_cards/other_repeater_break_down_card.dart';
+import 'package:customermanagementapp/view/components/sales_summary_cards/repeaters_breakdown_card.dart';
+import 'package:customermanagementapp/view/components/sales_summary_parts/ssp_total_part.dart';
 import 'package:flutter/material.dart';
 
 class SalesSummaryPage extends StatefulWidget {
@@ -104,27 +105,32 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
           Expanded(
             child: ListView(
               children: <Widget>[
+                RepeatersBreakDownCard(
+                  newVisitors: widget.visitHistories.getNewVisitors(_vhList),
+                  oneRepeatersData:
+                      widget.visitHistories.getOneRepVisitors(_vhList),
+                  otherRepeatersData:
+                      widget.visitHistories.getOtherRepVisitors(_vhList),
+                ),
                 // 新規内訳
                 NewVisitorBreakDownCard(
                   vhList: widget.visitHistories.getNewVisitors(_vhList),
                   isExpanded: _isNewVisitorListExpand,
-                  onExpandChanged: () =>
+                  onExpandButtonTap: () =>
                       _onNewVisitorsBreakDownExpandButtonTap(),
                 ),
-                SizedBox(height: 30),
                 // ワンリピ内訳
                 OneRepeaterBreakDownCard(
                   vhData: widget.visitHistories.getOneRepVisitors(_vhList),
                   isExpanded: _isOneRepeaterListExpand,
-                  onExpandChanged: () =>
+                  onExpandButtonTap: () =>
                       _onOneRepeaterBreakDownExpandButtonTap(),
                 ),
-                SizedBox(height: 30),
                 // リピート内訳
                 OtherRepeaterBreakDownCard(
                   vhData: widget.visitHistories.getOtherRepVisitors(_vhList),
                   isExpanded: _isOtherRepeaterListExpand,
-                  onExpandChanged: () =>
+                  onExpandButtonTap: () =>
                       _onOtherRepeaterBreakDownExpandButtonTap(),
                 ),
                 //TODO 男女別

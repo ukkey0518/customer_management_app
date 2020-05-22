@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-class SalesSummaryTitlePart extends StatelessWidget {
-  SalesSummaryTitlePart({
+class ExpandableCardTitle extends StatelessWidget {
+  ExpandableCardTitle({
     @required this.title,
     @required this.isExpanded,
-    @required this.onExpandChanged,
+    @required this.onExpandButtonTap,
   });
 
   final String title;
   final bool isExpanded;
-  final VoidCallback onExpandChanged;
+  final VoidCallback onExpandButtonTap;
 
   @override
   Widget build(BuildContext context) {
@@ -18,12 +18,12 @@ class SalesSummaryTitlePart extends StatelessWidget {
         SizedBox(width: 8),
         Text(
           title,
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 16),
           textAlign: TextAlign.left,
         ),
         IconButton(
           icon: isExpanded ? Icon(Icons.expand_less) : Icon(Icons.expand_more),
-          onPressed: () => onExpandChanged(),
+          onPressed: () => onExpandButtonTap(),
         ),
       ],
     );

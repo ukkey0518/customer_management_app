@@ -2,8 +2,8 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-class SalesSummaryTotalPart extends StatelessWidget {
-  SalesSummaryTotalPart({
+class TotalRow extends StatelessWidget {
+  TotalRow({
     @required this.title,
     @required this.vhList,
   });

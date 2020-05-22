@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class SalesSummaryHeadingPart extends StatelessWidget {
-  SalesSummaryHeadingPart({
+class HeadingRow extends StatelessWidget {
+  HeadingRow({
     @required this.title,
     @required this.isExpanded,
   });

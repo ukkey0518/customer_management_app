@@ -2,11 +2,13 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-class SalesSummaryAveragePart extends StatelessWidget {
-  SalesSummaryAveragePart({
+class BreakDownRow extends StatelessWidget {
+  BreakDownRow({
+    @required this.title,
     @required this.vhList,
   });
 
+  final String title;
   final List<VisitHistory> vhList;
 
   @override
@@ -16,17 +18,20 @@ class SalesSummaryAveragePart extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Text(
-            '平均単価',
+            title,
           ),
         ),
         Expanded(
           flex: 1,
-          child: Container(),
+          child: Text(
+            '${vhList.length} 人',
+            textAlign: TextAlign.center,
+          ),
         ),
         Expanded(
           flex: 1,
           child: Text(
-            '${vhList.toSumPriceList().getAverage().toPriceString(1)}',
+            '${vhList.toSumPriceList().getSum().toPriceString()}',
             textAlign: TextAlign.right,
           ),
         ),
