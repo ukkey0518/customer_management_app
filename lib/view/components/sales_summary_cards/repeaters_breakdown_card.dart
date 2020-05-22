@@ -32,6 +32,11 @@ class RepeatersBreakDownCard extends StatelessWidget {
         'ワンリピ': oneRepeaters,
         '通常リピ': otherRepeaters,
       },
+      colorList: [
+        Colors.redAccent,
+        Colors.greenAccent,
+        Colors.blueAccent,
+      ],
     );
   }
 }

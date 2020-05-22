@@ -5,20 +5,17 @@ class SalesSummaryCardPieCharts extends StatelessWidget {
   SalesSummaryCardPieCharts({
     @required this.numberOfVisitorDataMap,
     @required this.priceDataMap,
+    @required this.isEmpty,
     this.colorList,
   });
 
   final Map<String, double> numberOfVisitorDataMap;
   final Map<String, double> priceDataMap;
   final List<Color> colorList;
+  final bool isEmpty;
 
   @override
   Widget build(BuildContext context) {
-    final isEmpty = numberOfVisitorDataMap.entries
-            .reduce((v, e) => MapEntry('result', v.value + e.value))
-            .value ==
-        0.0;
-
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
@@ -49,12 +46,7 @@ class SalesSummaryCardPieCharts extends StatelessWidget {
                         dataMap: numberOfVisitorDataMap,
                         showLegends: false,
                         initialAngle: 300,
-                        //TODO colorList: colorList,
-//                        colorList: [
-//                          Colors.red,
-//                          Colors.yellow,
-//                          Colors.green,
-//                        ],
+                        colorList: colorList,
                       ),
                     ),
             ],
@@ -87,12 +79,7 @@ class SalesSummaryCardPieCharts extends StatelessWidget {
                         dataMap: priceDataMap,
                         showLegends: false,
                         initialAngle: 300,
-                        //TODO colorList: colorList,
-//                        colorList: [
-//                          Colors.red,
-//                          Colors.yellow,
-//                          Colors.green,
-//                        ],
+                        colorList: colorList,
                       ),
                     ),
             ],

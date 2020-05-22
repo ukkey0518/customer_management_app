@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_color.dart';
 import 'package:customermanagementapp/view/components/sales_summary_cards/expandable_breakdown_card.dart';
 import 'package:flutter/material.dart';
 
@@ -30,6 +31,11 @@ class OneRepeaterBreakDownCard extends StatelessWidget {
         '３ヶ月以内': vhData['3'],
         '４ヶ月以上': vhData['more'],
       },
+      colorList: [
+        ConvertFromColor.fromHex('#7baa17'),
+        ConvertFromColor.fromHex('#a4ca68'),
+        ConvertFromColor.fromHex('#ccde68'),
+      ],
     );
   }
 }

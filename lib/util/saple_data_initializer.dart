@@ -20,6 +20,8 @@ class SampleDataInitializer {
 
   SampleDataInitializer._internal();
 
+  static final reasons = visitReasonData.keys.toList();
+
   // [初期データ：顧客]
   static final List<Customer> _initCustomers = [
     Customer(
@@ -28,7 +30,7 @@ class SampleDataInitializer {
       nameReading: 'かすたまーA',
       isGenderFemale: true,
       birth: DateTime(1996, 5, 18),
-      visitReason: visitReasonData[0],
+      visitReason: reasons[0],
     ),
     Customer(
       id: 2,
@@ -36,7 +38,7 @@ class SampleDataInitializer {
       nameReading: 'かすたまーB',
       isGenderFemale: false,
       birth: DateTime(1990, 1, 1),
-      visitReason: visitReasonData[5],
+      visitReason: reasons[5],
     ),
     Customer(
       id: 3,
@@ -44,7 +46,7 @@ class SampleDataInitializer {
       nameReading: 'かすたまーC',
       isGenderFemale: true,
       birth: DateTime(1989, 10, 26),
-      visitReason: visitReasonData[3],
+      visitReason: reasons[3],
     ),
   ];
 

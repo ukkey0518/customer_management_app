@@ -98,7 +98,7 @@ class CustomerEditScreen extends StatelessWidget {
                       formTitle: 'その他情報',
                       items: <String, InputWidget>{
                         '来店動機（長押しでクリア）': SingleItemSelectPicker(
-                          items: visitReasonData,
+                          items: visitReasonData.keys.toList(),
                           isClearable: true,
                           selectedItem: viewModel.selectedVisitReason,
                           onConfirm: (visitReason) =>

@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/sales_summary_cards/expandable_breakdown_card.dart';
 import 'package:flutter/material.dart';
 
@@ -29,6 +30,11 @@ class OtherRepeaterBreakDownCard extends StatelessWidget {
         '３ヶ月以内': vhData['3'],
         '４ヶ月以上': vhData['more'],
       },
+      colorList: [
+        ConvertFromColor.fromHex('#0086ad'),
+        ConvertFromColor.fromHex('#68a5da'),
+        ConvertFromColor.fromHex('#a2d7dd'),
+      ],
     );
   }
 }

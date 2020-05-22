@@ -11,10 +11,12 @@ class FixedBreakDownCard extends StatelessWidget {
   FixedBreakDownCard({
     @required this.title,
     @required this.dataMap,
+    @required this.colorList,
   });
 
   final String title;
   final Map<String, List<VisitHistory>> dataMap;
+  final List<Color> colorList;
 
   @override
   Widget build(BuildContext context) {
@@ -34,6 +36,11 @@ class FixedBreakDownCard extends StatelessWidget {
           .getSum()
           .toDouble(),
     );
+
+    final isEmpty = numOfVisitorsDataMap.entries
+            .reduce((v, e) => MapEntry('result', v.value + e.value))
+            .value ==
+        0.0;
 
     print('novDataMap: $numOfVisitorsDataMap');
     print('priDataMap: $priceDataMap');
@@ -70,7 +77,8 @@ class FixedBreakDownCard extends StatelessWidget {
                 SalesSummaryCardPieCharts(
                   numberOfVisitorDataMap: numOfVisitorsDataMap,
                   priceDataMap: priceDataMap,
-                  //TODO colorListの指定
+                  colorList: colorList,
+                  isEmpty: isEmpty,
                 ),
               ],
             ),

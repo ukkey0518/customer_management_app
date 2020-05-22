@@ -23,10 +23,11 @@ class NewVisitorBreakDownCard extends StatelessWidget {
       onExpandButtonTap: onExpandButtonTap,
       isEnable: vhList.isNotEmpty,
       dataMap: Map<String, List<VisitHistory>>.fromIterable(
-        visitReasonData,
+        visitReasonData.keys.toList(),
         key: (reason) => reason.toString(),
         value: (reason) => vhList.getDataByVisitReason(reason),
       ),
+      colorList: visitReasonData.values.toList(),
     );
   }
 }

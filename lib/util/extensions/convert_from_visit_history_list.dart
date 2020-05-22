@@ -454,7 +454,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [取得：この来店履歴リストから来店理由に一致するデータをすべて取得する]
   List<VisitHistory> getDataByVisitReason(String visitReason) {
-    if (!visitReasonData.contains(visitReason)) {
+    if (!visitReasonData.keys.contains(visitReason)) {
       throw Exception('登録済みのvisitReasonDataに含まれない文字列: $visitReason');
     }
 

@@ -13,15 +13,17 @@ class ExpandableBreakDownCard extends StatelessWidget {
   ExpandableBreakDownCard({
     @required this.title,
     @required this.dataMap,
+    @required this.colorList,
     @required this.isExpanded,
     @required this.onExpandButtonTap,
     this.isEnable = true,
   });
 
   final String title;
+  final Map<String, List<VisitHistory>> dataMap;
+  final List<Color> colorList;
   final bool isExpanded;
   final VoidCallback onExpandButtonTap;
-  final Map<String, List<VisitHistory>> dataMap;
   final bool isEnable;
 
   @override
@@ -46,6 +48,12 @@ class ExpandableBreakDownCard extends StatelessWidget {
           .toDouble(),
     );
 
+    final isEmpty = numOfVisitorsDataMap.entries
+            .reduce((v, e) => MapEntry('result', v.value + e.value))
+            .value ==
+        0.0;
+    var expandFlag = isEmpty ? false : isExpanded;
+
     print('novDataMap: $numOfVisitorsDataMap');
     print('priDataMap: $priceDataMap');
 
@@ -56,11 +64,11 @@ class ExpandableBreakDownCard extends StatelessWidget {
           children: <Widget>[
             ExpandableCardTitle(
               title: title,
-              isExpanded: isExpanded,
+              isExpanded: expandFlag,
               onExpandButtonTap: onExpandButtonTap,
               isEnable: isEnable,
             ),
-            isExpanded
+            expandFlag
                 ? Padding(
                     padding: const EdgeInsets.all(12.0),
                     child: Column(
@@ -84,7 +92,8 @@ class ExpandableBreakDownCard extends StatelessWidget {
                         SalesSummaryCardPieCharts(
                           numberOfVisitorDataMap: numOfVisitorsDataMap,
                           priceDataMap: priceDataMap,
-                          //TODO colorListの指定
+                          colorList: colorList,
+                          isEmpty: isEmpty,
                         ),
                       ],
                     ),
