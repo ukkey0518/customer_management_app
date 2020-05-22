@@ -168,6 +168,9 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
     } else {
       _date = date;
     }
+    _isNewVisitorListExpand = false;
+    _isOneRepeaterListExpand = false;
+    _isOtherRepeaterListExpand = false;
     _getByPeriod();
   }
 
@@ -178,6 +181,9 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
     } else {
       _date = date;
     }
+    _isNewVisitorListExpand = false;
+    _isOneRepeaterListExpand = false;
+    _isOtherRepeaterListExpand = false;
     _getByPeriod();
   }
 
@@ -191,6 +197,9 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
         maxDate: _maxDate,
       ),
     ).then((pair) {
+      _isNewVisitorListExpand = false;
+      _isOneRepeaterListExpand = false;
+      _isOtherRepeaterListExpand = false;
       _periodMode = pair['mode'];
       _date = pair['date'];
       _getByPeriod();
