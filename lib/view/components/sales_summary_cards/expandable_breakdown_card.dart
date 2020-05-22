@@ -1,4 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/sales_summary_card_rows/average_row.dart';
 import 'package:customermanagementapp/view/components/sales_summary_card_rows/break_down_row.dart';
@@ -27,6 +29,24 @@ class ExpandableBreakDownCard extends StatelessWidget {
     final allData = dataMap.values.reduce((v, e) {
       return e.isNotEmpty ? (v..addAll(e)) : v;
     }).toList();
+
+    final numOfVisitorsDataMap = Map<String, double>.fromIterable(
+      dataEntry,
+      key: (entry) => entry.key,
+      value: (entry) => entry.value.length.toDouble(),
+    );
+
+    final priceDataMap = Map<String, double>.fromIterable(
+      dataEntry,
+      key: (entry) => entry.key,
+      value: (entry) => ConvertFromVisitHistoryList(entry.value)
+          .toSumPriceList()
+          .getSum()
+          .toDouble(),
+    );
+
+    print('novDataMap: $numOfVisitorsDataMap');
+    print('priDataMap: $priceDataMap');
 
     return Card(
       child: Container(
