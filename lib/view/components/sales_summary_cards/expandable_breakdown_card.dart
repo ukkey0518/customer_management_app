@@ -5,6 +5,7 @@ import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/sales_summary_card_parts/average_row.dart';
 import 'package:customermanagementapp/view/components/sales_summary_card_parts/break_down_row.dart';
 import 'package:customermanagementapp/view/components/sales_summary_card_parts/heading_row.dart';
+import 'package:customermanagementapp/view/components/sales_summary_card_parts/sales_summary_card_pie_chart.dart';
 import 'package:customermanagementapp/view/components/sales_summary_parts/expandable_card_title.dart';
 import 'package:flutter/material.dart';
 
@@ -77,6 +78,13 @@ class ExpandableBreakDownCard extends StatelessWidget {
                         MyDivider(),
                         AverageRow(
                           vhList: allData,
+                        ),
+                        SizedBox(height: 16),
+                        MyDivider(),
+                        SalesSummaryCardPieCharts(
+                          numberOfVisitorDataMap: numOfVisitorsDataMap,
+                          priceDataMap: priceDataMap,
+                          //TODO colorListの指定
                         ),
                       ],
                     ),
