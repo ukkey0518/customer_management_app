@@ -5,10 +5,12 @@ import 'package:flutter/material.dart';
 class BreakDownRow extends StatelessWidget {
   BreakDownRow({
     @required this.title,
+    @required this.textColor,
     @required this.vhList,
   });
 
   final String title;
+  final Color textColor;
   final List<VisitHistory> vhList;
 
   @override
@@ -17,10 +19,22 @@ class BreakDownRow extends StatelessWidget {
       children: <Widget>[
         Expanded(
           flex: 1,
-          child: Text(
-            title,
-            style: TextStyle(
-              color: vhList.isEmpty ? Colors.grey.shade300 : null,
+          child: Text.rich(
+            TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: '■',
+                  style: TextStyle(
+                    color: vhList.isEmpty ? Colors.grey.shade300 : textColor,
+                  ),
+                ),
+                TextSpan(
+                  text: title,
+                  style: TextStyle(
+                    color: vhList.isEmpty ? Colors.grey.shade300 : null,
+                  ),
+                )
+              ],
             ),
           ),
         ),

@@ -69,6 +69,7 @@ class FixedBreakDownCard extends StatelessWidget {
                     return BreakDownRow(
                       title: entry.key,
                       vhList: entry.value,
+                      textColor: colorList[index],
                     );
                   }),
                 ),

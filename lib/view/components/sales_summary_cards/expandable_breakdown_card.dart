@@ -80,12 +80,9 @@ class ExpandableBreakDownCard extends StatelessWidget {
                             return BreakDownRow(
                               title: dataEntry[index].key,
                               vhList: dataEntry[index].value,
+                              textColor: colorList[index],
                             );
                           }),
-                        ),
-                        MyDivider(),
-                        AverageRow(
-                          vhList: allData,
                         ),
                         SizedBox(height: 16),
                         MyDivider(),
@@ -94,6 +91,11 @@ class ExpandableBreakDownCard extends StatelessWidget {
                           priceDataMap: priceDataMap,
                           colorList: colorList,
                           isEmpty: isEmpty,
+                        ),
+                        SizedBox(height: 16),
+                        MyDivider(),
+                        AverageRow(
+                          vhList: allData,
                         ),
                       ],
                     ),
