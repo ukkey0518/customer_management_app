@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/view/components/sales_summary_card_rows/heading_row.dart';
 import 'package:flutter/material.dart';
 
 class FixedBreakDownCard extends StatelessWidget {
@@ -26,7 +27,11 @@ class FixedBreakDownCard extends StatelessWidget {
           child: Container(
             padding: EdgeInsets.all(16),
             child: Column(
-              children: children,
+              children: <Widget>[
+                HeadingRow(
+
+                ),
+              ],
             ),
           ),
         ),

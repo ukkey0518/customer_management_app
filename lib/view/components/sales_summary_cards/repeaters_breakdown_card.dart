@@ -31,10 +31,7 @@ class RepeatersBreakDownCard extends StatelessWidget {
     return FixedBreakDownCard(
       title: '新規・リピート別',
       children: <Widget>[
-        HeadingRow(
-          title: '分類',
-          isExpanded: true,
-        ),
+        HeadingRow(),
         MyDivider(),
         BreakDownRow(
           title: '新規',

@@ -29,10 +29,7 @@ class OtherRepeaterBreakDownCard extends StatelessWidget {
       onExpandButtonTap: onExpandButtonTap,
       isEnable: allOtherRepeater.isNotEmpty,
       children: <Widget>[
-        HeadingRow(
-          title: '',
-          isExpanded: isExpanded,
-        ),
+        HeadingRow(),
         isExpanded
             ? RepeaterBreakDownContent(
                 within1MonthRepeaters: vhData['1'],

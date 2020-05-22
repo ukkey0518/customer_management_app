@@ -1,14 +1,6 @@
 import 'package:flutter/material.dart';
 
 class HeadingRow extends StatelessWidget {
-  HeadingRow({
-    @required this.title,
-    @required this.isExpanded,
-  });
-
-  final String title;
-  final bool isExpanded;
-
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -16,7 +8,7 @@ class HeadingRow extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Text(
-            isExpanded ? title : '',
+            '分類',
             textAlign: TextAlign.center,
           ),
         ),

@@ -25,10 +25,7 @@ class NewVisitorBreakDownCard extends StatelessWidget {
       onExpandButtonTap: onExpandButtonTap,
       isEnable: vhList.isNotEmpty,
       children: <Widget>[
-        HeadingRow(
-          title: '来店動機',
-          isExpanded: isExpanded,
-        ),
+        HeadingRow(),
         isExpanded
             ? NewVisitorBreakDownContent(
                 vhList: vhList,
