@@ -9,7 +9,6 @@ export 'convert_from_map.dart';
 export 'convert_from_mbc_list.dart';
 export 'convert_from_menu_list.dart';
 export 'convert_from_string.dart';
-export 'convert_from_string_list.dart';
 export 'convert_from_vhbc_list.dart';
 export 'convert_from_visit_history.dart';
 export 'convert_from_visit_history_list.dart';
