@@ -34,6 +34,7 @@ class AnalysisScreen extends StatelessWidget {
               children: <Widget>[
                 SalesSummaryPage(
                   visitHistories: vm.visitHistories,
+                  menuCategories: vm.menuCategories,
                 ),
                 TransitionGraphPage(
                   visitHistories: vm.visitHistories,

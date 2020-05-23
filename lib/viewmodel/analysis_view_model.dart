@@ -11,18 +11,23 @@ class AnalysisViewModel extends ChangeNotifier {
 
   List<VisitHistory> get visitHistories => _visitHistories;
 
+  List<MenuCategory> _menuCategories = List();
+  List<MenuCategory> get menuCategories => _menuCategories;
+
   getVisitHistories() async {
     print('[VM: 分析画面] getVisitHistories');
 
     await _gRep.getData();
 
     _visitHistories = _gRep.visitHistories;
+    _menuCategories = _gRep.menuCategories;
   }
 
   onRepositoryUpdated(GlobalRepository gRep) {
     print('[VM: 分析画面] onRepositoryUpdated');
 
     _visitHistories = gRep.visitHistories;
+    _menuCategories = gRep.menuCategories;
     notifyListeners();
   }
 

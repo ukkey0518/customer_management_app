@@ -13,9 +13,13 @@ import 'package:customermanagementapp/view/screens/analysis_pages/summary_pages/
 import 'package:flutter/material.dart';
 
 class SalesSummaryPage extends StatefulWidget {
-  SalesSummaryPage({@required this.visitHistories});
+  SalesSummaryPage({
+    @required this.visitHistories,
+    @required this.menuCategories,
+  });
 
   final List<VisitHistory> visitHistories;
+  final List<MenuCategory> menuCategories;
 
   @override
   _SalesSummaryPageState createState() => _SalesSummaryPageState();
