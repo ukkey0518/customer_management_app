@@ -424,12 +424,12 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
     dataMap['new'] =
         ConvertFromVisitHistoryList(this).getNewVisitors(maleVisitors);
-    dataMap['1'] =
-        ConvertFromVisitHistoryList(this).getRepeaterWithin1Month(maleVisitors);
-    dataMap['3'] =
-        ConvertFromVisitHistoryList(this).getRepeaterWithin3Month(maleVisitors);
-    dataMap['more'] =
-        ConvertFromVisitHistoryList(this).getRepeaterMore4Month(maleVisitors);
+    dataMap['one'] = ConvertFromVisitHistoryList(this)
+        .getOneRepVisitors(maleVisitors)
+        .toAllVisitHistories();
+    dataMap['other'] = ConvertFromVisitHistoryList(this)
+        .getOtherRepVisitors(maleVisitors)
+        .toAllVisitHistories();
 
     return dataMap;
   }
@@ -449,12 +449,12 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
     dataMap['new'] =
         ConvertFromVisitHistoryList(this).getNewVisitors(femaleVisitors);
-    dataMap['1'] = ConvertFromVisitHistoryList(this)
-        .getRepeaterWithin1Month(femaleVisitors);
-    dataMap['3'] = ConvertFromVisitHistoryList(this)
-        .getRepeaterWithin3Month(femaleVisitors);
-    dataMap['more'] =
-        ConvertFromVisitHistoryList(this).getRepeaterMore4Month(femaleVisitors);
+    dataMap['one'] = ConvertFromVisitHistoryList(this)
+        .getOneRepVisitors(femaleVisitors)
+        .toAllVisitHistories();
+    dataMap['other'] = ConvertFromVisitHistoryList(this)
+        .getOtherRepVisitors(femaleVisitors)
+        .toAllVisitHistories();
 
     return dataMap;
   }

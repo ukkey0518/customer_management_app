@@ -29,9 +29,8 @@ class ExpandableBreakDownCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final dataEntry = dataMap.entries.toList();
-    final allData = dataMap.values.reduce((v, e) {
-      return e.isNotEmpty ? (v..addAll(e)) : v;
-    }).toList();
+
+    final allData = dataMap.toAllVisitHistories();
 
     final numOfVisitorsDataMap = Map<String, double>.fromIterable(
       dataEntry,

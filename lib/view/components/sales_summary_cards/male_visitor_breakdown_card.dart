@@ -3,8 +3,8 @@ import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/sales_summary_cards/expandable_breakdown_card.dart';
 import 'package:flutter/material.dart';
 
-class OtherRepeaterBreakDownCard extends StatelessWidget {
-  OtherRepeaterBreakDownCard({
+class MaleVisitorBreakDownCard extends StatelessWidget {
+  MaleVisitorBreakDownCard({
     @required this.vhData,
     @required this.isExpanded,
     @required this.onExpandButtonTap,
@@ -16,22 +16,22 @@ class OtherRepeaterBreakDownCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final List<VisitHistory> allOtherRepeater = vhData.toAllVisitHistories();
+    final List<VisitHistory> allMaleVisitors = vhData.toAllVisitHistories();
 
     return ExpandableBreakDownCard(
-      title: '通常リピ内訳',
+      title: '男性客内訳',
       isExpanded: isExpanded,
       onExpandButtonTap: onExpandButtonTap,
-      isEnable: allOtherRepeater.isNotEmpty,
+      isEnable: allMaleVisitors.isNotEmpty,
       dataMap: {
-        '１ヶ月以内': vhData['1'],
-        '３ヶ月以内': vhData['3'],
-        '４ヶ月以上': vhData['more'],
+        '新規': vhData['new'],
+        'ワンリピ': vhData['one'],
+        '通常リピ': vhData['other'],
       },
       colorList: [
-        ConvertFromColor.fromHex('#0086ad'),
-        ConvertFromColor.fromHex('#68a5da'),
-        ConvertFromColor.fromHex('#a2d7dd'),
+        ConvertFromColor.fromHex('#79ffff'),
+        ConvertFromColor.fromHex('#5ad6fa'),
+        ConvertFromColor.fromHex('#00acff'),
       ],
     );
   }

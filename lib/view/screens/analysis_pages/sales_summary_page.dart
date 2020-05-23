@@ -147,8 +147,10 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
         maxDate: _maxDate,
       ),
     ).then((pair) {
-      _periodMode = pair['mode'];
-      _date = pair['date'];
+      if (pair != null) {
+        _periodMode = pair['mode'];
+        _date = pair['date'];
+      }
       _reloadList();
     });
   }

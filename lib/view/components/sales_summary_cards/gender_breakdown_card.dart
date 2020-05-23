@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/sales_summary_cards/fixed_breakdown_card.dart';
 import 'package:flutter/material.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 class GenderBreakDownCard extends StatelessWidget {
   GenderBreakDownCard(
@@ -12,14 +13,10 @@ class GenderBreakDownCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final List<VisitHistory> maleVisitors =
-        maleVisitorsData.values.reduce((v, e) {
-      return e.isNotEmpty ? (v..addAll(e)) : v;
-    }).toList();
+        maleVisitorsData.toAllVisitHistories();
 
     final List<VisitHistory> femaleVisitors =
-        femaleVisitorsData.values.reduce((v, e) {
-      return e.isNotEmpty ? (v..addAll(e)) : v;
-    }).toList();
+        femaleVisitorsData.toAllVisitHistories();
 
     return FixedBreakDownCard(
       dataMap: {
