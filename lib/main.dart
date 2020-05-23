@@ -21,9 +21,10 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // サンプルデータ初期化
     WidgetsBinding.instance.addPostFrameCallback((_) async {
+      // サンプルデータ初期化
       initializer.initialize(context);
+      // ロケールの設定
       Intl.defaultLocale = 'ja_JP';
       await initializeDateFormatting('ja_JP');
     });
