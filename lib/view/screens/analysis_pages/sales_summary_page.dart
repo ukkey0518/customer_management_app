@@ -71,10 +71,13 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
 
     final Map<String, Widget> tabsData = {
       'リピート別': RepeatSummaryPage(
-        allVisitHistory: widget.visitHistories,
+        allVisitHistories: widget.visitHistories,
         vhList: _vhList,
       ),
-      '男女別': GenderSummaryPage(),
+      '男女別': GenderSummaryPage(
+        allVisitHistories: widget.visitHistories,
+        vhList: _vhList,
+      ),
       'カテゴリ別': CategorySummaryPage(),
     };
 

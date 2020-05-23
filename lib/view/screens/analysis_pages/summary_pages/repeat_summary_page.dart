@@ -8,11 +8,11 @@ import 'package:flutter/material.dart';
 
 class RepeatSummaryPage extends StatefulWidget {
   RepeatSummaryPage({
-    @required this.allVisitHistory,
+    @required this.allVisitHistories,
     @required this.vhList,
   });
 
-  final List<VisitHistory> allVisitHistory;
+  final List<VisitHistory> allVisitHistories;
   final List<VisitHistory> vhList;
 
   @override
@@ -30,15 +30,15 @@ class _RepeatSummaryPageState extends State<RepeatSummaryPage> {
       child: ListView(
         children: <Widget>[
           RepeatersBreakDownCard(
-            newVisitors: widget.allVisitHistory.getNewVisitors(widget.vhList),
+            newVisitors: widget.allVisitHistories.getNewVisitors(widget.vhList),
             oneRepeatersData:
-                widget.allVisitHistory.getOneRepVisitors(widget.vhList),
+                widget.allVisitHistories.getOneRepVisitors(widget.vhList),
             otherRepeatersData:
-                widget.allVisitHistory.getOtherRepVisitors(widget.vhList),
+                widget.allVisitHistories.getOtherRepVisitors(widget.vhList),
           ),
           // 新規内訳
           NewVisitorBreakDownCard(
-            vhList: widget.allVisitHistory.getNewVisitors(widget.vhList),
+            vhList: widget.allVisitHistories.getNewVisitors(widget.vhList),
             isExpanded: isNewVisitorListExpand,
             onExpandButtonTap: () {
               setState(() {
@@ -48,7 +48,7 @@ class _RepeatSummaryPageState extends State<RepeatSummaryPage> {
           ),
           // ワンリピ内訳
           OneRepeaterBreakDownCard(
-            vhData: widget.allVisitHistory.getOneRepVisitors(widget.vhList),
+            vhData: widget.allVisitHistories.getOneRepVisitors(widget.vhList),
             isExpanded: isOneRepeaterListExpand,
             onExpandButtonTap: () {
               setState(() {
@@ -58,7 +58,7 @@ class _RepeatSummaryPageState extends State<RepeatSummaryPage> {
           ),
           // リピート内訳
           OtherRepeaterBreakDownCard(
-            vhData: widget.allVisitHistory.getOtherRepVisitors(widget.vhList),
+            vhData: widget.allVisitHistories.getOtherRepVisitors(widget.vhList),
             isExpanded: isOtherRepeaterListExpand,
             onExpandButtonTap: () {
               setState(() {

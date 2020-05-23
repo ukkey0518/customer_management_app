@@ -339,6 +339,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
     return vhList.where((vh) {
       final slv = ConvertFromVisitHistoryList(this).getSinceLastVisit(vh);
+      if (slv == null) return false;
       return 1 < slv && slv <= 3;
     }).toList();
   }
@@ -349,6 +350,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
     return vhList.where((vh) {
       final slv = ConvertFromVisitHistoryList(this).getSinceLastVisit(vh);
+      if (slv == null) return false;
       return 4 <= slv;
     }).toList();
   }
@@ -403,6 +405,52 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         .getRepeaterWithin3Month(otherRepeaters);
     dataMap['more'] =
         ConvertFromVisitHistoryList(this).getRepeaterMore4Month(otherRepeaters);
+
+    return dataMap;
+  }
+
+  // [取得：すべての男性顧客の来店履歴を取得する]
+  Map<String, List<VisitHistory>> getMaleVisitors(List<VisitHistory> vhList) {
+    final Map<String, List<VisitHistory>> dataMap =
+        Map<String, List<VisitHistory>>();
+    var maleVisitors = List<VisitHistory>();
+
+    if (this.isNotEmpty || vhList.isNotEmpty) {
+      maleVisitors = vhList.where((vh) {
+        return ConvertFromJson(vh.customerJson).toCustomer().isGenderFemale ==
+            false;
+      }).toList();
+    }
+
+    dataMap['1'] =
+        ConvertFromVisitHistoryList(this).getRepeaterWithin1Month(maleVisitors);
+    dataMap['3'] =
+        ConvertFromVisitHistoryList(this).getRepeaterWithin3Month(maleVisitors);
+    dataMap['more'] =
+        ConvertFromVisitHistoryList(this).getRepeaterMore4Month(maleVisitors);
+
+    return dataMap;
+  }
+
+  // [取得：すべての女性顧客の来店履歴を取得する]
+  Map<String, List<VisitHistory>> getFemaleVisitors(List<VisitHistory> vhList) {
+    final Map<String, List<VisitHistory>> dataMap =
+        Map<String, List<VisitHistory>>();
+    var femaleVisitors = List<VisitHistory>();
+
+    if (this.isNotEmpty || vhList.isNotEmpty) {
+      femaleVisitors = vhList.where((vh) {
+        return ConvertFromJson(vh.customerJson).toCustomer().isGenderFemale ==
+            true;
+      }).toList();
+    }
+
+    dataMap['1'] = ConvertFromVisitHistoryList(this)
+        .getRepeaterWithin1Month(femaleVisitors);
+    dataMap['3'] = ConvertFromVisitHistoryList(this)
+        .getRepeaterWithin3Month(femaleVisitors);
+    dataMap['more'] =
+        ConvertFromVisitHistoryList(this).getRepeaterMore4Month(femaleVisitors);
 
     return dataMap;
   }
