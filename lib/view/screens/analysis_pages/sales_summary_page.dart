@@ -5,6 +5,7 @@ import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
 import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
+import 'package:customermanagementapp/view/components/page_select_tabs.dart';
 import 'package:customermanagementapp/view/components/period_select_tile.dart';
 import 'package:customermanagementapp/view/components/sales_summary_cards/new_visitor_breakdown_card.dart';
 import 'package:customermanagementapp/view/components/sales_summary_cards/one_repeater_breakdown_card.dart';
@@ -33,6 +34,14 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
   bool _isNewVisitorListExpand = false;
   bool _isOneRepeaterListExpand = false;
   bool _isOtherRepeaterListExpand = false;
+
+  final tabs = [
+    'リピート別',
+    '男女別',
+    'カテゴリ別',
+  ];
+
+  String selectedTab = 'リピート別';
 
   @override
   void initState() {
@@ -102,6 +111,15 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
           MyDivider(height: 16),
           SSPTotalPart(vhList: _vhList),
           MyDivider(height: 16),
+          PageSelectTabs(
+            tabs: tabs,
+            selectedValue: selectedTab,
+            onChanged: (value) {
+              setState(() {
+                selectedTab = value;
+              });
+            },
+          ),
           Expanded(
             child: ListView(
               children: <Widget>[
