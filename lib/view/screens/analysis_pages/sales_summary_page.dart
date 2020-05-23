@@ -82,7 +82,11 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
         allVisitHistories: widget.visitHistories,
         vhList: _vhList,
       ),
-      'カテゴリ別': CategorySummaryPage(),
+      'カテゴリ別': CategorySummaryPage(
+        menuCategories: widget.menuCategories,
+        allVisitHistories: widget.visitHistories,
+        vhList: _vhList,
+      ),
     };
 
     return Padding(
