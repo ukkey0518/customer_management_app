@@ -422,6 +422,8 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       }).toList();
     }
 
+    dataMap['new'] =
+        ConvertFromVisitHistoryList(this).getNewVisitors(maleVisitors);
     dataMap['1'] =
         ConvertFromVisitHistoryList(this).getRepeaterWithin1Month(maleVisitors);
     dataMap['3'] =
@@ -445,6 +447,8 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       }).toList();
     }
 
+    dataMap['new'] =
+        ConvertFromVisitHistoryList(this).getNewVisitors(femaleVisitors);
     dataMap['1'] = ConvertFromVisitHistoryList(this)
         .getRepeaterWithin1Month(femaleVisitors);
     dataMap['3'] = ConvertFromVisitHistoryList(this)

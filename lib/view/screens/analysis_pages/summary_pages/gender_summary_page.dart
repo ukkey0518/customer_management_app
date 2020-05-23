@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/view/components/sales_summary_cards/gender_breakdown_card.dart';
 import 'package:flutter/material.dart';
 
 class GenderSummaryPage extends StatefulWidget {
@@ -38,7 +39,18 @@ class _GenderSummaryPageState extends State<GenderSummaryPage> {
     );
 
     return Container(
-      child: Center(child: Text('GenderSummaryPage')),
+      child: Expanded(
+        child: ListView(
+          children: <Widget>[
+            GenderBreakDownCard(
+              maleVisitorsData:
+                  widget.allVisitHistories.getMaleVisitors(widget.vhList),
+              femaleVisitorsData:
+                  widget.allVisitHistories.getFemaleVisitors(widget.vhList),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
