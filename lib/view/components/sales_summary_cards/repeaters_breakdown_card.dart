@@ -26,7 +26,6 @@ class RepeatersBreakDownCard extends StatelessWidget {
     }).toList();
 
     return FixedBreakDownCard(
-      title: '新規・リピート別',
       dataMap: {
         '新規': newVisitors,
         'ワンリピ': oneRepeaters,

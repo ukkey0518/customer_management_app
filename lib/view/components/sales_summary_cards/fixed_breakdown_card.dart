@@ -9,12 +9,10 @@ import 'package:flutter/material.dart';
 
 class FixedBreakDownCard extends StatelessWidget {
   FixedBreakDownCard({
-    @required this.title,
     @required this.dataMap,
     @required this.colorList,
   });
 
-  final String title;
   final Map<String, List<VisitHistory>> dataMap;
   final List<Color> colorList;
 
@@ -45,47 +43,34 @@ class FixedBreakDownCard extends StatelessWidget {
     print('novDataMap: $numOfVisitorsDataMap');
     print('priDataMap: $priceDataMap');
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Padding(
-          padding: const EdgeInsets.only(left: 8.0),
-          child: Text(
-            title,
-            style: TextStyle(fontSize: 18),
-            textAlign: TextAlign.left,
-          ),
-        ),
-        Card(
-          child: Container(
-            padding: EdgeInsets.all(16),
-            child: Column(
-              children: <Widget>[
-                HeadingRow(),
-                MyDivider(),
-                Column(
-                  children: List.generate(dataEntry.length, (index) {
-                    final entry = dataEntry[index];
-                    return BreakDownRow(
-                      title: entry.key,
-                      vhList: entry.value,
-                      textColor: colorList[index],
-                    );
-                  }),
-                ),
-                SizedBox(height: 16),
-                MyDivider(),
-                SalesSummaryCardPieCharts(
-                  numberOfVisitorDataMap: numOfVisitorsDataMap,
-                  priceDataMap: priceDataMap,
-                  colorList: colorList,
-                  isEmpty: isEmpty,
-                ),
-              ],
+    return Card(
+      child: Container(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          children: <Widget>[
+            HeadingRow(),
+            MyDivider(),
+            Column(
+              children: List.generate(dataEntry.length, (index) {
+                final entry = dataEntry[index];
+                return BreakDownRow(
+                  title: entry.key,
+                  vhList: entry.value,
+                  textColor: colorList[index],
+                );
+              }),
             ),
-          ),
+            SizedBox(height: 16),
+            MyDivider(),
+            SalesSummaryCardPieCharts(
+              numberOfVisitorDataMap: numOfVisitorsDataMap,
+              priceDataMap: priceDataMap,
+              colorList: colorList,
+              isEmpty: isEmpty,
+            ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
