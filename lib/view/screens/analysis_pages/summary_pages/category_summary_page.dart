@@ -25,8 +25,16 @@ class _CategorySummaryPageState extends State<CategorySummaryPage> {
       print('${key.name} : ${value.map((menu) => menu.name)}');
     });
 
-    return MenuListBreakDownCard(
-      menuData: dataMap,
+    return Container(
+      child: Expanded(
+        child: ListView(
+          children: [
+            MenuListBreakDownCard(
+              menuData: dataMap,
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
