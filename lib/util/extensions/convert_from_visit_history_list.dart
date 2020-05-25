@@ -459,6 +459,21 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     return dataMap;
   }
 
+  // [取得：売り上がったすべてのメニューを取得する]
+  List<Menu> getAllSoldMenus() {
+    final dataList = List<Menu>();
+
+    final vhList = List<VisitHistory>.from(this);
+
+    if (this.isNotEmpty) {
+      vhList.forEach((vh) {
+        final vhMenus = vh.menuListJson.toMenuList();
+        dataList.addAll(vhMenus);
+      });
+    }
+    return dataList;
+  }
+
   // [取得：来店者の内訳データ（人数・金額）を取得する]
 //  Map<String, int> getBDOfVisitorsDataMap(List<VisitHistory> vhList) {
 //    if (this.isEmpty || vhList.isEmpty) return Map<String, int>();

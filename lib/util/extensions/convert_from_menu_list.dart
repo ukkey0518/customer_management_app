@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 extension ConvertFromMenuList on List<Menu> {
   // [変換：List<Menu> -> JSON文字列]
@@ -20,7 +21,7 @@ extension ConvertFromMenuList on List<Menu> {
   // [集約：平均単価を取得]
   double toAveragePrice() {
     if (this.isEmpty) return 0.0;
-    var sum = this.toSumPrice();
+    var sum = ConvertFromMenuList(this).toSumPrice();
     var ave = sum / this.length;
     return ave;
   }
@@ -34,5 +35,20 @@ extension ConvertFromMenuList on List<Menu> {
     });
 
     return menus;
+  }
+
+  // [変換：メニューカテゴリごとのデータマップを取得]
+  Map<MenuCategory, List<Menu>> toMenusData(List<MenuCategory> categories) {
+    final dataMap = Map<MenuCategory, List<Menu>>();
+
+    if (this.isNotEmpty) {
+      categories.forEach((category) {
+        dataMap[category] = this.where((menu) {
+          return menu.menuCategoryJson.toMenuCategory() == category;
+        }).toList();
+      });
+    }
+
+    return dataMap;
   }
 }

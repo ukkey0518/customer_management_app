@@ -84,7 +84,6 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
       ),
       'カテゴリ別': CategorySummaryPage(
         menuCategories: widget.menuCategories,
-        allVisitHistories: widget.visitHistories,
         vhList: _vhList,
       ),
     };
