@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/view/components/sales_summary_cards/menu_list_breakdown_card.dart';
 import 'package:flutter/material.dart';
 
 class CategorySummaryPage extends StatefulWidget {
@@ -24,8 +25,8 @@ class _CategorySummaryPageState extends State<CategorySummaryPage> {
       print('${key.name} : ${value.map((menu) => menu.name)}');
     });
 
-    return Container(
-      child: Center(child: Text('CategorySummaryPage')),
+    return MenuListBreakDownCard(
+      menuData: dataMap,
     );
   }
 }

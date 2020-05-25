@@ -41,13 +41,11 @@ extension ConvertFromMenuList on List<Menu> {
   Map<MenuCategory, List<Menu>> toMenusData(List<MenuCategory> categories) {
     final dataMap = Map<MenuCategory, List<Menu>>();
 
-    if (this.isNotEmpty) {
-      categories.forEach((category) {
-        dataMap[category] = this.where((menu) {
-          return menu.menuCategoryJson.toMenuCategory() == category;
-        }).toList();
-      });
-    }
+    categories.forEach((category) {
+      dataMap[category] = this.where((menu) {
+        return menu.menuCategoryJson.toMenuCategory() == category;
+      }).toList();
+    });
 
     return dataMap;
   }
