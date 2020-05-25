@@ -27,11 +27,14 @@ extension ConvertFromMenuList on List<Menu> {
   }
 
   List<Menu> getMenus(List<int> ids) {
-    if (this.isEmpty) return List<Menu>();
     final menus = List<Menu>();
+    if (this.isEmpty) return menus;
 
     ids.forEach((id) {
-      menus.add(this.singleWhere((menu) => menu.id == id));
+      final menu = this.where((menu) => menu.id == id).toList();
+      if (menu.isNotEmpty) {
+        menus.add(menu.single);
+      }
     });
 
     return menus;

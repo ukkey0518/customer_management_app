@@ -1,11 +1,11 @@
 import 'package:customermanagementapp/data/enums/input_field_style.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/input_widgets/text_input_field.dart';
-
 import 'package:flutter/material.dart';
 
 class MenuEditDialog extends StatelessWidget {
   MenuEditDialog({this.category, this.menu});
+
   final MenuCategory category;
   final Menu menu;
 
@@ -65,6 +65,7 @@ class MenuEditDialog extends StatelessWidget {
                   errorText: priceErrorText,
                   style: InputFieldStyle.ROUNDED_RECTANGLE,
                   hintText: '価格を入力',
+                  inputType: TextInputType.number,
                   isClearable: true,
                 ),
               ],
