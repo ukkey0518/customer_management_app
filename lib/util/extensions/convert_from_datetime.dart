@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 
 extension ConvertFromDateTime on DateTime {
   // [変換：DateTime -> 表示用日付文字列]
-  String toFormatString(DateFormatMode mode) {
+  String toFormatStr(DateFormatMode mode) {
     var dateStr;
     switch (mode) {
       case DateFormatMode.FULL:
@@ -30,7 +30,7 @@ extension ConvertFromDateTime on DateTime {
   }
 
   // [変換：DateTime -> 指定期間を表す文字列]
-  String toPeriodString(PeriodMode periodMode) {
+  String toPeriodStr(PeriodMode periodMode) {
     var dateStr;
     switch (periodMode) {
       case PeriodMode.YEAR:

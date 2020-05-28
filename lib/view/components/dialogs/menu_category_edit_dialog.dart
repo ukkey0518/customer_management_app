@@ -76,7 +76,7 @@ class MenuCategoryEditDialog extends StatelessWidget {
                 var newCategory = MenuCategory(
                   id: category?.id,
                   name: controller.text,
-                  color: currentColor.getColorNumber(),
+                  color: currentColor.toARGB(),
                 );
                 Navigator.of(context).pop(newCategory);
               },

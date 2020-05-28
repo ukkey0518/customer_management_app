@@ -11,22 +11,8 @@ extension ConvertFromMenuList on List<Menu> {
     return menuIdsStr;
   }
 
-  // [集約：合計金額を取得]
-  int toSumPrice() {
-    if (this.isEmpty) return 0;
-    var prices = this.map<int>((menu) => menu.price);
-    return prices.reduce((a, b) => a + b);
-  }
-
-  // [集約：平均単価を取得]
-  double toAveragePrice() {
-    if (this.isEmpty) return 0.0;
-    var sum = ConvertFromMenuList(this).toSumPrice();
-    var ave = sum / this.length;
-    return ave;
-  }
-
-  List<Menu> getMenus(List<int> ids) {
+  // [取得：IDリストからメニューリストを取得する]
+  List<Menu> getMultipleMenus(List<int> ids) {
     final menus = List<Menu>();
     if (this.isEmpty) return menus;
 
@@ -38,6 +24,21 @@ extension ConvertFromMenuList on List<Menu> {
     });
 
     return menus;
+  }
+
+  // [変換：合計金額を取得]
+  int toSumPrice() {
+    if (this.isEmpty) return 0;
+    var prices = this.map<int>((menu) => menu.price);
+    return prices.reduce((a, b) => a + b);
+  }
+
+  // [変換：平均単価を取得]
+  double toAveragePrice() {
+    if (this.isEmpty) return 0.0;
+    var sum = ConvertFromMenuList(this).toSumPrice();
+    var ave = sum / this.length;
+    return ave;
   }
 
   // [変換：メニューカテゴリごとのデータマップを取得]

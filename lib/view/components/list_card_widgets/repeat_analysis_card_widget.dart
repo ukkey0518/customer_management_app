@@ -18,7 +18,7 @@ class RepeatAnalysisCardWidget extends ListCardWidget {
             '３ヶ月以内リピ': numberOfRepeatWithinThreeMonth?.toString(),
             'それ以降リピ': numberOfRepeatMore?.toString(),
             'リピートサイクル': repeatCycle?.toString(),
-            '次回来店予想': expectedNextVisit?.toFormatString(DateFormatMode.FULL),
+            '次回来店予想': expectedNextVisit?.toFormatStr(DateFormatMode.FULL),
           },
         );
 }

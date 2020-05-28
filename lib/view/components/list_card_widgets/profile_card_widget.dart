@@ -19,7 +19,7 @@ class ProfileCardWidget extends ListCardWidget {
   @override
   Widget build(BuildContext context) {
     final genderStr = isGenderFemale ? '女性' : '男性';
-    final birthStr = birth?.toFormatString(DateFormatMode.FULL);
+    final birthStr = birth?.toFormatStr(DateFormatMode.FULL);
     final ageStr = birth?.toAge();
 
     return Column(

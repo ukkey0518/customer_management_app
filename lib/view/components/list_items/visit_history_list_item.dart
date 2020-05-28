@@ -80,7 +80,7 @@ class VisitHistoryListItem extends StatelessWidget {
 
   // [ウィジェット：日付欄]
   Widget _datePart(DateTime dateTime) {
-    var dateStr = dateTime.toFormatString(DateFormatMode.FULL);
+    var dateStr = dateTime.toFormatStr(DateFormatMode.FULL);
     return Container(
       decoration: BoxDecoration(
           color: Colors.grey,

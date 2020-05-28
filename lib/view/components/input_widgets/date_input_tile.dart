@@ -37,7 +37,7 @@ class DateInputTile extends InputWidget {
   Widget build(BuildContext context) {
     if (isDisabled) {
       return Text(
-        selectedDate.toFormatString(DateFormatMode.FULL),
+        selectedDate.toFormatStr(DateFormatMode.FULL),
         style: TextStyle(fontSize: 16),
       );
     }
@@ -48,7 +48,7 @@ class DateInputTile extends InputWidget {
       content = Text(
         selectedDate == null
             ? '未設定'
-            : selectedDate.toFormatString(DateFormatMode.MEDIUM),
+            : selectedDate.toFormatStr(DateFormatMode.MEDIUM),
         style: TextStyle(fontSize: 16),
       );
     } else {
@@ -58,7 +58,7 @@ class DateInputTile extends InputWidget {
             child: Text(
               selectedDate == null
                   ? '未設定'
-                  : selectedDate.toFormatString(DateFormatMode.FULL),
+                  : selectedDate.toFormatStr(DateFormatMode.FULL),
               style: TextStyle(fontSize: 16),
             ),
           ),

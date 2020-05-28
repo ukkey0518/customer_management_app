@@ -29,7 +29,7 @@ class CustomerInformationPanel extends StatelessWidget {
               titleText: '最終来店日',
               contentText: lastVisitDate == null
                   ? '--'
-                  : lastVisitDate.toFormatString(DateFormatMode.FULL),
+                  : lastVisitDate.toFormatStr(DateFormatMode.FULL),
             ),
             SimpleTableItem(
               titleText: '担当',

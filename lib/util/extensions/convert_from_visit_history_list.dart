@@ -262,7 +262,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
       Customer c = customers.getCustomer(cId);
       Employee e = employees.getEmployee(eId);
-      List<Menu> m = menus.getMenus(menuIds);
+      List<Menu> m = menus.getMultipleMenus(menuIds);
 
       newVHList.add(
         VisitHistory(

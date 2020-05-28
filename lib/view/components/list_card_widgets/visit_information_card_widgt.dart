@@ -14,8 +14,8 @@ class VisitInformationCardWidget extends ListCardWidget {
           title: '来店情報',
           contentsMap: {
             '来店回数': numberOfVisit?.toString(),
-            '初回来店': firstVisitDate?.toFormatString(DateFormatMode.FULL),
-            '最終来店': lastVisitDate?.toFormatString(DateFormatMode.FULL),
+            '初回来店': firstVisitDate?.toFormatStr(DateFormatMode.FULL),
+            '最終来店': lastVisitDate?.toFormatStr(DateFormatMode.FULL),
             '初回来店理由': reasonForVisit,
           },
         );

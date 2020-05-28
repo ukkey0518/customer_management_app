@@ -3,8 +3,8 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 
 extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
-  // 顧客リストと来店履歴リストから生成
-  static List<VisitHistoriesByCustomer> vhbcListFrom(
+  // [生成：顧客リストと来店履歴リストからVHBCリストを生成]
+  static List<VisitHistoriesByCustomer> from(
     List<Customer> customers,
     List<VisitHistory> visitHistories,
   ) {
@@ -39,6 +39,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
     return vhbc;
   }
 
+  // [変換：顧客リストへ変換]
   List<Customer> toCustomers() {
     if (this == null || this.isEmpty) return null;
     return this.map((vhbc) => vhbc.customer).toList();

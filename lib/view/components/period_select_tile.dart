@@ -71,7 +71,7 @@ class PeriodSelectTile extends StatelessWidget {
                       border: Border.all(color: Theme.of(context).primaryColor),
                       borderRadius: BorderRadius.circular(8)),
                   child: Text(
-                    '${date?.toPeriodString(mode)}',
+                    '${date?.toPeriodStr(mode)}',
                     style: TextStyle(fontSize: 16),
                     textAlign: TextAlign.center,
                   ),
