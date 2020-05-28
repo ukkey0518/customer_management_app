@@ -13,7 +13,6 @@ class TransitionGraphPage extends StatefulWidget {
 class _TransitionGraphPageState extends State<TransitionGraphPage> {
   @override
   Widget build(BuildContext context) {
-    //TODO UI実装
     return Center(
       child: SingleChildScrollView(
         child: Column(
@@ -22,7 +21,6 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
               '推移グラフページ',
               style: TextStyle(fontSize: 20),
             ),
-            Text('${widget.visitHistories}'),
           ],
         ),
       ),
