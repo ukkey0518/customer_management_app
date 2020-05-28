@@ -70,7 +70,8 @@ class AnalysisScreen extends StatelessWidget {
                         menuCategories: vm.menuCategories,
                       ),
                       TransitionGraphPage(
-                        visitHistories: vm.allVisitHistories,
+                        allVisitHistories: vm.allVisitHistories,
+                        vhList: vm.vhList,
                       ),
                     ],
                   ),

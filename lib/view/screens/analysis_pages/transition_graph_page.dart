@@ -4,9 +4,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 class TransitionGraphPage extends StatefulWidget {
-  TransitionGraphPage({@required this.visitHistories});
+  TransitionGraphPage({
+    @required this.allVisitHistories,
+    @required this.vhList,
+  });
 
-  final List<VisitHistory> visitHistories;
+  final List<VisitHistory> allVisitHistories;
+  final List<VisitHistory> vhList;
 
   @override
   _TransitionGraphPageState createState() => _TransitionGraphPageState();
@@ -44,18 +48,14 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Card(
-                child: Stack(
-                  children: <Widget>[
-                    AspectRatio(
-                      aspectRatio: 1.20,
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: LineChart(
-                          allData(),
-                        ),
-                      ),
+                child: AspectRatio(
+                  aspectRatio: 1.20,
+                  child: Padding(
+                    padding: const EdgeInsets.all(16),
+                    child: LineChart(
+                      allData(),
                     ),
-                  ],
+                  ),
                 ),
               ),
             ),
