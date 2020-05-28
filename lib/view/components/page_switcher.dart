@@ -19,7 +19,7 @@ class PageSwitcher extends StatelessWidget {
     return Column(
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.only(bottom: 8.0),
           child: PageSelectTabs(
             tabs: tabs,
             selectedValue: selectedTab,

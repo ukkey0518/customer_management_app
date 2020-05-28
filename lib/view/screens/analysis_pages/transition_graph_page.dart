@@ -20,10 +20,10 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
 
   bool showAvg = false;
   List<String> _modeTabs = [
-    '年間',
-    '月間',
+    '新規来店数',
+    'リピート数',
   ];
-  String _selectedMode = '年間';
+  String _selectedMode = '新規来店数';
 
   @override
   Widget build(BuildContext context) {
@@ -41,18 +41,23 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
                 });
               },
             ),
-            Stack(
-              children: <Widget>[
-                AspectRatio(
-                  aspectRatio: 1.20,
-                  child: Padding(
-                    padding: const EdgeInsets.all(8),
-                    child: LineChart(
-                      allData(),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                child: Stack(
+                  children: <Widget>[
+                    AspectRatio(
+                      aspectRatio: 1.20,
+                      child: Padding(
+                        padding: const EdgeInsets.all(16),
+                        child: LineChart(
+                          allData(),
+                        ),
+                      ),
                     ),
-                  ),
+                  ],
                 ),
-              ],
+              ),
             ),
           ],
         ),
