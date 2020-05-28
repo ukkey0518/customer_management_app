@@ -8,7 +8,7 @@ extension ConvertFromMBCList on List<MenusByCategory> {
   List<MenusByCategory> build(List<Menu> menus, List<MenuCategory> categories) {
     List<MenusByCategory> menusByCategories = List();
 
-    if (menus != null || categories != null || categories.isNotEmpty) {
+    if (menus != null && categories != null && categories.isNotEmpty) {
       menusByCategories = categories.map<MenusByCategory>(
         (category) {
           var list = this.where((mbc) {
