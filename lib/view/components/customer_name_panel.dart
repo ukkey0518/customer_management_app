@@ -3,7 +3,7 @@ import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 import 'package:flutter/material.dart';
 
-import '../../styles.dart';
+import '../../util/styles.dart';
 
 class CustomerNamePanel extends StatelessWidget {
   const CustomerNamePanel({
