@@ -5,7 +5,7 @@ import 'package:toast/toast.dart';
 
 import '../../customer_edit_screen.dart';
 import 'basic_information_page.dart';
-import 'visit_record_page.dart';
+import 'visit_history_page.dart';
 
 class CustomerInformationScreen extends StatelessWidget {
   CustomerInformationScreen({@required this.customerId});
@@ -46,7 +46,7 @@ class CustomerInformationScreen extends StatelessWidget {
               BasicInformationPage(
                 vhbc: viewModel.vhbc,
               ),
-              VisitRecordPage(
+              VisitHistoryPage(
                 vhbc: viewModel.vhbc,
               ),
             ],

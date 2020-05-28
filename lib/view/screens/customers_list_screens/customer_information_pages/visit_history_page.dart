@@ -11,16 +11,16 @@ import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/visit_history_edit_screen.dart';
 import 'package:flutter/material.dart';
 
-class VisitRecordPage extends StatefulWidget {
-  VisitRecordPage({this.vhbc});
+class VisitHistoryPage extends StatefulWidget {
+  VisitHistoryPage({this.vhbc});
 
   final VisitHistoriesByCustomer vhbc;
 
   @override
-  _VisitRecordPageState createState() => _VisitRecordPageState();
+  _VisitHistoryPageState createState() => _VisitHistoryPageState();
 }
 
-class _VisitRecordPageState extends State<VisitRecordPage> {
+class _VisitHistoryPageState extends State<VisitHistoryPage> {
   List<VisitHistory> _visitHistories = List();
   VisitHistoryListPreferences _vhPref = VisitHistoryListPreferences();
   String _selectedSortValue =
