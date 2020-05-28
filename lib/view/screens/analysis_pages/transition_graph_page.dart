@@ -7,11 +7,9 @@ import 'package:flutter/material.dart';
 class TransitionGraphPage extends StatefulWidget {
   TransitionGraphPage({
     @required this.allVisitHistories,
-    @required this.vhList,
   });
 
   final List<VisitHistory> allVisitHistories;
-  final List<VisitHistory> vhList;
 
   @override
   _TransitionGraphPageState createState() => _TransitionGraphPageState();

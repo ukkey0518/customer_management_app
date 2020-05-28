@@ -39,39 +39,45 @@ class AnalysisScreen extends StatelessWidget {
             drawer: MyDrawer(),
             body: Column(
               children: <Widget>[
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    SizedBox(height: 8),
-                    PeriodModeIndicator(mode: vm.periodMode),
-                    SizedBox(height: 8),
-                    PeriodSelectTile(
-                      date: vm.date,
-                      mode: vm.periodMode,
-                      maxDate: vm.maxDate,
-                      minDate: vm.minDate,
-                      onBackTap: (mode) => _onBackTap(context, mode),
-                      onForwardTap: (mode) => _onForwardTap(context, mode),
-                      onDateAreaTap: () => _onDateAreaTap(context),
-                      forwardText: vm.forwardText,
-                      backText: vm.backText,
-                    ),
-                    MyDivider(height: 16),
-                    SSPTotalPart(vhList: vm.vhList),
-                    MyDivider(height: 16),
-                  ],
-                ),
                 Expanded(
                   child: TabBarView(
                     children: <Widget>[
-                      SalesSummaryPage(
-                        allVisitHistories: vm.allVisitHistories,
-                        vhList: vm.vhList,
-                        menuCategories: vm.menuCategories,
+                      Column(
+                        children: <Widget>[
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: <Widget>[
+                              SizedBox(height: 8),
+                              PeriodModeIndicator(mode: vm.periodMode),
+                              SizedBox(height: 8),
+                              PeriodSelectTile(
+                                date: vm.date,
+                                mode: vm.periodMode,
+                                maxDate: vm.maxDate,
+                                minDate: vm.minDate,
+                                onBackTap: (mode) => _onBackTap(context, mode),
+                                onForwardTap: (mode) =>
+                                    _onForwardTap(context, mode),
+                                onDateAreaTap: () => _onDateAreaTap(context),
+                                forwardText: vm.forwardText,
+                                backText: vm.backText,
+                              ),
+                              MyDivider(height: 16),
+                              SSPTotalPart(vhList: vm.vhList),
+                              MyDivider(height: 16),
+                            ],
+                          ),
+                          Expanded(
+                            child: SalesSummaryPage(
+                              allVisitHistories: vm.allVisitHistories,
+                              vhList: vm.vhList,
+                              menuCategories: vm.menuCategories,
+                            ),
+                          ),
+                        ],
                       ),
                       TransitionGraphPage(
                         allVisitHistories: vm.allVisitHistories,
-                        vhList: vm.vhList,
                       ),
                     ],
                   ),
