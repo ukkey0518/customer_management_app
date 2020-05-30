@@ -150,9 +150,9 @@ class SampleDataInitializer {
     categories = List<MenuCategory>.generate(length, (index) {
       randomName = mockString(10);
       final colorStr = mockColor();
-      randomColor = int.parse(colorStr
-          .substring(4, colorStr.length - 1)
-          .splitMapJoin(', ', onMatch: (match) => ''));
+      randomColor = int.parse(
+          'ff${colorStr.substring(4, colorStr.length - 1).split(', ').map<String>((str) => int.parse(str).toRadixString(16)).join()}',
+          radix: 16);
       return MenuCategory(
         id: index + 1,
         name: randomName,
