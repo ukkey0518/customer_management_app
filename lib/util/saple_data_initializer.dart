@@ -24,7 +24,7 @@ class SampleDataInitializer {
   static final reasons = visitReasonData.keys.toList();
 
   // [初期データ：顧客]
-  static List<Customer> _initCustomers = _generateInitCustomerList(40);
+  static List<Customer> _initCustomers = _generateInitCustomerList(20);
 
   // [初期データ：従業員]
   static final List<Employee> _initEmployees = _generateInitEmployeeList(5);
