@@ -8,9 +8,13 @@ import 'package:flutter/material.dart';
 LineChartData yearLineChartData(List<VisitHistory> vhList) {
   final thisYearSpotList =
       vhList.toNumOfVisitorsFlSpotList(DateTime.now().year);
+  final lastYearSpotList =
+      vhList.toNumOfVisitorsFlSpotList(DateTime.now().year - 1);
 
-  final double minY = thisYearSpotList.getMinY();
-  final double maxY = thisYearSpotList.getMaxY();
+  final double thisYearMinY = thisYearSpotList.getMinY();
+  final double thisYearMaxY = thisYearSpotList.getMaxY();
+  final double lastYearMinY = lastYearSpotList.getMinY();
+  final double lastYearMaxY = lastYearSpotList.getMaxY();
 
   return LineChartData(
     gridData: FlGridData(
@@ -87,11 +91,19 @@ LineChartData yearLineChartData(List<VisitHistory> vhList) {
     ),
     minX: 0,
     maxX: 11,
-    minY: minY,
-    maxY: maxY,
-    clipToBorder: true,
+    minY: thisYearMinY < lastYearMinY ? lastYearMinY : thisYearMinY,
+    maxY: thisYearMaxY > lastYearMaxY ? lastYearMaxY : thisYearMaxY,
     lineBarsData: [
-      allVisitorsBarData(spotsData: thisYearSpotList),
+      // 前年データ
+      customChartBarData(
+        spotsData: lastYearSpotList,
+        colors: [const Color(0xff00ced1), const Color(0xff00ffff)],
+      ),
+      // 当年データ
+      customChartBarData(
+        spotsData: thisYearSpotList,
+        colors: [const Color(0xffff69b4), const Color(0xffffb6c1)],
+      ),
     ],
   );
 }
