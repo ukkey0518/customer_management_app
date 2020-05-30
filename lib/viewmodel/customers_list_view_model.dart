@@ -95,7 +95,7 @@ class CustomersListViewModel extends ChangeNotifier {
     print('  [VM: 顧客リスト画面] onRepositoryUpdated');
 
     _visitHistoriesByCustomers = gRep.visitHistoriesByCustomers;
-
+    print(gRep.customers.length);
     notifyListeners();
   }
 

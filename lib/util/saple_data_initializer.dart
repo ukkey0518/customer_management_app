@@ -7,6 +7,7 @@ import 'package:customermanagementapp/db/dao/visit_history_dao.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:mock_data/mock_data.dart';
 import 'package:moor_ffi/database.dart';
 import 'package:provider/provider.dart';
 
@@ -23,244 +24,20 @@ class SampleDataInitializer {
   static final reasons = visitReasonData.keys.toList();
 
   // [初期データ：顧客]
-  static final List<Customer> _initCustomers = [
-    Customer(
-      id: 1,
-      name: 'カスタマーA',
-      nameReading: 'かすたまーA',
-      isGenderFemale: true,
-      birth: DateTime(1996, 5, 18),
-      visitReason: reasons[0],
-    ),
-    Customer(
-      id: 2,
-      name: 'カスタマーB',
-      nameReading: 'かすたまーB',
-      isGenderFemale: false,
-      birth: DateTime(1990, 1, 1),
-      visitReason: reasons[5],
-    ),
-    Customer(
-      id: 3,
-      name: 'カスタマーC',
-      nameReading: 'かすたまーC',
-      isGenderFemale: true,
-      birth: DateTime(1989, 10, 26),
-      visitReason: reasons[3],
-    ),
-  ];
+  static List<Customer> _initCustomers = _generateInitCustomerList(40);
 
   // [初期データ：従業員]
-  static final List<Employee> _initEmployees = [
-    Employee(id: 1, name: 'スタッフA'),
-    Employee(id: 2, name: 'スタッフB'),
-    Employee(id: 3, name: 'スタッフC'),
-  ];
+  static final List<Employee> _initEmployees = _generateInitEmployeeList(5);
 
   // [初期データ：メニューカテゴリ]
-  static final List<MenuCategory> _initMenuCategories = [
-    MenuCategory(id: 1, name: 'カテゴリA', color: Colors.red.value),
-    MenuCategory(id: 2, name: 'カテゴリB', color: Colors.blue.value),
-    MenuCategory(id: 3, name: 'カテゴリC', color: Colors.green.value),
-    MenuCategory(id: 4, name: 'カテゴリD', color: Colors.amber.value),
-    MenuCategory(id: 5, name: 'カテゴリE', color: Colors.deepPurpleAccent.value),
-    MenuCategory(id: 6, name: 'カテゴリF', color: Colors.tealAccent.value),
-  ];
+  static final List<MenuCategory> _initMenuCategories =
+      _generateMenuCategoryList(10);
 
   // [初期データ：メニュー]
-  static final List<Menu> _initMenus = [
-    Menu(
-      id: 1,
-      name: 'メニュー1',
-      price: 1000,
-      menuCategoryJson: _initMenuCategories[0].toJsonString(),
-    ),
-    Menu(
-      id: 2,
-      name: 'メニュー2',
-      price: 2000,
-      menuCategoryJson: _initMenuCategories[0].toJsonString(),
-    ),
-    Menu(
-      id: 3,
-      name: 'メニュー3',
-      price: 3000,
-      menuCategoryJson: _initMenuCategories[0].toJsonString(),
-    ),
-    Menu(
-      id: 4,
-      name: 'メニュー4',
-      price: 4000,
-      menuCategoryJson: _initMenuCategories[1].toJsonString(),
-    ),
-    Menu(
-      id: 5,
-      name: 'メニュー5',
-      price: 5000,
-      menuCategoryJson: _initMenuCategories[1].toJsonString(),
-    ),
-    Menu(
-      id: 6,
-      name: 'メニュー6',
-      price: 6000,
-      menuCategoryJson: _initMenuCategories[1].toJsonString(),
-    ),
-    Menu(
-      id: 7,
-      name: 'メニュー7',
-      price: 7000,
-      menuCategoryJson: _initMenuCategories[2].toJsonString(),
-    ),
-    Menu(
-      id: 8,
-      name: 'メニュー8',
-      price: 8000,
-      menuCategoryJson: _initMenuCategories[2].toJsonString(),
-    ),
-    Menu(
-      id: 9,
-      name: 'メニュー9',
-      price: 9000,
-      menuCategoryJson: _initMenuCategories[2].toJsonString(),
-    ),
-    Menu(
-      id: 10,
-      name: 'メニュー10',
-      price: 10000,
-      menuCategoryJson: _initMenuCategories[3].toJsonString(),
-    ),
-    Menu(
-      id: 11,
-      name: 'メニュー11',
-      price: 11000,
-      menuCategoryJson: _initMenuCategories[4].toJsonString(),
-    ),
-    Menu(
-      id: 12,
-      name: 'メニュー12',
-      price: 12000,
-      menuCategoryJson: _initMenuCategories[5].toJsonString(),
-    ),
-  ];
+  static final List<Menu> _initMenus = _generateInitMenuList(30);
 
-  static final List<VisitHistory> _initVisitHistories = [
-    VisitHistory(
-      id: 1,
-      date: DateTime(2020, 4, 1),
-      customerJson: _initCustomers[0].toJsonString(),
-      employeeJson: _initEmployees[0].toJsonString(),
-      menuListJson: [
-        _initMenus[0],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 2,
-      date: DateTime(2020, 4, 1),
-      customerJson: _initCustomers[1].toJsonString(),
-      employeeJson: _initEmployees[1].toJsonString(),
-      menuListJson: [
-        _initMenus[2],
-        _initMenus[6],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 3,
-      date: DateTime(2020, 4, 6),
-      customerJson: _initCustomers[2].toJsonString(),
-      employeeJson: _initEmployees[2].toJsonString(),
-      menuListJson: [
-        _initMenus[3],
-        _initMenus[9],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 4,
-      date: DateTime(2020, 4, 8),
-      customerJson: _initCustomers[1].toJsonString(),
-      employeeJson: _initEmployees[1].toJsonString(),
-      menuListJson: [
-        _initMenus[10],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 5,
-      date: DateTime(2020, 4, 12),
-      customerJson: _initCustomers[2].toJsonString(),
-      employeeJson: _initEmployees[2].toJsonString(),
-      menuListJson: [
-        _initMenus[7],
-        _initMenus[11],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 6,
-      date: DateTime(2020, 4, 15),
-      customerJson: _initCustomers[0].toJsonString(),
-      employeeJson: _initEmployees[0].toJsonString(),
-      menuListJson: [
-        _initMenus[2],
-        _initMenus[5],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 7,
-      date: DateTime(2020, 4, 19),
-      customerJson: _initCustomers[0].toJsonString(),
-      employeeJson: _initEmployees[0].toJsonString(),
-      menuListJson: [
-        _initMenus[3],
-        _initMenus[5],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 8,
-      date: DateTime(2020, 4, 22),
-      customerJson: _initCustomers[1].toJsonString(),
-      employeeJson: _initEmployees[1].toJsonString(),
-      menuListJson: [
-        _initMenus[3],
-        _initMenus[5],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 9,
-      date: DateTime(2020, 4, 28),
-      customerJson: _initCustomers[0].toJsonString(),
-      employeeJson: _initEmployees[0].toJsonString(),
-      menuListJson: [
-        _initMenus[3],
-        _initMenus[5],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 10,
-      date: DateTime(2020, 4, 28),
-      customerJson: _initCustomers[2].toJsonString(),
-      employeeJson: _initEmployees[2].toJsonString(),
-      menuListJson: [
-        _initMenus[4],
-        _initMenus[5],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 11,
-      date: DateTime(2020, 4, 29),
-      customerJson: _initCustomers[1].toJsonString(),
-      employeeJson: _initEmployees[1].toJsonString(),
-      menuListJson: [
-        _initMenus[3],
-      ].toJsonString(),
-    ),
-    VisitHistory(
-      id: 12,
-      date: DateTime(2020, 4, 30),
-      customerJson: _initCustomers[2].toJsonString(),
-      employeeJson: _initEmployees[2].toJsonString(),
-      menuListJson: [
-        _initMenus[6],
-      ].toJsonString(),
-    ),
-  ];
+  static List<VisitHistory> _initVisitHistories =
+      _generateInitVhList(300, DateTime(2019, 1, 1), DateTime.now());
 
   // [初期化メソッド]
   initialize(BuildContext context) async {
@@ -322,7 +99,124 @@ class SampleDataInitializer {
 
       print('--- initialize finished.');
     } on SqliteException catch (e) {
-      print('!!sample data init Exeption：$e');
+      print('!!sample data init Exception：$e');
     }
+  }
+
+  static List<Customer> _generateInitCustomerList(int length) {
+    List<Customer> customers = List();
+
+    String randomName;
+    bool randomGender;
+
+    customers = List<Customer>.generate(length, (index) {
+      randomGender = mockInteger(0, 10) % 2 == 0 ? true : false;
+      randomName = mockName(randomGender ? 'female' : 'male');
+      return Customer(
+        id: index + 1,
+        name: randomName,
+        nameReading: randomName,
+        isGenderFemale: randomGender,
+      );
+    }).toList();
+
+    return customers;
+  }
+
+  static List<Employee> _generateInitEmployeeList(int length) {
+    List<Employee> employees = List();
+
+    String randomName;
+    bool randomGender;
+
+    employees = List<Employee>.generate(length, (index) {
+      randomGender = mockInteger(1, 10) % 2 == 0 ? true : false;
+      randomName = mockName(randomGender ? 'female' : 'male');
+      return Employee(
+        id: index + 1,
+        name: randomName,
+      );
+    }).toList();
+
+    return employees;
+  }
+
+  static List<MenuCategory> _generateMenuCategoryList(int length) {
+    List<MenuCategory> categories = List();
+
+    String randomName;
+    int randomColor;
+
+    categories = List<MenuCategory>.generate(length, (index) {
+      randomName = mockString(10);
+      final colorStr = mockColor();
+      randomColor = int.parse(colorStr
+          .substring(4, colorStr.length - 1)
+          .splitMapJoin(', ', onMatch: (match) => ''));
+      return MenuCategory(
+        id: index + 1,
+        name: randomName,
+        color: randomColor,
+      );
+    }).toList();
+
+    return categories;
+  }
+
+  static List<Menu> _generateInitMenuList(int length) {
+    List<Menu> menus = List();
+
+    String randomName;
+    int randomCategory;
+    int randomPrice;
+
+    menus = List<Menu>.generate(length, (index) {
+      randomName = mockString(10);
+      randomCategory = mockInteger(0, _initMenuCategories.length - 1);
+      randomPrice = 1000 + (mockInteger(0, 40) * 1000);
+      return Menu(
+        id: index + 1,
+        name: randomName,
+        price: randomPrice,
+        menuCategoryJson: _initMenuCategories[randomCategory].toJsonString(),
+      );
+    }).toList();
+
+    return menus;
+  }
+
+  static _generateInitVhList(int length, DateTime since, DateTime until) {
+    List<VisitHistory> vhList = List();
+
+    List<DateTime> dateList = List();
+    int randomCustomer;
+    int randomEmployee;
+    int menuListLength;
+    List<Menu> menus;
+
+    dateList = List<DateTime>.generate(length, (index) {
+      final date = mockDate(since, until);
+      return DateTime(date.year, date.month, date.day);
+    }).toList();
+
+    vhList = dateList.map<VisitHistory>((date) {
+      randomCustomer = mockInteger(0, _initCustomers.length - 1);
+      randomEmployee = mockInteger(0, _initEmployees.length - 1);
+      menuListLength = mockInteger(1, 3);
+
+      menus = List<Menu>.generate(menuListLength, (index) {
+        return _initMenus[mockInteger(0, _initMenus.length - 1)];
+      }).toList();
+
+      return VisitHistory(
+        id: null,
+        date: date,
+        customerJson: _initCustomers[randomCustomer].toJsonString(),
+        employeeJson: _initEmployees[randomEmployee].toJsonString(),
+        menuListJson: menus.toJsonString(),
+      );
+    }).toList();
+
+    return vhList;
   }
 }
