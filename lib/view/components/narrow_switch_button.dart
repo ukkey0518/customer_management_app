@@ -26,7 +26,7 @@ class NarrowSwitchButton extends StatelessWidget {
 
     return RaisedButton(
       child: Text(
-        '絞り込み：$text',
+        '絞込：$text',
         style: TextStyle(
           color: textColor,
           fontWeight: fontWeight,

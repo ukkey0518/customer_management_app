@@ -24,7 +24,7 @@ class SearchBar extends StatelessWidget {
               Text.rich(
                 TextSpan(
                   children: <TextSpan>[
-                    TextSpan(text: '検索結果：'),
+                    TextSpan(text: '結果：'),
                     TextSpan(
                       text: '$numberOfItems',
                       style: TextStyle(
