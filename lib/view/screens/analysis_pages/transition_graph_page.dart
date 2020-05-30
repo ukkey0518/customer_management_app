@@ -1,4 +1,5 @@
 import 'package:custom_switch/custom_switch.dart';
+import 'package:customermanagementapp/data/line_chart_data/month_line_chart_data.dart';
 import 'package:customermanagementapp/data/line_chart_data/year_line_chart_data.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/page_select_tabs.dart';
@@ -47,7 +48,8 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
               children: [
                 Card(
                   child: Padding(
-                    padding: const EdgeInsets.all(16.0),
+                    padding:
+                        const EdgeInsets.only(top: 16, bottom: 16, right: 16),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
@@ -62,7 +64,7 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
                         ),
                         SizedBox(height: 8),
                         AspectRatio(
-                          aspectRatio: 1.20,
+                          aspectRatio: 1.30,
                           child: LineChart(_chartData(_isShowCompare)),
                         ),
                         Padding(
@@ -98,11 +100,24 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
 
   List<Widget> _chartLabel() {
     final List<Widget> list = List();
-    list.add(LineChartLabel(text: '当年データ', color: Colors.pinkAccent));
+    var thisYearLabelColor;
+    var lastYearLabelColor;
+
+    switch (_selectedMode) {
+      case '今年':
+        thisYearLabelColor = Colors.pinkAccent;
+        lastYearLabelColor = Colors.lightBlueAccent;
+        break;
+      case '今月':
+        thisYearLabelColor = Colors.orangeAccent;
+        lastYearLabelColor = Colors.greenAccent;
+        break;
+    }
+
+    list.add(LineChartLabel(text: '当年データ', color: thisYearLabelColor));
     if (_isShowCompare) {
       list.insert(0, SizedBox(width: 16));
-      list.insert(
-          0, LineChartLabel(text: '前年データ', color: Colors.lightBlueAccent));
+      list.insert(0, LineChartLabel(text: '前年データ', color: lastYearLabelColor));
     }
     return list;
   }
@@ -112,8 +127,7 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
       case '今年':
         return yearLineChartData(widget.allVisitHistories, showCompareData);
       case '今月':
-        //TODO
-        return LineChartData();
+        return monthLineChartData(widget.allVisitHistories, showCompareData);
     }
   }
 }

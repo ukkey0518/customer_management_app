@@ -4,24 +4,23 @@ import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
-// [年別折れ線グラフデータ]
-LineChartData yearLineChartData(
+LineChartData monthLineChartData(
     List<VisitHistory> vhList, bool showLastYearData) {
-  final thisYearSpotList =
-      vhList.toNumOfVisitorsFlSpotList(DateTime.now().year);
-  final lastYearSpotList =
-      vhList.toNumOfVisitorsFlSpotList(DateTime.now().year - 1);
+  final thisYearSpotList = vhList.toNumOfVisitorsFlSpotList(
+      DateTime.now().year, DateTime.now().month);
+  final lastYearSpotList = vhList.toNumOfVisitorsFlSpotList(
+      DateTime.now().year - 1, DateTime.now().month);
 
   final double thisYearMinY = thisYearSpotList.getMinY();
-  final double thisYearMaxY = thisYearSpotList.getMaxY();
+  final double thisYearMaxY = thisYearSpotList.getMaxY(10);
   final double lastYearMinY = lastYearSpotList.getMinY();
-  final double lastYearMaxY = lastYearSpotList.getMaxY();
+  final double lastYearMaxY = lastYearSpotList.getMaxY(10);
 
   List<LineChartBarData> chartData = [
     // 当年データ
     customChartBarData(
       spotsData: thisYearSpotList,
-      colors: [const Color(0xffff69b4), const Color(0xffffb6c1)],
+      colors: [const Color(0xffff8c00), const Color(0xffffff00)],
     ),
   ];
   if (showLastYearData) {
@@ -29,7 +28,7 @@ LineChartData yearLineChartData(
       0, // 前年データ
       customChartBarData(
         spotsData: lastYearSpotList,
-        colors: [const Color(0xff00ced1), const Color(0xff00ffff)],
+        colors: [const Color(0xff32cd32), const Color(0xffadff2f)],
       ),
     );
   }
@@ -42,15 +41,16 @@ LineChartData yearLineChartData(
       getDrawingHorizontalLine: (value) {
         return FlLine(
           color: Colors.lightBlueAccent,
-          strokeWidth: value.toInt() % 2 == 0 ? 2 : 1,
+          strokeWidth: value.toInt() % 5 == 0 ? 1 : 0.3,
         );
       },
       drawHorizontalLine: true,
       verticalInterval: 1.0,
-      getDrawingVerticalLine: (_) {
+      getDrawingVerticalLine: (value) {
         return FlLine(
           color: Colors.lightBlueAccent,
-          strokeWidth: 0.5,
+          strokeWidth:
+              value.toInt() == 4 || (value.toInt() - 4) % 5 == 0 ? 1.5 : 0.5,
         );
       },
     ),
@@ -58,7 +58,7 @@ LineChartData yearLineChartData(
       touchTooltipData: LineTouchTooltipData(getTooltipItems: (spots) {
         List<LineTooltipItem> list = List();
         spots.forEach((spot) {
-          final num = (spot.y / 0.2).floor();
+          final num = (spot.y).floor();
           final color = spot.bar.colors[0];
           list.add(LineTooltipItem('$num人', TextStyle(color: color)));
         });
@@ -71,7 +71,10 @@ LineChartData yearLineChartData(
         showTitles: true,
         reservedSize: 22,
         textStyle: const TextStyle(color: Color(0xff68737d)),
-        getTitles: (value) => '${value.toInt() + 1}',
+        getTitles: (value) {
+          final num = value.toInt();
+          return num == 0 || num == 4 || (num - 4) % 5 == 0 ? '${num + 1}' : '';
+        },
         margin: 8,
       ),
       leftTitles: SideTitles(
@@ -79,7 +82,7 @@ LineChartData yearLineChartData(
         textStyle: const TextStyle(color: Color(0xff67727d)),
         getTitles: (value) {
           final num = value.toInt();
-          return '${num * 5}';
+          return num == 0 || num % 5 == 0 ? '$num' : '';
         },
         reservedSize: 28,
         margin: 12,
@@ -90,7 +93,7 @@ LineChartData yearLineChartData(
       border: Border.all(color: Colors.lightBlueAccent, width: 1),
     ),
     minX: 0,
-    maxX: 11,
+    maxX: 30,
     minY: thisYearMinY < lastYearMinY ? lastYearMinY : thisYearMinY,
     maxY: thisYearMaxY > lastYearMaxY ? lastYearMaxY : thisYearMaxY,
     lineBarsData: chartData,

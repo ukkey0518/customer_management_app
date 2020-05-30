@@ -560,7 +560,8 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     });
 
     spotList = List<FlSpot>.generate(maxLength, (index) {
-      final spot = vhListByLength[index].length * 0.2;
+      var magnification = isMonthSummaryMode ? 1.0 : 0.2;
+      final spot = vhListByLength[index].length * magnification;
       return FlSpot(index.toDouble(), spot);
     });
 

@@ -20,7 +20,7 @@ extension ConvertFromFlSpotList on List<FlSpot> {
   }
 
   // [取得：Yの最大値を取得]
-  double getMaxY() {
+  double getMaxY([int minY = 4]) {
     double maxY;
 
     if (this.isEmpty) {
@@ -33,7 +33,7 @@ extension ConvertFromFlSpotList on List<FlSpot> {
 
     maxY = List<FlSpot>.from(this).reduce((v, e) => v.y >= e.y ? v : e).y;
 
-    return maxY <= 4 ? 4 : maxY + 1;
+    return maxY <= minY.toDouble() ? minY.toDouble() : maxY + 1;
   }
 
   // [変換：出力用文字列を取得]
