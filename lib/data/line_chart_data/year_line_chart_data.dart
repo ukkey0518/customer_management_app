@@ -5,7 +5,8 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 // [年別折れ線グラフデータ]
-LineChartData yearLineChartData(List<VisitHistory> vhList) {
+LineChartData yearLineChartData(
+    List<VisitHistory> vhList, bool showLastYearData) {
   final thisYearSpotList =
       vhList.toNumOfVisitorsFlSpotList(DateTime.now().year);
   final lastYearSpotList =
@@ -15,6 +16,23 @@ LineChartData yearLineChartData(List<VisitHistory> vhList) {
   final double thisYearMaxY = thisYearSpotList.getMaxY();
   final double lastYearMinY = lastYearSpotList.getMinY();
   final double lastYearMaxY = lastYearSpotList.getMaxY();
+
+  List<LineChartBarData> chartData = [
+    // 当年データ
+    customChartBarData(
+      spotsData: thisYearSpotList,
+      colors: [const Color(0xffff69b4), const Color(0xffffb6c1)],
+    ),
+  ];
+  if (showLastYearData) {
+    chartData.insert(
+      0, // 前年データ
+      customChartBarData(
+        spotsData: lastYearSpotList,
+        colors: [const Color(0xff00ced1), const Color(0xff00ffff)],
+      ),
+    );
+  }
 
   return LineChartData(
     gridData: FlGridData(
@@ -38,8 +56,13 @@ LineChartData yearLineChartData(List<VisitHistory> vhList) {
     ),
     lineTouchData: LineTouchData(
       touchTooltipData: LineTouchTooltipData(getTooltipItems: (spots) {
-        final num = (spots.single.y / 0.2).floor();
-        return [LineTooltipItem('$num人', TextStyle(color: Colors.black))];
+        List<LineTooltipItem> list = List();
+        spots.forEach((spot) {
+          final num = (spot.y / 0.2).floor();
+          final color = spot.bar.colors[0];
+          list.add(LineTooltipItem('$num人', TextStyle(color: color)));
+        });
+        return list;
       }),
     ),
     titlesData: FlTitlesData(
@@ -93,17 +116,6 @@ LineChartData yearLineChartData(List<VisitHistory> vhList) {
     maxX: 11,
     minY: thisYearMinY < lastYearMinY ? lastYearMinY : thisYearMinY,
     maxY: thisYearMaxY > lastYearMaxY ? lastYearMaxY : thisYearMaxY,
-    lineBarsData: [
-      // 前年データ
-      customChartBarData(
-        spotsData: lastYearSpotList,
-        colors: [const Color(0xff00ced1), const Color(0xff00ffff)],
-      ),
-      // 当年データ
-      customChartBarData(
-        spotsData: thisYearSpotList,
-        colors: [const Color(0xffff69b4), const Color(0xffffb6c1)],
-      ),
-    ],
+    lineBarsData: chartData,
   );
 }

@@ -1,6 +1,8 @@
+import 'package:custom_switch/custom_switch.dart';
 import 'package:customermanagementapp/data/line_chart_data/year_line_chart_data.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/page_select_tabs.dart';
+import 'package:customermanagementapp/view/components/transition_graph_parts/line_chart_label.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
@@ -22,6 +24,8 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
     '今月',
   ];
   String _selectedMode = '今年';
+
+  bool _isShowCompare = false;
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +56,33 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
                           style: Theme.of(context).textTheme.headline6,
                         ),
                         SizedBox(height: 8),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: _chartLabel(),
+                        ),
+                        SizedBox(height: 8),
                         AspectRatio(
                           aspectRatio: 1.20,
-                          child: LineChart(_chartData()),
+                          child: LineChart(_chartData(_isShowCompare)),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: <Widget>[
+                              const Text('前年データと比較'),
+                              SizedBox(width: 16),
+                              CustomSwitch(
+                                activeColor: Theme.of(context).primaryColor,
+                                value: _isShowCompare,
+                                onChanged: (flag) {
+                                  setState(() {
+                                    _isShowCompare = flag;
+                                  });
+                                },
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
@@ -68,10 +96,21 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
     );
   }
 
-  _chartData() {
+  List<Widget> _chartLabel() {
+    final List<Widget> list = List();
+    list.add(LineChartLabel(text: '当年データ', color: Colors.pinkAccent));
+    if (_isShowCompare) {
+      list.insert(0, SizedBox(width: 16));
+      list.insert(
+          0, LineChartLabel(text: '前年データ', color: Colors.lightBlueAccent));
+    }
+    return list;
+  }
+
+  _chartData(bool showCompareData) {
     switch (_selectedMode) {
       case '今年':
-        return yearLineChartData(widget.allVisitHistories);
+        return yearLineChartData(widget.allVisitHistories, showCompareData);
       case '今月':
         //TODO
         return LineChartData();
