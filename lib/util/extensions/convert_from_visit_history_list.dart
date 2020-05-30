@@ -482,15 +482,62 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     var vhListByLength = List();
     var isMonthSummaryMode = false;
     var maxLength;
+    var compareTag;
 
-    if (this.isEmpty) {
-      return spotList;
-    }
+    final dataDate = DateTime(
+      year,
+      month ?? DateTime.now().month,
+      DateTime.now().day,
+    );
+
+    final nowDate = DateTime(
+      DateTime.now().year,
+      DateTime.now().month,
+      DateTime.now().day,
+    );
+
+    if (dataDate.isBefore(nowDate)) compareTag = 'before';
+    if (dataDate.isAfter(nowDate)) compareTag = 'after';
+    if (dataDate.isAtSameMomentAs(nowDate)) compareTag = 'same';
+    print('dataDate: $dataDate');
+    print('nowDate: $nowDate');
+    print('compare: $compareTag');
 
     dataList = ConvertFromVisitHistoryList(this).getByYear(year);
     if (month != null) {
       isMonthSummaryMode = true;
       dataList = ConvertFromVisitHistoryList(dataList).getByMonth(month);
+    }
+
+    if (dataList.isEmpty) {
+      switch (compareTag) {
+        case 'before':
+          var length = 31;
+          spotList = List<FlSpot>.generate(length, (index) {
+            return FlSpot(index.toDouble(), 0.0);
+          });
+          break;
+        case 'after':
+          spotList = [FlSpot(0.0, 0.0)];
+          break;
+        case 'same':
+          final length =
+              isMonthSummaryMode ? DateTime.now().day : DateTime.now().month;
+          spotList = List<FlSpot>.generate(length, (index) {
+            return FlSpot(index.toDouble(), 0.0);
+          });
+          break;
+      }
+
+      print('monthMode: $isMonthSummaryMode');
+      print(
+          'spotList: ${spotList.toPrintText(xMode: isMonthSummaryMode ? 'day' : 'month', yMode: 'nov')}');
+      print(
+          'vhListByLength: ${List<List<VisitHistory>>.from(vhListByLength).map<List<String>>((list) {
+        return ConvertFromVisitHistoryList(list).toPrintText();
+      })}');
+
+      return spotList;
     }
 
     if (dataList.length == 1) {
@@ -517,10 +564,29 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       return FlSpot(index.toDouble(), spot);
     });
 
-    print(spotList);
-    print(ConvertFromVisitHistoryList(dataList).toPrintText());
-    print(isMonthSummaryMode);
-    print(maxLength);
+    switch (compareTag) {
+      case 'before':
+        final length = isMonthSummaryMode ? 31 : 12;
+        for (int i = maxLength; i <= length - 1; i++) {
+          spotList.add(FlSpot(i.toDouble(), 0));
+        }
+        break;
+      case 'same':
+        final length =
+            isMonthSummaryMode ? DateTime.now().day : DateTime.now().month;
+        for (int i = maxLength; i <= length - 1; i++) {
+          spotList.add(FlSpot(i.toDouble(), 0));
+        }
+        break;
+    }
+
+    print('monthMode: $isMonthSummaryMode');
+    print(
+        'spotList: ${spotList.toPrintText(xMode: isMonthSummaryMode ? 'day' : 'month', yMode: 'nov')}');
+    print(
+        'vhListByLength: ${List<List<VisitHistory>>.from(vhListByLength).map<List<String>>((list) {
+      return ConvertFromVisitHistoryList(list).toPrintText();
+    })}');
 
     return spotList;
   }

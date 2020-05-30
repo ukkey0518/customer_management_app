@@ -5,6 +5,8 @@ export 'convert_from_datetime.dart';
 export 'convert_from_double.dart';
 export 'convert_from_employee.dart';
 export 'convert_from_employee_list.dart';
+export 'convert_from_flspot.dart';
+export 'convert_from_flspot_list.dart';
 export 'convert_from_int.dart';
 export 'convert_from_int_list.dart';
 export 'convert_from_map.dart';

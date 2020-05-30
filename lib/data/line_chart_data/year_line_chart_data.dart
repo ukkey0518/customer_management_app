@@ -6,13 +6,11 @@ import 'package:flutter/material.dart';
 
 // [年別折れ線グラフデータ]
 LineChartData yearLineChartData(List<VisitHistory> vhList) {
-  final allVisitorsSpotsData =
+  final thisYearSpotList =
       vhList.toNumOfVisitorsFlSpotList(DateTime.now().year);
 
-  final minValue = allVisitorsSpotsData.reduce((v, e) => v.y <= e.y ? v : e).y;
-  final double minY = minValue == 0 ? 0 : minValue - 1;
-  final maxValue = allVisitorsSpotsData.reduce((v, e) => v.y >= e.y ? v : e).y;
-  final double maxY = maxValue <= 4 ? 4 : maxValue + 1;
+  final double minY = thisYearSpotList.getMinY();
+  final double maxY = thisYearSpotList.getMaxY();
 
   return LineChartData(
     gridData: FlGridData(
@@ -36,8 +34,8 @@ LineChartData yearLineChartData(List<VisitHistory> vhList) {
     ),
     lineTouchData: LineTouchData(
       touchTooltipData: LineTouchTooltipData(getTooltipItems: (spots) {
-        final spot = (spots.single.y / 0.2).floor();
-        return [LineTooltipItem('$spot人', TextStyle(color: Colors.black))];
+        final num = (spots.single.y / 0.2).floor();
+        return [LineTooltipItem('$num人', TextStyle(color: Colors.black))];
       }),
     ),
     titlesData: FlTitlesData(
@@ -91,8 +89,9 @@ LineChartData yearLineChartData(List<VisitHistory> vhList) {
     maxX: 11,
     minY: minY,
     maxY: maxY,
+    clipToBorder: true,
     lineBarsData: [
-      allVisitorsBarData(spotsData: allVisitorsSpotsData),
+      allVisitorsBarData(spotsData: thisYearSpotList),
     ],
   );
 }
