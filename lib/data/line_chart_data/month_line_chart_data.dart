@@ -94,8 +94,8 @@ LineChartData monthLineChartData(
     ),
     minX: 0,
     maxX: 30,
-    minY: thisYearMinY < lastYearMinY ? lastYearMinY : thisYearMinY,
-    maxY: thisYearMaxY > lastYearMaxY ? lastYearMaxY : thisYearMaxY,
+    minY: thisYearMinY < lastYearMinY ? thisYearMinY : lastYearMinY,
+    maxY: thisYearMaxY > lastYearMaxY ? thisYearMaxY : lastYearMaxY,
     lineBarsData: chartData,
   );
 }
