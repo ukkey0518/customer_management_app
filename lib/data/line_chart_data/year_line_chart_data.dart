@@ -16,6 +16,10 @@ LineChartData yearLineChartData(
   final double thisYearMaxY = thisYearSpotList.getMaxY();
   final double lastYearMinY = lastYearSpotList.getMinY();
   final double lastYearMaxY = lastYearSpotList.getMaxY();
+  print(thisYearMinY);
+  print(thisYearMaxY);
+  print(lastYearMinY);
+  print(lastYearMaxY);
 
   List<LineChartBarData> chartData = [
     // 当年データ
@@ -91,8 +95,8 @@ LineChartData yearLineChartData(
     ),
     minX: 0,
     maxX: 11,
-    minY: thisYearMinY < lastYearMinY ? lastYearMinY : thisYearMinY,
-    maxY: thisYearMaxY > lastYearMaxY ? lastYearMaxY : thisYearMaxY,
+    minY: thisYearMinY < lastYearMinY ? thisYearMinY : lastYearMinY,
+    maxY: thisYearMaxY > lastYearMaxY ? thisYearMaxY : lastYearMaxY,
     lineBarsData: chartData,
   );
 }
