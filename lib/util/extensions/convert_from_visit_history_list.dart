@@ -518,9 +518,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     });
 
     print(spotList);
-    print(List<VisitHistory>.from(dataList).map<String>((vh) {
-      return '${vh.date.year}:${vh.date.month}';
-    }).toList());
+    print(ConvertFromVisitHistoryList(dataList).toPrintText());
     print(isMonthSummaryMode);
     print(maxLength);
 
@@ -544,5 +542,24 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     }
 
     return data;
+  }
+
+  // [変換：出力用文字列を取得]
+  List<String> toPrintText({
+    bool showId = false,
+    bool showDate = true,
+    bool showCustomer = false,
+    bool showEmployee = false,
+    bool showMenuList = false,
+  }) {
+    return List<VisitHistory>.from(this).map((vh) {
+      return vh.toPrintText(
+        showId: showId,
+        showDate: showDate,
+        showCustomer: showCustomer,
+        showEmployee: showEmployee,
+        showMenuList: showMenuList,
+      );
+    }).toList();
   }
 }

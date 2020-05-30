@@ -53,4 +53,21 @@ extension ConvertFromMenuList on List<Menu> {
 
     return dataMap;
   }
+
+  // [変換：出力用文字列を取得]
+  List<String> toPrintText({
+    bool showId = false,
+    bool showName = true,
+    bool showCategory = false,
+    bool showPrice = false,
+  }) {
+    return List<Menu>.from(this).map((m) {
+      return m.toPrintText(
+        showId: showId,
+        showName: showName,
+        showCategory: showCategory,
+        showPrice: showPrice,
+      );
+    }).toList();
+  }
 }
