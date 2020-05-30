@@ -4,6 +4,7 @@ import 'package:customermanagementapp/data/list_search_state/visit_history_sort_
 import 'package:customermanagementapp/data/visit_reason_data.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:fl_chart/fl_chart.dart';
 
 extension ConvertFromVisitHistoryList on List<VisitHistory> {
   // [取得：直近の来店履歴を取得]
@@ -474,50 +475,57 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     return dataList;
   }
 
-  // [取得：来店者の内訳データ（人数・金額）を取得する]
-//  Map<String, int> getBDOfVisitorsDataMap(List<VisitHistory> vhList) {
-//    if (this.isEmpty || vhList.isEmpty) return Map<String, int>();
-//
-//    final newVisitors =
-//        ConvertFromVisitHistoryList(this).getNewVisitors(vhList);
-//
-//    final oneRepVisitors =
-//        ConvertFromVisitHistoryList(this).getOneRepVisitors(vhList);
-//
-//    final otherRepVisitors =
-//        ConvertFromVisitHistoryList(this).getOtherRepVisitors(vhList);
-//
-//    var priceOfNewVisitors = 0;
-//    if (newVisitors.isNotEmpty) {
-//      priceOfNewVisitors = List.of(newVisitors)
-//          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
-//          .reduce((v, e) => v + e);
-//    }
-//
-//    var priceOfOneRepVisitors = 0;
-//    if (oneRepVisitors.isNotEmpty) {
-//      priceOfOneRepVisitors = List.of(oneRepVisitors)
-//          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
-//          .reduce((v, e) => v + e);
-//    }
-//
-//    var priceOfOtherRepVisitors = 0;
-//    if (otherRepVisitors.isNotEmpty) {
-//      priceOfOtherRepVisitors = List.of(otherRepVisitors)
-//          .map<int>((vh) => vh.menuListJson.toMenuList().toSumPrice())
-//          .reduce((v, e) => v + e);
-//    }
-//
-//    final Map<String, int> dataMap = Map();
-//    dataMap.putIfAbsent('num_new', () => newVisitors.length);
-//    dataMap.putIfAbsent('num_oneRep', () => oneRepVisitors.length);
-//    dataMap.putIfAbsent('num_otherRep', () => otherRepVisitors.length);
-//    dataMap.putIfAbsent('pri_new', () => priceOfNewVisitors);
-//    dataMap.putIfAbsent('pri_oneRep', () => priceOfOneRepVisitors);
-//    dataMap.putIfAbsent('pri_otherRep', () => priceOfOtherRepVisitors);
-//
-//    return dataMap;
-//  }
+  // [変換：指定年(または月)のグラフ用スポットデータへ変換]
+  List<FlSpot> toNumOfVisitorsFlSpotList(int year, [int month]) {
+    List<FlSpot> spotList = List();
+    var dataList = List();
+    var vhListByLength = List();
+    var isMonthSummaryMode = false;
+    var maxLength;
+
+    if (this.isEmpty) {
+      return spotList;
+    }
+
+    dataList = ConvertFromVisitHistoryList(this).getByYear(year);
+    if (month != null) {
+      isMonthSummaryMode = true;
+      dataList = ConvertFromVisitHistoryList(dataList).getByMonth(month);
+    }
+
+    if (dataList.length == 1) {
+      maxLength = isMonthSummaryMode
+          ? dataList.single.date.day
+          : dataList.single.date.month;
+    } else {
+      maxLength = List<VisitHistory>.from(dataList)
+          .map<int>((vh) {
+            return isMonthSummaryMode ? vh.date.day : vh.date.month;
+          })
+          .toList()
+          .reduce((v, e) => v >= e ? v : e);
+    }
+
+    vhListByLength = List<List<VisitHistory>>.generate(maxLength, (index) {
+      return dataList.where((vh) {
+        return (isMonthSummaryMode ? vh.date.day : vh.date.month) == index + 1;
+      }).toList();
+    });
+
+    spotList = List<FlSpot>.generate(maxLength, (index) {
+      final spot = vhListByLength[index].length * 0.2;
+      return FlSpot(index.toDouble(), spot);
+    });
+
+    print(spotList);
+    print(List<VisitHistory>.from(dataList).map<String>((vh) {
+      return '${vh.date.year}:${vh.date.month}';
+    }).toList());
+    print(isMonthSummaryMode);
+    print(maxLength);
+
+    return spotList;
+  }
 
   // [取得：この来店履歴リストから来店理由に一致するデータをすべて取得する]
   List<VisitHistory> getDataByVisitReason(String visitReason) {

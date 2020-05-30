@@ -1,28 +1,13 @@
 import 'package:customermanagementapp/data/line_chart_bar_data/all_visitors_bar_data.dart';
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 
 // [年別折れ線グラフデータ]
 LineChartData yearLineChartData(List<VisitHistory> vhList) {
-  final thisYearData = List<VisitHistory>.from(vhList).where((vh) {
-    final thisYear = DateTime.now().year;
-    return vh.date.year == thisYear;
-  }).toList();
-
-  final maxMonth = List.from(thisYearData)
-      .reduce((v, e) => v.date.isAfter(e.date) ? v : e)
-      .date
-      .month;
-
-  final vhListByMonth = List<List<VisitHistory>>.generate(maxMonth, (index) {
-    return thisYearData.where((vh) => vh.date.month == index + 1).toList();
-  });
-
-  final allVisitorsSpotsData = List<FlSpot>.generate(maxMonth, (index) {
-    final spot = vhListByMonth[index].length * 0.2;
-    return FlSpot(index.toDouble(), spot);
-  });
+  final allVisitorsSpotsData =
+      vhList.toNumOfVisitorsFlSpotList(DateTime.now().year);
 
   final minValue = allVisitorsSpotsData.reduce((v, e) => v.y <= e.y ? v : e).y;
   final double minY = minValue == 0 ? 0 : minValue - 1;
