@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
 
 class SearchMenu extends StatelessWidget {
-  SearchMenu({this.controller, this.onChanged});
+  SearchMenu({
+    @required this.controller,
+    @required this.onChanged,
+    @required this.focusNode,
+  });
 
   final TextEditingController controller;
   final ValueChanged<String> onChanged;
+  final FocusNode focusNode;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
       keyboardType: TextInputType.text,
       controller: controller,
+      focusNode: focusNode,
       decoration: InputDecoration(
         hintText: '名前で検索',
         prefixIcon: Icon(Icons.search),

@@ -4,7 +4,6 @@ import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
-import 'package:customermanagementapp/view/components/drowers/narrow_setting_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
@@ -16,18 +15,23 @@ import 'package:toast/toast.dart';
 import 'visit_history_edit_screen.dart';
 
 class VisitHistoryListScreen extends StatefulWidget {
-  VisitHistoryListScreen({Key key}) : super(key: key);
-
   @override
   _VisitHistoryListScreenState createState() => _VisitHistoryListScreenState();
 }
 
 class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  Widget _settingDrawer;
+  GlobalKey<ScaffoldState> _scaffoldKey;
+  FocusNode _nameSearchTextFieldFocusNode;
+
+  @override
+  void initState() {
+    _nameSearchTextFieldFocusNode = FocusNode();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
+    _scaffoldKey = GlobalKey<ScaffoldState>();
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
@@ -38,7 +42,12 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
     }
 
     return GestureDetector(
-      onTap: () => FocusScope.of(context).unfocus(),
+      onTap: () {
+        print('Focus: ${_nameSearchTextFieldFocusNode.hasFocus}');
+        if (_nameSearchTextFieldFocusNode.hasFocus) {
+          _nameSearchTextFieldFocusNode.unfocus();
+        }
+      },
       child: Scaffold(
         key: _scaffoldKey,
         appBar: AppBar(
@@ -50,7 +59,6 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
           onPressed: () => _addVisitHistory(context),
         ),
         drawer: MyDrawer(),
-        endDrawer: _settingDrawer,
         endDrawerEnableOpenDragGesture: false,
         body: Consumer<VisitHistoryListViewModel>(
           builder: (context, viewModel, child) {
@@ -61,14 +69,12 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
                   narrowMenu: OnOffSwitchButton(
                     text: '絞り込み',
                     isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
-                    onPressed: () => _showNarrowSettingDrawer(),
-//                    onPressed: () => _showNarrowSetDialog(context),
+                    onPressed: () => _showNarrowSettingArea(),
                   ),
                   sortMenu: OnOffSwitchButton(
                     text: '並べ替え',
                     isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
-                    onPressed: () => _showNarrowSettingDrawer(),
-//                    onPressed: () => _showNarrowSetDialog(context),
+                    onPressed: () => _showSortSettingArea(),
                   ),
 //                sortMenu: SortDropDownMenu(
 //                  items: visitHistorySortStateMap.values.toList(),
@@ -78,6 +84,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
                   searchMenu: SearchMenu(
                     controller: viewModel.searchNameController,
                     onChanged: (name) => _onKeyWordSearch(context, name),
+                    focusNode: _nameSearchTextFieldFocusNode,
                   ),
                 ),
                 Divider(),
@@ -104,11 +111,13 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
   }
 
   // [コールバック：絞り込み設定ドロワーボタンタップ時]
-  _showNarrowSettingDrawer() {
-    setState(() {
-      _settingDrawer = NarrowSettingDrawer();
-    });
-    _scaffoldKey.currentState.openEndDrawer();
+  _showNarrowSettingArea() {
+    //TODO
+  }
+
+  // [コールバック：並べ替え設定ドロワーボタンタップ時]
+  _showSortSettingArea() {
+    //TODO
   }
 
   // [コールバック：FABタップ]
@@ -134,7 +143,6 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 
   // [コールバック：キーワード検索時]
   _onKeyWordSearch(BuildContext context, String name) async {
-    print('asdf');
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
@@ -144,7 +152,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
   // [コールバック：リストアイテムタップ時]
   // →売上データを登録する画面へ遷移する
   _editVisitHistory(BuildContext context, VisitHistory visitHistory) {
-    print('qwer');
+    _nameSearchTextFieldFocusNode.unfocus();
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) =>
@@ -156,6 +164,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
   // [コールバック：リストアイテム長押し時]
   // ・リスト＆DBからデータを削除
   _deleteVisitHistory(BuildContext context, VisitHistory visitHistory) async {
+    _nameSearchTextFieldFocusNode.unfocus();
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
