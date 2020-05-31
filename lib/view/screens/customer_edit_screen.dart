@@ -24,9 +24,11 @@ class CustomerEditScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomerEditViewModel>(context, listen: false);
 
-    Future(() {
-      viewModel.setCustomer(customer);
-    });
+    if (viewModel.customer == null) {
+      Future(() {
+        viewModel.setCustomer(customer);
+      });
+    }
 
     return WillPopScope(
       onWillPop: () => _finishEditScreen(context),

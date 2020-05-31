@@ -1,11 +1,11 @@
-import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
-import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
+import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
+import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
-import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
+import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/narrow_dorpdown_menu.dart';
@@ -28,9 +28,11 @@ class CustomersListScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomersListViewModel>(context, listen: false);
 
-    Future(() {
-      return viewModel.getCustomersList(displayMode: displayMode);
-    });
+    if (viewModel.visitHistoriesByCustomers.isEmpty) {
+      Future(() {
+        return viewModel.getCustomersList(displayMode: displayMode);
+      });
+    }
 
     return Consumer<CustomersListViewModel>(
       builder: (context, viewModel, child) {

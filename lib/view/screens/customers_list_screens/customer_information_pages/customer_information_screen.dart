@@ -22,9 +22,11 @@ class CustomerInformationScreen extends StatelessWidget {
     final viewModel =
         Provider.of<CustomerInformationViewModel>(context, listen: false);
 
-    Future(() {
-      viewModel.getVHBC(id: customerId);
-    });
+    if (viewModel.vhbc == null) {
+      Future(() {
+        viewModel.getVHBC(id: customerId);
+      });
+    }
 
     return DefaultTabController(
       length: _tabs.length,

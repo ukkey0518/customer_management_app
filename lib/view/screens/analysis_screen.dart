@@ -1,9 +1,9 @@
 import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
+import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
-import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/period_select_tile.dart';
 import 'package:customermanagementapp/view/components/sales_summary_parts/ssp_total_part.dart';
 import 'package:customermanagementapp/view/screens/analysis_pages/sales_summary_page.dart';
@@ -22,9 +22,11 @@ class AnalysisScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<AnalysisViewModel>(context, listen: false);
 
-    Future(() {
-      viewModel.getVisitHistories();
-    });
+    if (viewModel.allVisitHistories.isEmpty) {
+      Future(() {
+        viewModel.getVisitHistories();
+      });
+    }
 
     return DefaultTabController(
       length: _tabs.length,
