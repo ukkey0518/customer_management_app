@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/view/components/list_items/setting_screen_list_item.dart';
-import 'package:customermanagementapp/view/components/my_drawer.dart';
+import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/employee_setting_screen.dart';
 import 'package:flutter/material.dart';
 

@@ -30,21 +30,22 @@ class OnOffSwitchButton extends StatelessWidget {
       offset = Offset(0, 2);
     }
 
-    return Container(
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        border: Border.all(color: Theme.of(context).primaryColor, width: 1.6),
-        borderRadius: BorderRadius.all(Radius.circular(16)),
-        boxShadow: <BoxShadow>[
-          BoxShadow(
-            color: Theme.of(context).primaryColor,
-            offset: offset,
-          ),
-        ],
-      ),
-      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: InkWell(
+    return InkWell(
+      onTap: onPressed,
+      child: Container(
+        alignment: Alignment.center,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          border: Border.all(color: Theme.of(context).primaryColor, width: 1.6),
+          borderRadius: BorderRadius.all(Radius.circular(16)),
+          boxShadow: <BoxShadow>[
+            BoxShadow(
+              color: Theme.of(context).primaryColor,
+              offset: offset,
+            ),
+          ],
+        ),
+        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Text.rich(
           TextSpan(children: <TextSpan>[
             TextSpan(
@@ -62,7 +63,6 @@ class OnOffSwitchButton extends StatelessWidget {
             ),
           ]),
         ),
-        onTap: onPressed,
       ),
     );
   }

@@ -5,7 +5,7 @@ import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
-import 'package:customermanagementapp/view/components/my_drawer.dart';
+import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/narrow_dorpdown_menu.dart';

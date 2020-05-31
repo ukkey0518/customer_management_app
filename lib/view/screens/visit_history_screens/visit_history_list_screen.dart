@@ -3,8 +3,9 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
+import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
+import 'package:customermanagementapp/view/components/drowers/narrow_setting_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
-import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.dart';
@@ -14,19 +15,32 @@ import 'package:toast/toast.dart';
 
 import 'visit_history_edit_screen.dart';
 
-class VisitHistoryListScreen extends StatelessWidget {
+class VisitHistoryListScreen extends StatefulWidget {
+  VisitHistoryListScreen({Key key}) : super(key: key);
+
+  @override
+  _VisitHistoryListScreenState createState() => _VisitHistoryListScreenState();
+}
+
+class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  Widget _settingDrawer;
+
   @override
   Widget build(BuildContext context) {
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
-    Future(() {
-      viewModel.getVisitHistories();
-    });
+    if (viewModel.visitHistories.isEmpty) {
+      Future(() {
+        viewModel.getVisitHistories();
+      });
+    }
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
+        key: _scaffoldKey,
         appBar: AppBar(
           title: const Text('来店履歴リスト'),
         ),
@@ -36,6 +50,8 @@ class VisitHistoryListScreen extends StatelessWidget {
           onPressed: () => _addVisitHistory(context),
         ),
         drawer: MyDrawer(),
+        endDrawer: _settingDrawer,
+        endDrawerEnableOpenDragGesture: false,
         body: Consumer<VisitHistoryListViewModel>(
           builder: (context, viewModel, child) {
             return Column(
@@ -45,12 +61,14 @@ class VisitHistoryListScreen extends StatelessWidget {
                   narrowMenu: OnOffSwitchButton(
                     text: '絞り込み',
                     isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
-                    onPressed: () => _showNarrowSetDialog(context),
+                    onPressed: () => _showNarrowSettingDrawer(),
+//                    onPressed: () => _showNarrowSetDialog(context),
                   ),
                   sortMenu: OnOffSwitchButton(
                     text: '並べ替え',
                     isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
-                    onPressed: () => _showNarrowSetDialog(context),
+                    onPressed: () => _showNarrowSettingDrawer(),
+//                    onPressed: () => _showNarrowSetDialog(context),
                   ),
 //                sortMenu: SortDropDownMenu(
 //                  items: visitHistorySortStateMap.values.toList(),
@@ -85,6 +103,14 @@ class VisitHistoryListScreen extends StatelessWidget {
     );
   }
 
+  // [コールバック：絞り込み設定ドロワーボタンタップ時]
+  _showNarrowSettingDrawer() {
+    setState(() {
+      _settingDrawer = NarrowSettingDrawer();
+    });
+    _scaffoldKey.currentState.openEndDrawer();
+  }
+
   // [コールバック：FABタップ]
   // →売上データを登録する画面へ遷移する
   _addVisitHistory(BuildContext context) {
@@ -108,6 +134,7 @@ class VisitHistoryListScreen extends StatelessWidget {
 
   // [コールバック：キーワード検索時]
   _onKeyWordSearch(BuildContext context, String name) async {
+    print('asdf');
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
@@ -117,6 +144,7 @@ class VisitHistoryListScreen extends StatelessWidget {
   // [コールバック：リストアイテムタップ時]
   // →売上データを登録する画面へ遷移する
   _editVisitHistory(BuildContext context, VisitHistory visitHistory) {
+    print('qwer');
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) =>

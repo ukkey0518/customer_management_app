@@ -3,7 +3,7 @@ import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
 import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
-import 'package:customermanagementapp/view/components/my_drawer.dart';
+import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/period_select_tile.dart';
 import 'package:customermanagementapp/view/components/sales_summary_parts/ssp_total_part.dart';
 import 'package:customermanagementapp/view/screens/analysis_pages/sales_summary_page.dart';

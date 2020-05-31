@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/view/components/my_drawer.dart';
+import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
