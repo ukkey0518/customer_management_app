@@ -1,13 +1,12 @@
 import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
-import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
-import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
-import 'package:customermanagementapp/view/components/search_bar_items/sort_dropdown_menu.dart';
+import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -46,11 +45,16 @@ class VisitHistoryListScreen extends StatelessWidget {
                   isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
                   onPressed: () => _showNarrowSetDialog(context),
                 ),
-                sortMenu: SortDropDownMenu(
-                  items: visitHistorySortStateMap.values.toList(),
-                  selectedValue: viewModel.selectedSortValue,
-                  onSelected: (value) => _sortMenuSelected(context, value),
+                sortMenu: OnOffSwitchButton(
+                  text: '並べ替え',
+                  isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
+                  onPressed: () => _showNarrowSetDialog(context),
                 ),
+//                sortMenu: SortDropDownMenu(
+//                  items: visitHistorySortStateMap.values.toList(),
+//                  selectedValue: viewModel.selectedSortValue,
+//                  onSelected: (value) => _sortMenuSelected(context, value),
+//                ),
                 searchMenu: SearchMenu(
                   controller: viewModel.searchNameController,
                   onChanged: (name) => _onKeyWordSearch(context, name),

@@ -20,13 +20,16 @@ class SearchBar extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 8),
       child: Column(
         children: <Widget>[
-          Row(
-            children: <Widget>[
-              SearchResults(numOfResult: numberOfItems),
-              SizedBox(width: 8),
-              narrowMenu ?? Container(),
-              Expanded(child: sortMenu ?? Container()),
-            ],
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: <Widget>[
+                SearchResults(numOfResult: numberOfItems),
+                narrowMenu ?? Container(),
+                sortMenu ?? Container(),
+              ],
+            ),
           ),
           searchMenu ?? Container(),
         ],

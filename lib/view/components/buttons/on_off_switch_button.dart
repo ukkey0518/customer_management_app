@@ -34,7 +34,7 @@ class OnOffSwitchButton extends StatelessWidget {
       alignment: Alignment.center,
       decoration: BoxDecoration(
         color: backgroundColor,
-        border: Border.all(color: Theme.of(context).primaryColor, width: 2),
+        border: Border.all(color: Theme.of(context).primaryColor, width: 1.6),
         borderRadius: BorderRadius.all(Radius.circular(16)),
         boxShadow: <BoxShadow>[
           BoxShadow(
@@ -50,13 +50,13 @@ class OnOffSwitchButton extends StatelessWidget {
             TextSpan(
               text: '$text: ',
               style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).primaryColorDark,
               ),
             ),
             TextSpan(
               text: flagText,
               style: TextStyle(
-                color: Theme.of(context).primaryColor,
+                color: Theme.of(context).primaryColorDark,
                 fontWeight: fontWeight,
               ),
             ),

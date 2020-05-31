@@ -13,22 +13,19 @@ class SearchResults extends StatelessWidget {
       textColor = Colors.red;
     }
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text.rich(
-        TextSpan(
-          children: <TextSpan>[
-            const TextSpan(text: '結果：'),
-            TextSpan(
-              text: '$numOfResult',
-              style: TextStyle(
-                fontSize: 20,
-                color: textColor,
-              ),
+    return Text.rich(
+      TextSpan(
+        children: <TextSpan>[
+          const TextSpan(text: '結果：'),
+          TextSpan(
+            text: '$numOfResult',
+            style: TextStyle(
+              fontSize: 20,
+              color: textColor,
             ),
-            const TextSpan(text: '件'),
-          ],
-        ),
+          ),
+          const TextSpan(text: '件'),
+        ],
       ),
     );
   }
