@@ -1,69 +1,85 @@
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 class OnOffSwitchButton extends StatelessWidget {
   OnOffSwitchButton({
-    @required this.text,
+    this.title = '',
+    this.value = 'なし',
     @required this.isSetAnyNarrowData,
-    @required this.onPressed,
+    @required this.onTap,
   });
 
-  final String text;
+  final String title;
+  final String value;
   final bool isSetAnyNarrowData;
-  final VoidCallback onPressed;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    var flagText;
     var backgroundColor;
     var fontWeight;
     var offset;
 
     if (isSetAnyNarrowData) {
-      flagText = 'あり';
       fontWeight = FontWeight.bold;
       backgroundColor = Theme.of(context).primaryColorLight;
       offset = Offset(0, 1);
     } else {
-      flagText = 'なし';
       fontWeight = null;
       backgroundColor = const Color(0xffffffff);
       offset = Offset(0, 2);
     }
 
-    return InkWell(
-      onTap: onPressed,
-      child: Container(
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          color: backgroundColor,
-          border: Border.all(color: Theme.of(context).primaryColor, width: 1.6),
-          borderRadius: BorderRadius.all(Radius.circular(16)),
-          boxShadow: <BoxShadow>[
-            BoxShadow(
-              color: Theme.of(context).primaryColor,
-              offset: offset,
-            ),
-          ],
+    return Column(
+      children: <Widget>[
+        Text(
+          title,
+          style: TextStyle(
+            color: Theme.of(context).textSelectionHandleColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Text.rich(
-          TextSpan(children: <TextSpan>[
-            TextSpan(
-              text: '$text: ',
-              style: TextStyle(
-                color: Theme.of(context).primaryColorDark,
+        Container(
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: backgroundColor,
+            border:
+                Border.all(color: Theme.of(context).primaryColor, width: 1.6),
+            borderRadius: BorderRadius.all(Radius.circular(16)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: Theme.of(context).primaryColor,
+                offset: offset,
+              ),
+            ],
+          ),
+          width: 120,
+          height: 40,
+          child: SizedBox(
+            width: double.infinity,
+            height: double.infinity,
+            child: InkWell(
+              onTap: onTap,
+              child: Container(
+                alignment: Alignment.center,
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: AutoSizeText(
+                  value,
+                  maxLines: 1,
+                  minFontSize: 12,
+                  maxFontSize: 16,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: Theme.of(context).primaryColorDark,
+                    fontWeight: fontWeight,
+                  ),
+                ),
               ),
             ),
-            TextSpan(
-              text: flagText,
-              style: TextStyle(
-                color: Theme.of(context).primaryColorDark,
-                fontWeight: fontWeight,
-              ),
-            ),
-          ]),
+          ),
         ),
-      ),
+      ],
     );
   }
 }

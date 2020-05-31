@@ -1,8 +1,5 @@
-import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
-import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
@@ -43,7 +40,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 
     return GestureDetector(
       onTap: () {
-        print('Focus: ${_nameSearchTextFieldFocusNode.hasFocus}');
+        print('tap');
         if (_nameSearchTextFieldFocusNode.hasFocus) {
           _nameSearchTextFieldFocusNode.unfocus();
         }
@@ -61,20 +58,22 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
         drawer: MyDrawer(),
         endDrawerEnableOpenDragGesture: false,
         body: Consumer<VisitHistoryListViewModel>(
-          builder: (context, viewModel, child) {
+          builder: (context, vm, child) {
             return Column(
               children: <Widget>[
                 SearchBar(
-                  numberOfItems: viewModel.visitHistories.length,
+                  numberOfItems: vm.visitHistories.length,
                   narrowMenu: OnOffSwitchButton(
-                    text: '絞り込み',
-                    isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
-                    onPressed: () => _showNarrowSettingArea(),
+                    title: '絞り込み',
+                    value: vm.vhPref.narrowData.isSetAny() ? 'ON' : 'OFF',
+                    isSetAnyNarrowData: vm.vhPref.narrowData.isSetAny(),
+                    onTap: () => _showNarrowSettingArea(context),
                   ),
                   sortMenu: OnOffSwitchButton(
-                    text: '並べ替え',
-                    isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
-                    onPressed: () => _showSortSettingArea(),
+                    title: '並べ替え',
+                    value: vm.selectedSortValue,
+                    isSetAnyNarrowData: vm.vhPref.narrowData.isSetAny(),
+                    onTap: () => _showSortSettingArea(context),
                   ),
 //                sortMenu: SortDropDownMenu(
 //                  items: visitHistorySortStateMap.values.toList(),
@@ -82,7 +81,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 //                  onSelected: (value) => _sortMenuSelected(context, value),
 //                ),
                   searchMenu: SearchMenu(
-                    controller: viewModel.searchNameController,
+                    controller: vm.searchNameController,
                     onChanged: (name) => _onKeyWordSearch(context, name),
                     focusNode: _nameSearchTextFieldFocusNode,
                   ),
@@ -91,7 +90,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
                 Expanded(
                   child: ListView.separated(
                     itemBuilder: (context, index) {
-                      var item = viewModel.visitHistories[index];
+                      var item = vm.visitHistories[index];
                       return VisitHistoryListItem(
                         visitHistory: item,
                         onTap: () => _editVisitHistory(context, item),
@@ -99,7 +98,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
                       );
                     },
                     separatorBuilder: (context, index) => Divider(),
-                    itemCount: viewModel.visitHistories.length,
+                    itemCount: vm.visitHistories.length,
                   ),
                 ),
               ],
@@ -111,13 +110,23 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
   }
 
   // [コールバック：絞り込み設定ドロワーボタンタップ時]
-  _showNarrowSettingArea() {
+  _showNarrowSettingArea(BuildContext context) {
+    print('narrow set btn tap.');
     //TODO
   }
 
   // [コールバック：並べ替え設定ドロワーボタンタップ時]
-  _showSortSettingArea() {
+  _showSortSettingArea(BuildContext context) {
+    print('sort set btn tap.');
     //TODO
+  }
+
+  // [コールバック：キーワード検索時]
+  _onKeyWordSearch(BuildContext context, String name) async {
+    final viewModel =
+        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+
+    await viewModel.getVisitHistories(searchCustomerName: name);
   }
 
   // [コールバック：FABタップ]
@@ -128,25 +137,6 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
         builder: (context) => VisitHistoryEditScreen(),
       ),
     );
-  }
-
-  // [コールバック：ソートメニュー選択肢タップ時]
-  _sortMenuSelected(BuildContext context, String value) async {
-    final viewModel =
-        Provider.of<VisitHistoryListViewModel>(context, listen: false);
-
-    // 選択中のメニューアイテム文字列と一致するEntryを取得
-    final sortState = visitHistorySortStateMap.getKeyFromValue(value);
-
-    await viewModel.getVisitHistories(sortState: sortState);
-  }
-
-  // [コールバック：キーワード検索時]
-  _onKeyWordSearch(BuildContext context, String name) async {
-    final viewModel =
-        Provider.of<VisitHistoryListViewModel>(context, listen: false);
-
-    await viewModel.getVisitHistories(searchCustomerName: name);
   }
 
   // [コールバック：リストアイテムタップ時]
@@ -173,19 +163,30 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
     Toast.show('削除しました。', context);
   }
 
-  _showNarrowSetDialog(BuildContext context) {
-    final viewModel =
-        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+// [コールバック：ソートメニュー選択肢タップ時]
+//  _sortMenuSelected(BuildContext context, String value) async {
+//    final viewModel =
+//        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+//
+//    // 選択中のメニューアイテム文字列と一致するEntryを取得
+//    final sortState = visitHistorySortStateMap.getKeyFromValue(value);
+//
+//    await viewModel.getVisitHistories(sortState: sortState);
+//  }
 
-    showDialog(
-      context: context,
-      builder: (_) {
-        return VisitHistoryNarrowSetDialog(
-          narrowData: viewModel.vhPref.narrowData,
-        );
-      },
-    ).then((narrowData) async {
-      await viewModel.getVisitHistories(narrowData: narrowData);
-    });
-  }
+//  _showNarrowSetDialog(BuildContext context) {
+//    final viewModel =
+//        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+//
+//    showDialog(
+//      context: context,
+//      builder: (_) {
+//        return VisitHistoryNarrowSetDialog(
+//          narrowData: viewModel.vhPref.narrowData,
+//        );
+//      },
+//    ).then((narrowData) async {
+//      await viewModel.getVisitHistories(narrowData: narrowData);
+//    });
+//  }
 }

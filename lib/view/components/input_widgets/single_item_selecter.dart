@@ -1,9 +1,9 @@
+import 'package:customermanagementapp/data/pickers/single_item_select_picker.dart';
 import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_picker/flutter_picker.dart';
 
-class SingleItemSelectPicker extends InputWidget {
-  SingleItemSelectPicker({
+class SingleItemSelecter extends InputWidget {
+  SingleItemSelecter({
     @required this.items,
     @required this.selectedItem,
     @required this.onConfirm,
@@ -48,25 +48,7 @@ class SingleItemSelectPicker extends InputWidget {
   }
 
   _showItemSelectPicker(BuildContext context) {
-    print('ak47');
-    Picker(
-      adapter: PickerDataAdapter<String>(pickerdata: items),
-      changeToFirst: true,
-      textAlign: TextAlign.center,
-      selecteds: [items.indexOf(selectedItem)],
-      columnPadding: const EdgeInsets.all(8.0),
-      confirmText: '決定',
-      confirmTextStyle: TextStyle(
-        fontSize: 16,
-        color: Theme.of(context).primaryColor,
-      ),
-      cancelText: 'キャンセル',
-      cancelTextStyle: TextStyle(
-        fontSize: 16,
-        color: Colors.grey,
-      ),
-      onConfirm: (Picker picker, List value) =>
-          onConfirm(picker.getSelectedValues().single.toString()),
-    ).showModal(context);
+    singleItemSelectPicker(context, items, selectedItem, onConfirm)
+        .showModal(context);
   }
 }

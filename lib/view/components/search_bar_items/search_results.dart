@@ -13,20 +13,35 @@ class SearchResults extends StatelessWidget {
       textColor = Colors.red;
     }
 
-    return Text.rich(
-      TextSpan(
-        children: <TextSpan>[
-          const TextSpan(text: '結果：'),
-          TextSpan(
-            text: '$numOfResult',
-            style: TextStyle(
-              fontSize: 20,
-              color: textColor,
+    return Column(
+      children: <Widget>[
+        Text(
+          '検索結果',
+          style: TextStyle(
+            color: Theme.of(context).textSelectionHandleColor,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Container(
+          width: 100,
+          height: 40,
+          alignment: Alignment.center,
+          child: Text.rich(
+            TextSpan(
+              children: <TextSpan>[
+                TextSpan(
+                  text: '$numOfResult',
+                  style: TextStyle(
+                    fontSize: 26,
+                    color: textColor,
+                  ),
+                ),
+                const TextSpan(text: '件', style: TextStyle(fontSize: 18)),
+              ],
             ),
           ),
-          const TextSpan(text: '件'),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

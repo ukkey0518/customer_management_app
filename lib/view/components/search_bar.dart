@@ -26,8 +26,8 @@ class SearchBar extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: <Widget>[
                 SearchResults(numOfResult: numberOfItems),
-                narrowMenu ?? Container(),
-                sortMenu ?? Container(),
+                narrowMenu,
+                sortMenu,
               ],
             ),
           ),
