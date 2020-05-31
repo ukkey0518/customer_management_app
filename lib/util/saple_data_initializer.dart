@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:mock_data/mock_data.dart';
 import 'package:moor_ffi/database.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SampleDataInitializer {
   static SampleDataInitializer _instance;
@@ -21,28 +22,45 @@ class SampleDataInitializer {
 
   SampleDataInitializer._internal();
 
+  // [SharedPreferencesオブジェクト]
+  static SharedPreferences prefs;
+
   static final reasons = visitReasonData.keys.toList();
 
   // [初期データ：顧客]
-  static final List<Customer> _initCustomers = _createInitCustomerList(20);
+  static List<Customer> _initCustomers = List();
 
   // [初期データ：従業員]
-  static final List<Employee> _initEmployees = _createInitEmployeeList(5);
+  static List<Employee> _initEmployees = List();
 
   // [初期データ：メニューカテゴリ]
-  static final List<MenuCategory> _initMenuCategories =
-      _createInitMenuCategoryList(10);
+  static List<MenuCategory> _initMenuCategories = List();
 
   // [初期データ：メニュー]
-  static final List<Menu> _initMenus = _createInitMenuList(30);
+  static List<Menu> _initMenus = List();
 
   // [初期データ：来店履歴]
-  static final List<VisitHistory> _initVisitHistories =
-      _createInitVhList(300, DateTime(2019, 1, 1), DateTime.now());
+  static List<VisitHistory> _initVisitHistories = List();
 
   // [初期化を実行する]
-  initialize(BuildContext context) async {
-    print('--- sample data init start ...');
+  initialize(
+    BuildContext context, {
+    int customersLength = 10,
+    int employeesLength = 5,
+    int menuCategoriesLength = 10,
+    int menusLength = 30,
+    int visitHistoriesLength = 100,
+    DateTime sinceDate,
+    DateTime untilDate,
+  }) async {
+    print('--- sample data init check start ...');
+    prefs = await SharedPreferences.getInstance();
+
+    final savedCustomers = prefs.getInt('customer');
+    final savedEmployees = prefs.getInt('employee');
+    final savedCategories = prefs.getInt('menuCategory');
+    final savedMenus = prefs.getInt('menu');
+    final savedVisitHistories = prefs.getInt('visitHistory');
 
     final customerDao = Provider.of<CustomerDao>(context, listen: false);
     final employeeDao = Provider.of<EmployeeDao>(context, listen: false);
@@ -53,54 +71,131 @@ class SampleDataInitializer {
 
     try {
       //Customersテーブルの初期化
-      if ((await customerDao.getCustomers()).isEmpty) {
+
+      print('[CHECK] Customer Data...');
+      if (savedCustomers == null || savedCustomers == 0) {
+        print('  Empty.');
+
+        print('  init data creating...');
+        _initCustomers = _createInitCustomerList(customersLength);
+        print('  -> OK.');
+
+        print('  init data adding DB...');
         await customerDao.addAllCustomers(_initCustomers);
-        print('  ...Customers init ok. : ${_initCustomers.length} data');
+        print('  -> OK.');
+
+        print('  setting preference...');
+        await prefs.setInt('customer', _initCustomers.length);
+        print('  -> OK.');
+
+        print('  ...Customers ${_initCustomers.length} data init.');
       } else {
-        print(
-            '  ...Customers not empty. : exists ${_initCustomers.length} data');
+        print('  Not Empty.');
+
+        print('  ...Customers $savedCustomers data exists.');
       }
 
       // Employeesテーブルの初期化
-      if ((await employeeDao.allEmployees).isEmpty) {
+      print('[CHECK] Employee Data...');
+      if (savedEmployees == null || savedEmployees == 0) {
+        print('  Empty.');
+
+        print('  init data creating...');
+        _initEmployees = _createInitEmployeeList(employeesLength);
+        print('  -> OK.');
+
+        print('  init data adding DB...');
         await employeeDao.addAllEmployees(_initEmployees);
-        print('  ...Employees init ok. : ${_initEmployees.length} data');
+        print('  -> OK.');
+
+        print('  setting preference...');
+        await prefs.setInt('employee', _initEmployees.length);
+        print('  -> OK.');
+
+        print('  ...Employees ${_initEmployees.length} data init.');
       } else {
-        print(
-            '  ...Employees not empty. : exists ${_initEmployees.length} data');
+        print('  Not Empty.');
+
+        print('  ...Employees: $savedEmployees data exists.');
       }
 
       // MenuCategoriesテーブルの初期化
-      if ((await menuCategoryDao.allMenuCategories).isEmpty) {
+      print('[CHECK] MenuCategory Data...');
+      if (savedCategories == null || savedCategories == 0) {
+        print('  Empty.');
+
+        print('  init data creating...');
+        _initMenuCategories = _createInitMenuCategoryList(menuCategoriesLength);
+        print('  -> OK.');
+
+        print('  init data adding DB...');
         await menuCategoryDao.addAllMenuCategories(_initMenuCategories);
-        print(
-            '  ...MenuCategories init ok. : ${_initMenuCategories.length} data');
+        print('  -> OK.');
+
+        print('  setting preference...');
+        await prefs.setInt('menuCategory', _initMenuCategories.length);
+        print('  -> OK.');
+
+        print('  ...MenuCategories: ${_initMenuCategories.length} data init.');
       } else {
-        print(
-            '  ...MenuCategories not empty. : exists ${_initMenuCategories.length} data');
+        print('  Not Empty.');
+
+        print('  ...MenuCategories: $savedCategories data exists.');
       }
 
       // Menusテーブルの初期化
-      if ((await menuDao.allMenus).isEmpty) {
+      print('[CHECK] Menus Data...');
+      if (savedMenus == null || savedMenus == 0) {
+        print('  Empty.');
+
+        print('  init data creating...');
+        _initMenus = _createInitMenuList(menusLength);
+        print('  -> OK.');
+
+        print('  init data adding DB...');
         await menuDao.addAllMenus(_initMenus);
-        print('  ...Menus init ok. : ${_initMenus.length} data');
+        print('  -> OK.');
+
+        print('  setting preference...');
+        await prefs.setInt('menu', _initMenus.length);
+        print('  -> OK.');
+
+        print('  ...Menus: ${_initMenus.length} data init.');
       } else {
-        print('  ...Menus not empty. : exists ${_initMenus.length} data');
+        print('  Not Empty.');
+
+        print('  ...Menus: $savedMenus data exists.');
       }
 
       // VisitHistoriesテーブルの初期化
-      if ((await vhDao.getVisitHistories()).isEmpty) {
+      print('[CHECK] VisitHistory Data...');
+      if (savedVisitHistories == null || savedVisitHistories == 0) {
+        print('  Empty.');
+
+        print('  init data creating...');
+        _initVisitHistories =
+            _createInitVhList(visitHistoriesLength, sinceDate, untilDate);
+        print('  -> OK.');
+
+        print('  init data adding DB...');
         await vhDao.addAllVisitHistory(_initVisitHistories);
-        print(
-            '  ...VisitHistories init ok. : ${_initVisitHistories.length} data');
+        print('  -> OK.');
+
+        print('  setting preference...');
+        await prefs.setInt('visitHistory', _initVisitHistories.length);
+        print('  -> OK.');
+
+        print('  ...VisitHistories: ${_initVisitHistories.length} data init.');
       } else {
-        print(
-            '  ...VisitHistories not empty. : exists ${_initVisitHistories.length} data');
+        print('  Not Empty.');
+
+        print('  ...VisitHistories: $savedVisitHistories data exists.');
       }
 
       print('--- initialize finished.');
     } on SqliteException catch (e) {
-      print('!!sample data init Exception：$e');
+      print('  Empty.');
+      print('[!!]sample data init Exception：$e');
     }
   }
 
@@ -191,8 +286,11 @@ class SampleDataInitializer {
   }
 
   // [データ作成：来店履歴リスト]
-  static _createInitVhList(int length, DateTime since, DateTime until) {
+  static _createInitVhList(int length, DateTime sinceDate, DateTime untilDate) {
     List<VisitHistory> vhList = List();
+
+    DateTime since = sinceDate ?? DateTime(2019, 1, 1);
+    DateTime until = untilDate ?? DateTime.now();
 
     List<DateTime> dateList = List();
     int randomCustomer;

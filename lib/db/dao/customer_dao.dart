@@ -22,9 +22,9 @@ class CustomerDao extends DatabaseAccessor<MyDatabase> with _$CustomerDaoMixin {
 
   // [追加：複数]
   Future<void> addAllCustomers(List<Customer> customersList) {
-    print('DB: ${customersList}');
     return batch((batch) {
       batch.insertAll(customers, customersList, mode: InsertMode.replace);
+      print('  [DAO] Customer saved: ${customersList.length}');
     });
   }
 

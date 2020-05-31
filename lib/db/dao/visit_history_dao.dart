@@ -24,6 +24,7 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
   Future<void> addAllVisitHistory(List<VisitHistory> visitHistoryList) {
     return batch((batch) {
       batch.insertAll(visitHistories, visitHistoryList);
+      print('  [DAO] VisitHistories saved: ${visitHistoryList.length}');
     });
   }
 

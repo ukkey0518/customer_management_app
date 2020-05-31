@@ -19,6 +19,7 @@ class MenuDao extends DatabaseAccessor<MyDatabase> with _$MenuDaoMixin {
   Future<void> addAllMenus(List<Menu> menuList) async {
     await batch((batch) {
       batch.insertAll(menus, menuList);
+      print('  [DAO] Menus saved: ${menuList.length}');
     });
   }
 

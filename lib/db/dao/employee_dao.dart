@@ -19,6 +19,7 @@ class EmployeeDao extends DatabaseAccessor<MyDatabase> with _$EmployeeDaoMixin {
   Future<void> addAllEmployees(List<Employee> employeesList) async {
     await batch((batch) {
       batch.insertAll(employees, employeesList);
+      print('  [DAO] Employee saved: ${employeesList.length}');
     });
   }
 

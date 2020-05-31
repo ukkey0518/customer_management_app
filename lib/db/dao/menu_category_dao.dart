@@ -21,6 +21,7 @@ class MenuCategoryDao extends DatabaseAccessor<MyDatabase>
       List<MenuCategory> menuCategoriesList) async {
     await batch((batch) {
       batch.insertAll(menuCategories, menuCategoriesList);
+      print('  [DAO] MenuCategories saved: ${menuCategoriesList.length}');
     });
   }
 
