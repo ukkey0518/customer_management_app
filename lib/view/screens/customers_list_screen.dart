@@ -7,6 +7,9 @@ import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dia
 import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
+import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
+import 'package:customermanagementapp/view/components/search_bar_items/narrow_dorpdown_menu.dart';
+import 'package:customermanagementapp/view/components/search_bar_items/sort_dropdown_menu.dart';
 import 'package:customermanagementapp/view/screens/customer_edit_screen.dart';
 import 'package:customermanagementapp/viewmodel/customers_list_view_model.dart';
 import 'package:flutter/material.dart';

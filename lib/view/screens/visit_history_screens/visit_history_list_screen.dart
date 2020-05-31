@@ -4,8 +4,10 @@ import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
-import 'package:customermanagementapp/view/components/narrow_switch_button.dart';
+import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
+import 'package:customermanagementapp/view/components/search_bar_items/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
+import 'package:customermanagementapp/view/components/search_bar_items/sort_dropdown_menu.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -39,7 +41,8 @@ class VisitHistoryListScreen extends StatelessWidget {
             children: <Widget>[
               SearchBar(
                 numberOfItems: viewModel.visitHistories.length,
-                narrowMenu: NarrowSwitchButton(
+                narrowMenu: OnOffSwitchButton(
+                  text: '絞り込み',
                   isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
                   onPressed: () => _showNarrowSetDialog(context),
                 ),

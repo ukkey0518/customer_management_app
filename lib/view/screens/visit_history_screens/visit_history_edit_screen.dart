@@ -316,86 +316,89 @@ class VisitHistoryEditScreen extends StatelessWidget {
         body: Center(
           child: Consumer<VisitHistoryEditViewModel>(
             builder: (context, viewModel, child) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  CurrentModeIndicator(
-                    modeText: viewModel.isReadingMode ? '閲覧モード' : '編集モード',
-                    color: viewModel.isReadingMode
-                        ? Theme.of(context).primaryColorLight
-                        : Colors.amber,
-                  ),
-                  ErrorIndicator(
-                    errorTexts: [
-                      viewModel.customerErrorText,
-                      viewModel.employeeErrorText,
-                      viewModel.menusErrorText,
-                    ],
-                  ),
-                  ContentsColumnWithTitle(
-                    title: 'お客様情報',
-                    children: <Widget>[
-                      RowWithIcon(
-                        icon: Icon(Icons.account_circle),
-                        title: '顧客',
-                        content: viewModel.customer != null
-                            ? CustomerSelectedCard(
-                                customer: viewModel.customer,
-                                onSelected: viewModel.isReadingMode
-                                    ? null
-                                    : (customer) =>
-                                        _setStatus(context, customer: customer),
-                              )
-                            : CustomerNotSelectedCard(
-                                onSelected: viewModel.isReadingMode
-                                    ? null
-                                    : (customer) =>
-                                        _setStatus(context, customer: customer),
-                              ),
-                      ),
-                    ],
-                  ),
-                  MyDivider(),
-                  SizedBox(height: 30),
-                  ContentsColumnWithTitle(
-                    title: '詳細情報',
-                    children: <Widget>[
-                      RowWithIcon(
-                        icon: Icon(Icons.calendar_today),
-                        title: '日付',
-                        content: DateInputTile(
-                          selectedDate: viewModel.date,
-                          onConfirm: (date) => _setStatus(context, date: date),
-                          isDisabled: viewModel.isReadingMode,
-                        ),
-                      ),
-                      RowWithIcon(
-                        icon: Icon(Icons.supervisor_account),
-                        title: '担当',
-                        content: EmployeeInputButton(
-                          selectedEmployee: viewModel.employee,
-                          employees: viewModel.employeeList,
-                          onChanged: (employee) =>
-                              _setStatus(context, employee: employee),
-                          isDisabled: viewModel.isReadingMode,
-                        ),
-                      ),
-                    ],
-                  ),
-                  MyDivider(),
-                  SizedBox(height: 30),
-                  ContentsColumnWithTitle(
-                    title: '提供メニュー',
-                    children: <Widget>[Container()],
-                  ),
-                  Expanded(
-                    child: MenuInputTile(
-                      screenAbsorbing: viewModel.isReadingMode,
-                      onTap: () => _startMenuSelectScreen(context),
-                      menus: viewModel.menus,
+              return SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    CurrentModeIndicator(
+                      modeText: viewModel.isReadingMode ? '閲覧モード' : '編集モード',
+                      color: viewModel.isReadingMode
+                          ? Theme.of(context).primaryColorLight
+                          : Colors.amber,
                     ),
-                  ),
-                ],
+                    ErrorIndicator(
+                      errorTexts: [
+                        viewModel.customerErrorText,
+                        viewModel.employeeErrorText,
+                        viewModel.menusErrorText,
+                      ],
+                    ),
+                    ContentsColumnWithTitle(
+                      title: 'お客様情報',
+                      children: <Widget>[
+                        RowWithIcon(
+                          icon: Icon(Icons.account_circle),
+                          title: '顧客',
+                          content: viewModel.customer != null
+                              ? CustomerSelectedCard(
+                                  customer: viewModel.customer,
+                                  onSelected: viewModel.isReadingMode
+                                      ? null
+                                      : (customer) => _setStatus(context,
+                                          customer: customer),
+                                )
+                              : CustomerNotSelectedCard(
+                                  onSelected: viewModel.isReadingMode
+                                      ? null
+                                      : (customer) => _setStatus(context,
+                                          customer: customer),
+                                ),
+                        ),
+                      ],
+                    ),
+                    MyDivider(),
+                    SizedBox(height: 30),
+                    ContentsColumnWithTitle(
+                      title: '詳細情報',
+                      children: <Widget>[
+                        RowWithIcon(
+                          icon: Icon(Icons.calendar_today),
+                          title: '日付',
+                          content: DateInputTile(
+                            selectedDate: viewModel.date,
+                            onConfirm: (date) =>
+                                _setStatus(context, date: date),
+                            isDisabled: viewModel.isReadingMode,
+                          ),
+                        ),
+                        RowWithIcon(
+                          icon: Icon(Icons.supervisor_account),
+                          title: '担当',
+                          content: EmployeeInputButton(
+                            selectedEmployee: viewModel.employee,
+                            employees: viewModel.employeeList,
+                            onChanged: (employee) =>
+                                _setStatus(context, employee: employee),
+                            isDisabled: viewModel.isReadingMode,
+                          ),
+                        ),
+                      ],
+                    ),
+                    MyDivider(),
+                    SizedBox(height: 30),
+                    ContentsColumnWithTitle(
+                      title: '提供メニュー',
+                      children: <Widget>[Container()],
+                    ),
+                    Expanded(
+                      child: MenuInputTile(
+                        screenAbsorbing: viewModel.isReadingMode,
+                        onTap: () => _startMenuSelectScreen(context),
+                        menus: viewModel.menus,
+                      ),
+                    ),
+                  ],
+                ),
               );
             },
           ),

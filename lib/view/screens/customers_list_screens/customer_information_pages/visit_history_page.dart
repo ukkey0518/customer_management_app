@@ -6,8 +6,9 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
-import 'package:customermanagementapp/view/components/narrow_switch_button.dart';
+import 'package:customermanagementapp/view/components/search_bar_items/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
+import 'package:customermanagementapp/view/components/search_bar_items/sort_dropdown_menu.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/visit_history_edit_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -57,7 +58,7 @@ class _VisitHistoryPageState extends State<VisitHistoryPage> {
       children: <Widget>[
         SearchBar(
           numberOfItems: _visitHistories.length,
-          narrowMenu: NarrowSwitchButton(
+          narrowMenu: OnOffSwitchButton(
             isSetAnyNarrowData: _vhPref.narrowData.isSetAny(),
             onPressed: () => _showNarrowSetDialog(context),
           ),
