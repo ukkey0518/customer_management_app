@@ -19,12 +19,12 @@ class OnOffSwitchButton extends StatelessWidget {
     var offset;
 
     if (isSetAnyNarrowData) {
-      flagText = 'ON';
+      flagText = 'あり';
       fontWeight = FontWeight.bold;
       backgroundColor = Theme.of(context).primaryColorLight;
       offset = Offset(0, 1);
     } else {
-      flagText = 'OFF';
+      flagText = 'なし';
       fontWeight = null;
       backgroundColor = const Color(0xffffffff);
       offset = Offset(0, 2);
