@@ -54,6 +54,9 @@ dependencies:
   #mock_data-package
   mock_data: ^1.2.6
 
+  #shared_preferences-package
+  shared_preferences: ^0.5.7+3
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

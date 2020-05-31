@@ -24,22 +24,23 @@ class SampleDataInitializer {
   static final reasons = visitReasonData.keys.toList();
 
   // [初期データ：顧客]
-  static List<Customer> _initCustomers = _generateInitCustomerList(20);
+  static final List<Customer> _initCustomers = _createInitCustomerList(20);
 
   // [初期データ：従業員]
-  static final List<Employee> _initEmployees = _generateInitEmployeeList(5);
+  static final List<Employee> _initEmployees = _createInitEmployeeList(5);
 
   // [初期データ：メニューカテゴリ]
   static final List<MenuCategory> _initMenuCategories =
-      _generateMenuCategoryList(10);
+      _createInitMenuCategoryList(10);
 
   // [初期データ：メニュー]
-  static final List<Menu> _initMenus = _generateInitMenuList(30);
+  static final List<Menu> _initMenus = _createInitMenuList(30);
 
-  static List<VisitHistory> _initVisitHistories =
-      _generateInitVhList(300, DateTime(2019, 1, 1), DateTime.now());
+  // [初期データ：来店履歴]
+  static final List<VisitHistory> _initVisitHistories =
+      _createInitVhList(300, DateTime(2019, 1, 1), DateTime.now());
 
-  // [初期化メソッド]
+  // [初期化を実行する]
   initialize(BuildContext context) async {
     print('--- sample data init start ...');
 
@@ -103,7 +104,8 @@ class SampleDataInitializer {
     }
   }
 
-  static List<Customer> _generateInitCustomerList(int length) {
+  // [データ作成：顧客リスト]
+  static List<Customer> _createInitCustomerList(int length) {
     List<Customer> customers = List();
 
     String randomName;
@@ -123,7 +125,8 @@ class SampleDataInitializer {
     return customers;
   }
 
-  static List<Employee> _generateInitEmployeeList(int length) {
+  // [データ作成：従業員リスト]
+  static List<Employee> _createInitEmployeeList(int length) {
     List<Employee> employees = List();
 
     String randomName;
@@ -141,7 +144,8 @@ class SampleDataInitializer {
     return employees;
   }
 
-  static List<MenuCategory> _generateMenuCategoryList(int length) {
+  // [データ作成：メニューカテゴリリスト]
+  static List<MenuCategory> _createInitMenuCategoryList(int length) {
     List<MenuCategory> categories = List();
 
     String randomName;
@@ -163,7 +167,8 @@ class SampleDataInitializer {
     return categories;
   }
 
-  static List<Menu> _generateInitMenuList(int length) {
+  // [データ作成：メニューリスト]
+  static List<Menu> _createInitMenuList(int length) {
     List<Menu> menus = List();
 
     String randomName;
@@ -185,7 +190,8 @@ class SampleDataInitializer {
     return menus;
   }
 
-  static _generateInitVhList(int length, DateTime since, DateTime until) {
+  // [データ作成：来店履歴リスト]
+  static _createInitVhList(int length, DateTime since, DateTime until) {
     List<VisitHistory> vhList = List();
 
     List<DateTime> dateList = List();
