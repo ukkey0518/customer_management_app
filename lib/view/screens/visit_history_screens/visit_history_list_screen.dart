@@ -5,7 +5,7 @@ import 'package:customermanagementapp/view/components/dialogs/visit_history_narr
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/view/components/my_drawer.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
-import 'package:customermanagementapp/view/components/search_bar_items/on_off_switch_button.dart';
+import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/sort_dropdown_menu.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.dart';
