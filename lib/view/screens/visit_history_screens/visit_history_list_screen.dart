@@ -24,60 +24,63 @@ class VisitHistoryListScreen extends StatelessWidget {
       viewModel.getVisitHistories();
     });
 
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('来店履歴リスト'),
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        tooltip: '来店追加',
-        onPressed: () => _addVisitHistory(context),
-      ),
-      drawer: MyDrawer(),
-      body: Consumer<VisitHistoryListViewModel>(
-        builder: (context, viewModel, child) {
-          return Column(
-            children: <Widget>[
-              SearchBar(
-                numberOfItems: viewModel.visitHistories.length,
-                narrowMenu: OnOffSwitchButton(
-                  text: '絞り込み',
-                  isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
-                  onPressed: () => _showNarrowSetDialog(context),
-                ),
-                sortMenu: OnOffSwitchButton(
-                  text: '並べ替え',
-                  isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
-                  onPressed: () => _showNarrowSetDialog(context),
-                ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          title: const Text('来店履歴リスト'),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          tooltip: '来店追加',
+          onPressed: () => _addVisitHistory(context),
+        ),
+        drawer: MyDrawer(),
+        body: Consumer<VisitHistoryListViewModel>(
+          builder: (context, viewModel, child) {
+            return Column(
+              children: <Widget>[
+                SearchBar(
+                  numberOfItems: viewModel.visitHistories.length,
+                  narrowMenu: OnOffSwitchButton(
+                    text: '絞り込み',
+                    isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
+                    onPressed: () => _showNarrowSetDialog(context),
+                  ),
+                  sortMenu: OnOffSwitchButton(
+                    text: '並べ替え',
+                    isSetAnyNarrowData: viewModel.vhPref.narrowData.isSetAny(),
+                    onPressed: () => _showNarrowSetDialog(context),
+                  ),
 //                sortMenu: SortDropDownMenu(
 //                  items: visitHistorySortStateMap.values.toList(),
 //                  selectedValue: viewModel.selectedSortValue,
 //                  onSelected: (value) => _sortMenuSelected(context, value),
 //                ),
-                searchMenu: SearchMenu(
-                  controller: viewModel.searchNameController,
-                  onChanged: (name) => _onKeyWordSearch(context, name),
+                  searchMenu: SearchMenu(
+                    controller: viewModel.searchNameController,
+                    onChanged: (name) => _onKeyWordSearch(context, name),
+                  ),
                 ),
-              ),
-              Divider(),
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, index) {
-                    var item = viewModel.visitHistories[index];
-                    return VisitHistoryListItem(
-                      visitHistory: item,
-                      onTap: () => _editVisitHistory(context, item),
-                      onLongPress: () => _deleteVisitHistory(context, item),
-                    );
-                  },
-                  separatorBuilder: (context, index) => Divider(),
-                  itemCount: viewModel.visitHistories.length,
+                Divider(),
+                Expanded(
+                  child: ListView.separated(
+                    itemBuilder: (context, index) {
+                      var item = viewModel.visitHistories[index];
+                      return VisitHistoryListItem(
+                        visitHistory: item,
+                        onTap: () => _editVisitHistory(context, item),
+                        onLongPress: () => _deleteVisitHistory(context, item),
+                      );
+                    },
+                    separatorBuilder: (context, index) => Divider(),
+                    itemCount: viewModel.visitHistories.length,
+                  ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     );
   }
