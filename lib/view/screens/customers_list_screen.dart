@@ -64,12 +64,12 @@ class CustomersListScreen extends StatelessWidget {
             children: <Widget>[
               SearchBar(
                 numberOfItems: viewModel.visitHistoriesByCustomers.length,
-                narrowMenu: NarrowDropDownMenu(
+                narrowSetButton: NarrowDropDownMenu(
                   items: customerNarrowStateMap.values.toList(),
                   selectedValue: viewModel.narrowSelectedValue,
                   onSelected: (value) => _narrowMenuSelected(context, value),
                 ),
-                sortMenu: SortDropDownMenu(
+                sortSetButton: SortDropDownMenu(
                   items: customerSortStateMap.values.toList(),
                   selectedValue: viewModel.sortSelectedValue,
                   onSelected: (value) => _sortMenuSelected(context, value),

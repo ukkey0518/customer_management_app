@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/data/data_classes/visit_history_list_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_sort_data.dart';
+import 'package:customermanagementapp/data/enums/list_sort_order.dart';
 import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/global_repository.dart';
@@ -32,6 +33,9 @@ class VisitHistoryListViewModel extends ChangeNotifier {
 
   String get selectedSortValue => _selectedSortValue;
 
+  ListSortOrder _selectedOrder = ListSortOrder.ASCENDING_ORDER;
+  ListSortOrder get order => _selectedOrder;
+
   getVisitHistories({
     VisitHistoryNarrowData narrowData,
     VisitHistorySortData sortData,
@@ -45,6 +49,7 @@ class VisitHistoryListViewModel extends ChangeNotifier {
     );
 
     _selectedSortValue = visitHistorySortStateMap[_vhPref.sortData.sortState];
+    _selectedOrder = _vhPref.sortData.order;
 
     await _gRep.getData(vhPref: _vhPref);
     _visitHistories = _gRep.visitHistories;

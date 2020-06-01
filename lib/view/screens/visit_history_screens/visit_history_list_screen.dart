@@ -71,23 +71,25 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
               children: <Widget>[
                 SearchBar(
                   numberOfItems: vm.visitHistories.length,
-                  narrowMenu: OnOffSwitchButton(
+                  narrowSetButton: OnOffSwitchButton(
                     title: '絞り込み',
                     value: vm.vhPref.narrowData.isSetAny() ? 'ON' : 'OFF',
                     isSetAnyNarrowData: vm.vhPref.narrowData.isSetAny(),
                     onTap: () => _showNarrowSettingArea(context),
                   ),
-                  sortMenu: OnOffSwitchButton(
+                  sortSetButton: OnOffSwitchButton(
                     title: '並べ替え',
                     value: vm.selectedSortValue,
                     isSetAnyNarrowData: vm.vhPref.narrowData.isSetAny(),
                     onTap: () => _showSortSettingArea(context),
                   ),
-//                sortMenu: SortDropDownMenu(
-//                  items: visitHistorySortStateMap.values.toList(),
-//                  selectedValue: viewModel.selectedSortValue,
-//                  onSelected: (value) => _sortMenuSelected(context, value),
-//                ),
+                  orderSwitchButton: ListSortOrderSwitchButton(
+                    selectedOrder: vm.order,
+                    onUpButtonTap: () => _sortOrderChanged(
+                        context, ListSortOrder.ASCENDING_ORDER),
+                    onDownButtonTap: () =>
+                        _sortOrderChanged(context, ListSortOrder.REVERSE_ORDER),
+                  ),
                   searchMenu: SearchMenu(
                     controller: vm.searchNameController,
                     onChanged: (name) => _onKeyWordSearch(context, name),
@@ -178,14 +180,28 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
     Toast.show('削除しました。', context);
   }
 
-// [コールバック：ソートメニュー選択肢タップ時]
+  // [コールバック：ソートメニュー選択肢タップ時]
   _sortMenuSelected(BuildContext context, String value) async {
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
     final sortData = VisitHistorySortData(
       sortState: visitHistorySortStateMap.getKeyFromValue(value),
-      order: ListSortOrder.REVERSE_ORDER,
+      order: viewModel.order,
+    );
+
+    await viewModel.getVisitHistories(sortData: sortData);
+  }
+
+  // [コールバック：ソート順選択肢タップ時]
+  _sortOrderChanged(BuildContext context, ListSortOrder order) async {
+    final viewModel =
+        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+
+    final sortData = VisitHistorySortData(
+      sortState:
+          visitHistorySortStateMap.getKeyFromValue(viewModel.selectedSortValue),
+      order: order,
     );
 
     await viewModel.getVisitHistories(sortData: sortData);

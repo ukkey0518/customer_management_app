@@ -23,7 +23,7 @@ class SearchResults extends StatelessWidget {
           ),
         ),
         Container(
-          width: 100,
+          width: 80,
           height: 40,
           alignment: Alignment.center,
           child: Text.rich(

@@ -59,12 +59,12 @@ class _VisitHistoryPageState extends State<VisitHistoryPage> {
       children: <Widget>[
         SearchBar(
           numberOfItems: _visitHistories.length,
-          narrowMenu: OnOffSwitchButton(
+          narrowSetButton: OnOffSwitchButton(
             value: '絞り込み',
             isSetAnyNarrowData: _vhPref.narrowData.isSetAny(),
             onTap: () => _showNarrowSetDialog(context),
           ),
-          sortMenu: SortDropDownMenu(
+          sortSetButton: SortDropDownMenu(
             items: visitHistorySortStateMap.values.toList(),
             selectedValue: _selectedSortValue,
             onSelected: (value) => _setSortState(value),

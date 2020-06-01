@@ -23,11 +23,11 @@ class OnOffSwitchButton extends StatelessWidget {
     if (isSetAnyNarrowData) {
       fontWeight = FontWeight.bold;
       backgroundColor = Theme.of(context).primaryColorLight;
-      offset = Offset(0, 1);
+      offset = Offset(0, 0);
     } else {
       fontWeight = null;
       backgroundColor = const Color(0xffffffff);
-      offset = Offset(0, 2);
+      offset = Offset(0, 0);
     }
 
     return Column(
