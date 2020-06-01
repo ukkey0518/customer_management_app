@@ -33,7 +33,7 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
     VisitHistoryListPreferences vhPref,
   }) {
     final narrow = vhPref?.narrowData ?? VisitHistoryNarrowData();
-    final sort = vhPref?.sortState ?? VisitHistorySortState.REGISTER_NEW;
+    final sort = vhPref?.sortState ?? VisitHistorySortState.REGISTER_DATE;
     final name = vhPref?.searchCustomerName ?? '';
 
     return transaction(() async {

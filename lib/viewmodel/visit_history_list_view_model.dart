@@ -16,7 +16,7 @@ class VisitHistoryListViewModel extends ChangeNotifier {
 
   VisitHistoryListPreferences _vhPref = VisitHistoryListPreferences(
     narrowData: VisitHistoryNarrowData(),
-    sortState: VisitHistorySortState.REGISTER_NEW,
+    sortState: VisitHistorySortState.REGISTER_DATE,
     searchCustomerName: '',
   );
 
@@ -27,7 +27,7 @@ class VisitHistoryListViewModel extends ChangeNotifier {
   TextEditingController get searchNameController => _searchNameController;
 
   String _selectedSortValue =
-      visitHistorySortStateMap[VisitHistorySortState.REGISTER_OLD];
+      visitHistorySortStateMap[VisitHistorySortState.REGISTER_DATE];
 
   String get selectedSortValue => _selectedSortValue;
 

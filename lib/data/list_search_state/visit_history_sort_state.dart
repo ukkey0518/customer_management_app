@@ -1,9 +1,13 @@
 enum VisitHistorySortState {
-  REGISTER_NEW,
-  REGISTER_OLD,
+  REGISTER_DATE,
+  PAYMENT_AMOUNT,
+  CUSTOMER_AGE,
+  CUSTOMER_NAME,
 }
 
 const Map<VisitHistorySortState, String> visitHistorySortStateMap = {
-  VisitHistorySortState.REGISTER_NEW: '施術日順(新)',
-  VisitHistorySortState.REGISTER_OLD: '施術日順(古)',
+  VisitHistorySortState.REGISTER_DATE: '施術日順',
+  VisitHistorySortState.PAYMENT_AMOUNT: '金額順',
+  VisitHistorySortState.CUSTOMER_AGE: '年齢順',
+  VisitHistorySortState.CUSTOMER_NAME: '顧客名順',
 };

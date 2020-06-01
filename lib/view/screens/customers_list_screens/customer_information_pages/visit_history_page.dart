@@ -25,7 +25,7 @@ class _VisitHistoryPageState extends State<VisitHistoryPage> {
   List<VisitHistory> _visitHistories = List();
   VisitHistoryListPreferences _vhPref = VisitHistoryListPreferences();
   String _selectedSortValue =
-      visitHistorySortStateMap[VisitHistorySortState.REGISTER_OLD];
+      visitHistorySortStateMap[VisitHistorySortState.REGISTER_DATE];
 
   bool setStateFlag = false;
 
@@ -35,11 +35,11 @@ class _VisitHistoryPageState extends State<VisitHistoryPage> {
       _visitHistories = widget.vhbc.histories;
       _vhPref = VisitHistoryListPreferences(
         narrowData: VisitHistoryNarrowData(),
-        sortState: VisitHistorySortState.REGISTER_OLD,
+        sortState: VisitHistorySortState.REGISTER_DATE,
         searchCustomerName: '',
       );
       _selectedSortValue =
-          visitHistorySortStateMap[VisitHistorySortState.REGISTER_OLD];
+          visitHistorySortStateMap[VisitHistorySortState.REGISTER_DATE];
     }
     super.initState();
   }

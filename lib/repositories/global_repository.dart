@@ -40,7 +40,7 @@ class GlobalRepository extends ChangeNotifier {
 
   VisitHistoryListPreferences _vhPref = VisitHistoryListPreferences(
     narrowData: VisitHistoryNarrowData(),
-    sortState: VisitHistorySortState.REGISTER_NEW,
+    sortState: VisitHistorySortState.REGISTER_DATE,
     searchCustomerName: '',
   );
 

@@ -230,11 +230,45 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   // [反映：ソートを反映させる]
   void applySortState(VisitHistorySortState sortState) {
     switch (sortState) {
-      case VisitHistorySortState.REGISTER_NEW:
+      case VisitHistorySortState.REGISTER_DATE:
         this.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
         break;
-      case VisitHistorySortState.REGISTER_OLD:
-        this.sort((a, b) => a.date.isAfter(b.date) ? 1 : -1);
+
+      case VisitHistorySortState.PAYMENT_AMOUNT:
+        this.sort((a, b) {
+          final aPrice = a.menuListJson.toMenuList().toSumPrice();
+          final bPrice = b.menuListJson.toMenuList().toSumPrice();
+          return aPrice < bPrice ? 1 : -1;
+        });
+        break;
+
+      case VisitHistorySortState.CUSTOMER_AGE:
+        final birthNotNullData = List<VisitHistory>();
+        final birthNullData = List<VisitHistory>();
+        this.forEach((vh) {
+          final birth = vh.customerJson.toCustomer().birth;
+          birth != null ? birthNotNullData.add(vh) : birthNullData.add(vh);
+        });
+        birthNotNullData.sort((a, b) {
+          final aAge = a.customerJson.toCustomer().birth;
+          final bAge = b.customerJson.toCustomer().birth;
+          return aAge.isAfter(bAge) ? 1 : -1;
+        });
+        birthNotNullData.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
+        birthNullData.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
+        this.clear();
+        this.addAll(birthNotNullData);
+        this.addAll(birthNullData);
+        break;
+
+      case VisitHistorySortState.CUSTOMER_NAME:
+        this.sort((a, b) {
+          final aCustomerNameReading = a.customerJson.toCustomer().nameReading;
+          final bCustomerNameReading = b.customerJson.toCustomer().nameReading;
+          return aCustomerNameReading
+              .toLowerCase()
+              .compareTo(bCustomerNameReading.toLowerCase());
+        });
         break;
     }
   }
