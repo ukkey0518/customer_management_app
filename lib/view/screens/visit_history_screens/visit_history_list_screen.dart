@@ -26,6 +26,12 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
   }
 
   @override
+  void dispose() {
+    _nameSearchTextFieldFocusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
