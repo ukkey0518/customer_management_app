@@ -150,23 +150,36 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
   // [コールバック：FABタップ]
   // →売上データを登録する画面へ遷移する
   _addVisitHistory(BuildContext context) {
+    final viewModel =
+        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) => VisitHistoryEditScreen(),
+        builder: (context) {
+          return VisitHistoryEditScreen();
+        },
       ),
-    );
+    ).then((_) async {
+      return await viewModel.getVisitHistories();
+    });
   }
 
   // [コールバック：リストアイテムタップ時]
   // →売上データを登録する画面へ遷移する
   _editVisitHistory(BuildContext context, VisitHistory visitHistory) {
+    final viewModel =
+        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+
     _nameSearchTextFieldFocusNode.unfocus();
     Navigator.of(context).push(
       MaterialPageRoute(
-        builder: (context) =>
-            VisitHistoryEditScreen(visitHistory: visitHistory),
+        builder: (context) {
+          return VisitHistoryEditScreen(visitHistory: visitHistory);
+        },
       ),
-    );
+    ).then((_) async {
+      return await viewModel.getVisitHistories();
+    });
   }
 
   // [コールバック：リストアイテム長押し時]
