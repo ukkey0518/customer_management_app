@@ -15,11 +15,9 @@ class MenuSelectScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MenuSelectViewModel>(context, listen: false);
 
-    if (viewModel.mbcList.isEmpty) {
-      Future(() {
-        viewModel.getMBCList(selectedMenus);
-      });
-    }
+    Future(() {
+      viewModel.getMBCList(selectedMenus);
+    });
 
     return Scaffold(
       appBar: AppBar(

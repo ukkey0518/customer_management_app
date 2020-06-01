@@ -14,11 +14,9 @@ class MenuSettingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final viewModel = Provider.of<MenuSettingViewModel>(context, listen: false);
 
-    if (viewModel.mbcList.isEmpty) {
-      Future(() {
-        viewModel.getMBCList();
-      });
-    }
+    Future(() {
+      viewModel.getMBCList();
+    });
 
     return Scaffold(
       appBar: AppBar(
