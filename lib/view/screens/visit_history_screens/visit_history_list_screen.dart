@@ -17,7 +17,6 @@ class VisitHistoryListScreen extends StatefulWidget {
 }
 
 class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
-  GlobalKey<ScaffoldState> _scaffoldKey;
   FocusNode _nameSearchTextFieldFocusNode;
 
   @override
@@ -28,7 +27,6 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _scaffoldKey = GlobalKey<ScaffoldState>();
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
@@ -46,7 +44,6 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
         }
       },
       child: Scaffold(
-        key: _scaffoldKey,
         appBar: AppBar(
           title: const Text('来店履歴リスト'),
         ),
