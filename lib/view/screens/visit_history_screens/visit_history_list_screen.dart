@@ -1,3 +1,5 @@
+import 'package:customermanagementapp/data/data_classes/visit_history_sort_data.dart';
+import 'package:customermanagementapp/data/enums/list_sort_order.dart';
 import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/data/pickers/single_item_select_picker.dart';
 import 'package:customermanagementapp/db/database.dart';
@@ -181,10 +183,12 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
-    // 選択中のメニューアイテム文字列と一致するEntryを取得
-    final sortState = visitHistorySortStateMap.getKeyFromValue(value);
+    final sortData = VisitHistorySortData(
+      sortState: visitHistorySortStateMap.getKeyFromValue(value),
+      order: ListSortOrder.REVERSE_ORDER,
+    );
 
-    await viewModel.getVisitHistories(sortState: sortState);
+    await viewModel.getVisitHistories(sortData: sortData);
   }
 
 //  _showNarrowSetDialog(BuildContext context) {

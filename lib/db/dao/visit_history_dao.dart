@@ -1,5 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/visit_history_list_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
+import 'package:customermanagementapp/data/data_classes/visit_history_sort_data.dart';
 import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
@@ -33,14 +34,14 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
     VisitHistoryListPreferences vhPref,
   }) {
     final narrow = vhPref?.narrowData ?? VisitHistoryNarrowData();
-    final sort = vhPref?.sortState ?? VisitHistorySortState.REGISTER_DATE;
+    final sort = vhPref?.sortData ?? VisitHistorySortData();
     final name = vhPref?.searchCustomerName ?? '';
 
     return transaction(() async {
       var allVisitHistory = await select(visitHistories).get();
       var result = allVisitHistory
         ..applyNarrowData(narrow)
-        ..applySortState(sort)
+        ..applySortData(sort)
         ..applySearchCustomerName(name);
       return result;
     });

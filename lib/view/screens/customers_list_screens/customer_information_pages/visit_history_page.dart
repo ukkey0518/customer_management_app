@@ -1,6 +1,7 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_list_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
+import 'package:customermanagementapp/data/data_classes/visit_history_sort_data.dart';
 import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
@@ -35,7 +36,7 @@ class _VisitHistoryPageState extends State<VisitHistoryPage> {
       _visitHistories = widget.vhbc.histories;
       _vhPref = VisitHistoryListPreferences(
         narrowData: VisitHistoryNarrowData(),
-        sortState: VisitHistorySortState.REGISTER_DATE,
+        sortData: VisitHistorySortData(),
         searchCustomerName: '',
       );
       _selectedSortValue =
@@ -52,7 +53,7 @@ class _VisitHistoryPageState extends State<VisitHistoryPage> {
     if (!setStateFlag) {
       _visitHistories = widget.vhbc.histories;
       _visitHistories.applyNarrowData(_vhPref.narrowData);
-      _visitHistories.applySortState(_vhPref.sortState);
+      _visitHistories.applySortData(_vhPref.sortData);
     }
     return Column(
       children: <Widget>[
@@ -123,9 +124,9 @@ class _VisitHistoryPageState extends State<VisitHistoryPage> {
 
     setState(() {
       setStateFlag = true;
-      _vhPref.sortState = sortState;
-      _visitHistories.applySortState(_vhPref.sortState);
-      _selectedSortValue = visitHistorySortStateMap[_vhPref.sortState];
+      _vhPref.sortData.sortState = sortState;
+      _visitHistories.applySortData(_vhPref.sortData);
+      _selectedSortValue = visitHistorySortStateMap[_vhPref.sortData.sortState];
     });
   }
 }

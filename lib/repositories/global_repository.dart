@@ -4,9 +4,9 @@ import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_list_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
+import 'package:customermanagementapp/data/data_classes/visit_history_sort_data.dart';
 import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
 import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
-import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/customer_repository.dart';
 import 'package:customermanagementapp/repositories/employee_repository.dart';
@@ -40,7 +40,7 @@ class GlobalRepository extends ChangeNotifier {
 
   VisitHistoryListPreferences _vhPref = VisitHistoryListPreferences(
     narrowData: VisitHistoryNarrowData(),
-    sortState: VisitHistorySortState.REGISTER_DATE,
+    sortData: VisitHistorySortData(),
     searchCustomerName: '',
   );
 
