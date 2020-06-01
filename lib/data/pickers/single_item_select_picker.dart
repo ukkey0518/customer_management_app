@@ -12,7 +12,7 @@ Picker singleItemSelectPicker(
     changeToFirst: true,
     textAlign: TextAlign.center,
     selecteds: [values.indexOf(selectedValue)],
-    columnPadding: const EdgeInsets.all(8.0),
+    columnPadding: const EdgeInsets.all(16.0),
     confirmText: '決定',
     confirmTextStyle: TextStyle(
       fontSize: 16,
