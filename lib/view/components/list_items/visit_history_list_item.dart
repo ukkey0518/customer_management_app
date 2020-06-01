@@ -1,8 +1,8 @@
 import 'package:customermanagementapp/data/enums/date_format_mode.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/styles.dart';
-import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/util/styles.dart';
 import 'package:flutter/material.dart';
 
 class VisitHistoryListItem extends StatelessWidget {
@@ -60,7 +60,7 @@ class VisitHistoryListItem extends StatelessWidget {
                   children: <Widget>[
                     Row(
                       children: <Widget>[
-                        _datePart(date),
+                        _datePart(context, date),
                         _employeePart(employee),
                       ],
                     ),
@@ -79,18 +79,21 @@ class VisitHistoryListItem extends StatelessWidget {
   }
 
   // [ウィジェット：日付欄]
-  Widget _datePart(DateTime dateTime) {
+  Widget _datePart(BuildContext context, DateTime dateTime) {
     var dateStr = dateTime.toFormatStr(DateFormatMode.FULL);
     return Container(
       decoration: BoxDecoration(
-          color: Colors.grey,
+          color: Theme.of(context).primaryColorLight,
           borderRadius: BorderRadius.all(
             Radius.circular(30),
           )),
       padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Text(
         dateStr,
-        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        style: TextStyle(
+          color: Theme.of(context).primaryColorDark,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
