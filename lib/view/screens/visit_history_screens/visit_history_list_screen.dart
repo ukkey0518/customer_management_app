@@ -1,4 +1,7 @@
+import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
+import 'package:customermanagementapp/data/pickers/single_item_select_picker.dart';
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
@@ -120,8 +123,15 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 
   // [コールバック：並べ替え設定ドロワーボタンタップ時]
   _showSortSettingArea(BuildContext context) {
-    print('sort set btn tap.');
-    //TODO
+    final viewModel =
+        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+
+    singleItemSelectPicker(
+      context,
+      visitHistorySortStateMap.values.toList(),
+      viewModel.selectedSortValue,
+      (value) => _sortMenuSelected(context, value),
+    ).showModal(context);
   }
 
   // [コールバック：キーワード検索時]
@@ -167,15 +177,15 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
   }
 
 // [コールバック：ソートメニュー選択肢タップ時]
-//  _sortMenuSelected(BuildContext context, String value) async {
-//    final viewModel =
-//        Provider.of<VisitHistoryListViewModel>(context, listen: false);
-//
-//    // 選択中のメニューアイテム文字列と一致するEntryを取得
-//    final sortState = visitHistorySortStateMap.getKeyFromValue(value);
-//
-//    await viewModel.getVisitHistories(sortState: sortState);
-//  }
+  _sortMenuSelected(BuildContext context, String value) async {
+    final viewModel =
+        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+
+    // 選択中のメニューアイテム文字列と一致するEntryを取得
+    final sortState = visitHistorySortStateMap.getKeyFromValue(value);
+
+    await viewModel.getVisitHistories(sortState: sortState);
+  }
 
 //  _showNarrowSetDialog(BuildContext context) {
 //    final viewModel =

@@ -231,10 +231,10 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   void applySortState(VisitHistorySortState sortState) {
     switch (sortState) {
       case VisitHistorySortState.REGISTER_NEW:
-        this.sort((a, b) => a.date.isAfter(b.date) ? 1 : -1);
+        this.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
         break;
       case VisitHistorySortState.REGISTER_OLD:
-        this.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
+        this.sort((a, b) => a.date.isAfter(b.date) ? 1 : -1);
         break;
     }
   }

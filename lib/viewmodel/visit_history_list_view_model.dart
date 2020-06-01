@@ -16,7 +16,7 @@ class VisitHistoryListViewModel extends ChangeNotifier {
 
   VisitHistoryListPreferences _vhPref = VisitHistoryListPreferences(
     narrowData: VisitHistoryNarrowData(),
-    sortState: VisitHistorySortState.REGISTER_OLD,
+    sortState: VisitHistorySortState.REGISTER_NEW,
     searchCustomerName: '',
   );
 
