@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 
 extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
   // [生成：顧客リストと来店履歴リストからVHBCリストを生成]
@@ -43,5 +43,15 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
   List<Customer> toCustomers() {
     if (this == null || this.isEmpty) return null;
     return this.map((vhbc) => vhbc.customer).toList();
+  }
+
+  // [反映：名前で検索する]
+  void applySearchCustomerName(String name) {
+    if (name == null || name.isEmpty) return;
+    this.removeWhere((vhbc) {
+      final customer = vhbc.customer;
+      return !(customer.name.contains(name) ||
+          customer.nameReading.contains(name));
+    });
   }
 }

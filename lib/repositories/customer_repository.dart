@@ -13,47 +13,34 @@ class CustomerRepository extends ChangeNotifier {
   List<Customer> get customers => _customers;
 
   // [取得：条件一致データ]
-  getCustomers({
-    CustomerListPreferences cPref,
-  }) async {
+  getCustomers() async {
     print('[Rep: Customer] getCustomers');
 
-    _customers = await _dao.getCustomers(preferences: cPref);
+    _customers = await _dao.getCustomers();
     notifyListeners();
   }
 
   // [追加：１件]
-  addCustomer(
-    Customer customer, {
-    CustomerListPreferences cPref,
-  }) async {
+  addCustomer(Customer customer) async {
     print('[Rep: Customer] addCustomer');
 
-    _customers = await _dao.addAndGetAllCustomers(customer, preferences: cPref);
+    _customers = await _dao.addAndGetAllCustomers(customer);
     notifyListeners();
   }
 
   // [追加：複数]
-  addAllCustomers(
-    List<Customer> customerList, {
-    CustomerListPreferences cPref,
-  }) async {
+  addAllCustomers(List<Customer> customerList) async {
     print('[Rep: Customer] addAllCustomers');
 
-    _customers =
-        await _dao.addAllAndGetAllCustomers(customerList, preferences: cPref);
+    _customers = await _dao.addAllAndGetAllCustomers(customerList);
     notifyListeners();
   }
 
   // [削除：１件]
-  deleteCustomer(
-    Customer customer, {
-    CustomerListPreferences cPref,
-  }) async {
+  deleteCustomer(Customer customer) async {
     print('[Rep: Customer] deleteCustomer');
 
-    _customers =
-        await _dao.deleteAndGetAllCustomers(customer, preferences: cPref);
+    _customers = await _dao.deleteAndGetAllCustomers(customer);
     notifyListeners();
   }
 }

@@ -84,7 +84,7 @@ class GlobalRepository extends ChangeNotifier {
     _cPref = cPref ?? _cPref;
     _vhPref = vhPref ?? _vhPref;
 
-    _customers = await _cRep.getCustomers(cPref: _cPref);
+    _customers = await _cRep.getCustomers();
     _employees = await _eRep.getEmployees();
     _menuCategories = await _mcRep.getMenuCategories();
     _menus = await _mRep.getMenus();
@@ -100,7 +100,7 @@ class GlobalRepository extends ChangeNotifier {
     print('[Rep: Global] addSingleData');
     switch (data.runtimeType) {
       case Customer:
-        _customers = await _cRep.addCustomer(data, cPref: pref);
+        _customers = await _cRep.addCustomer(data);
         break;
       case Employee:
         _employees = await _eRep.addEmployee(data);
@@ -121,7 +121,7 @@ class GlobalRepository extends ChangeNotifier {
     print('[Rep: Global] addMultipleData');
     switch (dataList.single.runtimeType) {
       case Customer:
-        _customers = await _cRep.addAllCustomers(dataList, cPref: pref);
+        _customers = await _cRep.addAllCustomers(dataList);
         break;
       case Employee:
         _employees = await _eRep.addAllEmployees(dataList);
@@ -143,7 +143,7 @@ class GlobalRepository extends ChangeNotifier {
     print('[Rep: Global] deleteData');
     switch (data.runtimeType) {
       case Customer:
-        _customers = await _cRep.deleteCustomer(data, cPref: pref);
+        _customers = await _cRep.deleteCustomer(data);
         break;
       case Employee:
         _employees = await _eRep.deleteEmployee(data);
@@ -158,7 +158,7 @@ class GlobalRepository extends ChangeNotifier {
         _visitHistories = await _vhRep.deleteVisitHistory(data, vhPref: pref);
         break;
       case VisitHistoriesByCustomer:
-        _customers = await _cRep.deleteCustomer(data.customer, cPref: cPref);
+        _customers = await _cRep.deleteCustomer(data.customer);
         _visitHistories =
             await _vhRep.deleteMultipleVisitHistories(data.histories);
     }
