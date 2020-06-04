@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 class RoundedRectangleContainer extends StatelessWidget {
-  const RoundedRectangleContainer({
+  RoundedRectangleContainer({
     @required this.child,
     this.radius = 8.0,
     this.color,
-    this.borderColor = Colors.grey,
+    this.borderColor,
     this.borderWidth = 1.0,
     this.height,
     this.width,

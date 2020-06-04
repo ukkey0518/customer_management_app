@@ -18,41 +18,58 @@ class PeriodInputTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
-        Expanded(
-          child: RoundedRectangleContainer(
-            borderColor: Theme.of(context).primaryColor,
-            borderWidth: 2,
-            child: DateInputTile(
-              selectedDate: sinceDate,
-              paddingVertical: 8,
-              paddingHorizontal: 16,
-              onConfirm: (date) => onSinceDateConfirm(date),
-              isClearable: true,
-              maxTime: untilDate,
-              compactMode: true,
+        Row(
+          children: <Widget>[
+            Expanded(
+              child: RoundedRectangleContainer(
+                borderColor: sinceDate != null
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
+                borderWidth: 2,
+                height: 45,
+                width: 120,
+                child: DateInputTile(
+                  selectedDate: sinceDate,
+                  paddingVertical: 8,
+                  paddingHorizontal: 16,
+                  onConfirm: (date) => onSinceDateConfirm(date),
+                  isClearable: true,
+                  maxTime: untilDate,
+                  compactMode: true,
+                ),
+              ),
             ),
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 4.0),
-          child: Text('〜'),
-        ),
-        Expanded(
-          child: RoundedRectangleContainer(
-            borderColor: Theme.of(context).primaryColor,
-            borderWidth: 2,
-            child: DateInputTile(
-              selectedDate: untilDate,
-              paddingVertical: 8,
-              paddingHorizontal: 16,
-              onConfirm: (date) => onUntilDateConfirm(date),
-              isClearable: true,
-              minTime: sinceDate,
-              compactMode: true,
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: Text('〜'),
             ),
-          ),
+            Expanded(
+              child: RoundedRectangleContainer(
+                borderColor: untilDate != null
+                    ? Theme.of(context).primaryColor
+                    : Colors.grey,
+                borderWidth: 2,
+                height: 45,
+                width: 120,
+                child: DateInputTile(
+                  selectedDate: untilDate,
+                  paddingVertical: 8,
+                  paddingHorizontal: 16,
+                  onConfirm: (date) => onUntilDateConfirm(date),
+                  isClearable: true,
+                  minTime: sinceDate,
+                  compactMode: true,
+                ),
+              ),
+            ),
+          ],
+        ),
+        const Text(
+          '※長押しでクリア',
+          style: TextStyle(fontSize: 12),
         ),
       ],
     );
