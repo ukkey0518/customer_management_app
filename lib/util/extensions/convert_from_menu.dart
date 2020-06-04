@@ -10,15 +10,15 @@ extension ConvertFromMenu on Menu {
   }) {
     final list = List();
 
-    list.add(showId ? 'id:$id' : '');
-    list.add(showName ? 'name:$name' : '');
+    list.add(showId ? 'id: $id' : '');
+    list.add(showName ? 'name: $name' : '');
     list.add(showCategory
-        ? 'category:${menuCategoryJson.toMenuCategory().toPrintText()}'
+        ? 'category: ${menuCategoryJson.toMenuCategory().toPrintText()}'
         : '');
-    list.add(showPrice ? 'price:${price.toPriceString()}' : '');
+    list.add(showPrice ? 'price: ${price.toPriceString()}' : '');
 
     list.removeWhere((value) => value == '');
 
-    return list.join(',');
+    return list.join(', ');
   }
 }

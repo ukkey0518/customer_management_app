@@ -25,20 +25,21 @@ extension ConvertFromVisitHistory on VisitHistory {
   }) {
     final list = List();
 
-    list.add(showId ? 'id:$id' : '');
-    list.add(showDate ? 'date:${date.toFormatStr(DateFormatMode.MEDIUM)}' : '');
+    list.add(showId ? 'id: $id' : '');
+    list.add(
+        showDate ? 'date: ${date.toFormatStr(DateFormatMode.MEDIUM)}' : '');
     list.add(showCustomer
-        ? 'customer:${customerJson.toCustomer().toPrintText()}'
+        ? 'customer: ${customerJson.toCustomer().toPrintText()}'
         : '');
     list.add(showEmployee
-        ? 'employee:${employeeJson.toEmployee().toPrintText()}'
+        ? 'employee: ${employeeJson.toEmployee().toPrintText()}'
         : '');
     list.add(showMenuList
-        ? 'menuList:${menuListJson.toMenuList().toPrintText()}'
+        ? 'menuList: ${menuListJson.toMenuList().toPrintText()}'
         : '');
 
     list.removeWhere((value) => value == '');
 
-    return list.join(',');
+    return list.join(', ');
   }
 }

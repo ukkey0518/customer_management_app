@@ -579,7 +579,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       print(
           'spotList: ${spotList.toPrintText(xMode: isMonthSummaryMode ? 'day' : 'month', yMode: 'nov')}');
       print(
-          'vhListByLength: ${List<List<VisitHistory>>.from(vhListByLength).map<List<String>>((list) {
+          'vhListByLength: ${List<List<VisitHistory>>.from(vhListByLength).map<String>((list) {
         return ConvertFromVisitHistoryList(list).toPrintText();
       })}');
 
@@ -631,7 +631,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
     print(
         'spotList: ${spotList.toPrintText(xMode: isMonthSummaryMode ? 'day' : 'month', yMode: 'nov')}');
     print(
-        'vhListByLength: ${List<List<VisitHistory>>.from(vhListByLength).map<List<String>>((list) {
+        'vhListByLength: ${List<List<VisitHistory>>.from(vhListByLength).map<String>((list) {
       return ConvertFromVisitHistoryList(list).toPrintText();
     })}');
 
@@ -658,21 +658,25 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   }
 
   // [変換：出力用文字列を取得]
-  List<String> toPrintText({
+  String toPrintText({
     bool showId = false,
     bool showDate = true,
     bool showCustomer = false,
     bool showEmployee = false,
     bool showMenuList = false,
   }) {
-    return List<VisitHistory>.from(this).map((vh) {
-      return vh.toPrintText(
-        showId: showId,
-        showDate: showDate,
-        showCustomer: showCustomer,
-        showEmployee: showEmployee,
-        showMenuList: showMenuList,
-      );
-    }).toList();
+    final str = List<VisitHistory>.from(this).map<String>(
+      (vh) {
+        return vh.toPrintText(
+          showId: showId,
+          showDate: showDate,
+          showCustomer: showCustomer,
+          showEmployee: showEmployee,
+          showMenuList: showMenuList,
+        );
+      },
+    ).join(', ');
+
+    return 'VisitHistoryList{$str}';
   }
 }

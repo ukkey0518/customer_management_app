@@ -55,19 +55,21 @@ extension ConvertFromMenuList on List<Menu> {
   }
 
   // [変換：出力用文字列を取得]
-  List<String> toPrintText({
+  String toPrintText({
     bool showId = false,
     bool showName = true,
     bool showCategory = false,
     bool showPrice = false,
   }) {
-    return List<Menu>.from(this).map((m) {
+    final str = List<Menu>.from(this).map<String>((m) {
       return m.toPrintText(
         showId: showId,
         showName: showName,
         showCategory: showCategory,
         showPrice: showPrice,
       );
-    }).toList();
+    }).join(', ');
+
+    return 'MenuList{$str}';
   }
 }

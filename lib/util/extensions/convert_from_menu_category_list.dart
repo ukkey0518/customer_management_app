@@ -1,27 +1,23 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 
-extension ConvertFromEmployeeList on List<Employee> {
-  // [取得：IDから従業員データを取得]
-  getEmployee(int id) {
-    if (this.isEmpty) return null;
-    return this.singleWhere((em) => em.id == id);
-  }
-
+extension ConvertFromMenuCategoryList on List<MenuCategory> {
   // [変換：出力用文字列を取得]
   String toPrintText({
     bool showId = false,
     bool showName = true,
+    bool showColor = false,
   }) {
-    final str = List<Employee>.from(this).map<String>(
-      (e) {
-        return e.toPrintText(
+    final str = List<MenuCategory>.from(this).map<String>(
+      (mc) {
+        return mc.toPrintText(
           showId: showId,
           showName: showName,
+          showColor: showColor,
         );
       },
     ).join(', ');
 
-    return 'EmployeeList{$str}';
+    return 'MenuCategoryList{$str}';
   }
 }

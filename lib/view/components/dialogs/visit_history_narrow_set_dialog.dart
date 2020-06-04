@@ -26,7 +26,7 @@ class VisitHistoryNarrowSetDialog extends StatelessWidget {
     var selectedEmployee = narrow.employee;
     var selectedMenuCategory = narrow.menuCategory;
 
-    allEmployees.forEach((e) => print(e.toPrintText()));
+    print(allEmployees.toPrintText());
     allMenuCategories.forEach((mc) => print(mc.toPrintText()));
 
     return StatefulBuilder(

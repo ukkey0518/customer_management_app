@@ -13,6 +13,7 @@ export 'convert_from_map.dart';
 export 'convert_from_mbc_list.dart';
 export 'convert_from_menu.dart';
 export 'convert_from_menu_category.dart';
+export 'convert_from_menu_category_list.dart';
 export 'convert_from_menu_list.dart';
 export 'convert_from_string.dart';
 export 'convert_from_vh_data_map.dart';

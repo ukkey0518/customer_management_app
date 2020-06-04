@@ -9,12 +9,12 @@ extension ConvertFromMenuCategory on MenuCategory {
   }) {
     final list = List();
 
-    list.add(showId ? 'id:$id' : '');
-    list.add(showName ? 'name:$name' : '');
-    list.add(showColor ? 'color:$color' : '');
+    list.add(showId ? 'id: $id' : '');
+    list.add(showName ? 'name: $name' : '');
+    list.add(showColor ? 'color: $color' : '');
 
     list.removeWhere((value) => value == '');
 
-    return list.join(',');
+    return 'MenuCategory{${list.join(', ')}}';
   }
 }

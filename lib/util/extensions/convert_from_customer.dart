@@ -14,19 +14,19 @@ extension ConvertFromCustomer on Customer {
   }) {
     final list = List();
 
-    list.add(showId ? 'id:$id' : '');
-    list.add(showName ? 'name:$name' : '');
-    list.add(showNameReading ? 'nameR:$nameReading' : '');
-    list.add(showGender ? 'gender:${isGenderFemale ? 'F' : 'M'}' : '');
+    list.add(showId ? 'id: $id' : '');
+    list.add(showName ? 'name: $name' : '');
+    list.add(showNameReading ? 'nameR: $nameReading' : '');
+    list.add(showGender ? 'gender: ${isGenderFemale ? 'F' : 'M'}' : '');
     list.add(
-        showBirth ? 'birth:${birth.toFormatStr(DateFormatMode.MEDIUM)}' : '');
+        showBirth ? 'birth: ${birth.toFormatStr(DateFormatMode.MEDIUM)}' : '');
     var vrSubText = visitReason.substring(0, 5);
     list.add(showVisitReason
-        ? 'vr:${vrSubText + '${vrSubText != visitReason ? '…' : ''}'}'
+        ? 'vr: ${vrSubText + '${vrSubText != visitReason ? '…' : ''}'}'
         : '');
 
     list.removeWhere((value) => value == '');
 
-    return list.join(',');
+    return 'Customer{${list.join(', ')}}';
   }
 }

@@ -8,11 +8,11 @@ extension ConvertFromEmployee on Employee {
   }) {
     final list = List();
 
-    list.add(showId ? 'id:$id' : '');
-    list.add(showName ? 'name:$name' : '');
+    list.add(showId ? 'id: $id' : '');
+    list.add(showName ? 'name: $name' : '');
 
     list.removeWhere((value) => value == '');
 
-    return list.join(',');
+    return 'Employee{${list.join(', ')}}';
   }
 }
