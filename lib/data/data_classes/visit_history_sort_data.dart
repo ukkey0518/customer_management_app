@@ -12,6 +12,6 @@ class VisitHistorySortData {
 
   @override
   String toString() {
-    return 'SortData(ss: $sortState, or: $order)';
+    return '[VH]SortData(ss: $sortState, or: $order)';
   }
 }

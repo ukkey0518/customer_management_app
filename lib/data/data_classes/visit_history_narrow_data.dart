@@ -31,6 +31,6 @@ class VisitHistoryNarrowData {
 
   @override
   String toString() {
-    return 'NarrowData(sd: $sinceDate, ud: $untilDate, em: $employee, mc: $menuCategory)';
+    return '[VH]NarrowData(sd: $sinceDate, ud: $untilDate, em: $employee, mc: $menuCategory)';
   }
 }
