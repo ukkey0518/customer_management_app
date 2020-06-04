@@ -16,6 +16,14 @@ class VisitHistoryListViewModel extends ChangeNotifier {
 
   List<VisitHistory> get visitHistories => _visitHistories;
 
+  List<Employee> _allEmployees = List();
+
+  List<Employee> get allEmployees => _allEmployees;
+
+  List<MenuCategory> _allMenuCategories = List();
+
+  List<MenuCategory> get allMenuCategories => _allMenuCategories;
+
   VisitHistoryListPreferences _vhPref = VisitHistoryListPreferences(
     narrowData: VisitHistoryNarrowData(),
     sortData: VisitHistorySortData(),
@@ -34,6 +42,7 @@ class VisitHistoryListViewModel extends ChangeNotifier {
   String get selectedSortValue => _selectedSortValue;
 
   ListSortOrder _selectedOrder = ListSortOrder.ASCENDING_ORDER;
+
   ListSortOrder get order => _selectedOrder;
 
   getVisitHistories({
@@ -53,6 +62,8 @@ class VisitHistoryListViewModel extends ChangeNotifier {
 
     await _gRep.getData(vhPref: _vhPref);
     _visitHistories = _gRep.visitHistories;
+    _allEmployees = _gRep.employees;
+    _allMenuCategories = _gRep.menuCategories;
   }
 
   deleteVisitHistory(VisitHistory visitHistory) async {
@@ -63,6 +74,8 @@ class VisitHistoryListViewModel extends ChangeNotifier {
   onRepositoryUpdated(GlobalRepository gRep) {
     print('  [VM: 来店履歴リスト画面] onRepositoryUpdated');
     _visitHistories = gRep.visitHistories;
+    _allEmployees = gRep.employees;
+    _allMenuCategories = gRep.menuCategories;
 
     notifyListeners();
   }

@@ -131,6 +131,8 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
       builder: (_) {
         return VisitHistoryNarrowSetDialog(
           narrowData: viewModel.vhPref.narrowData,
+          allEmployees: viewModel.allEmployees,
+          allMenuCategories: viewModel.allMenuCategories,
         );
       },
     ).then((narrowData) async {
