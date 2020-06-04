@@ -67,19 +67,15 @@ class DateInputTile extends InputWidget {
       );
     }
 
-    return Column(
-      children: <Widget>[
-        InkWell(
-          onTap: () => _showDateSelectPicker(context),
-          onLongPress: isClearable ? () => onConfirm(null) : null,
-          child: Container(
-            color: color,
-            padding: EdgeInsets.symmetric(
-                horizontal: paddingHorizontal, vertical: paddingVertical),
-            child: content,
-          ),
-        ),
-      ],
+    return InkWell(
+      onTap: () => _showDateSelectPicker(context),
+      onLongPress: isClearable ? () => onConfirm(null) : null,
+      child: Container(
+        color: color,
+        padding: EdgeInsets.symmetric(
+            horizontal: paddingHorizontal, vertical: paddingVertical),
+        child: content,
+      ),
     );
   }
 

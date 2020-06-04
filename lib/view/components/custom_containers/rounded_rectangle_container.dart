@@ -25,6 +25,7 @@ class RoundedRectangleContainer extends StatelessWidget {
     return Container(
       height: height,
       width: width,
+      alignment: Alignment.center,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(radius)),
         border: Border.all(color: borderColor, width: borderWidth),
