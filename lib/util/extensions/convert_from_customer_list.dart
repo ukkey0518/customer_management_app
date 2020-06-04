@@ -15,8 +15,9 @@ extension ConvertFromCustomerList on List<Customer> {
 
   // [取得：IDから顧客を取得]
   Customer getCustomer(int id) {
-    if (this == null || id == null) return null;
-    return this.singleWhere((customer) => customer.id == id);
+    if (this == null || this.isEmpty || id == null) return null;
+    final customerList = this.where((customer) => customer.id == id).toList();
+    return customerList.isNotEmpty ? customerList[0] : null;
   }
 
   // [変換：出力用文字列を取得]

@@ -20,8 +20,8 @@ extension ConvertFromCustomer on Customer {
     list.add(showGender ? 'gender: ${isGenderFemale ? 'F' : 'M'}' : '');
     list.add(
         showBirth ? 'birth: ${birth.toFormatStr(DateFormatMode.MEDIUM)}' : '');
-    var vrSubText = visitReason.substring(0, 5);
-    list.add(showVisitReason
+    var vrSubText = visitReason != null ? visitReason.substring(0, 5) : '';
+    list.add(showVisitReason && vrSubText.isNotEmpty
         ? 'vr: ${vrSubText + '${vrSubText != visitReason ? '…' : ''}'}'
         : '');
 

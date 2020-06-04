@@ -127,7 +127,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
         this.sort((a, b) {
           final aRepCy = a.histories.getRepeatCycle();
           final bRepCy = b.histories.getRepeatCycle();
-          return aRepCy < bRepCy ? 1 : -1;
+          return aRepCy > bRepCy ? 1 : -1;
         });
         break;
 
