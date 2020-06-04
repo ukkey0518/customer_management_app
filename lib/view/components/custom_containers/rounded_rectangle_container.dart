@@ -9,6 +9,9 @@ class RoundedRectangleContainer extends StatelessWidget {
     this.borderWidth = 1.0,
     this.height,
     this.width,
+    this.padding,
+    this.onTap,
+    this.onLongPress,
   })  : assert(radius != null),
         assert(borderWidth != null);
 
@@ -19,19 +22,38 @@ class RoundedRectangleContainer extends StatelessWidget {
   final double borderWidth;
   final double height;
   final double width;
+  final EdgeInsets padding;
+  final VoidCallback onTap;
+  final VoidCallback onLongPress;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       height: height,
       width: width,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.all(Radius.circular(radius)),
-        border: Border.all(color: borderColor, width: borderWidth),
-        color: color,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(radius)),
+          border: Border.all(color: borderColor, width: borderWidth),
+          color: color,
+        ),
+        child: SizedBox(
+          height: double.infinity,
+          width: double.infinity,
+          child: InkWell(
+            customBorder: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(radius)),
+            ),
+            onTap: onTap,
+            onLongPress: onLongPress,
+            child: Container(
+              alignment: Alignment.center,
+              padding: padding,
+              child: child,
+            ),
+          ),
+        ),
       ),
-      child: child,
     );
   }
 }
