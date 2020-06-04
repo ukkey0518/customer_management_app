@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/view/components/custom_containers/rounded_rectangle_container.dart';
 import 'package:flutter/material.dart';
 
 import 'date_input_tile.dart';
@@ -20,11 +21,12 @@ class PeriodInputTile extends StatelessWidget {
     return Row(
       children: <Widget>[
         Expanded(
-          child: Card(
-            color: Colors.grey.shade200,
+          child: RoundedRectangleContainer(
+            borderColor: Theme.of(context).primaryColor,
+            borderWidth: 2,
             child: DateInputTile(
               selectedDate: sinceDate,
-              paddingVertical: 16,
+              paddingVertical: 8,
               paddingHorizontal: 16,
               onConfirm: (date) => onSinceDateConfirm(date),
               isClearable: true,
@@ -38,11 +40,12 @@ class PeriodInputTile extends StatelessWidget {
           child: Text('〜'),
         ),
         Expanded(
-          child: Card(
-            color: Colors.grey.shade200,
+          child: RoundedRectangleContainer(
+            borderColor: Theme.of(context).primaryColor,
+            borderWidth: 2,
             child: DateInputTile(
               selectedDate: untilDate,
-              paddingVertical: 16,
+              paddingVertical: 8,
               paddingHorizontal: 16,
               onConfirm: (date) => onUntilDateConfirm(date),
               isClearable: true,
