@@ -102,18 +102,20 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
           final birth = vhbc.customer.birth;
           birth != null ? birthNotNullData.add(vhbc) : birthNullData.add(vhbc);
         });
-        birthNotNullData.sort((a, b) => a.histories
-                .getLastVisitHistory()
-                .date
-                .isBefore(b.histories.getLastVisitHistory().date)
-            ? 1
-            : -1);
-        birthNullData.sort((a, b) => a.histories
-                .getLastVisitHistory()
-                .date
-                .isBefore(b.histories.getLastVisitHistory().date)
-            ? 1
-            : -1);
+        birthNotNullData.sort((a, b) {
+          final aVh = a.histories.getFirstVisitHistory();
+          final bVh = b.histories.getFirstVisitHistory();
+          final aDate = aVh != null ? aVh.date : DateTime(1, 1, 1);
+          final bDate = bVh != null ? bVh.date : DateTime(1, 1, 1);
+          return aDate.isBefore(bDate) ? 1 : -1;
+        });
+        birthNullData.sort((a, b) {
+          final aVh = a.histories.getFirstVisitHistory();
+          final bVh = b.histories.getFirstVisitHistory();
+          final aDate = aVh != null ? aVh.date : DateTime(1, 1, 1);
+          final bDate = bVh != null ? bVh.date : DateTime(1, 1, 1);
+          return aDate.isBefore(bDate) ? 1 : -1;
+        });
         this.clear();
         this.addAll(birthNotNullData);
         this.addAll(birthNullData);

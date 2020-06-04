@@ -246,10 +246,16 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         birthNotNullData.sort((a, b) {
           final aAge = a.customerJson.toCustomer().birth;
           final bAge = b.customerJson.toCustomer().birth;
+          if (aAge.isAtSameMomentAs(bAge)) {
+            // 同じ年齢の場合は来店日順にソート
+            return a.date.isAfter(b.date) ? 1 : -1;
+          }
           return aAge.isAfter(bAge) ? 1 : -1;
         });
-        birthNotNullData.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
-        birthNullData.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
+        // 年齢未登録の場合は来店日順にソート
+        birthNullData.sort((a, b) {
+          return a.date.isAfter(b.date) ? 1 : -1;
+        });
         dataList.clear();
         dataList.addAll(birthNotNullData);
         dataList.addAll(birthNullData);
