@@ -43,11 +43,9 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
-    if (viewModel.visitHistories.isEmpty) {
-      Future(() {
-        viewModel.getVisitHistories();
-      });
-    }
+    Future(() {
+      viewModel.getVisitHistories();
+    });
 
     return GestureDetector(
       onTap: () {
