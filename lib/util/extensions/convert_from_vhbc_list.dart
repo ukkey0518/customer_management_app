@@ -1,3 +1,5 @@
+import 'package:customermanagementapp/data/data_classes/customer_narrow_data.dart';
+import 'package:customermanagementapp/data/data_classes/customer_sort_data.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
@@ -43,6 +45,16 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
   List<Customer> toCustomers() {
     if (this == null || this.isEmpty) return null;
     return this.map((vhbc) => vhbc.customer).toList();
+  }
+
+  // [反映：絞り込み設定を反映する]
+  void applyNarrowData(CustomerNarrowData narrowData) {
+    //TODO
+  }
+
+  // [反映：並べ替え設定を反映する]
+  void applySortData(CustomerSortData sortData) {
+    //TODO
   }
 
   // [反映：名前で検索する]

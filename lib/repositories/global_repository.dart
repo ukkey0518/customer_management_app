@@ -92,7 +92,10 @@ class GlobalRepository extends ChangeNotifier {
 
     _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
     _visitHistoriesByCustomers =
-        ConvertFromVHBCList.from(_customers, _visitHistories);
+        ConvertFromVHBCList.from(_customers, _visitHistories)
+          ..applyNarrowData(_cPref.narrowData)
+          ..applySortData(_cPref.sortData)
+          ..applySearchCustomerName(_cPref.searchWord);
     notifyListeners();
   }
 
@@ -187,7 +190,10 @@ class GlobalRepository extends ChangeNotifier {
 
     _menusByCategories = _menusByCategories.build(_menus, _menuCategories);
     _visitHistoriesByCustomers =
-        ConvertFromVHBCList.from(_customers, _visitHistories);
+        ConvertFromVHBCList.from(_customers, _visitHistories)
+          ..applyNarrowData(_cPref.narrowData)
+          ..applySortData(_cPref.sortData)
+          ..applySearchCustomerName(_cPref.searchWord);
     notifyListeners();
   }
 
