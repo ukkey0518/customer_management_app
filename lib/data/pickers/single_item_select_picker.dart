@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 
 Picker singleItemSelectPicker(
-  BuildContext context,
+  BuildContext context, {
   List<String> values,
   String selectedValue,
   ValueChanged<String> onConfirm,
-) {
+}) {
   return Picker(
     adapter: PickerDataAdapter<String>(pickerdata: values),
     changeToFirst: true,

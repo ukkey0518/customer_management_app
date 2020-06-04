@@ -1,15 +1,16 @@
 import 'package:customermanagementapp/data/abstract_classes/list_preferences.dart';
-import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
-import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
+import 'package:customermanagementapp/data/data_classes/customer_narrow_data.dart';
+import 'package:customermanagementapp/data/data_classes/customer_sort_data.dart';
 
 class CustomerListPreferences extends ListPreferences {
-  CustomerListPreferences({this.narrowState, this.sortState, this.searchWord});
-  CustomerNarrowState narrowState;
-  CustomerSortState sortState;
+  CustomerListPreferences({this.narrowData, this.sortData, this.searchWord});
+
+  CustomerNarrowData narrowData;
+  CustomerSortData sortData;
   String searchWord;
 
   @override
   String toString() {
-    return 'n : $narrowState, s: $sortState, sw: $searchWord';
+    return 'n: $narrowData, s: $sortData, sw: $searchWord';
   }
 }

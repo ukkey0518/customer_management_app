@@ -48,7 +48,8 @@ class SingleItemSelecter extends InputWidget {
   }
 
   _showItemSelectPicker(BuildContext context) {
-    singleItemSelectPicker(context, items, selectedItem, onConfirm)
+    singleItemSelectPicker(context,
+            values: items, selectedValue: selectedItem, onConfirm: onConfirm)
         .showModal(context);
   }
 }

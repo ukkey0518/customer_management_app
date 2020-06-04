@@ -43,7 +43,7 @@ class VisitHistoryListViewModel extends ChangeNotifier {
 
   ListSortOrder _selectedOrder = ListSortOrder.ASCENDING_ORDER;
 
-  ListSortOrder get order => _selectedOrder;
+  ListSortOrder get selectedOrder => _selectedOrder;
 
   getVisitHistories({
     VisitHistoryNarrowData narrowData,

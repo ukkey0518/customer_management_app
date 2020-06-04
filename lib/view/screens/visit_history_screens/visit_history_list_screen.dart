@@ -85,7 +85,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
                     onTap: () => _showSortSettingArea(context),
                   ),
                   orderSwitchButton: ListSortOrderSwitchButton(
-                    selectedOrder: vm.order,
+                    selectedOrder: vm.selectedOrder,
                     onUpButtonTap: () => _sortOrderChanged(
                         context, ListSortOrder.ASCENDING_ORDER),
                     onDownButtonTap: () =>
@@ -146,9 +146,9 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 
     singleItemSelectPicker(
       context,
-      visitHistorySortStateMap.values.toList(),
-      viewModel.selectedSortValue,
-      (value) => _sortMenuSelected(context, value),
+      values: visitHistorySortStateMap.values.toList(),
+      selectedValue: viewModel.selectedSortValue,
+      onConfirm: (value) => _sortMenuSelected(context, value),
     ).showModal(context);
   }
 
@@ -214,7 +214,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 
     final sortData = VisitHistorySortData(
       sortState: visitHistorySortStateMap.getKeyFromValue(value),
-      order: viewModel.order,
+      order: viewModel.selectedOrder,
     );
 
     await viewModel.getVisitHistories(sortData: sortData);

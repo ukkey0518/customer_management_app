@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/data_classes/customer_sort_data.dart';
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/enums/list_sort_order.dart';
 import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
@@ -74,7 +75,7 @@ class CustomersListScreen extends StatelessWidget {
                   numberOfItems: vm.visitHistoriesByCustomers.length,
                   narrowSetButton: OnOffSwitchButton(
                     title: '絞り込み',
-                    value: vm.selectedNarrowValue,
+                    value: 'aaa',
                     isOn: false,
                     onTap: () => _showNarrowSettingDialog(context),
                   ),
@@ -129,9 +130,9 @@ class CustomersListScreen extends StatelessWidget {
 
     singleItemSelectPicker(
       context,
-      customerSortStateMap.values.toList(),
-      viewModel.selectedSortValue,
-      (value) => _sortMenuSelected(context, value),
+      values: customerSortStateMap.values.toList(),
+      selectedValue: viewModel.selectedSortValue,
+      onConfirm: (value) => _sortMenuSelected(context, value),
     ).showModal(context);
   }
 
@@ -210,10 +211,16 @@ class CustomersListScreen extends StatelessWidget {
         Provider.of<CustomersListViewModel>(context, listen: false);
 
     // ソートメニュー文字列からCustomerSortStateを取得
-    final sortState = customerSortStateMap.getKeyFromValue(value);
+    final sortData = CustomerSortData(
+      sortState: customerSortStateMap.getKeyFromValue(value),
+      order: viewModel.selectedOrder,
+    );
 
-    await viewModel.getCustomersList(sortState: sortState);
+    await viewModel.getCustomersList(sortData: sortData);
   }
+
+  // [コールバック：ソート順選択肢タップ時]
+  _sortOrderChanged(BuildContext context, ListSortOrder order) async {}
 
   // [コールバック：キーワード検索時]
   _onKeyWordSearch(BuildContext context, String searchWord) async {
@@ -222,7 +229,4 @@ class CustomersListScreen extends StatelessWidget {
 
     await viewModel.getCustomersList(searchWord: searchWord);
   }
-
-  // [コールバック：ソート順選択肢タップ時]
-  _sortOrderChanged(BuildContext context, ListSortOrder order) async {}
 }
