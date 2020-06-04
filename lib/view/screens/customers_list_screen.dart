@@ -1,15 +1,15 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
+import 'package:customermanagementapp/data/enums/list_sort_order.dart';
 import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
-import 'package:customermanagementapp/data/list_search_state/customer_narrow_state.dart';
 import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
+import 'package:customermanagementapp/view/components/buttons/list_sort_order_switch_button.dart';
+import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
-import 'package:customermanagementapp/view/components/search_bar_items/narrow_dorpdown_menu.dart';
-import 'package:customermanagementapp/view/components/search_bar_items/sort_dropdown_menu.dart';
 import 'package:customermanagementapp/view/screens/customer_edit_screen.dart';
 import 'package:customermanagementapp/viewmodel/customers_list_view_model.dart';
 import 'package:flutter/material.dart';
@@ -19,9 +19,10 @@ import 'package:toast/toast.dart';
 import 'customers_list_screens/customer_information_pages/customer_information_screen.dart';
 
 class CustomersListScreen extends StatelessWidget {
-  CustomersListScreen({this.displayMode});
+  CustomersListScreen({this.displayMode}) : _focusNode = FocusNode();
 
   final ScreenDisplayMode displayMode;
+  final FocusNode _focusNode;
 
   @override
   Widget build(BuildContext context) {
@@ -35,11 +36,11 @@ class CustomersListScreen extends StatelessWidget {
     }
 
     return Consumer<CustomersListViewModel>(
-      builder: (context, viewModel, child) {
+      builder: (context, vm, child) {
         var fab;
         var drawer;
 
-        switch (viewModel.displayMode) {
+        switch (vm.displayMode) {
           case ScreenDisplayMode.EDITABLE:
             fab = FloatingActionButton(
               child: Icon(Icons.add),
@@ -63,21 +64,31 @@ class CustomersListScreen extends StatelessWidget {
           body: Column(
             children: <Widget>[
               SearchBar(
-                numberOfItems: viewModel.visitHistoriesByCustomers.length,
-                narrowSetButton: NarrowDropDownMenu(
-                  items: customerNarrowStateMap.values.toList(),
-                  selectedValue: viewModel.narrowSelectedValue,
-                  onSelected: (value) => _narrowMenuSelected(context, value),
+                numberOfItems: vm.visitHistoriesByCustomers.length,
+                narrowSetButton: OnOffSwitchButton(
+                  title: '絞り込み',
+                  value: vm.narrowSelectedValue,
+                  isOn: false,
+                  onTap: () => _showNarrowSettingDialog(context),
                 ),
-                sortSetButton: SortDropDownMenu(
-                  items: customerSortStateMap.values.toList(),
-                  selectedValue: viewModel.sortSelectedValue,
-                  onSelected: (value) => _sortMenuSelected(context, value),
+                sortSetButton: OnOffSwitchButton(
+                  title: '並び替え',
+                  value: vm.sortSelectedValue,
+                  isOn: false,
+                  onTap: () => _showNarrowSettingDialog(context),
+                ),
+                orderSwitchButton: ListSortOrderSwitchButton(
+                  selectedOrder: ListSortOrder.ASCENDING_ORDER,
+                  onUpButtonTap: () =>
+                      _sortOrderChanged(context, ListSortOrder.ASCENDING_ORDER),
+                  onDownButtonTap: () =>
+                      _sortOrderChanged(context, ListSortOrder.REVERSE_ORDER),
                 ),
                 searchMenu: SearchMenu(
-                  controller: viewModel.searchController,
+                  controller: vm.searchController,
                   onChanged: (searchName) =>
                       _onKeyWordSearch(context, searchName),
+                  focusNode: _focusNode,
                 ),
               ),
               Divider(),
@@ -85,11 +96,11 @@ class CustomersListScreen extends StatelessWidget {
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: ListView.builder(
-                    itemCount: viewModel.visitHistoriesByCustomers.length,
+                    itemCount: vm.visitHistoriesByCustomers.length,
                     itemBuilder: (context, index) {
                       return CustomerListItem(
                         visitHistoriesByCustomer:
-                            viewModel.visitHistoriesByCustomers[index],
+                            vm.visitHistoriesByCustomers[index],
                         onTap: (vhbc) => _onListItemTap(context, vhbc),
                         onLongPress: (vhbc) => _deleteVHBC(context, vhbc),
                       );
@@ -159,15 +170,17 @@ class CustomersListScreen extends StatelessWidget {
   }
 
   // [コールバック：絞り込みメニューアイテム選択時]
-  _narrowMenuSelected(BuildContext context, String value) async {
-    final viewModel =
-        Provider.of<CustomersListViewModel>(context, listen: false);
+  _showNarrowSettingDialog(BuildContext context) {}
 
-    // 絞り込みメニュー文字列からCustomerNarrowStateを取得
-    final narrowState = customerNarrowStateMap.getKeyFromValue(value);
-
-    await viewModel.getCustomersList(narrowState: narrowState);
-  }
+//  _narrowMenuSelected(BuildContext context, String value) async {
+//    final viewModel =
+//        Provider.of<CustomersListViewModel>(context, listen: false);
+//
+//    // 絞り込みメニュー文字列からCustomerNarrowStateを取得
+//    final narrowState = customerNarrowStateMap.getKeyFromValue(value);
+//
+//    await viewModel.getCustomersList(narrowState: narrowState);
+//  }
 
   // [コールバック：ソートメニューアイテム選択時]
   _sortMenuSelected(BuildContext context, String value) async {
@@ -187,4 +200,7 @@ class CustomersListScreen extends StatelessWidget {
 
     await viewModel.getCustomersList(searchWord: searchWord);
   }
+
+  // [コールバック：ソート順選択肢タップ時]
+  _sortOrderChanged(BuildContext context, ListSortOrder order) async {}
 }

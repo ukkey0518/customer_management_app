@@ -77,7 +77,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
                     title: '絞り込み',
                     value: vm.vhPref.narrowData.isSetAny() ? 'ON' : 'OFF',
                     isOn: vm.vhPref.narrowData.isSetAny(),
-                    onTap: () => _showNarrowSettingArea(context),
+                    onTap: () => _showNarrowSettingDialog(context),
                   ),
                   sortSetButton: OnOffSwitchButton(
                     title: '並べ替え',
@@ -122,7 +122,7 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
   }
 
   // [コールバック：絞り込み設定ドロワーボタンタップ時]
-  _showNarrowSettingArea(BuildContext context) {
+  _showNarrowSettingDialog(BuildContext context) {
     final viewModel =
         Provider.of<VisitHistoryListViewModel>(context, listen: false);
 
