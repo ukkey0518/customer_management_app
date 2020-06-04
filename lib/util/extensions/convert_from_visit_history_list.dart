@@ -176,60 +176,60 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
   }
 
   // [反映：絞り込みステータスを反映させる]
-  void applyNarrowData(VisitHistoryNarrowData narrowData) {
-    if (this.isEmpty) return;
+  List<VisitHistory> applyNarrowData(VisitHistoryNarrowData narrowData) {
+    if (this.isEmpty) return this;
 
     final sinceDate = narrowData.sinceDate;
     final untilDate = narrowData.untilDate;
     final employee = narrowData.employee;
     final menuCategory = narrowData.menuCategory;
 
-    List<VisitHistory> visitHistories = List.from(this);
+    List<VisitHistory> dataList = List.from(this);
 
     if (sinceDate != null) {
       print('since : $sinceDate');
-      visitHistories = visitHistories.where((vh) {
+      dataList = dataList.where((vh) {
         return vh.date.isAfter(sinceDate);
       }).toList();
     }
 
     if (untilDate != null) {
       print('until : $untilDate');
-      visitHistories = visitHistories.where((vh) {
+      dataList = dataList.where((vh) {
         return vh.date.isBefore(untilDate);
       }).toList();
     }
 
     if (employee != null) {
       print('employee : ${employee.id}');
-      visitHistories = visitHistories.where((vh) {
+      dataList = dataList.where((vh) {
         return vh.employeeJson.toEmployee().id == employee.id;
       }).toList();
     }
 
     if (menuCategory != null) {
       print('menuCategory : ${menuCategory.id}');
-      visitHistories = visitHistories.where((vh) {
+      dataList = dataList.where((vh) {
         var list = vh.toMenuCategoriesList();
         var idList = list.map<int>((category) => category.id).toList();
         return idList.contains(menuCategory.id);
       }).toList();
     }
 
-    this
-      ..clear()
-      ..addAll(visitHistories);
+    return dataList;
   }
 
   // [反映：ソートを反映させる]
-  void applySortData(VisitHistorySortData sortData) {
+  List<VisitHistory> applySortData(VisitHistorySortData sortData) {
+    List<VisitHistory> dataList = List.from(this);
+
     switch (sortData.sortState) {
       case VisitHistorySortState.REGISTER_DATE:
-        this.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
+        dataList.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
         break;
 
       case VisitHistorySortState.PAYMENT_AMOUNT:
-        this.sort((a, b) {
+        dataList.sort((a, b) {
           final aPrice = a.menuListJson.toMenuList().toSumPrice();
           final bPrice = b.menuListJson.toMenuList().toSumPrice();
           return aPrice < bPrice ? 1 : -1;
@@ -239,7 +239,7 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       case VisitHistorySortState.CUSTOMER_AGE:
         final birthNotNullData = List<VisitHistory>();
         final birthNullData = List<VisitHistory>();
-        this.forEach((vh) {
+        dataList.forEach((vh) {
           final birth = vh.customerJson.toCustomer().birth;
           birth != null ? birthNotNullData.add(vh) : birthNullData.add(vh);
         });
@@ -250,13 +250,13 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
         });
         birthNotNullData.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
         birthNullData.sort((a, b) => a.date.isBefore(b.date) ? 1 : -1);
-        this.clear();
-        this.addAll(birthNotNullData);
-        this.addAll(birthNullData);
+        dataList.clear();
+        dataList.addAll(birthNotNullData);
+        dataList.addAll(birthNullData);
         break;
 
       case VisitHistorySortState.CUSTOMER_NAME:
-        this.sort((a, b) {
+        dataList.sort((a, b) {
           final aCustomerNameReading = a.customerJson.toCustomer().nameReading;
           final bCustomerNameReading = b.customerJson.toCustomer().nameReading;
           return aCustomerNameReading
@@ -270,20 +270,26 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       case ListSortOrder.ASCENDING_ORDER:
         break;
       case ListSortOrder.REVERSE_ORDER:
-        final reversedList = this.reversed.toList();
-        this.clear();
-        this.addAll(reversedList);
+        final reversedList = dataList.reversed.toList();
+        dataList.clear();
+        dataList.addAll(reversedList);
         break;
     }
+
+    return dataList;
   }
 
   // [反映：名前で検索する]
-  void applySearchCustomerName(String name) {
-    if (name == null || name.isEmpty) return;
-    this.removeWhere((vh) {
+  List<VisitHistory> applySearchCustomerName(String name) {
+    if (name == null || name.isEmpty) return this;
+
+    List<VisitHistory> dataList = List.from(this);
+    dataList.removeWhere((vh) {
       return !(vh.customerJson.toCustomer().name.contains(name) ||
           vh.customerJson.toCustomer().nameReading.contains(name));
     });
+
+    return dataList;
   }
 
   // [反映：顧客データ、従業員データ、メニューデータの更新を反映する]

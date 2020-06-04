@@ -61,7 +61,9 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
         this.sort((a, b) {
           final aVh = a.histories.getLastVisitHistory();
           final bVh = b.histories.getLastVisitHistory();
-          return aVh.date.isBefore(bVh.date) ? 1 : -1;
+          final aDate = aVh != null ? aVh.date : DateTime(1, 1, 1);
+          final bDate = bVh != null ? bVh.date : DateTime(1, 1, 1);
+          return aDate.isBefore(bDate) ? 1 : -1;
         });
         break;
 
@@ -69,7 +71,9 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
         this.sort((a, b) {
           final aVh = a.histories.getFirstVisitHistory();
           final bVh = b.histories.getFirstVisitHistory();
-          return aVh.date.isAfter(bVh.date) ? 1 : -1;
+          final aDate = aVh != null ? aVh.date : DateTime(1, 1, 1);
+          final bDate = bVh != null ? bVh.date : DateTime(1, 1, 1);
+          return aDate.isAfter(bDate) ? 1 : -1;
         });
         break;
 

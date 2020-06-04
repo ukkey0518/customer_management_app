@@ -1,7 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/visit_history_list_preferences.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_narrow_data.dart';
 import 'package:customermanagementapp/data/data_classes/visit_history_sort_data.dart';
-import 'package:customermanagementapp/data/list_search_state/visit_history_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:moor/moor.dart';
@@ -40,9 +39,9 @@ class VisitHistoryDao extends DatabaseAccessor<MyDatabase>
     return transaction(() async {
       var allVisitHistory = await select(visitHistories).get();
       var result = allVisitHistory
-        ..applyNarrowData(narrow)
-        ..applySortData(sort)
-        ..applySearchCustomerName(name);
+          .applyNarrowData(narrow)
+          .applySortData(sort)
+          .applySearchCustomerName(name);
       return result;
     });
   }
