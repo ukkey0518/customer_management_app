@@ -39,7 +39,7 @@ class CustomersListViewModel extends ChangeNotifier {
 
   // [選択中の並べ替え表示]文字列
   String _selectedSortValue =
-      customerSortStateMap[CustomerSortState.REGISTER_NEW];
+      customerSortStateMap[CustomerSortState.LAST_VISIT];
 
   String get selectedSortValue => _selectedSortValue;
 

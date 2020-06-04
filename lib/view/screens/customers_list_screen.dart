@@ -86,7 +86,7 @@ class CustomersListScreen extends StatelessWidget {
                     onTap: () => _showSortSettingArea(context),
                   ),
                   orderSwitchButton: ListSortOrderSwitchButton(
-                    selectedOrder: ListSortOrder.ASCENDING_ORDER,
+                    selectedOrder: vm.selectedOrder,
                     onUpButtonTap: () => _sortOrderChanged(
                         context, ListSortOrder.ASCENDING_ORDER),
                     onDownButtonTap: () =>
@@ -220,7 +220,19 @@ class CustomersListScreen extends StatelessWidget {
   }
 
   // [コールバック：ソート順選択肢タップ時]
-  _sortOrderChanged(BuildContext context, ListSortOrder order) async {}
+  _sortOrderChanged(BuildContext context, ListSortOrder order) async {
+    final viewModel =
+        Provider.of<CustomersListViewModel>(context, listen: false);
+
+    // ソートメニュー文字列からCustomerSortStateを取得
+    final sortData = CustomerSortData(
+      sortState:
+          customerSortStateMap.getKeyFromValue(viewModel.selectedSortValue),
+      order: order,
+    );
+
+    await viewModel.getCustomersList(sortData: sortData);
+  }
 
   // [コールバック：キーワード検索時]
   _onKeyWordSearch(BuildContext context, String searchWord) async {

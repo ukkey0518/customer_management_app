@@ -3,7 +3,7 @@ import 'package:customermanagementapp/data/list_search_state/customer_sort_state
 
 class CustomerSortData {
   CustomerSortData({
-    this.sortState = CustomerSortState.REGISTER_NEW,
+    this.sortState = CustomerSortState.LAST_VISIT,
     this.order = ListSortOrder.ASCENDING_ORDER,
   });
 
