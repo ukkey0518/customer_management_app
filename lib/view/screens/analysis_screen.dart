@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/data/enums/periodMode.dart';
+import 'package:customermanagementapp/data/enums/screen_tag.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
@@ -38,7 +39,7 @@ class AnalysisScreen extends StatelessWidget {
               centerTitle: true,
               bottom: TabBar(tabs: _tabs),
             ),
-            drawer: MyDrawer(),
+            drawer: MyDrawer(currentScreen: ScreenTag.SCREEN_ANALYSIS),
             body: Column(
               children: <Widget>[
                 Expanded(

@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/enums/screen_tag.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
         title: Text('ホーム'),
         centerTitle: true,
       ),
-      drawer: MyDrawer(),
+      drawer: MyDrawer(currentScreen: ScreenTag.SCREEN_HOME),
       body: Center(
         child: const Text('ホーム画面'),
       ),

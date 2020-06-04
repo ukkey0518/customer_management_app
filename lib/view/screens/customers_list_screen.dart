@@ -2,6 +2,7 @@ import 'package:customermanagementapp/data/data_classes/customer_sort_data.dart'
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/data/enums/list_sort_order.dart';
 import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
+import 'package:customermanagementapp/data/enums/screen_tag.dart';
 import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/data/pickers/single_item_select_picker.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
@@ -47,7 +48,7 @@ class CustomersListScreen extends StatelessWidget {
               tooltip: '新規登録',
               onPressed: () => _addCustomer(context),
             );
-            drawer = MyDrawer();
+            drawer = MyDrawer(currentScreen: ScreenTag.SCREEN_CUSTOMER_LIST);
             break;
           case ScreenDisplayMode.SELECTABLE:
             fab = Container();

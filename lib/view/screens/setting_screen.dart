@@ -1,3 +1,4 @@
+import 'package:customermanagementapp/data/enums/screen_tag.dart';
 import 'package:customermanagementapp/view/components/list_items/setting_screen_list_item.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/employee_setting_screen.dart';
@@ -18,7 +19,7 @@ class MainSettingScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('各種設定'),
       ),
-      drawer: MyDrawer(),
+      drawer: MyDrawer(currentScreen: ScreenTag.SCREEN_SETTING),
       body: ListView(
         children: List.generate(entriesList.length, (index) {
           final entry = entriesList[index];
