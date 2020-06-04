@@ -14,6 +14,8 @@ class DateInputTile extends InputWidget {
     this.paddingVertical = 0,
     this.color,
     this.compactMode = false,
+    this.isExpand = false,
+    this.aliment,
     DateTime minTime,
     DateTime maxTime,
     DateTime currentTime,
@@ -32,6 +34,8 @@ class DateInputTile extends InputWidget {
   final DateTime _minTime;
   final DateTime _maxTime;
   final DateTime _currentTime;
+  final bool isExpand;
+  final Alignment aliment;
 
   @override
   Widget build(BuildContext context) {
@@ -67,14 +71,19 @@ class DateInputTile extends InputWidget {
       );
     }
 
-    return InkWell(
-      onTap: () => _showDateSelectPicker(context),
-      onLongPress: isClearable ? () => onConfirm(null) : null,
-      child: Container(
-        color: color,
-        padding: EdgeInsets.symmetric(
-            horizontal: paddingHorizontal, vertical: paddingVertical),
-        child: content,
+    return SizedBox(
+      width: isExpand ? double.infinity : null,
+      height: isExpand ? double.infinity : null,
+      child: InkWell(
+        onTap: () => _showDateSelectPicker(context),
+        onLongPress: isClearable ? () => onConfirm(null) : null,
+        child: Container(
+          alignment: aliment,
+          color: color,
+          padding: EdgeInsets.symmetric(
+              horizontal: paddingHorizontal, vertical: paddingVertical),
+          child: content,
+        ),
       ),
     );
   }

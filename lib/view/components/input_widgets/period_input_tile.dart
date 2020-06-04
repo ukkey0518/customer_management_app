@@ -32,6 +32,8 @@ class PeriodInputTile extends StatelessWidget {
                 height: 45,
                 width: 120,
                 child: DateInputTile(
+                  isExpand: true,
+                  aliment: Alignment.center,
                   selectedDate: sinceDate,
                   paddingVertical: 8,
                   paddingHorizontal: 16,
@@ -55,6 +57,8 @@ class PeriodInputTile extends StatelessWidget {
                 height: 45,
                 width: 120,
                 child: DateInputTile(
+                  isExpand: true,
+                  aliment: Alignment.center,
                   selectedDate: untilDate,
                   paddingVertical: 8,
                   paddingHorizontal: 16,
