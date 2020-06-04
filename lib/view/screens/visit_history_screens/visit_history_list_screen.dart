@@ -6,6 +6,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/buttons/list_sort_order_switch_button.dart';
 import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
+import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
@@ -122,8 +123,19 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 
   // [コールバック：絞り込み設定ドロワーボタンタップ時]
   _showNarrowSettingArea(BuildContext context) {
-    print('narrow set btn tap.');
-    //TODO
+    final viewModel =
+        Provider.of<VisitHistoryListViewModel>(context, listen: false);
+
+    showDialog(
+      context: context,
+      builder: (_) {
+        return VisitHistoryNarrowSetDialog(
+          narrowData: viewModel.vhPref.narrowData,
+        );
+      },
+    ).then((narrowData) async {
+      await viewModel.getVisitHistories(narrowData: narrowData);
+    });
   }
 
   // [コールバック：並べ替え設定ドロワーボタンタップ時]
@@ -220,20 +232,4 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 
     await viewModel.getVisitHistories(sortData: sortData);
   }
-
-//  _showNarrowSetDialog(BuildContext context) {
-//    final viewModel =
-//        Provider.of<VisitHistoryListViewModel>(context, listen: false);
-//
-//    showDialog(
-//      context: context,
-//      builder: (_) {
-//        return VisitHistoryNarrowSetDialog(
-//          narrowData: viewModel.vhPref.narrowData,
-//        );
-//      },
-//    ).then((narrowData) async {
-//      await viewModel.getVisitHistories(narrowData: narrowData);
-//    });
-//  }
 }
