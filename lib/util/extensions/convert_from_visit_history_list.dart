@@ -244,13 +244,13 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
           birth != null ? birthNotNullData.add(vh) : birthNullData.add(vh);
         });
         birthNotNullData.sort((a, b) {
-          final aAge = a.customerJson.toCustomer().birth;
-          final bAge = b.customerJson.toCustomer().birth;
-          if (aAge.isAtSameMomentAs(bAge)) {
+          final aAge = a.customerJson.toCustomer().birth.toAge();
+          final bAge = b.customerJson.toCustomer().birth.toAge();
+          if (aAge == bAge) {
             // 同じ年齢の場合は来店日順にソート
             return a.date.isAfter(b.date) ? 1 : -1;
           }
-          return aAge.isAfter(bAge) ? 1 : -1;
+          return aAge > bAge ? 1 : -1;
         });
         // 年齢未登録の場合は来店日順にソート
         birthNullData.sort((a, b) {

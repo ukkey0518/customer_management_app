@@ -11,6 +11,6 @@ class VisitHistoriesByCustomer {
 
   @override
   String toString() {
-    return 'cusotmer ID [$customer] : history IDs [ ${histories[0]} ]\n';
+    return 'customer ID [$customer] : history IDs [ ${histories.isEmpty ? 'Empty' : histories[0]} ]\n';
   }
 }

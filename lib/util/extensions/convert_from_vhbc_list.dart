@@ -50,15 +50,18 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
   }
 
   // [反映：絞り込み設定を反映する]
-  void applyNarrowData(CustomerNarrowData narrowData) {
+  List<VisitHistoriesByCustomer> applyNarrowData(
+      CustomerNarrowData narrowData) {
     //TODO
+    return List<VisitHistoriesByCustomer>.from(this);
   }
 
   // [反映：並べ替え設定を反映する]
-  void applySortData(CustomerSortData sortData) {
+  List<VisitHistoriesByCustomer> applySortData(CustomerSortData sortData) {
+    List<VisitHistoriesByCustomer> dataList = List.from(this);
     switch (sortData.sortState) {
       case CustomerSortState.LAST_VISIT:
-        this.sort((a, b) {
+        dataList.sort((a, b) {
           final aVh = a.histories.getLastVisitHistory();
           final bVh = b.histories.getLastVisitHistory();
           final aDate = aVh != null ? aVh.date : DateTime(1, 1, 1);
@@ -68,7 +71,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
         break;
 
       case CustomerSortState.FIRST_VISIT:
-        this.sort((a, b) {
+        dataList.sort((a, b) {
           final aVh = a.histories.getFirstVisitHistory();
           final bVh = b.histories.getFirstVisitHistory();
           final aDate = aVh != null ? aVh.date : DateTime(1, 1, 1);
@@ -78,7 +81,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
         break;
 
       case CustomerSortState.EXPECTED_NEXT_VISIT:
-        this.sort((a, b) {
+        dataList.sort((a, b) {
           final aDate = a.histories.expectedNextVisit();
           final bDate = b.histories.expectedNextVisit();
           return aDate.isAfter(bDate) ? 1 : -1;
@@ -86,7 +89,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
         break;
 
       case CustomerSortState.NAME:
-        this.sort((a, b) {
+        dataList.sort((a, b) {
           final aCustomerNameReading = a.customer.nameReading;
           final bCustomerNameReading = b.customer.nameReading;
           return aCustomerNameReading
@@ -98,31 +101,37 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
       case CustomerSortState.AGE:
         final birthNotNullData = List<VisitHistoriesByCustomer>();
         final birthNullData = List<VisitHistoriesByCustomer>();
-        this.forEach((vhbc) {
+        dataList.forEach((vhbc) {
           final birth = vhbc.customer.birth;
           birth != null ? birthNotNullData.add(vhbc) : birthNullData.add(vhbc);
         });
         birthNotNullData.sort((a, b) {
-          final aVh = a.histories.getFirstVisitHistory();
-          final bVh = b.histories.getFirstVisitHistory();
-          final aDate = aVh != null ? aVh.date : DateTime(1, 1, 1);
-          final bDate = bVh != null ? bVh.date : DateTime(1, 1, 1);
-          return aDate.isBefore(bDate) ? 1 : -1;
+          final aBirth = a.customer.birth.toAge();
+          final bBirth = b.customer.birth.toAge();
+          if (aBirth == bBirth) {
+            // 同じ年齢の場合は来店日順にソート
+            final aLast = a.histories.getLastVisitHistory();
+            final bLast = b.histories.getLastVisitHistory();
+            final aDate = aLast != null ? aLast.date : DateTime(1, 1, 1);
+            final bDate = bLast != null ? bLast.date : DateTime(1, 1, 1);
+            return aDate.isAfter(bDate) ? 1 : -1;
+          }
+          return aBirth > bBirth ? 1 : -1;
         });
         birthNullData.sort((a, b) {
-          final aVh = a.histories.getFirstVisitHistory();
-          final bVh = b.histories.getFirstVisitHistory();
-          final aDate = aVh != null ? aVh.date : DateTime(1, 1, 1);
-          final bDate = bVh != null ? bVh.date : DateTime(1, 1, 1);
-          return aDate.isBefore(bDate) ? 1 : -1;
+          final aLast = a.histories.getLastVisitHistory();
+          final bLast = b.histories.getLastVisitHistory();
+          final aDate = aLast != null ? aLast.date : DateTime(1, 1, 1);
+          final bDate = bLast != null ? bLast.date : DateTime(1, 1, 1);
+          return aDate.isAfter(bDate) ? 1 : -1;
         });
-        this.clear();
-        this.addAll(birthNotNullData);
-        this.addAll(birthNullData);
+        dataList.clear();
+        dataList.addAll(birthNotNullData);
+        dataList.addAll(birthNullData);
         break;
 
       case CustomerSortState.NUM_OF_VISITS:
-        this.sort((a, b) {
+        dataList.sort((a, b) {
           final aNOV = a.histories.length;
           final bNOV = b.histories.length;
           return aNOV < bNOV ? 1 : -1;
@@ -130,7 +139,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
         break;
 
       case CustomerSortState.REPEAT_CYCLE:
-        this.sort((a, b) {
+        dataList.sort((a, b) {
           final aRepCy = a.histories.getRepeatCycle();
           final bRepCy = b.histories.getRepeatCycle();
           return aRepCy > bRepCy ? 1 : -1;
@@ -138,7 +147,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
         break;
 
       case CustomerSortState.TOTAL_PAYMENT:
-        this.sort((a, b) {
+        dataList.sort((a, b) {
           final aTotal = a.histories.getAllSoldMenus().toSumPrice();
           final bTotal = b.histories.getAllSoldMenus().toSumPrice();
           return aTotal < bTotal ? 1 : -1;
@@ -150,20 +159,25 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
       case ListSortOrder.ASCENDING_ORDER:
         break;
       case ListSortOrder.REVERSE_ORDER:
-        final reversedList = this.reversed.toList();
-        this.clear();
-        this.addAll(reversedList);
+        final reversedList = dataList.reversed.toList();
+        dataList.clear();
+        dataList.addAll(reversedList);
         break;
     }
+    return dataList;
   }
 
   // [反映：名前で検索する]
-  void applySearchCustomerName(String name) {
-    if (name == null || name.isEmpty) return;
-    this.removeWhere((vhbc) {
+  List<VisitHistoriesByCustomer> applySearchCustomerName(String name) {
+    if (this.isEmpty) return List<VisitHistoriesByCustomer>();
+
+    List<VisitHistoriesByCustomer> dataList = List.from(this);
+    if (name == null || name.isEmpty) return dataList;
+    dataList.removeWhere((vhbc) {
       final customer = vhbc.customer;
-      return !(customer.name.contains(name) ||
-          customer.nameReading.contains(name));
+      return !(customer.name.toLowerCase().contains(name.toLowerCase()) ||
+          customer.nameReading.toLowerCase().contains(name.toLowerCase()));
     });
+    return dataList;
   }
 }
