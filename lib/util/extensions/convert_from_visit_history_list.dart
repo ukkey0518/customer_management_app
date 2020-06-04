@@ -181,7 +181,6 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
     final sinceDate = narrowData.sinceDate;
     final untilDate = narrowData.untilDate;
-    final customer = narrowData.customer;
     final employee = narrowData.employee;
     final menuCategory = narrowData.menuCategory;
 
@@ -198,13 +197,6 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
       print('until : $untilDate');
       visitHistories = visitHistories.where((vh) {
         return vh.date.isBefore(untilDate);
-      }).toList();
-    }
-
-    if (customer != null) {
-      print('customer : ${customer.id}');
-      visitHistories = visitHistories.where((vh) {
-        return vh.customerJson.toCustomer().id == customer.id;
       }).toList();
     }
 
