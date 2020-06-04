@@ -61,7 +61,7 @@ class _VisitHistoryPageState extends State<VisitHistoryPage> {
           numberOfItems: _visitHistories.length,
           narrowSetButton: OnOffSwitchButton(
             value: '絞り込み',
-            isSetAnyNarrowData: _vhPref.narrowData.isSetAny(),
+            isSetAny: _vhPref.narrowData.isSetAny(),
             onTap: () => _showNarrowSetDialog(context),
           ),
           sortSetButton: SortDropDownMenu(

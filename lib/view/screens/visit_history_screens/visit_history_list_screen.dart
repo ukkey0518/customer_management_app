@@ -76,13 +76,13 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
                   narrowSetButton: OnOffSwitchButton(
                     title: '絞り込み',
                     value: vm.vhPref.narrowData.isSetAny() ? 'ON' : 'OFF',
-                    isSetAnyNarrowData: vm.vhPref.narrowData.isSetAny(),
+                    isSetAny: vm.vhPref.narrowData.isSetAny(),
                     onTap: () => _showNarrowSettingArea(context),
                   ),
                   sortSetButton: OnOffSwitchButton(
                     title: '並べ替え',
                     value: vm.selectedSortValue,
-                    isSetAnyNarrowData: vm.vhPref.narrowData.isSetAny(),
+                    isSetAny: false,
                     onTap: () => _showSortSettingArea(context),
                   ),
                   orderSwitchButton: ListSortOrderSwitchButton(

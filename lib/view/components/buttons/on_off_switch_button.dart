@@ -5,13 +5,13 @@ class OnOffSwitchButton extends StatelessWidget {
   OnOffSwitchButton({
     this.title = '',
     this.value = 'なし',
-    @required this.isSetAnyNarrowData,
+    @required this.isSetAny,
     @required this.onTap,
   });
 
   final String title;
   final String value;
-  final bool isSetAnyNarrowData;
+  final bool isSetAny;
   final VoidCallback onTap;
 
   @override
@@ -20,7 +20,7 @@ class OnOffSwitchButton extends StatelessWidget {
     var fontWeight;
     var offset;
 
-    if (isSetAnyNarrowData) {
+    if (isSetAny) {
       fontWeight = FontWeight.bold;
       backgroundColor = Theme.of(context).primaryColorLight;
       offset = Offset(0, 0);
