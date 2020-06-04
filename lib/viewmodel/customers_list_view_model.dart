@@ -36,20 +36,20 @@ class CustomersListViewModel extends ChangeNotifier {
   CustomerListPreferences get pref => _pref;
 
   // [選択中の絞り込み表示文字列]
-  String _narrowSelectedValue = customerNarrowStateMap[CustomerNarrowState.ALL];
+  String _selectedNarrowValue = customerNarrowStateMap[CustomerNarrowState.ALL];
 
-  String get narrowSelectedValue => _narrowSelectedValue;
+  String get selectedNarrowValue => _selectedNarrowValue;
 
   // [選択中の並べ替え表示]文字列
-  String _sortSelectedValue =
+  String _selectedSortValue =
       customerSortStateMap[CustomerSortState.REGISTER_OLD];
 
-  String get sortSelectedValue => _sortSelectedValue;
+  String get selectedSortValue => _selectedSortValue;
 
   // [検索欄コントローラー]
-  TextEditingController _searchController = TextEditingController();
+  TextEditingController _searchNameController = TextEditingController();
 
-  TextEditingController get searchController => _searchController;
+  TextEditingController get searchNameController => _searchNameController;
 
   //
   // --- 処理 -------------------------------------------------------------------
@@ -70,8 +70,8 @@ class CustomersListViewModel extends ChangeNotifier {
     _pref.sortState = sortState ?? _pref.sortState;
     _pref.searchWord = searchWord ?? _pref.searchWord;
 
-    _narrowSelectedValue = customerNarrowStateMap[_pref.narrowState];
-    _sortSelectedValue = customerSortStateMap[_pref.sortState];
+    _selectedNarrowValue = customerNarrowStateMap[_pref.narrowState];
+    _selectedSortValue = customerSortStateMap[_pref.sortState];
 
     await _gRep.getData(cPref: _pref);
     _visitHistoriesByCustomers = _gRep.visitHistoriesByCustomers;

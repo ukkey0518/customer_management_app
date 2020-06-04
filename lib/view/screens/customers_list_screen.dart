@@ -2,6 +2,7 @@ import 'package:customermanagementapp/data/data_classes/visit_histories_by_custo
 import 'package:customermanagementapp/data/enums/list_sort_order.dart';
 import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
 import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
+import 'package:customermanagementapp/data/pickers/single_item_select_picker.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/buttons/list_sort_order_switch_button.dart';
 import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
@@ -73,15 +74,15 @@ class CustomersListScreen extends StatelessWidget {
                   numberOfItems: vm.visitHistoriesByCustomers.length,
                   narrowSetButton: OnOffSwitchButton(
                     title: '絞り込み',
-                    value: vm.narrowSelectedValue,
+                    value: vm.selectedNarrowValue,
                     isOn: false,
                     onTap: () => _showNarrowSettingDialog(context),
                   ),
                   sortSetButton: OnOffSwitchButton(
                     title: '並び替え',
-                    value: vm.sortSelectedValue,
+                    value: vm.selectedSortValue,
                     isOn: false,
-                    onTap: () => _showNarrowSettingDialog(context),
+                    onTap: () => _showSortSettingArea(context),
                   ),
                   orderSwitchButton: ListSortOrderSwitchButton(
                     selectedOrder: ListSortOrder.ASCENDING_ORDER,
@@ -91,9 +92,8 @@ class CustomersListScreen extends StatelessWidget {
                         _sortOrderChanged(context, ListSortOrder.REVERSE_ORDER),
                   ),
                   searchMenu: SearchMenu(
-                    controller: vm.searchController,
-                    onChanged: (searchName) =>
-                        _onKeyWordSearch(context, searchName),
+                    controller: vm.searchNameController,
+                    onChanged: (name) => _onKeyWordSearch(context, name),
                     focusNode: _focusNode,
                   ),
                 ),
@@ -120,6 +120,19 @@ class CustomersListScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  // [コールバック：並べ替え設定ドロワーボタンタップ時]
+  _showSortSettingArea(BuildContext context) {
+    final viewModel =
+        Provider.of<CustomersListViewModel>(context, listen: false);
+
+    singleItemSelectPicker(
+      context,
+      customerSortStateMap.values.toList(),
+      viewModel.selectedSortValue,
+      (value) => _sortMenuSelected(context, value),
+    ).showModal(context);
   }
 
   // [コールバック：FABタップ]
@@ -177,7 +190,9 @@ class CustomersListScreen extends StatelessWidget {
   }
 
   // [コールバック：絞り込みメニューアイテム選択時]
-  _showNarrowSettingDialog(BuildContext context) {}
+  _showNarrowSettingDialog(BuildContext context) {
+    //TODO
+  }
 
 //  _narrowMenuSelected(BuildContext context, String value) async {
 //    final viewModel =
