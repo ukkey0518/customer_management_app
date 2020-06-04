@@ -659,23 +659,30 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
   // [変換：出力用文字列を取得]
   String toPrintText({
+    bool onlyLength = false,
     bool showId = false,
     bool showDate = true,
     bool showCustomer = false,
     bool showEmployee = false,
     bool showMenuList = false,
   }) {
-    final str = List<VisitHistory>.from(this).map<String>(
-      (vh) {
-        return vh.toPrintText(
-          showId: showId,
-          showDate: showDate,
-          showCustomer: showCustomer,
-          showEmployee: showEmployee,
-          showMenuList: showMenuList,
-        );
-      },
-    ).join(', ');
+    var str;
+
+    if (onlyLength) {
+      str = 'length: ${this.length}';
+    } else {
+      str = List<VisitHistory>.from(this).map<String>(
+        (vh) {
+          return vh.toPrintText(
+            showId: showId,
+            showDate: showDate,
+            showCustomer: showCustomer,
+            showEmployee: showEmployee,
+            showMenuList: showMenuList,
+          );
+        },
+      ).join(', ');
+    }
 
     return 'VisitHistoryList{$str}';
   }

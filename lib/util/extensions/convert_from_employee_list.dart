@@ -10,17 +10,24 @@ extension ConvertFromEmployeeList on List<Employee> {
 
   // [変換：出力用文字列を取得]
   String toPrintText({
+    bool onlyLength = false,
     bool showId = false,
     bool showName = true,
   }) {
-    final str = List<Employee>.from(this).map<String>(
-      (e) {
-        return e.toPrintText(
-          showId: showId,
-          showName: showName,
-        );
-      },
-    ).join(', ');
+    var str;
+
+    if (onlyLength) {
+      str = 'length: ${this.length}';
+    } else {
+      str = List<Employee>.from(this).map<String>(
+        (e) {
+          return e.toPrintText(
+            showId: showId,
+            showName: showName,
+          );
+        },
+      ).join(', ');
+    }
 
     return 'EmployeeList{$str}';
   }

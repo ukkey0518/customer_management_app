@@ -21,6 +21,8 @@ extension ConvertFromCustomerList on List<Customer> {
 
   // [変換：出力用文字列を取得]
   String toPrintText({
+    bool onlyLength = false,
+    bool showLength = false,
     bool showId = false,
     bool showName = true,
     bool showNameReading = false,
@@ -28,18 +30,24 @@ extension ConvertFromCustomerList on List<Customer> {
     bool showBirth = false,
     bool showVisitReason = false,
   }) {
-    final str = List<Customer>.from(this).map<String>(
-      (e) {
-        return e.toPrintText(
-          showId: showId,
-          showName: showName,
-          showNameReading: showNameReading,
-          showGender: showGender,
-          showBirth: showBirth,
-          showVisitReason: showVisitReason,
-        );
-      },
-    ).join(', ');
+    var str;
+
+    if (onlyLength) {
+      str = 'length: ${this.length}';
+    } else {
+      str = List<Customer>.from(this).map<String>(
+        (e) {
+          return e.toPrintText(
+            showId: showId,
+            showName: showName,
+            showNameReading: showNameReading,
+            showGender: showGender,
+            showBirth: showBirth,
+            showVisitReason: showVisitReason,
+          );
+        },
+      ).join(', ');
+    }
 
     return 'CustomerList{$str}';
   }
