@@ -291,8 +291,16 @@ extension ConvertFromVisitHistoryList on List<VisitHistory> {
 
     List<VisitHistory> dataList = List.from(this);
     dataList.removeWhere((vh) {
-      return !(vh.customerJson.toCustomer().name.contains(name) ||
-          vh.customerJson.toCustomer().nameReading.contains(name));
+      return !(vh.customerJson
+              .toCustomer()
+              .name
+              .toLowerCase()
+              .contains(name.toLowerCase()) ||
+          vh.customerJson
+              .toCustomer()
+              .nameReading
+              .toLowerCase()
+              .contains(name.toLowerCase()));
     });
 
     return dataList;
