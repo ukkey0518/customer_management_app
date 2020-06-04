@@ -205,15 +205,23 @@ class SampleDataInitializer {
 
     String randomName;
     bool randomGender;
+    DateTime randomBirth;
+    int randomVisitReason;
 
     customers = List<Customer>.generate(length, (index) {
       randomGender = mockInteger(0, 10) % 2 == 0 ? true : false;
       randomName = mockName(randomGender ? 'female' : 'male');
+      randomBirth = mockDate(DateTime(1990, 1, 1), DateTime(2000, 1, 1));
+      final vrList = visitReasonData.keys.toList();
+      randomVisitReason = mockInteger(0, vrList.length - 1);
+      final vr = vrList[randomVisitReason];
       return Customer(
         id: index + 1,
         name: randomName,
         nameReading: randomName,
         isGenderFemale: randomGender,
+        birth: randomBirth,
+        visitReason: vr,
       );
     }).toList();
 
