@@ -55,60 +55,67 @@ class CustomersListScreen extends StatelessWidget {
             break;
         }
 
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('顧客リスト'),
-          ),
-          floatingActionButton: fab,
-          drawer: drawer,
-          body: Column(
-            children: <Widget>[
-              SearchBar(
-                numberOfItems: vm.visitHistoriesByCustomers.length,
-                narrowSetButton: OnOffSwitchButton(
-                  title: '絞り込み',
-                  value: vm.narrowSelectedValue,
-                  isOn: false,
-                  onTap: () => _showNarrowSettingDialog(context),
-                ),
-                sortSetButton: OnOffSwitchButton(
-                  title: '並び替え',
-                  value: vm.sortSelectedValue,
-                  isOn: false,
-                  onTap: () => _showNarrowSettingDialog(context),
-                ),
-                orderSwitchButton: ListSortOrderSwitchButton(
-                  selectedOrder: ListSortOrder.ASCENDING_ORDER,
-                  onUpButtonTap: () =>
-                      _sortOrderChanged(context, ListSortOrder.ASCENDING_ORDER),
-                  onDownButtonTap: () =>
-                      _sortOrderChanged(context, ListSortOrder.REVERSE_ORDER),
-                ),
-                searchMenu: SearchMenu(
-                  controller: vm.searchController,
-                  onChanged: (searchName) =>
-                      _onKeyWordSearch(context, searchName),
-                  focusNode: _focusNode,
-                ),
-              ),
-              Divider(),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: ListView.builder(
-                    itemCount: vm.visitHistoriesByCustomers.length,
-                    itemBuilder: (context, index) {
-                      return CustomerListItem(
-                        visitHistoriesByCustomer:
-                            vm.visitHistoriesByCustomers[index],
-                        onTap: (vhbc) => _onListItemTap(context, vhbc),
-                        onLongPress: (vhbc) => _deleteVHBC(context, vhbc),
-                      );
-                    },
+        return GestureDetector(
+          onTap: () {
+            if (_focusNode.hasFocus) {
+              _focusNode.unfocus();
+            }
+          },
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('顧客リスト'),
+            ),
+            floatingActionButton: fab,
+            drawer: drawer,
+            body: Column(
+              children: <Widget>[
+                SearchBar(
+                  numberOfItems: vm.visitHistoriesByCustomers.length,
+                  narrowSetButton: OnOffSwitchButton(
+                    title: '絞り込み',
+                    value: vm.narrowSelectedValue,
+                    isOn: false,
+                    onTap: () => _showNarrowSettingDialog(context),
+                  ),
+                  sortSetButton: OnOffSwitchButton(
+                    title: '並び替え',
+                    value: vm.sortSelectedValue,
+                    isOn: false,
+                    onTap: () => _showNarrowSettingDialog(context),
+                  ),
+                  orderSwitchButton: ListSortOrderSwitchButton(
+                    selectedOrder: ListSortOrder.ASCENDING_ORDER,
+                    onUpButtonTap: () => _sortOrderChanged(
+                        context, ListSortOrder.ASCENDING_ORDER),
+                    onDownButtonTap: () =>
+                        _sortOrderChanged(context, ListSortOrder.REVERSE_ORDER),
+                  ),
+                  searchMenu: SearchMenu(
+                    controller: vm.searchController,
+                    onChanged: (searchName) =>
+                        _onKeyWordSearch(context, searchName),
+                    focusNode: _focusNode,
                   ),
                 ),
-              ),
-            ],
+                Divider(),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      itemCount: vm.visitHistoriesByCustomers.length,
+                      itemBuilder: (context, index) {
+                        return CustomerListItem(
+                          visitHistoriesByCustomer:
+                              vm.visitHistoriesByCustomers[index],
+                          onTap: (vhbc) => _onListItemTap(context, vhbc),
+                          onLongPress: (vhbc) => _deleteVHBC(context, vhbc),
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
         );
       },

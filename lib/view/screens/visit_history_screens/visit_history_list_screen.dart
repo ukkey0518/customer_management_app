@@ -51,7 +51,6 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
 
     return GestureDetector(
       onTap: () {
-        print('tap');
         if (_nameSearchTextFieldFocusNode.hasFocus) {
           _nameSearchTextFieldFocusNode.unfocus();
         }
