@@ -9,12 +9,16 @@ class PeriodInputTile extends StatelessWidget {
     @required this.untilDate,
     this.onSinceDateConfirm,
     this.onUntilDateConfirm,
+    this.minDate,
+    this.maxDate,
   });
 
   final DateTime sinceDate;
   final DateTime untilDate;
   final ValueChanged<DateTime> onSinceDateConfirm;
   final ValueChanged<DateTime> onUntilDateConfirm;
+  final DateTime minDate;
+  final DateTime maxDate;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +43,8 @@ class PeriodInputTile extends StatelessWidget {
                   paddingHorizontal: 16,
                   onConfirm: (date) => onSinceDateConfirm(date),
                   isClearable: true,
-                  maxTime: untilDate,
+                  minTime: minDate,
+                  maxTime: maxDate ?? untilDate,
                   compactMode: true,
                 ),
               ),
@@ -64,7 +69,8 @@ class PeriodInputTile extends StatelessWidget {
                   paddingHorizontal: 16,
                   onConfirm: (date) => onUntilDateConfirm(date),
                   isClearable: true,
-                  minTime: sinceDate,
+                  minTime: minDate ?? sinceDate,
+                  maxTime: maxDate,
                   compactMode: true,
                 ),
               ),

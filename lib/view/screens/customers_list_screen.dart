@@ -8,6 +8,7 @@ import 'package:customermanagementapp/data/pickers/single_item_select_picker.dar
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/buttons/list_sort_order_switch_button.dart';
 import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
+import 'package:customermanagementapp/view/components/dialogs/customer_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
@@ -74,8 +75,8 @@ class CustomersListScreen extends StatelessWidget {
                   numberOfItems: vm.visitHistoriesByCustomers.length,
                   narrowSetButton: OnOffSwitchButton(
                     title: '絞り込み',
-                    value: 'aaa',
-                    isOn: false,
+                    value: vm.cPref.narrowData.isSetAny() ? 'ON' : 'OFF',
+                    isOn: vm.cPref.narrowData.isSetAny(),
                     onTap: () => _showNarrowSettingDialog(context),
                   ),
                   sortSetButton: OnOffSwitchButton(
@@ -191,7 +192,19 @@ class CustomersListScreen extends StatelessWidget {
 
   // [コールバック：絞り込みメニューアイテム選択時]
   _showNarrowSettingDialog(BuildContext context) {
-    //TODO
+    final viewModel =
+        Provider.of<CustomersListViewModel>(context, listen: false);
+
+    showDialog(
+      context: context,
+      builder: (_) {
+        return CustomerNarrowSetDialog(
+          narrowData: viewModel.cPref.narrowData,
+        );
+      },
+    ).then((narrowData) async {
+      await viewModel.getCustomersList(narrowData: narrowData);
+    });
   }
 
 //  _narrowMenuSelected(BuildContext context, String value) async {

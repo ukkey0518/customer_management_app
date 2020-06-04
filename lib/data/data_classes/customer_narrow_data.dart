@@ -23,8 +23,7 @@ class CustomerNarrowData {
 
   // [判定：何かしらの絞り込み条件が設定されているか]
   bool isSetAny() {
-    return numOfVisits != null ||
-        isGenderFemale != null ||
+    final flag = numOfVisits != null ||
         minAge != null ||
         maxAge != null ||
         sinceLastVisit != null ||
@@ -32,6 +31,8 @@ class CustomerNarrowData {
         sinceNextVisit != null ||
         untilNextVisit != null ||
         visitReason != null;
+    print('$flag');
+    return flag;
   }
 
   // [変更：条件をすべてクリアする]
