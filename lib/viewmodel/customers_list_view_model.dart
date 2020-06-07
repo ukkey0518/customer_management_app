@@ -7,6 +7,7 @@ import 'package:customermanagementapp/data/enums/screen_display_mode.dart';
 import 'package:customermanagementapp/data/list_search_state/customer_sort_state.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/repositories/global_repository.dart';
+import 'package:customermanagementapp/util/extensions/convert_from_vhbc_list.dart';
 import 'package:flutter/cupertino.dart';
 
 class CustomersListViewModel extends ChangeNotifier {
@@ -77,7 +78,9 @@ class CustomersListViewModel extends ChangeNotifier {
     _selectedOrder = _cPref.sortData.order;
 
     await _gRep.getData(cPref: _cPref);
-    _visitHistoriesByCustomers = _gRep.visitHistoriesByCustomers;
+    _visitHistoriesByCustomers =
+        ConvertFromVHBCList(_gRep.visitHistoriesByCustomers)
+            .applyNarrowData(_cPref.narrowData);
   }
 
   // [追加；顧客データを追加]
@@ -97,7 +100,9 @@ class CustomersListViewModel extends ChangeNotifier {
   onRepositoryUpdated(GlobalRepository gRep) {
     print('  [VM: 顧客リスト画面] onRepositoryUpdated');
 
-    _visitHistoriesByCustomers = gRep.visitHistoriesByCustomers;
+    _visitHistoriesByCustomers =
+        ConvertFromVHBCList(gRep.visitHistoriesByCustomers)
+            .applyNarrowData(_cPref.narrowData);
     notifyListeners();
   }
 

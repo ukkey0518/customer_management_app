@@ -207,16 +207,6 @@ class CustomersListScreen extends StatelessWidget {
     });
   }
 
-//  _narrowMenuSelected(BuildContext context, String value) async {
-//    final viewModel =
-//        Provider.of<CustomersListViewModel>(context, listen: false);
-//
-//    // 絞り込みメニュー文字列からCustomerNarrowStateを取得
-//    final narrowState = customerNarrowStateMap.getKeyFromValue(value);
-//
-//    await viewModel.getCustomersList(narrowState: narrowState);
-//  }
-
   // [コールバック：ソートメニューアイテム選択時]
   _sortMenuSelected(BuildContext context, String value) async {
     final viewModel =

@@ -52,8 +52,47 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
   // [反映：絞り込み設定を反映する]
   List<VisitHistoriesByCustomer> applyNarrowData(
       CustomerNarrowData narrowData) {
-    //TODO
-    return List<VisitHistoriesByCustomer>.from(this);
+    List<VisitHistoriesByCustomer> dataList = List.from(this);
+    if (dataList.isEmpty) return dataList;
+
+    final numOfVisits = narrowData.numOfVisits;
+    final isGenderFemale = narrowData.isGenderFemale;
+    final age = narrowData.age;
+    final sinceLastVisit = narrowData.sinceLastVisit;
+    final untilLastVisit = narrowData.untilLastVisit;
+    final sinceNextVisit = narrowData.sinceNextVisit;
+    final untilNextVisit = narrowData.untilNextVisit;
+    final visitReason = narrowData.visitReason;
+
+    if (numOfVisits != null) {
+      var list = numOfVisits.split('~');
+      var min;
+      var max;
+
+      if (list.length == 2) {
+        min = list[0].isNotEmpty ? int.parse(list[0]) : 0;
+        max = list[1].isNotEmpty ? int.parse(list[1]) : null;
+      } else {
+        min = 0;
+        max = null;
+      }
+
+      dataList = dataList.where((vhbc) {
+        final nov = vhbc.histories.length;
+        var minFlag = min <= nov;
+        var maxFlag = true;
+        if (max != null) {
+          maxFlag = nov <= max;
+        }
+
+        return minFlag && maxFlag;
+      }).toList();
+    }
+
+    print(narrowData);
+    dataList.forEach((vhbc) =>
+        print('${vhbc.customer.toPrintText()}: ${vhbc.histories.length}'));
+    return dataList;
   }
 
   // [反映：並べ替え設定を反映する]
