@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
-class SettingListItem extends StatelessWidget {
-  SettingListItem({
-    @required this.title,
+class SettingListTile extends StatelessWidget {
+  SettingListTile({
+    @required this.text,
     @required this.screen,
   });
 
-  final String title;
+  final String text;
   final Widget screen;
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -17,7 +18,7 @@ class SettingListItem extends StatelessWidget {
               EdgeInsets.only(top: 4, bottom: 4, left: 16, right: 8),
           leading: Icon(Icons.settings),
           trailing: Icon(Icons.chevron_right),
-          title: Text(title),
+          title: Text(text),
           onTap: () {
             Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => screen),

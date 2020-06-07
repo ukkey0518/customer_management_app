@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/data/enums/screen_tag.dart';
-import 'package:customermanagementapp/view/components/list_items/setting_screen_list_item.dart';
+import 'package:customermanagementapp/view/components/custom_list_tiles/setting_screen_list_tile.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/employee_setting_screen.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +23,8 @@ class MainSettingScreen extends StatelessWidget {
       body: ListView(
         children: List.generate(entriesList.length, (index) {
           final entry = entriesList[index];
-          return SettingListItem(
-            title: entry.key,
+          return SettingListTile(
+            text: entry.key,
             screen: entry.value,
           );
         }),
