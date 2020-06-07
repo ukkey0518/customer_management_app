@@ -20,11 +20,12 @@ class CustomerNarrowSetDialog extends StatelessWidget {
   Widget build(BuildContext context) {
     var narrow = narrowData;
     var unselectedValue = '未設定';
+    final novList = <String>['~10', '11~20', '21~30', '31~40', '41~50', '51~'];
+    final ageList = <String>['10代', '20代', '30代', '40代', '50代'];
 
-    int numOfVisits = narrow.numOfVisits;
+    String numOfVisits = narrow.numOfVisits;
     bool isGenderFemale = narrow.isGenderFemale;
-    int minAge = narrow.minAge;
-    int maxAge = narrow.maxAge;
+    String age = narrow.age;
     DateTime sinceLastVisit = narrow.sinceLastVisit;
     DateTime untilLastVisit = narrow.untilLastVisit;
     DateTime sinceNextVisit = narrow.sinceNextVisit;
@@ -38,8 +39,7 @@ class CustomerNarrowSetDialog extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              //TODO 来店回数
-              Text('最終来店日：'),
+              Text('■最終来店日'),
               PeriodInputTile(
                 sinceDate: sinceLastVisit,
                 untilDate: untilLastVisit,
@@ -48,7 +48,7 @@ class CustomerNarrowSetDialog extends StatelessWidget {
                 onUntilDateConfirm: (date) =>
                     setState(() => untilLastVisit = date),
               ),
-              Text('次回来店予想：'),
+              Text('■次回来店予想'),
               PeriodInputTile(
                 sinceDate: sinceNextVisit,
                 untilDate: untilNextVisit,
@@ -58,10 +58,29 @@ class CustomerNarrowSetDialog extends StatelessWidget {
                     setState(() => untilNextVisit = date),
                 maxDate: DateTime.now() + 365.days,
               ),
+              Text('■来店回数'),
+              SimpleDropdownButton(
+                items: novList,
+                selectedItem: numOfVisits ?? unselectedValue,
+                onChanged: (value) => setState(() {
+                  return numOfVisits = value == unselectedValue ? null : value;
+                }),
+                textColor: Theme.of(context).primaryColorDark,
+                unselectedValue: unselectedValue,
+              ),
               SizedBox(height: 16),
-              //TODO 年齢
+              Text('■年齢層'),
+              SimpleDropdownButton(
+                items: ageList,
+                selectedItem: age ?? unselectedValue,
+                onChanged: (value) => setState(() {
+                  return age = value == unselectedValue ? null : value;
+                }),
+                textColor: Theme.of(context).primaryColorDark,
+                unselectedValue: unselectedValue,
+              ),
               SizedBox(height: 16),
-              Text('性別：'),
+              Text('■性別'),
               SelectSwitchButtons(
                 values: genderBoolData.values.toList(),
                 selectedValue: isGenderFemale != null
@@ -77,7 +96,7 @@ class CustomerNarrowSetDialog extends StatelessWidget {
                 },
               ),
               SizedBox(height: 16),
-              Text('来店理由：'),
+              Text('■来店理由'),
               SimpleDropdownButton(
                 items: visitReasonData.keys.toList(),
                 selectedItem: visitReason ?? unselectedValue,
@@ -102,8 +121,7 @@ class CustomerNarrowSetDialog extends StatelessWidget {
               narrow = CustomerNarrowData(
                 numOfVisits: numOfVisits,
                 isGenderFemale: isGenderFemale,
-                minAge: minAge,
-                maxAge: maxAge,
+                age: age,
                 sinceLastVisit: sinceLastVisit,
                 untilLastVisit: untilLastVisit,
                 sinceNextVisit: sinceNextVisit,

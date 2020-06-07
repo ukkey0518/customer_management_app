@@ -2,8 +2,7 @@ class CustomerNarrowData {
   CustomerNarrowData({
     this.numOfVisits,
     this.isGenderFemale,
-    this.minAge,
-    this.maxAge,
+    this.age,
     this.sinceLastVisit,
     this.untilLastVisit,
     this.sinceNextVisit,
@@ -11,10 +10,9 @@ class CustomerNarrowData {
     this.visitReason,
   });
 
-  int numOfVisits;
+  String numOfVisits;
   bool isGenderFemale;
-  int minAge;
-  int maxAge;
+  String age;
   DateTime sinceLastVisit;
   DateTime untilLastVisit;
   DateTime sinceNextVisit;
@@ -25,8 +23,7 @@ class CustomerNarrowData {
   bool isSetAny() {
     final flag = numOfVisits != null ||
         isGenderFemale != null ||
-        minAge != null ||
-        maxAge != null ||
+        age != null ||
         sinceLastVisit != null ||
         untilLastVisit != null ||
         sinceNextVisit != null ||
@@ -40,8 +37,7 @@ class CustomerNarrowData {
   void clear() {
     numOfVisits = null;
     isGenderFemale = null;
-    minAge = null;
-    maxAge = null;
+    age = null;
     sinceLastVisit = null;
     untilLastVisit = null;
     sinceNextVisit = null;
@@ -51,6 +47,6 @@ class CustomerNarrowData {
 
   @override
   String toString() {
-    return '[C]NarrowData(nov: $numOfVisits, g: $isGenderFemale, minAge: $minAge, maxAge: $maxAge, slv: $sinceLastVisit, ulv: $untilLastVisit, snv: $sinceNextVisit, unv: $untilNextVisit, vr: $visitReason)';
+    return '[C]NarrowData(nov: $numOfVisits, g: $isGenderFemale, age: $age, slv: $sinceLastVisit, ulv: $untilLastVisit, snv: $sinceNextVisit, unv: $untilNextVisit, vr: $visitReason)';
   }
 }
