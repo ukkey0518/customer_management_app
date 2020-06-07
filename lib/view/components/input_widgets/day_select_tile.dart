@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/data/enums/periodMode.dart';
+import 'package:customermanagementapp/view/components/custom_containers/rounded_rectangle_container.dart';
 import 'package:flutter/material.dart';
 
 class DaySelectTile extends StatelessWidget {
@@ -18,39 +19,64 @@ class DaySelectTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: FlatButton(
-            child: Icon(Icons.chevron_left),
-            onPressed: date.year == minDate.year &&
-                    date.month == minDate.month &&
-                    date.day == minDate.day
-                ? null
-                : () => decrement(PeriodMode.DAY),
+    final isPreviousDisable = date.year == minDate.year &&
+        date.month == minDate.month &&
+        date.day == minDate.day;
+    final isNextDisable = date.year == maxDate.year &&
+        date.month == maxDate.month &&
+        date.day == maxDate.day;
+    return RoundedRectangleContainer(
+      borderColor: Theme.of(context).primaryColorLight,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Center(
+            child: Text(
+              '${date.day} 日',
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Text(
-            '${date.day} 日',
-            textAlign: TextAlign.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Icon(
+                      Icons.chevron_left,
+                      color: isPreviousDisable
+                          ? Colors.grey.shade300
+                          : Theme.of(context).primaryColor,
+                      size: 32,
+                    ),
+                  ),
+                  onPressed: isPreviousDisable
+                      ? null
+                      : () => decrement(PeriodMode.DAY),
+                ),
+              ),
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Icon(
+                      Icons.chevron_right,
+                      color: isNextDisable
+                          ? Colors.grey.shade300
+                          : Theme.of(context).primaryColor,
+                      size: 32,
+                    ),
+                  ),
+                  onPressed:
+                      isNextDisable ? null : () => increment(PeriodMode.DAY),
+                ),
+              ),
+            ],
           ),
-        ),
-        Expanded(
-          flex: 1,
-          child: FlatButton(
-            child: Icon(Icons.chevron_right),
-            onPressed: date.year == maxDate.year &&
-                    date.month == maxDate.month &&
-                    date.day == maxDate.day
-                ? null
-                : () => increment(PeriodMode.DAY),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

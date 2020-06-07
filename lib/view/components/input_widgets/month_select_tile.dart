@@ -1,4 +1,5 @@
 import 'package:customermanagementapp/data/enums/periodMode.dart';
+import 'package:customermanagementapp/view/components/custom_containers/rounded_rectangle_container.dart';
 import 'package:flutter/material.dart';
 
 class MonthSelectTile extends StatelessWidget {
@@ -18,37 +19,62 @@ class MonthSelectTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Expanded(
-          flex: 1,
-          child: FlatButton(
-            child: Icon(Icons.chevron_left),
-            onPressed:
-                date?.year == minDate.year && date?.month == minDate.month
-                    ? null
-                    : () => decrement(PeriodMode.MONTH),
+    final isPreviousDisable =
+        date?.year == minDate.year && date?.month == minDate.month;
+    final isNextDisable =
+        date?.year == maxDate.year && date?.month == maxDate.month;
+    return RoundedRectangleContainer(
+      borderColor: Theme.of(context).primaryColorLight,
+      child: Stack(
+        alignment: Alignment.center,
+        children: [
+          Center(
+            child: Text(
+              '${date?.month} 月',
+              style: TextStyle(fontSize: 18),
+              textAlign: TextAlign.center,
+            ),
           ),
-        ),
-        Expanded(
-          flex: 2,
-          child: Text(
-            '${date?.month} 月',
-            textAlign: TextAlign.center,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    alignment: Alignment.centerLeft,
+                    child: Icon(
+                      Icons.chevron_left,
+                      color: isPreviousDisable
+                          ? Colors.grey.shade300
+                          : Theme.of(context).primaryColor,
+                      size: 32,
+                    ),
+                  ),
+                  onPressed: isPreviousDisable
+                      ? null
+                      : () => decrement(PeriodMode.MONTH),
+                ),
+              ),
+              Expanded(
+                child: FlatButton(
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    child: Icon(
+                      Icons.chevron_right,
+                      color: isNextDisable
+                          ? Colors.grey.shade300
+                          : Theme.of(context).primaryColor,
+                      size: 32,
+                    ),
+                  ),
+                  onPressed:
+                      isNextDisable ? null : () => increment(PeriodMode.MONTH),
+                ),
+              ),
+            ],
           ),
-        ),
-        Expanded(
-          flex: 1,
-          child: FlatButton(
-            child: Icon(Icons.chevron_right),
-            onPressed:
-                date?.year == maxDate.year && date?.month == maxDate.month
-                    ? null
-                    : () => increment(PeriodMode.MONTH),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

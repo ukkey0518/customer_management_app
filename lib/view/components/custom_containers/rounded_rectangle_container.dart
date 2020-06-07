@@ -12,8 +12,7 @@ class RoundedRectangleContainer extends StatelessWidget {
     this.padding,
     this.onTap,
     this.onLongPress,
-  })  : assert(color != null),
-        assert(borderColor != null),
+  })  : assert(borderColor != null),
         assert(radius != null),
         assert(borderWidth != null);
 
@@ -40,8 +39,8 @@ class RoundedRectangleContainer extends StatelessWidget {
           color: color,
         ),
         child: SizedBox(
-          height: double.infinity,
-          width: double.infinity,
+          height: height,
+          width: width,
           child: InkWell(
             customBorder: RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(radius)),

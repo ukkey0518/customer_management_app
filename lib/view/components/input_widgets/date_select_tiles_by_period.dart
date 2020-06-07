@@ -45,6 +45,7 @@ class DateSelectTilesByPeriod extends StatelessWidget {
             increment: (mode) => increment(mode),
             decrement: (mode) => decrement(mode),
           ))
+          ..add(SizedBox(height: 8))
           ..add(MonthSelectTile(
             date: date,
             maxDate: maxDate,
@@ -62,6 +63,7 @@ class DateSelectTilesByPeriod extends StatelessWidget {
             increment: (mode) => increment(mode),
             decrement: (mode) => decrement(mode),
           ))
+          ..add(SizedBox(height: 8))
           ..add(MonthSelectTile(
             date: date,
             maxDate: maxDate,
@@ -69,6 +71,7 @@ class DateSelectTilesByPeriod extends StatelessWidget {
             increment: (mode) => increment(mode),
             decrement: (mode) => decrement(mode),
           ))
+          ..add(SizedBox(height: 8))
           ..add(DaySelectTile(
             date: date,
             maxDate: maxDate,

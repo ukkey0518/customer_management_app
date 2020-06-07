@@ -41,6 +41,7 @@ class PeriodSetDialog extends StatelessWidget {
                   },
                   selectedValue: periodModeTextMap[selectMode],
                 ),
+                SizedBox(height: 16),
                 DateSelectTilesByPeriod(
                   mode: selectMode,
                   date: selectDate,
