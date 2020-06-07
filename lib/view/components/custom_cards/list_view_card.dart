@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-abstract class BasicListViewItem<T> extends StatelessWidget {
-  BasicListViewItem({
+abstract class ListViewCard<T> extends StatelessWidget {
+  ListViewCard({
     @required this.item,
     @required this.onTap,
     @required this.onLongPress,

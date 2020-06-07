@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
+import 'package:customermanagementapp/view/components/custom_cards/visit_history_list_card.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/visit_history_edit_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -39,9 +39,10 @@ class _VisitHistoryPageState extends State<VisitHistoryPage> {
         Expanded(
           child: ListView(
             children: List<Widget>.generate(_visitHistories.length, (index) {
-              return VisitHistoryListItem(
+              return VisitHistoryListCard(
                 visitHistory: _visitHistories[index],
-                onTap: () => _editVisitHistory(context, _visitHistories[index]),
+                onTap: (_) =>
+                    _editVisitHistory(context, _visitHistories[index]),
                 onLongPress: null,
               );
             }),

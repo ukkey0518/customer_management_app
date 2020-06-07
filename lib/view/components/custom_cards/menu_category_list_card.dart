@@ -1,13 +1,13 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/polymorphism/basic_list_view_item.dart';
+import 'package:customermanagementapp/view/components/custom_cards/list_view_card.dart';
 import 'package:flutter/material.dart';
 
-class EmployeeListItem extends BasicListViewItem<Employee> {
-  EmployeeListItem({
-    @required Employee employee,
+class MenuCategoryListCard extends ListViewCard<MenuCategory> {
+  MenuCategoryListCard({
+    @required MenuCategory menuCategory,
     ValueChanged onTap,
     ValueChanged onLongPress,
-  }) : super(item: employee, onTap: onTap, onLongPress: onLongPress);
+  }) : super(item: menuCategory, onTap: onTap, onLongPress: onLongPress);
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +19,8 @@ class EmployeeListItem extends BasicListViewItem<Employee> {
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
           ),
           leading: Icon(
-            Icons.supervisor_account,
-            color: Colors.grey,
+            Icons.category,
+            color: Color(item.color),
           ),
           onTap: () => onTap(item),
           onLongPress: () => onLongPress(item),

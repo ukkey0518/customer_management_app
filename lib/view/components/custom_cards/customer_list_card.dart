@@ -1,14 +1,14 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
-import 'package:customermanagementapp/view/components/polymorphism/basic_list_view_item.dart';
+import 'package:customermanagementapp/view/components/custom_cards/list_view_card.dart';
 import 'package:flutter/material.dart';
 
 import '../customer_information_panel.dart';
 import '../customer_name_panel.dart';
 
-class CustomerListItem extends BasicListViewItem<VisitHistoriesByCustomer> {
-  CustomerListItem({
+class CustomerListCard extends ListViewCard<VisitHistoriesByCustomer> {
+  CustomerListCard({
     @required VisitHistoriesByCustomer visitHistoriesByCustomer,
     ValueChanged<VisitHistoriesByCustomer> onTap,
     ValueChanged<VisitHistoriesByCustomer> onLongPress,

@@ -11,7 +11,7 @@ import 'package:customermanagementapp/view/components/buttons/on_off_switch_butt
 import 'package:customermanagementapp/view/components/dialogs/customer_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
-import 'package:customermanagementapp/view/components/list_items/customer_list_item.dart';
+import 'package:customermanagementapp/view/components/custom_cards/customer_list_card.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
 import 'package:customermanagementapp/view/screens/customer_edit_screen.dart';
@@ -105,7 +105,7 @@ class CustomersListScreen extends StatelessWidget {
                     child: ListView.builder(
                       itemCount: vm.visitHistoriesByCustomers.length,
                       itemBuilder: (context, index) {
-                        return CustomerListItem(
+                        return CustomerListCard(
                           visitHistoriesByCustomer:
                               vm.visitHistoriesByCustomers[index],
                           onTap: (vhbc) => _onListItemTap(context, vhbc),

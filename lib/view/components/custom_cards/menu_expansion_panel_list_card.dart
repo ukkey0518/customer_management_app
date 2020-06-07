@@ -1,11 +1,11 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 
-import 'package:customermanagementapp/view/components/polymorphism/basic_list_view_item.dart';
+import 'package:customermanagementapp/view/components/custom_cards/list_view_card.dart';
 import 'package:flutter/material.dart';
 
-class MenuExpansionPanelItem extends BasicListViewItem<Menu> {
-  MenuExpansionPanelItem({
+class MenuExpansionPanelListCard extends ListViewCard<Menu> {
+  MenuExpansionPanelListCard({
     @required Menu menu,
     ValueChanged onTap,
     ValueChanged onLongPress,

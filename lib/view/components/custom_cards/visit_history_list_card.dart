@@ -3,28 +3,26 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/util/styles.dart';
+import 'package:customermanagementapp/view/components/custom_cards/list_view_card.dart';
 import 'package:flutter/material.dart';
 
-class VisitHistoryListItem extends StatelessWidget {
-  VisitHistoryListItem(
-      {@required this.visitHistory,
-      @required this.onTap,
-      @required this.onLongPress});
-
-  final VisitHistory visitHistory;
-  final GestureTapCallback onTap;
-  final GestureLongPressCallback onLongPress;
+class VisitHistoryListCard extends ListViewCard<VisitHistory> {
+  VisitHistoryListCard({
+    @required VisitHistory visitHistory,
+    @required ValueChanged onTap,
+    @required ValueChanged onLongPress,
+  }) : super(item: visitHistory, onTap: onTap, onLongPress: onLongPress);
 
   @override
   Widget build(BuildContext context) {
     // 日付
-    var date = visitHistory.date;
+    var date = item.date;
     // 顧客データ
-    var customer = visitHistory.customerJson.toCustomer();
+    var customer = item.customerJson.toCustomer();
     // 担当スタッフデータ
-    var employee = visitHistory.employeeJson.toEmployee();
+    var employee = item.employeeJson.toEmployee();
     // 提供メニューリスト
-    var menus = visitHistory.menuListJson.toMenuList();
+    var menus = item.menuListJson.toMenuList();
     // カテゴリカラーリスト(重複を排除したもの)
     var categoryColors = menus
         .map<Color>((menu) {
@@ -51,8 +49,8 @@ class VisitHistoryListItem extends StatelessWidget {
           ),
           child: Card(
             child: InkWell(
-              onTap: onTap,
-              onLongPress: onLongPress,
+              onTap: () => onTap(null),
+              onLongPress: () => onLongPress(null),
               child: Container(
                 padding: EdgeInsets.all(16.0),
                 child: Column(

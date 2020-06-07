@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/dialogs/employee_edit_dialog.dart';
-import 'package:customermanagementapp/view/components/list_items/employee_list_item.dart';
+import 'package:customermanagementapp/view/components/custom_cards/employee_list_card.dart';
 import 'package:customermanagementapp/viewmodel/employee_setting_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -30,7 +30,7 @@ class EmployeeSettingScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: viewModel.employees.length,
             itemBuilder: (context, index) {
-              return EmployeeListItem(
+              return EmployeeListCard(
                 employee: viewModel.employees[index],
                 onTap: (employee) => _showEditEmployeeDialog(context, employee),
                 onLongPress: (employee) => _deleteEmployee(context, employee),

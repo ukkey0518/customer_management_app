@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_category_edit_dialog.dart';
-import 'package:customermanagementapp/view/components/list_items/menu_category_list_item.dart';
+import 'package:customermanagementapp/view/components/custom_cards/menu_category_list_card.dart';
 import 'package:customermanagementapp/viewmodel/menu_category_setting_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -31,7 +31,7 @@ class MenuCategorySettingScreen extends StatelessWidget {
           return ListView.builder(
             itemCount: viewModel.mbcList.length,
             itemBuilder: (context, index) {
-              return MenuCategoryListItem(
+              return MenuCategoryListCard(
                 menuCategory: viewModel.mbcList[index].menuCategory,
                 onTap: (category) => _showEditDialog(context, category),
                 onLongPress: (category) => _deleteMenuCategory(context, index),

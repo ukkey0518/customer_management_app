@@ -9,7 +9,7 @@ import 'package:customermanagementapp/view/components/buttons/list_sort_order_sw
 import 'package:customermanagementapp/view/components/buttons/on_off_switch_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/visit_history_narrow_set_dialog.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
-import 'package:customermanagementapp/view/components/list_items/visit_history_list_item.dart';
+import 'package:customermanagementapp/view/components/custom_cards/visit_history_list_card.dart';
 import 'package:customermanagementapp/view/components/search_bar.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_list_view_model.dart';
@@ -101,10 +101,10 @@ class _VisitHistoryListScreenState extends State<VisitHistoryListScreen> {
                   child: ListView.separated(
                     itemBuilder: (context, index) {
                       var item = vm.visitHistories[index];
-                      return VisitHistoryListItem(
+                      return VisitHistoryListCard(
                         visitHistory: item,
-                        onTap: () => _editVisitHistory(context, item),
-                        onLongPress: () => _deleteVisitHistory(context, item),
+                        onTap: (_) => _editVisitHistory(context, item),
+                        onLongPress: (_) => _deleteVisitHistory(context, item),
                       );
                     },
                     separatorBuilder: (context, index) => Divider(),
