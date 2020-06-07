@@ -64,6 +64,7 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
     final untilNextVisit = narrowData.untilNextVisit;
     final visitReason = narrowData.visitReason;
 
+    // 来店回数で絞り込み
     if (numOfVisits != null) {
       var list = numOfVisits.split('~');
       var min;
@@ -88,6 +89,46 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
         return minFlag && maxFlag;
       }).toList();
     }
+
+    // 性別で絞り込み
+    if (isGenderFemale != null) {
+      dataList = dataList.where((vhbc) {
+        var customerGender = vhbc.customer.isGenderFemale;
+        return customerGender == isGenderFemale;
+      }).toList();
+    }
+
+    // 年齢層で絞り込み
+    if (age != null) {
+      var min = int.parse(age.substring(0, age.length - 1));
+      var max = min + 9;
+
+      dataList = dataList.where((vhbc) {
+        var customerAge = vhbc.customer.birth.toAge();
+        return min <= customerAge && customerAge <= max;
+      }).toList();
+    }
+
+    // 最終来店日で絞り込み
+    if (sinceLastVisit != null) {
+      dataList = dataList.where((vhbc) {
+        final lastVisitDate = vhbc.histories.getLastVisitHistory().date;
+        return lastVisitDate.isAtSameMomentAs(sinceLastVisit) ||
+            lastVisitDate.isAfter(sinceLastVisit);
+      }).toList();
+    }
+
+    if (untilLastVisit != null) {
+      dataList = dataList.where((vhbc) {
+        final lastVisitDate = vhbc.histories.getLastVisitHistory().date;
+        return lastVisitDate.isAtSameMomentAs(untilLastVisit) ||
+            lastVisitDate.isBefore(untilLastVisit);
+      }).toList();
+    }
+
+    //TODO 次回来店予想日で絞り込み
+
+    //TODO 来店理由で絞り込み
 
     print(narrowData);
     dataList.forEach((vhbc) =>

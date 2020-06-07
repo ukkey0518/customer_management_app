@@ -121,6 +121,13 @@ extension ConvertFromDateTime on DateTime {
     return newDate;
   }
 
+  // [取得：日付情報だけを取得する]
+  DateTime toOnlyDate() {
+    if (this == null) return null;
+    var onlyDateData = DateTime(this.year, this.month, this.day);
+    return onlyDateData;
+  }
+
   // [変換：誕生日から年齢を取得する]
   int toAge() {
     // 引数がnullの場合はnullを返す

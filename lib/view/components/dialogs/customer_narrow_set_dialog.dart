@@ -44,18 +44,18 @@ class CustomerNarrowSetDialog extends StatelessWidget {
                 sinceDate: sinceLastVisit,
                 untilDate: untilLastVisit,
                 onSinceDateConfirm: (date) =>
-                    setState(() => sinceLastVisit = date),
+                    setState(() => sinceLastVisit = date.toOnlyDate()),
                 onUntilDateConfirm: (date) =>
-                    setState(() => untilLastVisit = date),
+                    setState(() => untilLastVisit = date.toOnlyDate()),
               ),
               Text('■次回来店予想'),
               PeriodInputTile(
                 sinceDate: sinceNextVisit,
                 untilDate: untilNextVisit,
                 onSinceDateConfirm: (date) =>
-                    setState(() => sinceNextVisit = date),
+                    setState(() => sinceNextVisit = date.toOnlyDate()),
                 onUntilDateConfirm: (date) =>
-                    setState(() => untilNextVisit = date),
+                    setState(() => untilNextVisit = date.toOnlyDate()),
                 maxDate: DateTime.now() + 365.days,
               ),
               Text('■来店回数'),
