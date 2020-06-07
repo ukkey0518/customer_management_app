@@ -43,7 +43,7 @@ class VisitHistoryNarrowSetDialog extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 // 日付指定
-                Text('絞り込み期間：'),
+                Text('■絞り込み期間'),
                 PeriodInputTile(
                   sinceDate: selectedSinceDate,
                   untilDate: selectedUntilDate,
@@ -54,7 +54,7 @@ class VisitHistoryNarrowSetDialog extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 // スタッフ指定
-                Text('担当スタップ：'),
+                Text('■担当スタップ'),
                 SimpleDropdownButton(
                   items: employeeNameList,
                   selectedItem: selectedEmployeeName,
@@ -66,7 +66,7 @@ class VisitHistoryNarrowSetDialog extends StatelessWidget {
                 ),
                 SizedBox(height: 16),
                 // メニューカテゴリ指定
-                Text('メニューカテゴリ：'),
+                Text('■メニューカテゴリ'),
                 SimpleDropdownButton(
                   items: menuCategoryNameList,
                   selectedItem: selectedCategoryName,
