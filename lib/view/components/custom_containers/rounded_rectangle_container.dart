@@ -4,15 +4,17 @@ class RoundedRectangleContainer extends StatelessWidget {
   RoundedRectangleContainer({
     @required this.child,
     this.radius = 8.0,
-    this.color,
-    this.borderColor,
+    this.color = const Color(0xFF),
+    this.borderColor = const Color(0xFF),
     this.borderWidth = 1.0,
     this.height,
     this.width,
     this.padding,
     this.onTap,
     this.onLongPress,
-  })  : assert(radius != null),
+  })  : assert(color != null),
+        assert(borderColor != null),
+        assert(radius != null),
         assert(borderWidth != null);
 
   final Widget child;
