@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/dialogs/menu_edit_dialog.dart';
-import 'package:customermanagementapp/view/components/menu_expansion_panel_list.dart';
+import 'package:customermanagementapp/view/components/expansion_panel_lists/menu_expansion_panel_list.dart';
 import 'package:customermanagementapp/view/screens/setting_screens/menu_category_setting_screen.dart';
 import 'package:customermanagementapp/viewmodel/menu_setting_view_model.dart';
 import 'package:flutter/cupertino.dart';

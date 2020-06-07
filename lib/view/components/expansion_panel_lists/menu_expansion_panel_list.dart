@@ -1,9 +1,9 @@
 import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/functions.dart';
-import 'package:customermanagementapp/view/components/expansion_panels/add_panel.dart';
-import 'package:customermanagementapp/view/components/expansion_panels/menu_panel.dart';
-import 'package:customermanagementapp/view/components/expansion_panels/title_panel.dart';
+import 'package:customermanagementapp/view/components/expansion_panel_items/add_panel.dart';
+import 'package:customermanagementapp/view/components/expansion_panel_items/menu_panel.dart';
+import 'package:customermanagementapp/view/components/expansion_panel_items/title_panel.dart';
 import 'package:flutter/material.dart';
 
 class MenuExpansionPanelList extends StatelessWidget {

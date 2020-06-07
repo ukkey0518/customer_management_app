@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/menu_expansion_panel_list.dart';
+import 'package:customermanagementapp/view/components/expansion_panel_lists/menu_expansion_panel_list.dart';
 import 'package:customermanagementapp/view/components/selected_menu_list.dart';
 import 'package:customermanagementapp/viewmodel/menu_select_view_model.dart';
 import 'package:flutter/material.dart';
