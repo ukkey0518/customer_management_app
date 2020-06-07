@@ -1,7 +1,7 @@
 import 'package:customermanagementapp/view/components/custom_containers/rounded_rectangle_container.dart';
 import 'package:flutter/material.dart';
 
-import 'date_input_tile.dart';
+import '../custom_containers/date_input_container.dart';
 
 class PeriodInputTile extends StatelessWidget {
   PeriodInputTile({
@@ -35,7 +35,7 @@ class PeriodInputTile extends StatelessWidget {
                 borderWidth: 2,
                 height: 45,
                 width: 120,
-                child: DateInputTile(
+                child: DateInputContainer(
                   isExpand: true,
                   aliment: Alignment.center,
                   selectedDate: sinceDate,
@@ -61,7 +61,7 @@ class PeriodInputTile extends StatelessWidget {
                 borderWidth: 2,
                 height: 45,
                 width: 120,
-                child: DateInputTile(
+                child: DateInputContainer(
                   isExpand: true,
                   aliment: Alignment.center,
                   selectedDate: untilDate,

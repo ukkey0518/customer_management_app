@@ -4,7 +4,7 @@ import 'package:customermanagementapp/data/gender_bool_data.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
-import 'package:customermanagementapp/util/functions.dart';
+import 'package:customermanagementapp/util/functional_interfaces.dart';
 import 'package:customermanagementapp/view/components/custom_cards/basic_information_card.dart';
 import 'package:flutter/material.dart';
 

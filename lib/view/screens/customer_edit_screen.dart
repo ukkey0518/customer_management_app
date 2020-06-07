@@ -4,12 +4,11 @@ import 'package:customermanagementapp/data/visit_reason_data.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/basic_input_form.dart';
+import 'package:customermanagementapp/view/components/custom_containers/date_input_container.dart';
+import 'package:customermanagementapp/view/components/custom_text_fields/text_input_field.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
-import 'package:customermanagementapp/view/components/input_widgets/date_input_tile.dart';
 import 'package:customermanagementapp/view/components/input_widgets/select_switch_buttons.dart';
 import 'package:customermanagementapp/view/components/input_widgets/single_item_selecter.dart';
-import 'package:customermanagementapp/view/components/input_widgets/text_input_field.dart';
-import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:customermanagementapp/viewmodel/customer_edit_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -58,7 +57,7 @@ class CustomerEditScreen extends StatelessWidget {
                   children: <Widget>[
                     BasicInputForm(
                       formTitle: '基本情報',
-                      items: <String, InputWidget>{
+                      items: <String, Widget>{
                         '氏名*': TextInputField(
                           controller: viewModel.nameController,
                           onChanged: (_) => _onInputFieldChanged(context),
@@ -84,21 +83,21 @@ class CustomerEditScreen extends StatelessWidget {
                             genderBoolData.getKeyFromValue(genderStr),
                           ),
                         ),
-                        '生年月日（長押しでクリア）': DateInputTile(
+                        '生年月日（長押しでクリア）': DateInputContainer(
                           selectedDate: viewModel.birthDay,
                           onConfirm: (birthDay) =>
                               _onBirthdayChanged(context, birthDay),
                           isClearable: true,
                           paddingVertical: 8,
                           paddingHorizontal: 8,
-                          color: Colors.white,
+                          backgroundColor: Colors.white,
                         ),
                       },
                     ),
                     SizedBox(height: 30),
                     BasicInputForm(
                       formTitle: 'その他情報',
-                      items: <String, InputWidget>{
+                      items: <String, Widget>{
                         '来店動機（長押しでクリア）': SingleItemSelecter(
                           items: visitReasonData.keys.toList(),
                           isClearable: true,

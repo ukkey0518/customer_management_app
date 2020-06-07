@@ -1,8 +1,7 @@
 import 'package:customermanagementapp/data/enums/input_field_style.dart';
-import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 
-class TextInputField extends InputWidget {
+class TextInputField extends StatelessWidget {
   TextInputField(
       {@required this.controller,
       @required this.errorText,

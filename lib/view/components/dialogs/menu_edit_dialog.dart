@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/data/enums/input_field_style.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/input_widgets/text_input_field.dart';
+import 'package:customermanagementapp/view/components/custom_text_fields/text_input_field.dart';
 import 'package:flutter/material.dart';
 
 class MenuEditDialog extends StatelessWidget {

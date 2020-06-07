@@ -1,4 +1,3 @@
-import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:customermanagementapp/util/colors.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +8,7 @@ class BasicInputForm extends StatelessWidget {
   });
 
   final String formTitle;
-  final Map<String, InputWidget> items;
+  final Map<String, Widget> items;
 
   @override
   Widget build(BuildContext context) {

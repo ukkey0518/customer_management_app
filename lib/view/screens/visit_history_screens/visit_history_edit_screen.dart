@@ -5,7 +5,7 @@ import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_di
 import 'package:customermanagementapp/view/components/icon_button_to_switch.dart';
 import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/indicators/error_indicator.dart';
-import 'package:customermanagementapp/view/components/input_widgets/date_input_tile.dart';
+import 'package:customermanagementapp/view/components/custom_containers/date_input_container.dart';
 import 'package:customermanagementapp/view/components/input_widgets/employee_input_button.dart';
 import 'package:customermanagementapp/view/components/input_widgets/menu_input_tile.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
@@ -101,7 +101,7 @@ class VisitHistoryEditScreen extends StatelessWidget {
                       RowWithIcon(
                         icon: Icon(Icons.calendar_today),
                         title: '日付',
-                        content: DateInputTile(
+                        content: DateInputContainer(
                           selectedDate: viewModel.date,
                           onConfirm: (date) => _setStatus(context, date: date),
                           isDisabled: viewModel.isReadingMode,

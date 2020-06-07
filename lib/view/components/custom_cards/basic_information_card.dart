@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/util/functions.dart';
+import 'package:customermanagementapp/util/functional_interfaces.dart';
 import 'package:flutter/material.dart';
 
 class BasicInformationCard extends StatelessWidget {

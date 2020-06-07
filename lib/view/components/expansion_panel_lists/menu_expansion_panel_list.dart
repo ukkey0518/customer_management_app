@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/util/functions.dart';
+import 'package:customermanagementapp/util/functional_interfaces.dart';
 import 'package:customermanagementapp/view/components/expansion_panel_items/add_panel.dart';
 import 'package:customermanagementapp/view/components/expansion_panel_items/menu_panel.dart';
 import 'package:customermanagementapp/view/components/expansion_panel_items/title_panel.dart';
