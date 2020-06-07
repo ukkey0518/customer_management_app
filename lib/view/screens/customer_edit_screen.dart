@@ -3,7 +3,7 @@ import 'package:customermanagementapp/data/gender_bool_data.dart';
 import 'package:customermanagementapp/data/visit_reason_data.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
-import 'package:customermanagementapp/view/components/basic_input_form.dart';
+import 'package:customermanagementapp/view/components/input_forms/vertical_input_form.dart';
 import 'package:customermanagementapp/view/components/custom_containers/date_input_container.dart';
 import 'package:customermanagementapp/view/components/custom_text_fields/text_input_field.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
@@ -55,7 +55,7 @@ class CustomerEditScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    BasicInputForm(
+                    VerticalInputForm(
                       formTitle: '基本情報',
                       items: <String, Widget>{
                         '氏名*': TextInputField(
@@ -95,7 +95,7 @@ class CustomerEditScreen extends StatelessWidget {
                       },
                     ),
                     SizedBox(height: 30),
-                    BasicInputForm(
+                    VerticalInputForm(
                       formTitle: 'その他情報',
                       items: <String, Widget>{
                         '来店動機（長押しでクリア）': SingleItemSelecter(

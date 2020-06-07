@@ -1,8 +1,8 @@
 import 'package:customermanagementapp/util/colors.dart';
 import 'package:flutter/material.dart';
 
-class BasicInputForm extends StatelessWidget {
-  BasicInputForm({
+class VerticalInputForm extends StatelessWidget {
+  VerticalInputForm({
     @required this.formTitle,
     @required this.items,
   });
