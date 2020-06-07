@@ -2,8 +2,8 @@ import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/view/components/custom_containers/rounded_rectangle_container.dart';
 import 'package:flutter/material.dart';
 
-class YearSelectTile extends StatelessWidget {
-  YearSelectTile({
+class YearSelectButton extends StatelessWidget {
+  YearSelectButton({
     this.date,
     this.maxDate,
     this.minDate,

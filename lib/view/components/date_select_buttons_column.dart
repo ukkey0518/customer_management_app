@@ -1,11 +1,11 @@
 import 'package:customermanagementapp/data/enums/periodMode.dart';
-import 'package:customermanagementapp/view/components/input_widgets/day_select_tile.dart';
-import 'package:customermanagementapp/view/components/input_widgets/month_select_tile.dart';
-import 'package:customermanagementapp/view/components/input_widgets/year_select_tile.dart';
+import 'package:customermanagementapp/view/components/buttons/day_select_button.dart';
+import 'package:customermanagementapp/view/components/buttons/month_select_button.dart';
+import 'package:customermanagementapp/view/components/buttons/year_select_button.dart';
 import 'package:flutter/material.dart';
 
-class DateSelectTilesByPeriod extends StatelessWidget {
-  DateSelectTilesByPeriod({
+class DateSelectButtonsColumn extends StatelessWidget {
+  DateSelectButtonsColumn({
     this.mode,
     this.date,
     this.maxDate,
@@ -28,7 +28,7 @@ class DateSelectTilesByPeriod extends StatelessWidget {
     switch (mode) {
       case PeriodMode.YEAR:
         widgetList
-          ..add(YearSelectTile(
+          ..add(YearSelectButton(
             date: date,
             maxDate: maxDate,
             minDate: minDate,
@@ -38,7 +38,7 @@ class DateSelectTilesByPeriod extends StatelessWidget {
         break;
       case PeriodMode.MONTH:
         widgetList
-          ..add(YearSelectTile(
+          ..add(YearSelectButton(
             date: date,
             maxDate: maxDate,
             minDate: minDate,
@@ -46,7 +46,7 @@ class DateSelectTilesByPeriod extends StatelessWidget {
             decrement: (mode) => decrement(mode),
           ))
           ..add(SizedBox(height: 8))
-          ..add(MonthSelectTile(
+          ..add(MonthSelectButton(
             date: date,
             maxDate: maxDate,
             minDate: minDate,
@@ -56,7 +56,7 @@ class DateSelectTilesByPeriod extends StatelessWidget {
         break;
       case PeriodMode.DAY:
         widgetList
-          ..add(YearSelectTile(
+          ..add(YearSelectButton(
             date: date,
             maxDate: maxDate,
             minDate: minDate,
@@ -64,7 +64,7 @@ class DateSelectTilesByPeriod extends StatelessWidget {
             decrement: (mode) => decrement(mode),
           ))
           ..add(SizedBox(height: 8))
-          ..add(MonthSelectTile(
+          ..add(MonthSelectButton(
             date: date,
             maxDate: maxDate,
             minDate: minDate,
@@ -72,7 +72,7 @@ class DateSelectTilesByPeriod extends StatelessWidget {
             decrement: (mode) => decrement(mode),
           ))
           ..add(SizedBox(height: 8))
-          ..add(DaySelectTile(
+          ..add(DaySelectButton(
             date: date,
             maxDate: maxDate,
             minDate: minDate,

@@ -2,8 +2,8 @@ import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/view/components/custom_containers/rounded_rectangle_container.dart';
 import 'package:flutter/material.dart';
 
-class DaySelectTile extends StatelessWidget {
-  DaySelectTile({
+class DaySelectButton extends StatelessWidget {
+  DaySelectButton({
     this.date,
     this.maxDate,
     this.minDate,
