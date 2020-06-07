@@ -14,7 +14,7 @@ extension ConvertFromMap<K, V> on Map<K, V> {
         key = keyList.single.key;
         break;
       default:
-        throw Exception('Valueに一致するKeyが複数存在');
+        throw Exception('Valueに一致するKeyが複数存在 : ${keyList.length}');
     }
     return key;
   }
