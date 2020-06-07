@@ -1,11 +1,11 @@
 import 'package:customermanagementapp/data/data_classes/menus_by_category.dart';
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/functions.dart';
-import 'package:customermanagementapp/view/components/expantion_panels/expansion_panel_add_panel.dart';
-import 'package:customermanagementapp/view/components/expantion_panels/expansion_panel_title.dart';
+import 'package:customermanagementapp/view/components/expantion_panels/add_panel.dart';
+import 'package:customermanagementapp/view/components/expantion_panels/title_panel.dart';
 import 'package:flutter/material.dart';
 
-import 'custom_cards/menu_expansion_panel_list_card.dart';
+import 'expantion_panels/menu_panel.dart';
 
 class MenuExpansionPanelList extends StatelessWidget {
   MenuExpansionPanelList({
@@ -43,7 +43,7 @@ class MenuExpansionPanelList extends StatelessWidget {
             child: Column(
               children: List<Widget>.generate(
                 menus.length,
-                (index) => MenuExpansionPanelListCard(
+                (index) => MenuPanel(
                   menu: menus[index],
                   onTap: (menu) {
                     onItemPanelTap(menusByCategory.menuCategory, menu);
