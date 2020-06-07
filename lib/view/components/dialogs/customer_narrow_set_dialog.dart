@@ -2,7 +2,7 @@ import 'package:customermanagementapp/data/data_classes/customer_narrow_data.dar
 import 'package:customermanagementapp/data/gender_bool_data.dart';
 import 'package:customermanagementapp/data/visit_reason_data.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
-import 'package:customermanagementapp/view/components/custom_dropdown_button/simple_dropdown_button.dart';
+import 'package:customermanagementapp/view/components/buttons/simple_dropdown_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
 import 'package:customermanagementapp/view/components/input_widgets/period_input_tile.dart';
 import 'package:customermanagementapp/view/components/input_widgets/select_switch_buttons.dart';
