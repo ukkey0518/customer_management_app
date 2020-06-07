@@ -126,7 +126,21 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
       }).toList();
     }
 
-    //TODO 次回来店予想日で絞り込み
+    // 次回来店予想日で絞り込み
+    if (sinceNextVisit != null) {
+      dataList = dataList.where((vhbc) {
+        final expectNextVisit = vhbc.histories.expectedNextVisit();
+        return expectNextVisit.isAtSameMomentAs(sinceNextVisit) ||
+            expectNextVisit.isAfter(sinceNextVisit);
+      }).toList();
+    }
+    if (untilNextVisit != null) {
+      dataList = dataList.where((vhbc) {
+        final expectNextVisit = vhbc.histories.expectedNextVisit();
+        return expectNextVisit.isAtSameMomentAs(untilNextVisit) ||
+            expectNextVisit.isBefore(untilNextVisit);
+      }).toList();
+    }
 
     //TODO 来店理由で絞り込み
 
