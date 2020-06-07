@@ -142,7 +142,13 @@ extension ConvertFromVHBCList on List<VisitHistoriesByCustomer> {
       }).toList();
     }
 
-    //TODO 来店理由で絞り込み
+    // 来店理由で絞り込み
+    if (visitReason != null) {
+      dataList = dataList.where((vhbc) {
+        var customerVisitReason = vhbc.customer.visitReason;
+        return customerVisitReason == visitReason;
+      }).toList();
+    }
 
     print(narrowData);
     dataList.forEach((vhbc) =>
