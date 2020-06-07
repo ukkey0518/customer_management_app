@@ -1,7 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/contents_column_with_title.dart';
-import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_not_selected_card.dart';
-import 'package:customermanagementapp/view/components/cusotmer_selected_card/customer_selected_card.dart';
+import 'package:customermanagementapp/view/components/custom_cards/selected_customer_card.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/icon_button_to_switch.dart';
 import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
@@ -84,20 +83,13 @@ class VisitHistoryEditScreen extends StatelessWidget {
                       RowWithIcon(
                         icon: Icon(Icons.account_circle),
                         title: '顧客',
-                        content: viewModel.customer != null
-                            ? CustomerSelectedCard(
-                                customer: viewModel.customer,
-                                onSelected: viewModel.isReadingMode
-                                    ? null
-                                    : (customer) =>
-                                        _setStatus(context, customer: customer),
-                              )
-                            : CustomerNotSelectedCard(
-                                onSelected: viewModel.isReadingMode
-                                    ? null
-                                    : (customer) =>
-                                        _setStatus(context, customer: customer),
-                              ),
+                        content: SelectedContainerCard(
+                          customer: viewModel.customer,
+                          onSelected: viewModel.isReadingMode
+                              ? null
+                              : (customer) =>
+                                  _setStatus(context, customer: customer),
+                        ),
                       ),
                     ],
                   ),
