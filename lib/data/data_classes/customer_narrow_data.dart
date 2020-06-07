@@ -1,7 +1,7 @@
 class CustomerNarrowData {
   CustomerNarrowData({
     this.numOfVisits,
-    this.isGenderFemale = true,
+    this.isGenderFemale,
     this.minAge,
     this.maxAge,
     this.sinceLastVisit,
@@ -24,6 +24,7 @@ class CustomerNarrowData {
   // [判定：何かしらの絞り込み条件が設定されているか]
   bool isSetAny() {
     final flag = numOfVisits != null ||
+        isGenderFemale != null ||
         minAge != null ||
         maxAge != null ||
         sinceLastVisit != null ||

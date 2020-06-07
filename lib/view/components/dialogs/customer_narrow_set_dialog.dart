@@ -64,10 +64,15 @@ class CustomerNarrowSetDialog extends StatelessWidget {
               Text('性別：'),
               SelectSwitchButtons(
                 values: genderBoolData.values.toList(),
-                selectedValue: genderBoolData[isGenderFemale],
+                selectedValue: isGenderFemale != null
+                    ? genderBoolData[isGenderFemale]
+                    : unselectedValue,
+                unselectedValue: unselectedValue,
                 onChanged: (value) {
                   setState(() {
-                    isGenderFemale = genderBoolData.getKeyFromValue(value);
+                    isGenderFemale = value == unselectedValue
+                        ? null
+                        : genderBoolData.getKeyFromValue(value);
                   });
                 },
               ),
