@@ -60,6 +60,9 @@ dependencies:
   #auto_size_text-package
   auto_size_text: ^2.1.0
 
+  #flutter_swiper-package
+  flutter_swiper: ^1.1.6
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
