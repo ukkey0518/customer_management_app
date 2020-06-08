@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RowWithIcon extends StatelessWidget {
-  RowWithIcon({this.icon, this.title, this.content});
+class IconRow extends StatelessWidget {
+  IconRow({this.icon, this.title, this.content});
 
   final Icon icon;
   final String title;

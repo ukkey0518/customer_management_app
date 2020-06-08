@@ -8,7 +8,7 @@ import 'package:customermanagementapp/view/components/buttons/switch_icon_button
 import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/indicators/error_indicator.dart';
 import 'package:customermanagementapp/view/components/dividers/my_divider.dart';
-import 'package:customermanagementapp/view/components/row_with_icon.dart';
+import 'package:customermanagementapp/view/components/custom_rows/icon_row.dart';
 import 'package:customermanagementapp/view/components/custom_column/separated_column.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_edit_view_model.dart';
@@ -84,7 +84,7 @@ class VisitHistoryEditScreen extends StatelessWidget {
                   SeparatedColumn(
                     separatorBuilder: (_) => MyDivider(height: 8),
                     children: <Widget>[
-                      RowWithIcon(
+                      IconRow(
                         icon: Icon(Icons.account_circle),
                         title: '顧客',
                         content: SelectedContainerCard(
@@ -105,7 +105,7 @@ class VisitHistoryEditScreen extends StatelessWidget {
                   SeparatedColumn(
                     separatorBuilder: (_) => MyDivider(height: 8),
                     children: <Widget>[
-                      RowWithIcon(
+                      IconRow(
                         icon: Icon(Icons.calendar_today),
                         title: '日付',
                         content: DateInputContainer(
@@ -114,7 +114,7 @@ class VisitHistoryEditScreen extends StatelessWidget {
                           isDisabled: viewModel.isReadingMode,
                         ),
                       ),
-                      RowWithIcon(
+                      IconRow(
                         icon: Icon(Icons.supervisor_account),
                         title: '担当',
                         content: SimpleDropdownButton(
