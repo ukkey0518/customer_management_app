@@ -7,7 +7,7 @@ import 'package:customermanagementapp/view/components/input_forms/vertical_input
 import 'package:customermanagementapp/view/components/custom_containers/date_input_container.dart';
 import 'package:customermanagementapp/view/components/custom_text_fields/text_input_field.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
-import 'package:customermanagementapp/view/components/input_widgets/select_switch_buttons.dart';
+import 'package:customermanagementapp/view/components/buttons/raised_switch_buttons.dart';
 import 'package:customermanagementapp/view/components/input_widgets/single_item_selecter.dart';
 import 'package:customermanagementapp/viewmodel/customer_edit_view_model.dart';
 import 'package:flutter/material.dart';
@@ -74,7 +74,7 @@ class CustomerEditScreen extends StatelessWidget {
                           hintText: 'こきゃく たろう',
                           style: InputFieldStyle.ROUNDED_RECTANGLE,
                         ),
-                        '性別*': SelectSwitchButtons(
+                        '性別*': RaisedSwitchButtons(
                           values: genderBoolData.values.toList(),
                           selectedValue:
                               genderBoolData[viewModel.isGenderFemale],

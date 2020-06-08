@@ -5,7 +5,7 @@ import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/buttons/simple_dropdown_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
 import 'package:customermanagementapp/view/components/custom_containers/since_until_date_input_container.dart';
-import 'package:customermanagementapp/view/components/input_widgets/select_switch_buttons.dart';
+import 'package:customermanagementapp/view/components/buttons/raised_switch_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:time/time.dart';
 
@@ -83,7 +83,7 @@ class CustomerNarrowSetDialog extends StatelessWidget {
               ),
               SizedBox(height: 16),
               Text('■性別'),
-              SelectSwitchButtons(
+              RaisedSwitchButtons(
                 values: genderBoolData.values.toList(),
                 selectedValue: isGenderFemale != null
                     ? genderBoolData[isGenderFemale]
