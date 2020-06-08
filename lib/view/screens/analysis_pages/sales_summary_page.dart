@@ -1,5 +1,5 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/page_switcher.dart';
+import 'package:customermanagementapp/view/components/buttons/tab_buttons.dart';
 import 'package:customermanagementapp/view/screens/analysis_pages/summary_pages/category_summary_page.dart';
 import 'package:customermanagementapp/view/screens/analysis_pages/summary_pages/gender_summary_page.dart';
 import 'package:customermanagementapp/view/screens/analysis_pages/summary_pages/repeat_summary_page.dart';
@@ -45,14 +45,22 @@ class _SalesSummaryPageState extends State<SalesSummaryPage> {
       child: Column(
         children: <Widget>[
           Expanded(
-            child: PageSwitcher(
-              tabsData: tabsData,
-              selectedTab: selectedTab,
-              onChanged: (value) {
-                setState(() {
-                  selectedTab = value;
-                });
-              },
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: TabButtons(
+                    tabs: tabsData.keys.toList(),
+                    selectedValue: selectedTab,
+                    onChanged: (value) {
+                      setState(() {
+                        selectedTab = value;
+                      });
+                    },
+                  ),
+                ),
+                tabsData[selectedTab],
+              ],
             ),
           ),
         ],
