@@ -1,15 +1,15 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/buttons/simple_dropdown_button.dart';
-import 'package:customermanagementapp/view/components/contents_column_with_title.dart';
 import 'package:customermanagementapp/view/components/custom_cards/selected_customer_card.dart';
 import 'package:customermanagementapp/view/components/custom_containers/date_input_container.dart';
+import 'package:customermanagementapp/view/components/custom_containers/menu_input_list_container.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/icon_button_to_switch.dart';
 import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/indicators/error_indicator.dart';
-import 'package:customermanagementapp/view/components/custom_containers/menu_input_list_container.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
+import 'package:customermanagementapp/view/components/custom_column/separated_column.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
 import 'package:customermanagementapp/viewmodel/visit_history_edit_view_model.dart';
 import 'package:flutter/material.dart';
@@ -77,8 +77,12 @@ class VisitHistoryEditScreen extends StatelessWidget {
                       viewModel.menusErrorText,
                     ],
                   ),
-                  ContentsColumnWithTitle(
-                    title: 'お客様情報',
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text('お客様情報', style: TextStyle(fontSize: 20)),
+                  ),
+                  SeparatedColumn(
+                    separatorBuilder: (_) => MyDivider(height: 8),
                     children: <Widget>[
                       RowWithIcon(
                         icon: Icon(Icons.account_circle),
@@ -93,10 +97,13 @@ class VisitHistoryEditScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  MyDivider(),
                   SizedBox(height: 30),
-                  ContentsColumnWithTitle(
-                    title: '詳細情報',
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text('詳細情報', style: TextStyle(fontSize: 20)),
+                  ),
+                  SeparatedColumn(
+                    separatorBuilder: (_) => MyDivider(height: 8),
                     children: <Widget>[
                       RowWithIcon(
                         icon: Icon(Icons.calendar_today),
@@ -127,12 +134,12 @@ class VisitHistoryEditScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  MyDivider(),
                   SizedBox(height: 30),
-                  ContentsColumnWithTitle(
-                    title: '提供メニュー',
-                    children: <Widget>[Container()],
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16.0),
+                    child: Text('提供メニュー', style: TextStyle(fontSize: 20)),
                   ),
+                  MyDivider(height: 8),
                   Expanded(
                     child: MenuInputListContainer(
                       screenAbsorbing: viewModel.isReadingMode,
