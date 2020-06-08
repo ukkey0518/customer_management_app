@@ -2,8 +2,8 @@ import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:flutter/material.dart';
 
-class PeriodSelectTile extends StatelessWidget {
-  PeriodSelectTile({
+class PeriodSelectBar extends StatelessWidget {
+  PeriodSelectBar({
     @required this.date,
     @required this.mode,
     @required this.maxDate,

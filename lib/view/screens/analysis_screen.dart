@@ -5,7 +5,7 @@ import 'package:customermanagementapp/view/components/dialogs/period_set_dialog.
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/dividers/my_divider.dart';
-import 'package:customermanagementapp/view/components/period_select_tile.dart';
+import 'package:customermanagementapp/view/components/custom_bars/period_select_bar.dart';
 import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_parts/ssp_total_part.dart';
 import 'package:customermanagementapp/view/screens/analysis_pages/sales_summary_page.dart';
 import 'package:customermanagementapp/view/screens/analysis_pages/transition_graph_page.dart';
@@ -53,7 +53,7 @@ class AnalysisScreen extends StatelessWidget {
                               SizedBox(height: 8),
                               PeriodModeIndicator(mode: vm.periodMode),
                               SizedBox(height: 8),
-                              PeriodSelectTile(
+                              PeriodSelectBar(
                                 date: vm.date,
                                 mode: vm.periodMode,
                                 maxDate: vm.maxDate,

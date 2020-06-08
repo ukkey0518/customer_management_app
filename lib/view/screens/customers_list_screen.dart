@@ -12,7 +12,7 @@ import 'package:customermanagementapp/view/components/dialogs/customer_narrow_se
 import 'package:customermanagementapp/view/components/dialogs/delete_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/custom_cards/customer_list_card.dart';
-import 'package:customermanagementapp/view/components/search_bar.dart';
+import 'package:customermanagementapp/view/components/custom_bars/search_bar.dart';
 import 'package:customermanagementapp/view/components/search_bar_items/name_search_area.dart';
 import 'package:customermanagementapp/view/screens/customer_edit_screen.dart';
 import 'package:customermanagementapp/viewmodel/customers_list_view_model.dart';
