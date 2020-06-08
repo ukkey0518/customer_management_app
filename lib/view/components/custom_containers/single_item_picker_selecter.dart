@@ -1,8 +1,7 @@
 import 'package:customermanagementapp/data/pickers/single_item_select_picker.dart';
-import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 
-class SingleItemPickerContainer extends InputWidget {
+class SingleItemPickerContainer extends StatelessWidget {
   SingleItemPickerContainer({
     @required this.items,
     @required this.selectedItem,

@@ -1,7 +1,6 @@
-import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
 import 'package:flutter/material.dart';
 
-class RaisedSwitchButtons extends InputWidget {
+class RaisedSwitchButtons extends StatelessWidget {
   RaisedSwitchButtons({
     @required this.values,
     @required this.selectedValue,

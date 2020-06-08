@@ -2,12 +2,10 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_menu_list.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
-import 'package:customermanagementapp/view/components/polymorphism/input_widget.dart';
+import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:flutter/material.dart';
 
-import '../my_divider.dart';
-
-class MenuInputListContainer extends InputWidget {
+class MenuInputListContainer extends StatelessWidget {
   MenuInputListContainer({
     this.screenAbsorbing,
     this.onTap,
