@@ -7,7 +7,7 @@ import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_di
 import 'package:customermanagementapp/view/components/icon_button_to_switch.dart';
 import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/indicators/error_indicator.dart';
-import 'package:customermanagementapp/view/components/input_widgets/menu_input_tile.dart';
+import 'package:customermanagementapp/view/components/custom_containers/menu_input_list_container.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
 import 'package:customermanagementapp/view/screens/visit_history_screens/select_screens/menu_select_screen.dart';
@@ -134,7 +134,7 @@ class VisitHistoryEditScreen extends StatelessWidget {
                     children: <Widget>[Container()],
                   ),
                   Expanded(
-                    child: MenuInputTile(
+                    child: MenuInputListContainer(
                       screenAbsorbing: viewModel.isReadingMode,
                       onTap: () => _startMenuSelectScreen(context),
                       menus: viewModel.menus,
