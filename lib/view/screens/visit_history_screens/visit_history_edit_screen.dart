@@ -4,7 +4,7 @@ import 'package:customermanagementapp/view/components/custom_cards/selected_cust
 import 'package:customermanagementapp/view/components/custom_containers/date_input_container.dart';
 import 'package:customermanagementapp/view/components/custom_containers/menu_input_list_container.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
-import 'package:customermanagementapp/view/components/icon_button_to_switch.dart';
+import 'package:customermanagementapp/view/components/buttons/switch_icon_button.dart';
 import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/indicators/error_indicator.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
@@ -43,7 +43,7 @@ class VisitHistoryEditScreen extends StatelessWidget {
           actions: <Widget>[
             Consumer<VisitHistoryEditViewModel>(
               builder: (context, viewModel, child) {
-                return IconButtonToSwitch(
+                return SwitchIconButton(
                   switchFlag: viewModel.isReadingMode,
                   trueButton: IconButton(
                     icon: Icon(Icons.edit),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class IconButtonToSwitch extends StatelessWidget {
-  IconButtonToSwitch({
+class SwitchIconButton extends StatelessWidget {
+  SwitchIconButton({
     @required this.switchFlag,
     @required this.trueButton,
     @required this.falseButton,
