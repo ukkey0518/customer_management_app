@@ -4,7 +4,7 @@ import 'package:customermanagementapp/data/visit_reason_data.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/buttons/simple_dropdown_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
-import 'package:customermanagementapp/view/components/input_widgets/period_input_tile.dart';
+import 'package:customermanagementapp/view/components/custom_containers/since_until_date_input_container.dart';
 import 'package:customermanagementapp/view/components/input_widgets/select_switch_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:time/time.dart';
@@ -40,7 +40,7 @@ class CustomerNarrowSetDialog extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Text('■最終来店日'),
-              PeriodInputTile(
+              SinceUntilDateInputContainer(
                 sinceDate: sinceLastVisit,
                 untilDate: untilLastVisit,
                 onSinceDateConfirm: (date) =>
@@ -49,7 +49,7 @@ class CustomerNarrowSetDialog extends StatelessWidget {
                     setState(() => untilLastVisit = date.toOnlyDate()),
               ),
               Text('■次回来店予想'),
-              PeriodInputTile(
+              SinceUntilDateInputContainer(
                 sinceDate: sinceNextVisit,
                 untilDate: untilNextVisit,
                 onSinceDateConfirm: (date) =>

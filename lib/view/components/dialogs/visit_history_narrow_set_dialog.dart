@@ -2,7 +2,7 @@ import 'package:customermanagementapp/data/data_classes/visit_history_narrow_dat
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/view/components/buttons/simple_dropdown_button.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
-import 'package:customermanagementapp/view/components/input_widgets/period_input_tile.dart';
+import 'package:customermanagementapp/view/components/custom_containers/since_until_date_input_container.dart';
 import 'package:flutter/material.dart';
 
 class VisitHistoryNarrowSetDialog extends StatelessWidget {
@@ -44,7 +44,7 @@ class VisitHistoryNarrowSetDialog extends StatelessWidget {
               children: <Widget>[
                 // 日付指定
                 Text('■絞り込み期間'),
-                PeriodInputTile(
+                SinceUntilDateInputContainer(
                   sinceDate: selectedSinceDate,
                   untilDate: selectedUntilDate,
                   onSinceDateConfirm: (date) =>
