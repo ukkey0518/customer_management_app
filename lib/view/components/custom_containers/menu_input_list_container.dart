@@ -2,7 +2,7 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_menu_list.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
-import 'package:customermanagementapp/view/components/my_divider.dart';
+import 'package:customermanagementapp/view/components/dividers/my_divider.dart';
 import 'package:flutter/material.dart';
 
 class MenuInputListContainer extends StatelessWidget {
