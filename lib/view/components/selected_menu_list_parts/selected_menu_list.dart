@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/selected_menu_header.dart';
-import 'package:customermanagementapp/view/components/selected_menu_item.dart';
+import 'package:customermanagementapp/view/components/selected_menu_list_parts/selected_menu_header.dart';
+import 'package:customermanagementapp/view/components/selected_menu_list_parts/selected_menu_item.dart';
 import 'package:flutter/material.dart';
 
 class SelectedMenuList extends StatelessWidget {
