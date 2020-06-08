@@ -2,7 +2,7 @@ import 'package:customermanagementapp/data/enums/periodMode.dart';
 import 'package:customermanagementapp/data/period_select_mode_text_entry.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dialogs/dialog_title_text.dart';
-import 'package:customermanagementapp/view/components/date_select_buttons_column.dart';
+import 'package:customermanagementapp/view/components/custom_column/date_select_buttons_column.dart';
 import 'package:customermanagementapp/view/components/buttons/raised_switch_buttons.dart';
 import 'package:flutter/material.dart';
 
