@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class PageSelectTabs extends StatelessWidget {
-  PageSelectTabs({
+class TabButtons extends StatelessWidget {
+  TabButtons({
     @required this.tabs,
     @required this.selectedValue,
     @required this.onChanged,

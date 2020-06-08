@@ -1,4 +1,4 @@
-import 'package:customermanagementapp/view/components/page_select_tabs.dart';
+import 'package:customermanagementapp/view/components/buttons/tab_buttons.dart';
 import 'package:flutter/material.dart';
 
 class PageSwitcher extends StatelessWidget {
@@ -20,7 +20,7 @@ class PageSwitcher extends StatelessWidget {
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(bottom: 8.0),
-          child: PageSelectTabs(
+          child: TabButtons(
             tabs: tabs,
             selectedValue: selectedTab,
             onChanged: (value) => onChanged(value),

@@ -2,7 +2,7 @@ import 'package:custom_switch/custom_switch.dart';
 import 'package:customermanagementapp/data/line_chart_data/month_line_chart_data.dart';
 import 'package:customermanagementapp/data/line_chart_data/year_line_chart_data.dart';
 import 'package:customermanagementapp/db/database.dart';
-import 'package:customermanagementapp/view/components/page_select_tabs.dart';
+import 'package:customermanagementapp/view/components/buttons/tab_buttons.dart';
 import 'package:customermanagementapp/view/components/transition_graph_parts/line_chart_label.dart';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
@@ -34,7 +34,7 @@ class _TransitionGraphPageState extends State<TransitionGraphPage> {
       padding: const EdgeInsets.all(8.0),
       child: Column(
         children: <Widget>[
-          PageSelectTabs(
+          TabButtons(
             tabs: _modeTabs,
             selectedValue: _selectedMode,
             onChanged: (value) {
