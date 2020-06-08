@@ -5,7 +5,7 @@ import 'package:customermanagementapp/util/extensions/convert_from_visit_history
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/custom_cards/list_view_card.dart';
 import 'package:customermanagementapp/view/components/custom_cards/card_parts/customer_name_parts.dart';
-import 'package:customermanagementapp/view/components/simple_table_item.dart';
+import 'package:customermanagementapp/view/components/custom_cards/card_parts/simple_table_item.dart';
 import 'package:flutter/material.dart';
 
 class CustomerListCard extends ListViewCard<VisitHistoriesByCustomer> {
