@@ -1,9 +1,9 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
-import 'package:customermanagementapp/view/components/sales_summary_card_parts/heading_row.dart';
-import 'package:customermanagementapp/view/components/sales_summary_card_parts/menus_breakdown_row.dart';
-import 'package:customermanagementapp/view/components/sales_summary_card_parts/sales_summary_card_pie_chart.dart';
+import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_card_parts/heading_row.dart';
+import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_card_parts/menus_breakdown_row.dart';
+import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_card_parts/sales_summary_card_pie_chart.dart';
 import 'package:flutter/material.dart';
 
 class MenuListBreakDownCard extends StatelessWidget {

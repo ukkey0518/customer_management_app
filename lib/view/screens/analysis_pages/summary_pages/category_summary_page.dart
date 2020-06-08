@@ -1,6 +1,6 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
-import 'package:customermanagementapp/view/components/sales_summary_cards/menu_list_breakdown_card.dart';
+import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_cards/menu_list_breakdown_card.dart';
 import 'package:flutter/material.dart';
 
 class CategorySummaryPage extends StatefulWidget {

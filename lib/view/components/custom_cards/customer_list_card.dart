@@ -4,7 +4,7 @@ import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/custom_cards/list_view_card.dart';
-import 'package:customermanagementapp/view/components/customer_name_panel.dart';
+import 'package:customermanagementapp/view/components/custom_cards/card_parts/customer_name_parts.dart';
 import 'package:customermanagementapp/view/components/simple_table_item.dart';
 import 'package:flutter/material.dart';
 
@@ -35,7 +35,7 @@ class CustomerListCard extends ListViewCard<VisitHistoriesByCustomer> {
             padding: EdgeInsets.all(16.0),
             child: Column(
               children: <Widget>[
-                CustomerNamePanel(customer: customer),
+                CustomerNameParts(customer: customer),
                 Divider(),
                 Table(
                   children: <TableRow>[
