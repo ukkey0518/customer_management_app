@@ -1,11 +1,12 @@
 import 'package:customermanagementapp/data/data_classes/visit_histories_by_customer.dart';
+import 'package:customermanagementapp/data/enums/date_format_mode.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_string.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
+import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/custom_cards/list_view_card.dart';
+import 'package:customermanagementapp/view/components/customer_name_panel.dart';
+import 'package:customermanagementapp/view/components/simple_table_item.dart';
 import 'package:flutter/material.dart';
-
-import '../customer_information_panel.dart';
-import '../customer_name_panel.dart';
 
 class CustomerListCard extends ListViewCard<VisitHistoriesByCustomer> {
   CustomerListCard({
@@ -23,6 +24,7 @@ class CustomerListCard extends ListViewCard<VisitHistoriesByCustomer> {
     var customer = item.customer;
     var histories = item.histories;
     var lastVisitHistory = histories.getLastVisitHistory();
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 8),
       child: Card(
@@ -35,10 +37,36 @@ class CustomerListCard extends ListViewCard<VisitHistoriesByCustomer> {
               children: <Widget>[
                 CustomerNamePanel(customer: customer),
                 Divider(),
-                CustomerInformationPanel(
-                  numberOfVisits: histories?.length,
-                  lastVisitDate: lastVisitHistory?.date,
-                  personInCharge: lastVisitHistory?.employeeJson?.toEmployee(),
+                Table(
+                  children: <TableRow>[
+                    TableRow(
+                      children: <Widget>[
+                        SimpleTableItem(
+                          titleText: '来店回数',
+                          contentText: histories != null
+                              ? histories.length.toString()
+                              : 0,
+                        ),
+                        SimpleTableItem(
+                          titleText: '最終来店日',
+                          contentText: lastVisitHistory?.date != null
+                              ? lastVisitHistory.date
+                                  .toFormatStr(DateFormatMode.FULL)
+                              : '--',
+                        ),
+                        SimpleTableItem(
+                          titleText: '担当',
+                          contentText:
+                              lastVisitHistory?.employeeJson?.toEmployee() !=
+                                      null
+                                  ? lastVisitHistory?.employeeJson
+                                      ?.toEmployee()
+                                      ?.name
+                                  : '--',
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ],
             ),
