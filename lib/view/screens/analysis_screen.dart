@@ -6,7 +6,7 @@ import 'package:customermanagementapp/view/components/drowers/my_drawer.dart';
 import 'package:customermanagementapp/view/components/indicators/period_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/dividers/my_divider.dart';
 import 'package:customermanagementapp/view/components/period_select_tile.dart';
-import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_parts/ssp_total_part.dart';
+import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_parts/ssp_total_part.dart';
 import 'package:customermanagementapp/view/screens/analysis_pages/sales_summary_page.dart';
 import 'package:customermanagementapp/view/screens/analysis_pages/transition_graph_page.dart';
 import 'package:customermanagementapp/viewmodel/analysis_view_model.dart';

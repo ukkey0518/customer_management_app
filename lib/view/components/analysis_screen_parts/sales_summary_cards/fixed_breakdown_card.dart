@@ -2,9 +2,9 @@ import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/convert_from_visit_history_list.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
 import 'package:customermanagementapp/view/components/dividers/my_divider.dart';
-import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_card_parts/break_down_row.dart';
-import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_card_parts/heading_row.dart';
-import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_card_parts/sales_summary_card_pie_chart.dart';
+import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_card_parts/break_down_row.dart';
+import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_card_parts/heading_row.dart';
+import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_card_parts/sales_summary_card_pie_chart.dart';
 import 'package:flutter/material.dart';
 
 class FixedBreakDownCard extends StatelessWidget {

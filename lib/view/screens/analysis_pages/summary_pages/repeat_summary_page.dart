@@ -1,9 +1,9 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
-import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_cards/new_visitor_breakdown_card.dart';
-import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_cards/one_repeater_breakdown_card.dart';
-import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_cards/other_repeater_break_down_card.dart';
-import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_cards/repeaters_breakdown_card.dart';
+import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_cards/new_visitor_breakdown_card.dart';
+import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_cards/one_repeater_breakdown_card.dart';
+import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_cards/other_repeater_break_down_card.dart';
+import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_cards/repeaters_breakdown_card.dart';
 import 'package:flutter/material.dart';
 
 class RepeatSummaryPage extends StatefulWidget {

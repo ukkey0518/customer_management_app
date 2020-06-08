@@ -1,10 +1,10 @@
 import 'package:customermanagementapp/db/database.dart';
 import 'package:customermanagementapp/util/extensions/extensions.dart';
-import 'package:customermanagementapp/view/components/screen_components/analysis_screen_parts/sales_summary_cards/expandable_breakdown_card.dart';
+import 'package:customermanagementapp/view/components/analysis_screen_parts/sales_summary_cards/expandable_breakdown_card.dart';
 import 'package:flutter/material.dart';
 
-class OneRepeaterBreakDownCard extends StatelessWidget {
-  OneRepeaterBreakDownCard({
+class OtherRepeaterBreakDownCard extends StatelessWidget {
+  OtherRepeaterBreakDownCard({
     @required this.vhData,
     @required this.isExpanded,
     @required this.onExpandButtonTap,
@@ -16,23 +16,22 @@ class OneRepeaterBreakDownCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(vhData.values);
-    final List<VisitHistory> allOneRepeater = vhData.toAllVisitHistories();
+    final List<VisitHistory> allOtherRepeater = vhData.toAllVisitHistories();
 
     return ExpandableBreakDownCard(
-      title: 'ワンリピ内訳',
+      title: '通常リピ内訳',
       isExpanded: isExpanded,
       onExpandButtonTap: onExpandButtonTap,
-      isEnable: allOneRepeater.isNotEmpty,
+      isEnable: allOtherRepeater.isNotEmpty,
       dataMap: {
         '１ヶ月以内': vhData['1'],
         '３ヶ月以内': vhData['3'],
         '４ヶ月以上': vhData['more'],
       },
       colorList: [
-        ConvertFromColor.fromHex('#7baa17'),
-        ConvertFromColor.fromHex('#a4ca68'),
-        ConvertFromColor.fromHex('#ccde68'),
+        ConvertFromColor.fromHex('#0086ad'),
+        ConvertFromColor.fromHex('#68a5da'),
+        ConvertFromColor.fromHex('#a2d7dd'),
       ],
     );
   }
