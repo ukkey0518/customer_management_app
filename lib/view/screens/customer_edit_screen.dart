@@ -8,7 +8,7 @@ import 'package:customermanagementapp/view/components/custom_containers/date_inp
 import 'package:customermanagementapp/view/components/custom_text_fields/text_input_field.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/buttons/raised_switch_buttons.dart';
-import 'package:customermanagementapp/view/components/input_widgets/single_item_selecter.dart';
+import 'package:customermanagementapp/view/components/custom_containers/single_item_picker_selecter.dart';
 import 'package:customermanagementapp/viewmodel/customer_edit_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -98,7 +98,7 @@ class CustomerEditScreen extends StatelessWidget {
                     VerticalInputForm(
                       formTitle: 'その他情報',
                       items: <String, Widget>{
-                        '来店動機（長押しでクリア）': SingleItemSelecter(
+                        '来店動機（長押しでクリア）': SingleItemPickerContainer(
                           items: visitReasonData.keys.toList(),
                           isClearable: true,
                           selectedItem: viewModel.selectedVisitReason,
