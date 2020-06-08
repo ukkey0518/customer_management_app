@@ -63,6 +63,7 @@ class VisitHistoryNarrowSetDialog extends StatelessWidget {
                   isExpand: true,
                   textColor: Theme.of(context).primaryColorDark,
                   unselectedValue: unselectedValue,
+                  isTextContrast: true,
                 ),
                 SizedBox(height: 16),
                 // メニューカテゴリ指定
@@ -75,6 +76,7 @@ class VisitHistoryNarrowSetDialog extends StatelessWidget {
                   isExpand: true,
                   textColor: Theme.of(context).primaryColorDark,
                   unselectedValue: unselectedValue,
+                  isTextContrast: true,
                 ),
               ],
             ),

@@ -1,12 +1,12 @@
 import 'package:customermanagementapp/db/database.dart';
+import 'package:customermanagementapp/view/components/buttons/simple_dropdown_button.dart';
 import 'package:customermanagementapp/view/components/contents_column_with_title.dart';
 import 'package:customermanagementapp/view/components/custom_cards/selected_customer_card.dart';
+import 'package:customermanagementapp/view/components/custom_containers/date_input_container.dart';
 import 'package:customermanagementapp/view/components/dialogs/unsaved_confirm_dialog.dart';
 import 'package:customermanagementapp/view/components/icon_button_to_switch.dart';
 import 'package:customermanagementapp/view/components/indicators/current_mode_indicator.dart';
 import 'package:customermanagementapp/view/components/indicators/error_indicator.dart';
-import 'package:customermanagementapp/view/components/custom_containers/date_input_container.dart';
-import 'package:customermanagementapp/view/components/input_widgets/employee_input_button.dart';
 import 'package:customermanagementapp/view/components/input_widgets/menu_input_tile.dart';
 import 'package:customermanagementapp/view/components/my_divider.dart';
 import 'package:customermanagementapp/view/components/row_with_icon.dart';
@@ -110,11 +110,18 @@ class VisitHistoryEditScreen extends StatelessWidget {
                       RowWithIcon(
                         icon: Icon(Icons.supervisor_account),
                         title: '担当',
-                        content: EmployeeInputButton(
-                          selectedEmployee: viewModel.employee,
-                          employees: viewModel.employeeList,
-                          onChanged: (employee) =>
-                              _setStatus(context, employee: employee),
+                        content: SimpleDropdownButton(
+                          items: List<Employee>.from(viewModel.employeeList)
+                              .map<String>((e) => e.name)
+                              .toList(),
+                          selectedItem: viewModel.employee?.name,
+                          onChanged: (name) {
+                            final employee = viewModel.employeeList
+                                .singleWhere((e) => e.name == name);
+                            _setStatus(context, employee: employee);
+                          },
+                          textColor: TextStyle().color,
+                          isExpand: true,
                           isDisabled: viewModel.isReadingMode,
                         ),
                       ),

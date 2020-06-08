@@ -6,6 +6,8 @@ class SimpleDropdownButton extends StatelessWidget {
     @required this.selectedItem,
     @required this.onChanged,
     this.isExpand = false,
+    this.isDisabled = false,
+    this.isTextContrast = false,
     this.unselectedValue,
     this.textColor,
   });
@@ -13,12 +15,24 @@ class SimpleDropdownButton extends StatelessWidget {
   final List<String> items;
   final String selectedItem;
   final String unselectedValue;
+  final Color textColor;
   final ValueChanged<String> onChanged;
   final bool isExpand;
-  final Color textColor;
+  final bool isDisabled;
+  final bool isTextContrast;
 
   @override
   Widget build(BuildContext context) {
+    if (isDisabled) {
+      return Container(
+        width: isExpand ? double.infinity : null,
+        child: Text(
+          selectedItem ?? '',
+          style: TextStyle(fontSize: 16),
+        ),
+      );
+    }
+
     var itemList = List<String>.from(items).toList();
     var txtColor = textColor ?? Theme.of(context).primaryColorDark;
 
@@ -42,8 +56,8 @@ class SimpleDropdownButton extends StatelessWidget {
             child: Text(
               name,
               style: TextStyle(
-                color: color,
-                fontWeight: weight,
+                color: isTextContrast ? color : null,
+                fontWeight: isTextContrast ? weight : FontWeight.normal,
               ),
             ),
           );
@@ -61,8 +75,8 @@ class SimpleDropdownButton extends StatelessWidget {
           child: Text(
             name,
             style: TextStyle(
-              color: color,
-              fontWeight: weight,
+              color: isTextContrast ? color : null,
+              fontWeight: isTextContrast ? weight : FontWeight.normal,
             ),
           ),
         );
