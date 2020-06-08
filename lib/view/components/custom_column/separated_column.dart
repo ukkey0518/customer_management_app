@@ -22,9 +22,7 @@ class SeparatedColumn extends StatelessWidget {
     final contents = List<Widget>.generate(children.length, (index) {
       return Column(
         children: <Widget>[
-          divider,
           children[index],
-          index == children.length - 1 ? divider : Container(),
         ],
       );
     });
